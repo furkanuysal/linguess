@@ -24,6 +24,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settings => 'Ayarlar';
 
   @override
+  String get category => 'Kategori';
+
+  @override
   String get category_food => 'Yiyecekler';
 
   @override
@@ -31,4 +34,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get category_vehicle => 'Araçlar';
+
+  @override
+  String get nextWord => 'Sonraki Kelime';
+
+  @override
+  String get checkAnswer => 'Cevabı Kontrol Et';
+
+  @override
+  String get letterHint => 'İpucu';
+
+  @override
+  String get yourWord => 'Kelimeniz';
 }
