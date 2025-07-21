@@ -1,0 +1,35 @@
+{
+    "@@locale": "tr",
+    "appTitle": "Linguess",
+    "@appTitle": {
+        "description": "The name of the application"
+    },
+    "selectCategory": "Kategori Seçin",
+    "@selectCategory": {
+        "description": "Button or label text prompting user to choose a category"
+    },
+    "selectLevel": "Seviye Seçin",
+    "@selectLevel": {
+        "description": "Button or label text prompting user to choose a difficulty level"
+    },
+    "dailyWord": "Günlük Kelime",
+    "@dailyWord": {
+        "description": "Label for the daily word challenge"
+    },
+    "settings": "Ayarlar",
+    "@settings": {
+        "description": "Label for the settings option"
+    },
+    "category_food": "Yiyecekler",
+    "@category_food": {
+        "description": "Category label for food"
+    },
+    "category_animal": "Hayvanlar",
+    "@category_animal": {
+        "description": "Category label for animals"
+    },
+    "category_vehicle": "Araçlar",
+    "@category_vehicle": {
+        "description": "Category label for vehicles"
+    }
+}

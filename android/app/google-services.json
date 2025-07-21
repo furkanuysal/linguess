@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641877804440",
+    "project_id": "linguess-c28bf",
+    "storage_bucket": "linguess-c28bf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641877804440:android:28c54386b63466d2ac17ed",
+        "android_client_info": {
+          "package_name": "com.litusware.linguess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCZMX8cmkVy30PzZSnbDzW6g7MrFWKlaQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
