@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Ayarlar'**
   String get settings;
 
+  /// Label for the category selection
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori'**
+  String get category;
+
   /// Category label for food
   ///
   /// In tr, this message translates to:
@@ -141,6 +147,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Araçlar'**
   String get category_vehicle;
+
+  /// Button text to load the next word in the game
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki Kelime'**
+  String get nextWord;
+
+  /// Button text to check the user's answer
+  ///
+  /// In tr, this message translates to:
+  /// **'Cevabı Kontrol Et'**
+  String get checkAnswer;
+
+  /// Hint text for the letter input
+  ///
+  /// In tr, this message translates to:
+  /// **'İpucu'**
+  String get letterHint;
+
+  /// 'Your word' label for the asked word in the game
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelimeniz'**
+  String get yourWord;
 }
 
 class _AppLocalizationsDelegate
