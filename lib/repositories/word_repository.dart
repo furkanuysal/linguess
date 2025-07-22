@@ -13,11 +13,35 @@ class WordRepository {
           .collection('words')
           .where('category', isEqualTo: category)
           .get();
-      return snapshot.docs
+
+      final words = snapshot.docs
           .map((doc) => WordModel.fromJson(doc.id, doc.data()))
           .toList();
+
+      words.shuffle(); // Rastgele sıralamak için
+
+      return words;
     } catch (e) {
-      throw Exception('Failed to fetch words: $e');
+      throw Exception('Failed to fetch words by category: $e');
+    }
+  }
+
+  Future<List<WordModel>> fetchWordsByLevel(String level) async {
+    try {
+      final snapshot = await _firestore
+          .collection('words')
+          .where('level', isEqualTo: level)
+          .get();
+
+      final words = snapshot.docs
+          .map((doc) => WordModel.fromJson(doc.id, doc.data()))
+          .toList();
+
+      words.shuffle(); // Rastgele sıralamak için
+
+      return words;
+    } catch (e) {
+      throw Exception('Failed to fetch words by level: $e');
     }
   }
 }

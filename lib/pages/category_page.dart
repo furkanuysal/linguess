@@ -60,7 +60,10 @@ class _CategoryPageState extends State<CategoryPage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => WordGamePage(category: category.id),
+                      builder: (context) => WordGamePage(
+                        selectedValue: category.id,
+                        mode: 'category',
+                      ),
                     ),
                   ),
                 );

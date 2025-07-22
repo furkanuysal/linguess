@@ -6,9 +6,14 @@ import '../models/word_model.dart';
 import '../repositories/word_repository.dart';
 
 class WordGamePage extends StatefulWidget {
-  final String category;
+  final String mode; // 'category' or 'level'
+  final String selectedValue; // category ID or level ID
 
-  const WordGamePage({super.key, required this.category});
+  const WordGamePage({
+    super.key,
+    required this.selectedValue,
+    required this.mode,
+  });
 
   @override
   State<WordGamePage> createState() => _WordGamePageState();
@@ -26,6 +31,8 @@ class _WordGamePageState extends State<WordGamePage>
   List<int> _hintIndices = [];
   List<bool> _correctIndices = [];
 
+  final GlobalKey _wrapKey = GlobalKey();
+
   late AnimationController _shakeController;
   late Animation<double> _shakeAnimation;
 
@@ -34,7 +41,14 @@ class _WordGamePageState extends State<WordGamePage>
   @override
   void initState() {
     super.initState();
-    _wordsFuture = WordRepository().fetchWordsByCategory(widget.category);
+
+    if (widget.mode == 'category') {
+      _wordsFuture = WordRepository().fetchWordsByCategory(
+        widget.selectedValue,
+      );
+    } else {
+      _wordsFuture = WordRepository().fetchWordsByLevel(widget.selectedValue);
+    }
     _wordsFuture.then((words) {
       setState(() {
         _words = words;
@@ -46,6 +60,23 @@ class _WordGamePageState extends State<WordGamePage>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
+
+    _shakeController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        _shakeController.reset();
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_wrapKey.currentContext != null) {
+            Scrollable.ensureVisible(
+              _wrapKey.currentContext!,
+              duration: const Duration(milliseconds: 300),
+              alignment: 0.5,
+            );
+          }
+        });
+      }
+    });
+
     _shakeAnimation = Tween<double>(begin: 0, end: 24).animate(
       CurvedAnimation(parent: _shakeController, curve: Curves.elasticIn),
     );
@@ -226,7 +257,7 @@ class _WordGamePageState extends State<WordGamePage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.categoryTitle(widget.category),
+          AppLocalizations.of(context)!.categoryTitle(widget.selectedValue),
         ),
         actions: [
           IconButton(
@@ -276,6 +307,7 @@ class _WordGamePageState extends State<WordGamePage>
                             0,
                           ),
                           child: Wrap(
+                            key: _wrapKey,
                             spacing: 8,
                             children: List.generate(_currentTarget.length, (
                               index,
