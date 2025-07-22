@@ -1,12 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:linguess/features/auth/view/login_page.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/pages/category_page.dart';
+import 'package:linguess/pages/level_page.dart';
+import 'package:linguess/pages/profile_page.dart';
 
-class HomeMobile extends StatelessWidget {
+class HomeMobile extends StatefulWidget {
   const HomeMobile({super.key});
 
   @override
+  State<HomeMobile> createState() => _HomeMobileState();
+}
+
+class _HomeMobileState extends State<HomeMobile> {
+  @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       appBar: AppBar(title: const Text('Linguess'), centerTitle: true),
       body: Padding(
@@ -32,7 +43,9 @@ class HomeMobile extends StatelessWidget {
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
-                // Navigate to the settings screen
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const LevelPage()));
               },
               child: Text(AppLocalizations.of(context)!.selectLevel),
             ),
@@ -47,6 +60,33 @@ class HomeMobile extends StatelessWidget {
                 // Navigate to the leaderboard screen
               },
               child: Text(AppLocalizations.of(context)!.settings),
+            ),
+            const Spacer(),
+            StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                final user = snapshot.data;
+
+                return Align(
+                  alignment: Alignment.bottomRight,
+                  child: TextButton(
+                    onPressed: () {
+                      if (user == null) {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(builder: (_) => const LoginPage()),
+                        );
+                      } else {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const ProfilePage(),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(user == null ? 'Giriş Yap' : 'Profil'),
+                  ),
+                );
+              },
             ),
           ],
         ),
