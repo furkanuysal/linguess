@@ -28,7 +28,7 @@ class _WordGamePageState extends State<WordGamePage>
 
   List<TextEditingController> _controllers = [];
   List<FocusNode> _focusNodes = [];
-  List<int> _hintIndices = [];
+  final List<int> _hintIndices = [];
   List<bool> _correctIndices = [];
 
   final GlobalKey _wrapKey = GlobalKey();
