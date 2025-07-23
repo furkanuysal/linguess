@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:linguess/features/auth/view/register_page.dart';
-import '../data/auth_service.dart';
+import 'package:linguess/providers/auth_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _authService = AuthService();
 
   bool _isLoading = false;
   String? _errorMessage;
@@ -23,7 +23,8 @@ class _LoginPageState extends State<LoginPage> {
       _errorMessage = null;
     });
     try {
-      final user = await _authService.signInWithEmailAndPassword(
+      final authService = ref.read(authServiceProvider);
+      final user = await authService.signInWithEmailAndPassword(
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
@@ -78,6 +79,15 @@ class _LoginPageState extends State<LoginPage> {
                     onPressed: _signIn,
                     child: const Text('Giriş Yap'),
                   ),
+            const SizedBox(height: 20),
+            TextButton(
+              onPressed: () {
+                Navigator.of(
+                  context,
+                ).push(MaterialPageRoute(builder: (_) => const RegisterPage()));
+              },
+              child: const Text('Hesabın yok mu? Kayıt ol'),
+            ),
           ],
         ),
       ),

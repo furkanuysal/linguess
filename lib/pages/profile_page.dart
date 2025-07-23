@@ -1,54 +1,56 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:linguess/features/auth/data/auth_service.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/providers/auth_provider.dart';
+import 'package:linguess/providers/user_data_provider.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  final AuthService _authService = AuthService();
-  User? _user;
-
-  @override
-  void initState() {
-    super.initState();
-    _user = _authService.getCurrentUser();
-  }
-
-  void _signOut() async {
-    await _authService.signOut();
-    // Çıkış yapınca ana sayfaya dön
-    Navigator.of(context).popUntil((route) => route.isFirst);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (_user == null) {
-      return Scaffold(
-        appBar: AppBar(title: const Text('Profil')),
-        body: const Center(child: Text('Kullanıcı bulunamadı.')),
-      );
-    }
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userDataAsync = ref.watch(userDataProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Profil')),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Email: ${_user!.email}',
-              style: const TextStyle(fontSize: 18),
+      body: userDataAsync.when(
+        data: (snapshot) {
+          if (snapshot == null || !snapshot.exists) {
+            return const Center(child: Text("Veri bulunamadı."));
+          }
+
+          final data = snapshot.data() as Map<String, dynamic>;
+
+          final email = data['email'] ?? 'Yok';
+          final gold = data['gold'] ?? 0;
+          final totalLearnedWords = data['totalLearnedWords'] ?? 0;
+
+          return Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Email: $email', style: const TextStyle(fontSize: 18)),
+                const SizedBox(height: 10),
+                Text('Altın: $gold', style: const TextStyle(fontSize: 18)),
+                const SizedBox(height: 10),
+                Text(
+                  'Toplam Öğrenilen Kelime: $totalLearnedWords',
+                  style: const TextStyle(fontSize: 18),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    await ref.read(authServiceProvider).signOut();
+                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  },
+                  child: const Text('Çıkış Yap'),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(onPressed: _signOut, child: const Text('Çıkış Yap')),
-          ],
-        ),
+          );
+        },
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Hata: $e')),
       ),
     );
   }

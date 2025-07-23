@@ -1,46 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/providers/user_data_provider.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
-  String? _error;
-
-  Future<void> _register() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-
-      if (!mounted) return;
-      Navigator.pop(context); // Kayıt sonrası LoginPage'e geri dön
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        _error = e.message;
-      });
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
 
   @override
   void dispose() {
@@ -49,8 +21,24 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
+  void _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    await ref
+        .read(userRegisterProvider.notifier)
+        .register(_emailController.text, _passwordController.text);
+
+    final state = ref.read(userRegisterProvider);
+    if (state is! AsyncError) {
+      if (!mounted) return;
+      Navigator.pop(context); // Başarılıysa login'e dön
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final registerState = ref.watch(userRegisterProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('Kayıt Ol')),
       body: Padding(
@@ -59,8 +47,11 @@ class _RegisterPageState extends State<RegisterPage> {
           key: _formKey,
           child: Column(
             children: [
-              if (_error != null)
-                Text(_error!, style: const TextStyle(color: Colors.red)),
+              if (registerState.hasError)
+                Text(
+                  registerState.error.toString(),
+                  style: const TextStyle(color: Colors.red),
+                ),
               TextFormField(
                 controller: _emailController,
                 decoration: const InputDecoration(labelText: 'Email'),
@@ -76,10 +67,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     val != null && val.length >= 6 ? null : 'En az 6 karakter',
               ),
               const SizedBox(height: 24),
-              _isLoading
+              registerState.isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
-                      onPressed: _register,
+                      onPressed: _submit,
                       child: const Text('Kayıt Ol'),
                     ),
             ],

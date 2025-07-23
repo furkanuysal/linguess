@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/providers/auth_provider.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Ref ref;
+  AuthService(this.ref);
 
+  FirebaseAuth get _auth => ref.read(firebaseAuthProvider);
   // Sign in with email and password
   Future<User?> signInWithEmailAndPassword(
     String email,
@@ -15,7 +21,7 @@ class AuthService {
       );
       return userCredential.user;
     } catch (e) {
-      print("Error signing in: $e");
+      log("Error signing in: $e");
       return null;
     }
   }
@@ -30,7 +36,7 @@ class AuthService {
           .createUserWithEmailAndPassword(email: email, password: password);
       return userCredential.user;
     } catch (e) {
-      print("Error registering: $e");
+      log("Error registering: $e");
       return null;
     }
   }
@@ -40,7 +46,7 @@ class AuthService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
-      print("Error resetting password: $e");
+      log("Error resetting password: $e");
     }
   }
 
