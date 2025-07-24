@@ -29,12 +29,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         _passwordController.text.trim(),
       );
       if (user != null) {
-        // Giriş başarılı, ana sayfaya yönlendir
-        Navigator.of(context).pop(); // veya Navigator.pushReplacement vs.
+        // Sign in successful, navigate to home page
+        Navigator.of(context).pop(); // or Navigator.pushReplacement etc.
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Giriş başarısız: ${e.toString()}';
+        _errorMessage = 'Sign in failed: ${e.toString()}';
       });
     } finally {
       setState(() {

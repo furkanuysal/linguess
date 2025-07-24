@@ -41,7 +41,9 @@ class ProfilePage extends ConsumerWidget {
                 ElevatedButton(
                   onPressed: () async {
                     await ref.read(authServiceProvider).signOut();
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                    if (context.mounted) {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    }
                   },
                   child: const Text('Çıkış Yap'),
                 ),

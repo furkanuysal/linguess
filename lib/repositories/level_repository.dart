@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/level_model.dart';
+import 'dart:developer';
 
 class LevelRepository {
   final FirebaseFirestore _firestore;
@@ -13,14 +14,14 @@ class LevelRepository {
           .collection('levels')
           .orderBy('index')
           .get();
-      print('Seviye sayısı: ${snapshot.docs.length}');
+      log('Seviye sayısı: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
         return LevelModel.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Seviye çekme hatası: $e');
+      log('Seviye çekme hatası: $e');
       return [];
     }
   }
