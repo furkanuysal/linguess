@@ -2,10 +2,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
+import 'package:linguess/providers/economy_provider.dart';
 import '../models/word_model.dart';
 import '../repositories/word_repository.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class WordGamePage extends StatefulWidget {
+class WordGamePage extends ConsumerStatefulWidget {
   final String mode; // 'category' or 'level'
   final String selectedValue; // category ID or level ID
 
@@ -16,15 +18,15 @@ class WordGamePage extends StatefulWidget {
   });
 
   @override
-  State<WordGamePage> createState() => _WordGamePageState();
+  ConsumerState<WordGamePage> createState() => _WordGamePageState();
 }
 
-class _WordGamePageState extends State<WordGamePage>
+class _WordGamePageState extends ConsumerState<WordGamePage>
     with SingleTickerProviderStateMixin {
   late Future<List<WordModel>> _wordsFuture;
   List<WordModel> _words = [];
-  // _currentWordIndex yerine doğrudan _currentWord'ü tutacağız.
-  WordModel? _currentWord; // Rastgele seçilen kelimeyi tutacak değişken
+
+  WordModel? _currentWord; // Var to hold the current word
 
   List<TextEditingController> _controllers = [];
   List<FocusNode> _focusNodes = [];
@@ -52,7 +54,7 @@ class _WordGamePageState extends State<WordGamePage>
     _wordsFuture.then((words) {
       setState(() {
         _words = words;
-        _loadRandomWord(); // İlk kelimeyi rastgele yükle
+        _loadRandomWord(); // Load the first word randomly
       });
     });
 
@@ -82,23 +84,21 @@ class _WordGamePageState extends State<WordGamePage>
     );
   }
 
-  // Bu fonksiyon rastgele bir kelime seçip _currentWord'e atayacak
+  // This function will select a random word and assign it to _currentWord
   Future<void> _loadRandomWord() async {
     if (_words.isNotEmpty) {
-      _words.shuffle(); // Tüm listeyi karıştır
+      _words.shuffle(); // Shuffle the list to randomize the order
       setState(() {
-        _currentWord = _words.first; // Karıştırılmış listeden ilk kelimeyi al
-        _initializeWord(); // Yeni kelimeyi başlangıç için ayarla
+        _currentWord = _words.first; // Take the first word after shuffling
+        _initializeWord(); // Use the new word for initialization
       });
     }
   }
 
   void _initializeWord() {
-    // _currentWord null değilse işlemi yap
     if (_currentWord != null) {
       _currentTarget = (_currentWord!.translations['en'] ?? '').toUpperCase();
 
-      // Eski controller ve focusNode'ları dispose et
       for (var c in _controllers) {
         c.dispose();
       }
@@ -106,14 +106,25 @@ class _WordGamePageState extends State<WordGamePage>
         f.dispose();
       }
 
+      // Remove spaces from the target word
+      final filteredTarget = _currentTarget.replaceAll(' ', '');
+
       _controllers = List.generate(
-        _currentTarget.length,
+        filteredTarget.length,
         (_) => TextEditingController(),
       );
-      _focusNodes = List.generate(_currentTarget.length, (_) => FocusNode());
+      _focusNodes = List.generate(filteredTarget.length, (_) => FocusNode());
       _hintIndices.clear();
-      _correctIndices = List.generate(_currentTarget.length, (_) => false);
+      _correctIndices = List.generate(filteredTarget.length, (_) => false);
     }
+  }
+
+  int _logicalIndexFromVisual(int visualIndex) {
+    int count = 0;
+    for (int i = 0; i <= visualIndex; i++) {
+      if (_currentTarget[i] != ' ') count++;
+    }
+    return count - 1;
   }
 
   String _capitalize(String s) {
@@ -121,9 +132,14 @@ class _WordGamePageState extends State<WordGamePage>
     return s[0].toUpperCase() + s.substring(1).toLowerCase();
   }
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog() async {
+    final economyService = ref.read(economyServiceProvider);
+    await economyService.rewardGold(_hintIndices.length);
+
     final locale = Localizations.localeOf(context).languageCode;
     final correctAnswerFormatted = _capitalize(_currentTarget);
+
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -132,7 +148,6 @@ class _WordGamePageState extends State<WordGamePage>
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              // _currentWord'ün anlamını göster
               '${AppLocalizations.of(context)!.yourWord}: ${_currentWord!.translations[locale] ?? '???'}',
             ),
             Text('Doğru Cevap: $correctAnswerFormatted'),
@@ -142,7 +157,6 @@ class _WordGamePageState extends State<WordGamePage>
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              // Bir sonraki kelime için rastgele yükleme yap
               _loadRandomWord();
             },
             child: const Text('Devam'),
@@ -154,16 +168,30 @@ class _WordGamePageState extends State<WordGamePage>
 
   void _checkAnswer() {
     bool isAllCorrect = true;
+    int controllerIndex = 0;
+
     setState(() {
       for (int i = 0; i < _currentTarget.length; i++) {
-        final input = _controllers[i].text.toUpperCase();
-        if (input == _currentTarget[i]) {
-          _correctIndices[i] = true;
-        } else {
-          _correctIndices[i] = false;
-          isAllCorrect = false;
-          _controllers[i].clear();
+        final targetChar = _currentTarget[i];
+
+        // if the character is a space, skip it
+        if (targetChar == ' ') {
+          _correctIndices[i] =
+              true; // spaces are automatically considered correct
+          continue;
         }
+
+        // Now controllerIndex is only incremented for letters
+        final input = _controllers[controllerIndex].text.toUpperCase();
+        if (input == targetChar) {
+          _correctIndices[controllerIndex] = true;
+        } else {
+          _correctIndices[controllerIndex] = false;
+          isAllCorrect = false;
+          _controllers[controllerIndex].clear();
+        }
+
+        controllerIndex++;
       }
     });
 
@@ -171,42 +199,55 @@ class _WordGamePageState extends State<WordGamePage>
       _showSuccessDialog();
     } else {
       _shakeController.forward(from: 0);
-      // İlk boş kutuya focus atla
-      for (int i = 0; i < _controllers.length; i++) {
-        if (_controllers[i].text.isEmpty && !_correctIndices[i]) {
-          FocusScope.of(context).requestFocus(_focusNodes[i]);
+
+      controllerIndex = 0;
+      for (int i = 0; i < _currentTarget.length; i++) {
+        if (_currentTarget[i] == ' ') continue;
+        if (_controllers[controllerIndex].text.isEmpty && !_correctIndices[i]) {
+          FocusScope.of(context).requestFocus(_focusNodes[controllerIndex]);
           break;
         }
+        controllerIndex++;
       }
     }
   }
 
-  void _showHintLetter() {
-    // Zaten tüm kutular ipucu ile doluysa veya doldurulacaksa bir şey yapma
+  void _showHintLetter() async {
     if (_hintIndices.length >= _currentTarget.length) return;
 
-    final remainingIndices = List.generate(_currentTarget.length, (i) => i)
-        .where((i) => !_hintIndices.contains(i) && !_correctIndices[i])
-        .toList(); // Doğru tahmin edilenleri de dikkate al
+    final economyService = ref.read(economyServiceProvider);
+
+    final canUseHint = await economyService.tryUseHint();
+    if (!canUseHint) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Yetersiz altın!")));
+      }
+      return;
+    }
+
+    final remainingIndices = List.generate(
+      _currentTarget.length,
+      (i) => i,
+    ).where((i) => !_hintIndices.contains(i) && !_correctIndices[i]).toList();
 
     if (remainingIndices.isNotEmpty) {
       final rand = Random();
       final index = remainingIndices[rand.nextInt(remainingIndices.length)];
       setState(() {
-        _controllers[index].text =
-            _currentTarget[index]; // İpucu verilen harfi ata
+        _controllers[index].text = _currentTarget[index];
         _hintIndices.add(index);
-        _correctIndices[index] = true; // Bu harf doğru olarak işaretlendi
+        _correctIndices[index] = true;
       });
 
-      // İpucu verildikten sonra tüm kutuların dolup dolmadığını kontrol et
       final allFilled = List.generate(
         _currentTarget.length,
         (i) => _controllers[i].text.isNotEmpty || _correctIndices[i],
       ).every((filled) => filled);
 
       if (allFilled) {
-        _checkAnswer(); // Tüm kutular dolduysa cevabı kontrol et
+        _checkAnswer();
       }
     }
   }
@@ -231,7 +272,7 @@ class _WordGamePageState extends State<WordGamePage>
     }
 
     final allFilled = List.generate(
-      _currentTarget.length,
+      _controllers.length,
       (i) => _controllers[i].text.isNotEmpty || _correctIndices[i],
     ).every((filled) => filled);
 
@@ -279,6 +320,19 @@ class _WordGamePageState extends State<WordGamePage>
 
           // _currentWord'ün hint'ini kullan
           final hint = _currentWord!.translations['tr'] ?? '???';
+          final screenWidth = MediaQuery.of(context).size.width;
+          final boxSpacing = 8.0;
+          final horizontalPadding = 32.0; // total (16 left + 16 right)
+          final maxBoxWidth = 40.0;
+
+          // Kutuların sığabileceği maksimum genişliği hesapla
+          double totalSpacing = (_currentTarget.length - 1) * boxSpacing;
+          double availableWidth =
+              screenWidth - horizontalPadding - totalSpacing;
+
+          // Kutuların genişliği, 40'tan küçükse küçült
+          double boxWidth = availableWidth / _currentTarget.length;
+          if (boxWidth > maxBoxWidth) boxWidth = maxBoxWidth;
 
           return Center(
             child: Padding(
@@ -306,33 +360,42 @@ class _WordGamePageState extends State<WordGamePage>
                                 ),
                             0,
                           ),
+
                           child: Wrap(
                             key: _wrapKey,
-                            spacing: 8,
+                            spacing: boxSpacing,
                             children: List.generate(_currentTarget.length, (
                               index,
                             ) {
-                              return SizedBox(
-                                width: 40,
-                                child: TextField(
-                                  controller: _controllers[index],
-                                  focusNode: _focusNodes[index],
-                                  enabled: !_correctIndices[index],
-                                  textAlign: TextAlign.center,
-                                  maxLength: 1,
-                                  onChanged: (val) =>
-                                      _onTextChanged(index, val),
-                                  decoration: const InputDecoration(
-                                    counterText: '',
+                              if (_currentTarget[index] == ' ') {
+                                // Boşluk için sadece bir genişlik bırakıyoruz
+                                return SizedBox(width: boxWidth / 2);
+                              } else {
+                                final logicalIndex = _logicalIndexFromVisual(
+                                  index,
+                                );
+                                return SizedBox(
+                                  width: boxWidth,
+                                  child: TextField(
+                                    controller: _controllers[logicalIndex],
+                                    focusNode: _focusNodes[logicalIndex],
+                                    enabled: !_correctIndices[logicalIndex],
+                                    textAlign: TextAlign.center,
+                                    maxLength: 1,
+                                    onChanged: (val) =>
+                                        _onTextChanged(logicalIndex, val),
+                                    decoration: const InputDecoration(
+                                      counterText: '',
+                                    ),
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      color: _correctIndices[logicalIndex]
+                                          ? Colors.green
+                                          : Colors.black,
+                                    ),
                                   ),
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    color: _correctIndices[index]
-                                        ? Colors.green
-                                        : Colors.black,
-                                  ),
-                                ),
-                              );
+                                );
+                              }
                             }),
                           ),
                         );

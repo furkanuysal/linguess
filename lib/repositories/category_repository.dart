@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/category_model.dart';
 
@@ -13,14 +14,14 @@ class CategoryRepository {
           .collection('categories')
           .orderBy('index')
           .get();
-      print('Kategori sayısı: ${snapshot.docs.length}');
+      log('Kategori sayısı: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
         return CategoryModel.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Kategori çekme hatası: $e');
+      log('Kategori çekme hatası: $e');
       return [];
     }
   }
