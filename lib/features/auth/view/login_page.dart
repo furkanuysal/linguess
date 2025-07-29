@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:linguess/features/auth/view/register_page.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +35,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Sign in failed: ${e.toString()}';
+        _errorMessage =
+            '${AppLocalizations.of(context)!.errorSignInFailed}: ${e.toString()}';
       });
     } finally {
       setState(() {
@@ -53,19 +55,23 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Giriş Yap")),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.login)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             TextField(
               controller: _emailController,
-              decoration: const InputDecoration(labelText: "Email"),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.email,
+              ),
               keyboardType: TextInputType.emailAddress,
             ),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: "Şifre"),
+              decoration: InputDecoration(
+                labelText: AppLocalizations.of(context)!.password,
+              ),
               obscureText: true,
             ),
             const SizedBox(height: 20),
@@ -77,7 +83,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _signIn,
-                    child: const Text('Giriş Yap'),
+                    child: Text(AppLocalizations.of(context)!.login),
                   ),
             const SizedBox(height: 20),
             TextButton(
@@ -86,7 +92,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   context,
                 ).push(MaterialPageRoute(builder: (_) => const RegisterPage()));
               },
-              child: const Text('Hesabın yok mu? Kayıt ol'),
+              child: Text(AppLocalizations.of(context)!.registerButtonText),
             ),
           ],
         ),

@@ -46,4 +46,70 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get yourWord => 'Kelimeniz';
+
+  @override
+  String get level => 'Seviye';
+
+  @override
+  String get translation => 'Çeviri';
+
+  @override
+  String get close => 'Kapat';
+
+  @override
+  String get login => 'Giriş Yap';
+
+  @override
+  String get logout => 'Çıkış Yap';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get correctAnswer => 'Doğru Cevap';
+
+  @override
+  String get correctText => 'Doğru';
+
+  @override
+  String get registerButtonText => 'Hesabın yok mu? Kayıt ol';
+
+  @override
+  String get email => 'E-posta';
+
+  @override
+  String get password => 'Şifre';
+
+  @override
+  String get register => 'Kayıt Ol';
+
+  @override
+  String get registerSuccess => 'Kayıt başarılı! Giriş yapabilirsiniz.';
+
+  @override
+  String get invalidEmail => 'Geçersiz e-posta adresi';
+
+  @override
+  String get passwordTooShort => 'Şifre en az 6 karakter olmalıdır';
+
+  @override
+  String get gold => 'Altın';
+
+  @override
+  String get learnedWordsText => 'Öğrenilen Kelimeler';
+
+  @override
+  String get learnedWordsEmpty => 'Henüz öğrenilen kelime yok';
+
+  @override
+  String get errorOccurred => 'Bir hata oluştu';
+
+  @override
+  String get noDataToShow => 'Gösterilecek veri yok';
+
+  @override
+  String get errorSignInFailed => 'Giriş başarısız';
+
+  @override
+  String get wordCount => 'Kelime Sayısı';
 }

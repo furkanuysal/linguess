@@ -44,4 +44,16 @@ class WordRepository {
       throw Exception('Failed to fetch words by level: $e');
     }
   }
+
+  Future<WordModel?> fetchWordById(String wordId) async {
+    try {
+      final doc = await _firestore.collection('words').doc(wordId).get();
+
+      if (!doc.exists) return null;
+
+      return WordModel.fromJson(doc.id, doc.data()!);
+    } catch (e) {
+      throw Exception('Failed to fetch word by ID: $e');
+    }
+  }
 }

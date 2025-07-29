@@ -171,6 +171,138 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelimeniz'**
   String get yourWord;
+
+  /// 'Level' label for the difficulty of the word
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye'**
+  String get level;
+
+  /// 'Translation' label for the translation of the word
+  ///
+  /// In tr, this message translates to:
+  /// **'Çeviri'**
+  String get translation;
+
+  /// 'Close' button text for dialogs or pop-ups
+  ///
+  /// In tr, this message translates to:
+  /// **'Kapat'**
+  String get close;
+
+  /// Button text for logging in
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş Yap'**
+  String get login;
+
+  /// Button text for logging out
+  ///
+  /// In tr, this message translates to:
+  /// **'Çıkış Yap'**
+  String get logout;
+
+  /// Label for the user profile section
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil'**
+  String get profile;
+
+  /// Label for the 'correct answer' in the game
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğru Cevap'**
+  String get correctAnswer;
+
+  /// Word that means 'correct' in the game context
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğru'**
+  String get correctText;
+
+  /// Text for the button to navigate to the registration page
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesabın yok mu? Kayıt ol'**
+  String get registerButtonText;
+
+  /// Label for the email input field
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta'**
+  String get email;
+
+  /// Label for the password input field
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre'**
+  String get password;
+
+  /// Button text for registering a new user
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt Ol'**
+  String get register;
+
+  /// Message shown after successful registration
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt başarılı! Giriş yapabilirsiniz.'**
+  String get registerSuccess;
+
+  /// Error message for invalid email format
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçersiz e-posta adresi'**
+  String get invalidEmail;
+
+  /// Error message for password that is too short
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre en az 6 karakter olmalıdır'**
+  String get passwordTooShort;
+
+  /// Label for the user's gold amount in the profile
+  ///
+  /// In tr, this message translates to:
+  /// **'Altın'**
+  String get gold;
+
+  /// Label for the list of words learned by the user
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğrenilen Kelimeler'**
+  String get learnedWordsText;
+
+  /// Message shown when the user has no learned words
+  ///
+  /// In tr, this message translates to:
+  /// **'Henüz öğrenilen kelime yok'**
+  String get learnedWordsEmpty;
+
+  /// Generic error message shown when an error occurs
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir hata oluştu'**
+  String get errorOccurred;
+
+  /// Message shown when there is no data to display
+  ///
+  /// In tr, this message translates to:
+  /// **'Gösterilecek veri yok'**
+  String get noDataToShow;
+
+  /// Error message shown when sign-in fails
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş başarısız'**
+  String get errorSignInFailed;
+
+  /// Label for the number of words in a category or level
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Sayısı'**
+  String get wordCount;
 }
 
 class _AppLocalizationsDelegate

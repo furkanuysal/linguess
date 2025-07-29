@@ -51,5 +51,93 @@
   "yourWord": "Kelimeniz",
   "@yourWord": {
     "description": "'Your word' label for the asked word in the game"
+  },
+  "level": "Seviye",
+  "@level": {
+    "description": "'Level' label for the difficulty of the word"
+  },
+  "translation": "Çeviri",
+  "@translation": {
+    "description": "'Translation' label for the translation of the word"
+  },
+  "close": "Kapat",
+  "@close":{
+    "description": "'Close' button text for dialogs or pop-ups"
+  },
+  "login": "Giriş Yap",
+  "@login": {
+    "description": "Button text for logging in"
+  },
+  "logout": "Çıkış Yap",
+  "@logout": {
+    "description": "Button text for logging out"
+  }, 
+  "profile": "Profil",
+  "@profile": {
+    "description": "Label for the user profile section"
+  },
+  "correctAnswer": "Doğru Cevap",
+  "@correctAnswer": {
+    "description": "Label for the 'correct answer' in the game"
+  },
+  "correctText": "Doğru",
+  "@correctText": {
+    "description": "Word that means 'correct' in the game context"
+  },
+  "registerButtonText": "Hesabın yok mu? Kayıt ol",
+  "@registerButtonText": {
+    "description": "Text for the button to navigate to the registration page"
+  },
+  "email": "E-posta",
+  "@email": {
+    "description": "Label for the email input field"
+  },
+  "password": "Şifre",
+  "@password": {
+    "description": "Label for the password input field"
+  },
+  "register": "Kayıt Ol",
+  "@register": {
+    "description": "Button text for registering a new user"
+  },
+  "registerSuccess": "Kayıt başarılı! Giriş yapabilirsiniz.",
+  "@registerSuccess": {
+    "description": "Message shown after successful registration"
+  },
+  "invalidEmail": "Geçersiz e-posta adresi",
+  "@invalidEmail": {
+    "description": "Error message for invalid email format"
+  },
+  "passwordTooShort": "Şifre en az 6 karakter olmalıdır",
+  "@passwordTooShort": {
+    "description": "Error message for password that is too short"
+  },
+  "gold": "Altın",
+  "@gold": {
+    "description": "Label for the user's gold amount in the profile"
+  },
+  "learnedWordsText": "Öğrenilen Kelimeler",
+  "@learnedWordsText": {
+    "description": "Label for the list of words learned by the user"
+  },
+  "learnedWordsEmpty": "Henüz öğrenilen kelime yok",
+  "@learnedWordsEmpty": {
+    "description": "Message shown when the user has no learned words"
+  },
+  "errorOccurred": "Bir hata oluştu",
+  "@errorOccurred": {
+    "description": "Generic error message shown when an error occurs"
+  },
+  "noDataToShow": "Gösterilecek veri yok",
+  "@noDataToShow": {
+    "description": "Message shown when there is no data to display"
+  },
+  "errorSignInFailed": "Giriş başarısız",
+  "@errorSignInFailed": {
+    "description": "Error message shown when sign-in fails"
+  },
+  "wordCount": "Kelime Sayısı",
+  "@wordCount": {
+    "description": "Label for the number of words in a category or level"
   }
 }
