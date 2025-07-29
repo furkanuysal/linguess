@@ -50,7 +50,9 @@ class _LevelPageState extends State<LevelPage> {
                 final level = _levels[index];
                 return ListTile(
                   title: Text(level.id),
-                  subtitle: Text('Index: ${level.index}'),
+                  subtitle: Text(
+                    '${AppLocalizations.of(context)!.wordCount}: ${level.wordCount ?? 0}',
+                  ),
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -19,7 +19,9 @@ class UserService {
         'email': user.email,
         'createdAt': FieldValue.serverTimestamp(),
         'gold': 0,
-        'totalLearnedWords': 0,
+        'correctCount': 0,
+        'learnedWords': <String>[], // boş liste olarak başlat
+        'badges': <String>[], // kazanılmış başarımlar
       });
     }
   }
@@ -39,5 +41,35 @@ class UserService {
       log("Error fetching user document: $e");
       rethrow;
     }
+  }
+
+  Future<void> handleCorrectAnswer(String word) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return;
+
+    final userDoc = _firestore.collection('users').doc(user.uid);
+    final snapshot = await userDoc.get();
+
+    if (!snapshot.exists) return;
+
+    final data = snapshot.data() ?? {};
+    final Map<String, dynamic> wordProgress = Map<String, dynamic>.from(
+      data['wordProgress'] ?? {},
+    );
+    final List<dynamic> learnedWords = List.from(data['learnedWords'] ?? []);
+
+    final normalizedWord = word.toLowerCase();
+
+    final currentCount = (wordProgress[normalizedWord] ?? 0) + 1;
+    wordProgress[normalizedWord] = currentCount;
+
+    if (currentCount >= 5 && !learnedWords.contains(normalizedWord)) {
+      learnedWords.add(normalizedWord);
+    }
+
+    await userDoc.update({
+      'wordProgress': wordProgress,
+      'learnedWords': learnedWords,
+    });
   }
 }

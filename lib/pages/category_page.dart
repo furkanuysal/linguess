@@ -56,7 +56,9 @@ class _CategoryPageState extends State<CategoryPage> {
                   title: Text(
                     AppLocalizations.of(context)!.categoryTitle(category.id),
                   ),
-                  subtitle: Text('Index: ${category.index}'),
+                  subtitle: Text(
+                    '${AppLocalizations.of(context)!.wordCount}: ${category.wordCount ?? 0}',
+                  ),
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(

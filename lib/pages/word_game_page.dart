@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/providers/economy_provider.dart';
+import 'package:linguess/providers/user_data_provider.dart';
 import '../models/word_model.dart';
 import '../repositories/word_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -143,14 +144,16 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('🎉 Doğru!'),
+        title: Text('🎉 ${AppLocalizations.of(context)!.correctText}!'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               '${AppLocalizations.of(context)!.yourWord}: ${_currentWord!.translations[locale] ?? '???'}',
             ),
-            Text('Doğru Cevap: $correctAnswerFormatted'),
+            Text(
+              '${AppLocalizations.of(context)!.correctAnswer}: $correctAnswerFormatted',
+            ),
           ],
         ),
         actions: [
@@ -159,16 +162,17 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
               Navigator.of(context).pop();
               _loadRandomWord();
             },
-            child: const Text('Devam'),
+            child: Text(AppLocalizations.of(context)!.nextWord),
           ),
         ],
       ),
     );
   }
 
-  void _checkAnswer() {
+  Future<void> _checkAnswer() async {
     bool isAllCorrect = true;
     int controllerIndex = 0;
+    final userService = ref.read(userServiceProvider);
 
     setState(() {
       for (int i = 0; i < _currentTarget.length; i++) {
@@ -196,6 +200,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     });
 
     if (isAllCorrect) {
+      await userService.handleCorrectAnswer(_currentTarget);
       _showSuccessDialog();
     } else {
       _shakeController.forward(from: 0);

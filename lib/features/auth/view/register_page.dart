@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/user_data_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -40,7 +41,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final registerState = ref.watch(userRegisterProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Kayıt Ol')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.register)),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -54,24 +55,29 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 ),
               TextFormField(
                 controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
+                ),
                 validator: (val) => val != null && val.contains('@')
                     ? null
-                    : 'Geçerli email girin',
+                    : AppLocalizations.of(context)!.invalidEmail,
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Şifre'),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.password,
+                ),
                 obscureText: true,
-                validator: (val) =>
-                    val != null && val.length >= 6 ? null : 'En az 6 karakter',
+                validator: (val) => val != null && val.length >= 6
+                    ? null
+                    : AppLocalizations.of(context)!.passwordTooShort,
               ),
               const SizedBox(height: 24),
               registerState.isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _submit,
-                      child: const Text('Kayıt Ol'),
+                      child: Text(AppLocalizations.of(context)!.register),
                     ),
             ],
           ),
