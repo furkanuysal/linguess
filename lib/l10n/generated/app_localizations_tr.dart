@@ -112,4 +112,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get wordCount => 'Kelime Sayısı';
+
+  @override
+  String get settingsLearnedWords => 'Öğrenilen kelimeleri tekrar göster';
+
+  @override
+  String get settingsSoundEffects => 'Ses efektleri';
 }

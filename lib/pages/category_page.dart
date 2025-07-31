@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/pages/word_game_page.dart';
+import 'package:linguess/providers/word_game_provider.dart';
 import '../models/category_model.dart';
 import '../repositories/category_repository.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../l10n/generated/app_localizations_extensions.dart';
 
-class CategoryPage extends StatefulWidget {
+class CategoryPage extends ConsumerStatefulWidget {
   const CategoryPage({super.key});
 
   @override
-  State<CategoryPage> createState() => _CategoryPageState();
+  ConsumerState<CategoryPage> createState() => _CategoryPageState();
 }
 
-class _CategoryPageState extends State<CategoryPage> {
+class _CategoryPageState extends ConsumerState<CategoryPage> {
   final CategoryRepository _categoryRepository = CategoryRepository();
   List<CategoryModel> _categories = [];
   bool _isLoading = true;
@@ -44,7 +46,7 @@ class _CategoryPageState extends State<CategoryPage> {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.appTitle)),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
               itemCount: _categories.length,
               itemBuilder: (context, index) {
@@ -59,15 +61,28 @@ class _CategoryPageState extends State<CategoryPage> {
                   subtitle: Text(
                     '${AppLocalizations.of(context)!.wordCount}: ${category.wordCount ?? 0}',
                   ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => WordGamePage(
-                        selectedValue: category.id,
-                        mode: 'category',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => WordGamePage(
+                          selectedValue: category.id,
+                          mode: 'category',
+                        ),
                       ),
-                    ),
-                  ),
+                    ).then((_) {
+                      // Geri dönüldüğünde bu blok çalışır.
+                      // 'ref.invalidate' kullanarak provider'ı sıfırlıyoruz.
+                      ref.invalidate(
+                        wordGameProvider(
+                          WordGameParams(
+                            mode: 'category',
+                            selectedValue: category.id,
+                          ),
+                        ),
+                      );
+                    });
+                  },
                 );
               },
             ),
