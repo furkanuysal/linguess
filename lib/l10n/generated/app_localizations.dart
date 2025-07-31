@@ -303,6 +303,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelime Sayısı'**
   String get wordCount;
+
+  /// Label for the setting to repeat learned words
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğrenilen kelimeleri tekrar göster'**
+  String get settingsLearnedWords;
+
+  /// Label for the setting to enable or disable sound effects
+  ///
+  /// In tr, this message translates to:
+  /// **'Ses efektleri'**
+  String get settingsSoundEffects;
 }
 
 class _AppLocalizationsDelegate

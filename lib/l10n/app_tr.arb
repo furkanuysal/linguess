@@ -139,5 +139,13 @@
   "wordCount": "Kelime Sayısı",
   "@wordCount": {
     "description": "Label for the number of words in a category or level"
+  },
+  "settingsLearnedWords": "Öğrenilen kelimeleri tekrar göster",
+  "@settingsLearnedWords": {
+    "description": "Label for the setting to repeat learned words"
+  },
+  "settingsSoundEffects": "Ses efektleri",
+  "@settingsSoundEffects": {
+    "description": "Label for the setting to enable or disable sound effects"
   }
 }

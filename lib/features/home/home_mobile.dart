@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:linguess/features/auth/view/login_page.dart';
+import 'package:linguess/features/settings/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/pages/category_page.dart';
 import 'package:linguess/pages/level_page.dart';
@@ -54,9 +55,7 @@ class _HomeMobileState extends State<HomeMobile> {
             ),
             const SizedBox(height: 12),
             ElevatedButton(
-              onPressed: () {
-                // Navigate to the leaderboard screen
-              },
+              onPressed: () => showSettingsSheet(context),
               child: Text(AppLocalizations.of(context)!.settings),
             ),
             const Spacer(),
@@ -81,7 +80,11 @@ class _HomeMobileState extends State<HomeMobile> {
                         );
                       }
                     },
-                    child: Text(user == null ? 'Giriş Yap' : 'Profil'),
+                    child: Text(
+                      user == null
+                          ? AppLocalizations.of(context)!.login
+                          : AppLocalizations.of(context)!.profile,
+                    ),
                   ),
                 );
               },
