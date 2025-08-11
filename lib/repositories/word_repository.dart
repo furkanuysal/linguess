@@ -56,4 +56,44 @@ class WordRepository {
       throw Exception('Failed to fetch word by ID: $e');
     }
   }
+
+  Future<List<WordModel>> fetchWordsByIds(List<String> wordIds) async {
+    if (wordIds.isEmpty) return [];
+    const chunkSize = 10;
+    final List<WordModel> result = [];
+    for (int i = 0; i < wordIds.length; i += chunkSize) {
+      final chunk = wordIds.sublist(
+        i,
+        i + chunkSize > wordIds.length ? wordIds.length : i + chunkSize,
+      );
+      final snapshot = await _firestore
+          .collection('words')
+          .where(FieldPath.documentId, whereIn: chunk)
+          .get();
+
+      final words = snapshot.docs
+          .map((doc) => WordModel.fromJson(doc.id, doc.data()))
+          .toList();
+
+      result.addAll(words);
+    }
+    return result;
+  }
+
+  Future<WordModel> fetchRandomWord() async {
+    final snapshot = await _firestore
+        .collection('words')
+        .limit(100) // Limit to 100 for performance
+        .get();
+
+    if (snapshot.docs.isEmpty) {
+      throw Exception('No words found');
+    }
+
+    final list = snapshot.docs
+        .map((doc) => WordModel.fromJson(doc.id, doc.data()))
+        .toList();
+    list.shuffle();
+    return list.first;
+  }
 }

@@ -118,4 +118,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get settingsSoundEffects => 'Ses efektleri';
+
+  @override
+  String get learnedCountText => 'Kelime Öğrenildi';
 }

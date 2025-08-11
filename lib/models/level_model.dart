@@ -1,9 +1,8 @@
 class LevelModel {
   final String id;
   final int index;
-  final int? wordCount;
 
-  LevelModel({required this.id, required this.index, this.wordCount});
+  LevelModel({required this.id, required this.index});
 
   factory LevelModel.fromJson(Map<String, dynamic> json) {
     return LevelModel(
@@ -12,22 +11,11 @@ class LevelModel {
           ? json['index'] as int
           : (json['index'] is double)
           ? (json['index'] as double).toInt()
-          : 0, // ya da default değer ver
-      wordCount: json['wordCount'] != null
-          ? (json['wordCount'] is int)
-                ? json['wordCount'] as int
-                : (json['wordCount'] is double)
-                ? (json['wordCount'] as double).toInt()
-                : 0 // ya da default değer ver
-          : null,
+          : 0,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'index': index,
-      if (wordCount != null) 'wordCount': wordCount,
-    };
+    return {'id': id, 'index': index};
   }
 }
