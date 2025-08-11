@@ -315,6 +315,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Ses efektleri'**
   String get settingsSoundEffects;
+
+  /// Label for the count of learned words in a level or category
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Öğrenildi'**
+  String get learnedCountText;
 }
 
 class _AppLocalizationsDelegate

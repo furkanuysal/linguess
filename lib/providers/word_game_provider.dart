@@ -1,13 +1,16 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/models/word_model.dart';
+import 'package:linguess/providers/daily_puzzle_provider.dart';
 import 'package:linguess/providers/economy_provider.dart';
 import 'package:linguess/providers/user_data_provider.dart';
 import 'package:linguess/providers/word_repository_provider.dart';
 
-// --- Game Page State Class ---
 class WordGameState {
   final AsyncValue<List<WordModel>> words;
   final WordModel? currentWord;
@@ -17,6 +20,8 @@ class WordGameState {
   final List<bool> correctIndices;
   final String currentTarget;
   final bool isShaking;
+  final bool isDaily;
+  final bool dailyAlreadySolved;
 
   const WordGameState({
     this.words = const AsyncValue.loading(),
@@ -27,6 +32,8 @@ class WordGameState {
     this.correctIndices = const [],
     this.currentTarget = '',
     this.isShaking = false,
+    this.isDaily = false,
+    this.dailyAlreadySolved = false,
   });
 
   WordGameState copyWith({
@@ -38,6 +45,8 @@ class WordGameState {
     List<bool>? correctIndices,
     String? currentTarget,
     bool? isShaking,
+    bool? isDaily,
+    bool? dailyAlreadySolved,
   }) {
     return WordGameState(
       words: words ?? this.words,
@@ -48,29 +57,29 @@ class WordGameState {
       correctIndices: correctIndices ?? this.correctIndices,
       currentTarget: currentTarget ?? this.currentTarget,
       isShaking: isShaking ?? this.isShaking,
+      isDaily: isDaily ?? this.isDaily,
+      dailyAlreadySolved: dailyAlreadySolved ?? this.dailyAlreadySolved,
     );
   }
 }
 
-// --- Notifier Class ---
 final wordGameProvider = StateNotifierProvider.family
     .autoDispose<WordGameNotifier, WordGameState, WordGameParams>(
       (ref, params) => WordGameNotifier(ref, params),
     );
 
 class WordGameParams {
-  final String mode;
-  final String selectedValue;
+  final String mode; // 'category' | 'level' | 'daily'
+  final String selectedValue; // categoryId | levelId | (daily'de dummy/ignored)
 
   const WordGameParams({required this.mode, required this.selectedValue});
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    return other is WordGameParams &&
-        other.mode == mode &&
-        other.selectedValue == selectedValue;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is WordGameParams &&
+          other.mode == mode &&
+          other.selectedValue == selectedValue;
 
   @override
   int get hashCode => mode.hashCode ^ selectedValue.hashCode;
@@ -78,35 +87,151 @@ class WordGameParams {
 
 class WordGameNotifier extends StateNotifier<WordGameState> {
   final Ref _ref;
+  final String _mode;
+  final String _selectedValue;
 
-  // Sınıf seviyesinde bir değişken tanımlıyoruz
   String _targetWithoutSpaces = '';
+  List<WordModel> _rawWords = [];
 
   WordGameNotifier(this._ref, WordGameParams params)
-    : super(const WordGameState()) {
-    _fetchWords(params.mode, params.selectedValue);
+    : _mode = params.mode,
+      _selectedValue = params.selectedValue,
+      super(const WordGameState()) {
+    _fetchWords(_mode, _selectedValue);
+
+    // Günlük mod değilse filtreleri ayar/öğrenilen kelimelere göre re-uygula
+    if (_mode != 'daily') {
+      _ref.listen(settingsControllerProvider, (prev, next) {
+        _reapplyFilters();
+      });
+      _ref.listen(userDataProvider, (prev, next) {
+        _reapplyFilters();
+      });
+    }
   }
 
   void _cleanUpResources() {
-    for (var c in state.controllers) {
-      c.dispose();
-    }
-    for (var f in state.focusNodes) {
-      f.dispose();
-    }
+    for (var c in state.controllers) c.dispose();
+    for (var f in state.focusNodes) f.dispose();
+  }
+
+  String _todayIdLocal() {
+    final now = DateTime.now();
+    return '${now.year.toString().padLeft(4, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}';
+  }
+
+  Future<bool> _hasUserSolvedDaily(String dateId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return false;
+    final doc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('dailySolved')
+        .doc(dateId)
+        .get();
+    return doc.exists;
+  }
+
+  Future<void> _markDailySolved(String dateId, String wordId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
+    final ref = FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('dailySolved')
+        .doc(dateId);
+    await ref.set({
+      'wordId': wordId,
+      'solvedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: true));
   }
 
   Future<void> _fetchWords(String mode, String selectedValue) async {
     final wordRepository = _ref.read(wordRepositoryProvider);
+
     try {
+      if (mode == 'daily') {
+        final dailyRepo = _ref.read(dailyPuzzleRepositoryProvider);
+        final todaysWordId = await dailyRepo.getOrCreateTodayDailyWordId();
+        final word = await wordRepository.fetchWordById(todaysWordId);
+        if (word == null) {
+          state = state.copyWith(
+            words: AsyncValue.error('Daily word not found', StackTrace.current),
+          );
+          return;
+        }
+
+        final dateId = _todayIdLocal();
+        final already = await _hasUserSolvedDaily(dateId);
+
+        _rawWords = [word];
+        state = state.copyWith(
+          words: AsyncValue.data([word]),
+          isDaily: true,
+          dailyAlreadySolved: already,
+        );
+
+        _initializeWord(word);
+
+        // Eğer zaten çözülmüşse: girişleri kilitle (görsel amaçlı doldur)
+        if (already) {
+          // kutuları doğru harfle doldur ve hepsini “doğru” işaretle
+          for (int i = 0; i < _targetWithoutSpaces.length; i++) {
+            state.controllers[i].text = _targetWithoutSpaces[i];
+          }
+          state = state.copyWith(
+            correctIndices: List<bool>.filled(
+              _targetWithoutSpaces.length,
+              true,
+            ),
+            hintIndices: List<int>.generate(
+              _targetWithoutSpaces.length,
+              (i) => i,
+            ),
+          );
+        }
+        return;
+      }
+
+      // category/level
       final words = mode == 'category'
           ? await wordRepository.fetchWordsByCategory(selectedValue)
           : await wordRepository.fetchWordsByLevel(selectedValue);
 
-      state = state.copyWith(words: AsyncValue.data(words));
-      _loadRandomWord();
+      _rawWords = words;
+      _reapplyFilters(initial: true);
     } catch (e, st) {
       state = state.copyWith(words: AsyncValue.error(e, st));
+    }
+  }
+
+  void _reapplyFilters({bool initial = false}) {
+    if (_mode == 'daily') return;
+
+    final settings = _ref.read(settingsControllerProvider).valueOrNull;
+    final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
+
+    final userDoc = _ref
+        .read(userDataProvider)
+        .maybeWhen(data: (snap) => snap, orElse: () => null);
+
+    List<String> learnedWords = [];
+    if (userDoc != null && userDoc.exists) {
+      final data = userDoc.data() as Map<String, dynamic>;
+      learnedWords = List<String>.from(data['learnedWords'] ?? const []);
+    }
+
+    List<WordModel> filtered = _rawWords;
+    if (!repeatLearnedWords) {
+      filtered = _rawWords.where((w) => !learnedWords.contains(w.id)).toList();
+      if (filtered.isEmpty) filtered = _rawWords; // fallback
+    }
+
+    filtered = (filtered.toList()..shuffle());
+    state = state.copyWith(words: AsyncValue.data(filtered));
+
+    if (initial || state.currentWord == null) {
+      _loadRandomWord();
     }
   }
 
@@ -121,8 +246,6 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
   void _initializeWord(WordModel word) {
     final currentTarget = (word.translations['en'] ?? '').toUpperCase();
-
-    // Değişkeni burada bir kez hesaplayıp atıyoruz
     _targetWithoutSpaces = currentTarget.replaceAll(' ', '');
 
     _cleanUpResources();
@@ -153,9 +276,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   int logicalIndexFromVisual(int visualIndex) {
     int count = 0;
     for (int i = 0; i <= visualIndex; i++) {
-      if (state.currentTarget[i] != ' ') {
-        count++;
-      }
+      if (state.currentTarget[i] != ' ') count++;
     }
     return count - 1;
   }
@@ -171,6 +292,13 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
     final locale = Localizations.localeOf(context).languageCode;
     final correctAnswerFormatted = _capitalize(state.currentTarget);
+
+    if (state.isDaily &&
+        !state.dailyAlreadySolved &&
+        state.currentWord != null) {
+      await _markDailySolved(_todayIdLocal(), state.currentWord!.id);
+      state = state.copyWith(dailyAlreadySolved: true);
+    }
 
     if (!context.mounted) return;
     showDialog(
@@ -192,9 +320,18 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
           TextButton(
             onPressed: () {
               Navigator.of(context).pop();
-              _loadRandomWord();
+              if (_mode == 'daily') {
+                // Günlükte kapatalım (yeni kelime yok)
+                // İstersen burada pop() ile sayfayı da kapatabilirsin.
+              } else {
+                _loadRandomWord();
+              }
             },
-            child: Text(AppLocalizations.of(context)!.nextWord),
+            child: Text(
+              _mode == 'daily'
+                  ? AppLocalizations.of(context)!.close
+                  : AppLocalizations.of(context)!.nextWord,
+            ),
           ),
         ],
       ),
@@ -202,7 +339,9 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   Future<void> checkAnswer(BuildContext context) async {
-    // Hesaplanan değişkeni direkt kullanıyoruz
+    // Günlük çözüldüyse hiç işlem yapma
+    if (state.isDaily && state.dailyAlreadySolved) return;
+
     bool isAllCorrect = true;
     final newCorrectIndices = List.of(state.correctIndices);
 
@@ -229,30 +368,29 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   void onShakeAnimationComplete() {
-    // Hesaplanan değişkeni direkt kullanıyoruz
+    if (state.isDaily && state.dailyAlreadySolved) {
+      state = state.copyWith(isShaking: false);
+      return;
+    }
+
     bool focused = false;
-
     for (int i = 0; i < _targetWithoutSpaces.length; i++) {
-      if (!state.correctIndices[i]) {
-        state.controllers[i].clear();
-      }
-
+      if (!state.correctIndices[i]) state.controllers[i].clear();
       if (!focused && state.controllers[i].text.isEmpty) {
         state.focusNodes[i].requestFocus();
         focused = true;
       }
     }
-
     state = state.copyWith(isShaking: false);
   }
 
   void showHintLetter(BuildContext context) async {
-    // Hesaplanan değişkeni direkt kullanıyoruz
+    if (state.isDaily && state.dailyAlreadySolved) return;
+
     if (state.hintIndices.length >= _targetWithoutSpaces.length) return;
 
     final economyService = _ref.read(economyServiceProvider);
     final canUseHint = await economyService.tryUseHint();
-
     if (!canUseHint) {
       if (context.mounted) {
         ScaffoldMessenger.of(
@@ -262,16 +400,14 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       return;
     }
 
-    final remainingIndices =
-        List.generate(_targetWithoutSpaces.length, (i) => i)
-            .where(
-              (i) => !state.hintIndices.contains(i) && !state.correctIndices[i],
-            )
-            .toList();
+    final remaining = List.generate(_targetWithoutSpaces.length, (i) => i)
+        .where(
+          (i) => !state.hintIndices.contains(i) && !state.correctIndices[i],
+        )
+        .toList();
 
-    if (remainingIndices.isNotEmpty) {
-      final rand = Random();
-      final index = remainingIndices[rand.nextInt(remainingIndices.length)];
+    if (remaining.isNotEmpty) {
+      final index = remaining[Random().nextInt(remaining.length)];
 
       final newHintIndices = [...state.hintIndices, index];
       final newCorrectIndices = List.of(state.correctIndices);
@@ -283,10 +419,16 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
         hintIndices: newHintIndices,
         correctIndices: newCorrectIndices,
       );
+
+      if (state.controllers.every((c) => c.text.isNotEmpty)) {
+        await checkAnswer(context);
+      }
     }
   }
 
   void onTextChanged(BuildContext context, int logicalIndex, String value) {
+    if (state.isDaily && state.dailyAlreadySolved) return;
+
     if (value.isNotEmpty) {
       final upper = value.toUpperCase();
       if (state.controllers[logicalIndex].text != upper) {

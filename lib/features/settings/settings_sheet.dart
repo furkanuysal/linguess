@@ -1,41 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'settings_controller.dart';
 
-class SettingsSheet extends StatefulWidget {
+class SettingsSheet extends ConsumerWidget {
   const SettingsSheet({super.key});
 
   @override
-  State<SettingsSheet> createState() => _SettingsSheetState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asyncState = ref.watch(settingsControllerProvider);
 
-class _SettingsSheetState extends State<SettingsSheet> {
-  bool _repeatLearnedWords = true;
-  bool _soundEffects = false;
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSettings();
-  }
-
-  Future<void> _loadSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _repeatLearnedWords = prefs.getBool('repeatLearnedWords') ?? true;
-      _soundEffects = prefs.getBool('soundEffects') ?? false;
-      _isLoading = false;
-    });
-  }
-
-  Future<void> _saveSetting(String key, bool value) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(key, value);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
         top: 16,
@@ -43,49 +17,46 @@ class _SettingsSheetState extends State<SettingsSheet> {
         right: 16,
         bottom: MediaQuery.of(context).viewInsets.bottom + 24,
       ),
-      child: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ),
-
-                Text(
-                  AppLocalizations.of(context)!.settings,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-
-                const SizedBox(height: 16),
-
-                SwitchListTile(
-                  title: Text(
-                    AppLocalizations.of(context)!.settingsLearnedWords,
-                  ),
-                  value: _repeatLearnedWords,
-                  onChanged: (val) {
-                    setState(() => _repeatLearnedWords = val);
-                    _saveSetting('repeatLearnedWords', val);
-                  },
-                ),
-
-                SwitchListTile(
-                  title: Text(
-                    AppLocalizations.of(context)!.settingsSoundEffects,
-                  ),
-                  value: _soundEffects,
-                  onChanged: (val) {
-                    setState(() => _soundEffects = val);
-                    _saveSetting('soundEffects', val);
-                  },
-                ),
-              ],
+      child: asyncState.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('Hata: $e')),
+        data: (settings) => Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
             ),
+            Text(
+              AppLocalizations.of(context)!.settings,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+
+            SwitchListTile(
+              title: Text(AppLocalizations.of(context)!.settingsLearnedWords),
+              value: settings.repeatLearnedWords,
+              onChanged: (val) {
+                ref
+                    .read(settingsControllerProvider.notifier)
+                    .setRepeatLearnedWords(val);
+              },
+            ),
+            SwitchListTile(
+              title: Text(AppLocalizations.of(context)!.settingsSoundEffects),
+              value: settings.soundEffects,
+              onChanged: (val) {
+                ref
+                    .read(settingsControllerProvider.notifier)
+                    .setSoundEffects(val);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -95,7 +66,7 @@ void showSettingsSheet(BuildContext context) {
     context: context,
     isScrollControlled: true,
     backgroundColor: Colors.white,
-    shape: RoundedRectangleBorder(
+    shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),
     builder: (context) => const SettingsSheet(),

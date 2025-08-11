@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/pages/word_game_page.dart';
+import 'package:linguess/providers/learned_count_provider.dart';
 import 'package:linguess/providers/word_game_provider.dart';
 import '../models/category_model.dart';
 import '../repositories/category_repository.dart';
@@ -58,9 +59,19 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   title: Text(
                     AppLocalizations.of(context)!.categoryTitle(category.id),
                   ),
-                  subtitle: Text(
-                    '${AppLocalizations.of(context)!.wordCount}: ${category.wordCount ?? 0}',
-                  ),
+                  subtitle: ref
+                      .watch(
+                        progressProvider(
+                          ProgressParams(mode: 'category', id: category.id),
+                        ),
+                      )
+                      .when(
+                        data: (p) => Text(
+                          '${p.learnedCount}/${p.totalCount} ${AppLocalizations.of(context)!.learnedCountText}',
+                        ),
+                        loading: () => const Text('...'),
+                        error: (_, _) => const Text('-'),
+                      ),
                   onTap: () {
                     Navigator.push(
                       context,

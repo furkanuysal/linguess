@@ -147,5 +147,9 @@
   "settingsSoundEffects": "Ses efektleri",
   "@settingsSoundEffects": {
     "description": "Label for the setting to enable or disable sound effects"
+  },
+  "learnedCountText": "Kelime Öğrenildi",
+  "@learnedCountText": {
+    "description": "Label for the count of learned words in a level or category"
   }
 }
