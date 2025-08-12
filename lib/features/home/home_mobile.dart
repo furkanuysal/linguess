@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:linguess/features/auth/view/login_page.dart';
@@ -7,7 +6,6 @@ import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/pages/category_page.dart';
 import 'package:linguess/pages/level_page.dart';
 import 'package:linguess/pages/profile_page.dart';
-import 'package:linguess/pages/word_game_page.dart';
 import 'package:linguess/providers/daily_puzzle_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -91,7 +91,11 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           if (state.currentWord == null) {
             return const Center(child: CircularProgressIndicator());
           }
-          final hint = state.currentWord!.translations['tr'] ?? '???';
+          final String currentLanguage = Localizations.localeOf(
+            context,
+          ).languageCode;
+          final String hint =
+              state.currentWord!.translations[currentLanguage] ?? '???';
 
           final screenWidth = MediaQuery.of(context).size.width;
           const boxSpacing = 8.0;
