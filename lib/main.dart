@@ -28,9 +28,10 @@ class LinguessApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('tr'), // sadece Türkçe destekleniyor
+        Locale('tr'), // Turkish
+        Locale('es'), // Spanish
+        Locale('de'), // German
       ],
-      locale: const Locale('tr'), // zorla Türkçe kullan
       home: const HomeSelector(),
     );
   }

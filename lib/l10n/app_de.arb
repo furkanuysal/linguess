@@ -1,0 +1,155 @@
+{
+  "@@locale": "de",
+  "appTitle": "Linguess",
+  "@appTitle": {
+    "description": "The name of the application"
+  },
+  "selectCategory": "Kategorie auswählen",
+  "@selectCategory": {
+    "description": "Button or label text prompting user to choose a category"
+  },
+  "selectLevel": "Stufe auswählen",
+  "@selectLevel": {
+    "description": "Button or label text prompting user to choose a difficulty level"
+  },
+  "dailyWord": "Tägliches Wort",
+  "@dailyWord": {
+    "description": "Label for the daily word challenge"
+  },
+  "settings": "Einstellungen",
+  "@settings": {
+    "description": "Label for the settings option"
+  },
+  "category": "Kategorie",
+  "@category": {
+    "description": "Label for the category selection"
+  },
+  "category_food": "Lebensmittel",
+  "@category_food": {
+    "description": "Category label for food"
+  },
+  "category_animal": "Tiere",
+  "@category_animal": {
+    "description": "Category label for animals"
+  },
+  "category_vehicle": "Fahrzeuge",
+  "@category_vehicle": {
+    "description": "Category label for vehicles"
+  },
+  "nextWord": "Nächstes Wort",
+  "@nextWord": {
+    "description": "Button text to load the next word in the game"
+  },
+  "checkAnswer": "Antwort überprüfen",
+  "@checkAnswer": {
+    "description": "Button text to check the user's answer"
+  },
+  "letterHint": "Hinweis",
+  "@letterHint": {
+    "description": "Hint text for the letter input"
+  },
+  "yourWord": "Dein Wort",
+  "@yourWord": {
+    "description": "'Your word' label for the asked word in the game"
+  },
+  "level": "Stufe",
+  "@level": {
+    "description": "'Level' label for the difficulty of the word"
+  },
+  "translation": "Übersetzung",
+  "@translation": {
+    "description": "'Translation' label for the translation of the word"
+  },
+  "close": "Schließen",
+  "@close": {
+    "description": "'Close' button text for dialogs or pop-ups"
+  },
+  "login": "Anmelden",
+  "@login": {
+    "description": "Button text for logging in"
+  },
+  "logout": "Abmelden",
+  "@logout": {
+    "description": "Button text for logging out"
+  }, 
+  "profile": "Profil",
+  "@profile": {
+    "description": "Label for the user profile section"
+  },
+  "correctAnswer": "Richtige Antwort",
+  "@correctAnswer": {
+    "description": "Label for the 'correct answer' in the game"
+  },
+  "correctText": "Richtig",
+  "@correctText": {
+    "description": "Word that means 'correct' in the game context"
+  },
+  "registerButtonText": "Kein Konto? Registrieren",
+  "@registerButtonText": {
+    "description": "Text for the button to navigate to the registration page"
+  },
+  "email": "E-Mail",
+  "@email": {
+    "description": "Label for the email input field"
+  },
+  "password": "Passwort",
+  "@password": {
+    "description": "Label for the password input field"
+  },
+  "register": "Registrieren",
+  "@register": {
+    "description": "Button text for registering a new user"
+  },
+  "registerSuccess": "Registrierung erfolgreich! Sie können sich jetzt anmelden.",
+  "@registerSuccess": {
+    "description": "Message shown after successful registration"
+  },
+  "invalidEmail": "Ungültige E-Mail-Adresse",
+  "@invalidEmail": {
+    "description": "Error message for invalid email format"
+  },
+  "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein",
+  "@passwordTooShort": {
+    "description": "Error message for password that is too short"
+  },
+  "gold": "Gold",
+  "@gold": {
+    "description": "Label for the user's gold amount in the profile"
+  },
+  "learnedWordsText": "Gelernte Wörter",
+  "@learnedWordsText": {
+    "description": "Label for the list of words learned by the user"
+  },
+  "learnedWordsEmpty": "Noch keine gelernten Wörter",
+  "@learnedWordsEmpty": {
+    "description": "Message shown when the user has no learned words"
+  },
+  "errorOccurred": "Ein Fehler ist aufgetreten",
+  "@errorOccurred": {
+    "description": "Generic error message shown when an error occurs"
+  },
+  "noDataToShow": "Keine Daten zum Anzeigen",
+  "@noDataToShow": {
+    "description": "Message shown when there is no data to display"
+  },
+  "errorSignInFailed": "Anmeldung fehlgeschlagen",
+  "@errorSignInFailed": {
+    "description": "Error message shown when sign-in fails"
+  },
+  "wordCount": "Wortanzahl",
+  "@wordCount": {
+    "description": "Label for the number of words in a category or level"
+  },
+  "settingsLearnedWords": "Gelernte Wörter wiederholen",
+  "@settingsLearnedWords": {
+    "description": "Label for the setting to repeat learned words"
+  },
+  "settingsSoundEffects": "Soundeffekte",
+  "@settingsSoundEffects": {
+    "description": "Label for the setting to enable or disable sound effects"
+  },
+  "learnedCountText": "Wort gelernt",
+  "@learnedCountText": {
+    "description": "Label for the count of learned words in a level or category"
+  }
+}
