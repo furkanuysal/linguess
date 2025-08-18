@@ -99,7 +99,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       super(const WordGameState()) {
     _fetchWords(_mode, _selectedValue);
 
-    // Günlük mod değilse filtreleri ayar/öğrenilen kelimelere göre re-uygula
+    // Re-apply filters if not in daily mode
     if (_mode != 'daily') {
       _ref.listen(settingsControllerProvider, (prev, next) {
         _reapplyFilters();
@@ -111,8 +111,12 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   void _cleanUpResources() {
-    for (var c in state.controllers) c.dispose();
-    for (var f in state.focusNodes) f.dispose();
+    for (var c in state.controllers) {
+      c.dispose();
+    }
+    for (var f in state.focusNodes) {
+      f.dispose();
+    }
   }
 
   String _todayIdLocal() {
@@ -173,9 +177,8 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
         _initializeWord(word);
 
-        // Eğer zaten çözülmüşse: girişleri kilitle (görsel amaçlı doldur)
+        // Fill in the boxes with the correct letters and mark them all as "correct"
         if (already) {
-          // kutuları doğru harfle doldur ve hepsini “doğru” işaretle
           for (int i = 0; i < _targetWithoutSpaces.length; i++) {
             state.controllers[i].text = _targetWithoutSpaces[i];
           }
@@ -303,6 +306,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     if (!context.mounted) return;
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text('🎉 ${AppLocalizations.of(context)!.correctText}!'),
         content: Column(
@@ -321,8 +325,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
             onPressed: () {
               Navigator.of(context).pop();
               if (_mode == 'daily') {
-                // Günlükte kapatalım (yeni kelime yok)
-                // İstersen burada pop() ile sayfayı da kapatabilirsin.
+                Navigator.of(context).pop();
               } else {
                 _loadRandomWord();
               }
@@ -393,9 +396,11 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     final canUseHint = await economyService.tryUseHint();
     if (!canUseHint) {
       if (context.mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("Yetersiz altın!")));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.insufficientGold),
+          ),
+        );
       }
       return;
     }

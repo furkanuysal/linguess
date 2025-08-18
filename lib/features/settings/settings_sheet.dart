@@ -19,7 +19,9 @@ class SettingsSheet extends ConsumerWidget {
       ),
       child: asyncState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Hata: $e')),
+        error: (e, _) => Center(
+          child: Text('${AppLocalizations.of(context)!.errorOccurred}: $e'),
+        ),
         data: (settings) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -54,6 +56,13 @@ class SettingsSheet extends ConsumerWidget {
                     .setSoundEffects(val);
               },
             ),
+            SwitchListTile(
+              title: Text(AppLocalizations.of(context)!.settingsDarkMode),
+              value: settings.darkMode,
+              onChanged: (val) {
+                ref.read(settingsControllerProvider.notifier).setDarkMode(val);
+              },
+            ),
           ],
         ),
       ),
@@ -65,7 +74,6 @@ void showSettingsSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
     ),

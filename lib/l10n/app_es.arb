@@ -71,7 +71,7 @@
   "logout": "Cerrar sesión",
   "@logout": {
     "description": "Button text for logging out"
-  }, 
+  },
   "profile": "Perfil",
   "@profile": {
     "description": "Label for the user profile section"
@@ -151,5 +151,17 @@
   "learnedCountText": "Palabra aprendida",
   "@learnedCountText": {
     "description": "Label for the count of learned words in a level or category"
+  },
+  "settingsDarkMode": "Modo oscuro",
+  "@settingsDarkMode": {
+    "description": "Label for the setting to enable or disable dark mode"
+  },
+  "mainMenuPlayModeSelection": "Selecciona un modo de juego",
+  "@mainMenuPlayModeSelection": {
+    "description": "Label for the main menu where the user selects a game mode"
+  },
+  "insufficientGold": "Oro insuficiente",
+  "@insufficientGold": {
+    "description": "Error message shown when the user has insufficient gold"
   }
 }
