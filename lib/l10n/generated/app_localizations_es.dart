@@ -122,4 +122,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get learnedCountText => 'Palabra aprendida';
+
+  @override
+  String get settingsDarkMode => 'Modo oscuro';
+
+  @override
+  String get mainMenuPlayModeSelection => 'Selecciona un modo de juego';
+
+  @override
+  String get insufficientGold => 'Oro insuficiente';
 }

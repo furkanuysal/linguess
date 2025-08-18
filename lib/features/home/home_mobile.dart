@@ -20,15 +20,18 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Linguess'), centerTitle: true),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.appTitle),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Choose a play mode',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Text(
+              AppLocalizations.of(context)!.mainMenuPlayModeSelection,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -68,7 +71,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
 
                 return Align(
                   alignment: Alignment.bottomRight,
-                  child: TextButton(
+                  child: ElevatedButton(
                     onPressed: () {
                       if (user == null) {
                         Navigator.of(context).push(

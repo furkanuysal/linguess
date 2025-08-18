@@ -327,6 +327,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelime Öğrenildi'**
   String get learnedCountText;
+
+  /// Label for the setting to enable or disable dark mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Karanlık Mod'**
+  String get settingsDarkMode;
+
+  /// Label for the main menu where the user selects a game mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir oyun türü seçin'**
+  String get mainMenuPlayModeSelection;
+
+  /// Error message shown when the user has insufficient gold
+  ///
+  /// In tr, this message translates to:
+  /// **'Yetersiz Altın'**
+  String get insufficientGold;
 }
 
 class _AppLocalizationsDelegate

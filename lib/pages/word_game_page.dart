@@ -72,7 +72,11 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.categoryTitle(widget.selectedValue),
+          widget.mode == "daily"
+              ? AppLocalizations.of(context)!.dailyWord
+              : AppLocalizations.of(
+                  context,
+                )!.categoryTitle(widget.selectedValue),
         ),
         actions: [
           IconButton(
@@ -115,6 +119,8 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           if (boxWidth > maxBoxWidth) {
             boxWidth = maxBoxWidth;
           }
+
+          final scheme = Theme.of(context).colorScheme;
 
           return Center(
             child: Padding(
@@ -177,7 +183,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                                         color:
                                             state.correctIndices[logicalIndex]
                                             ? Colors.green
-                                            : Colors.black,
+                                            : scheme.onSurface,
                                       ),
                                     ),
                                   );
@@ -195,7 +201,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(child: Text('Hata: $error')),
+        error: (error, stack) => Center(
+          child: Text('${AppLocalizations.of(context)!.errorOccurred}: $error'),
+        ),
       ),
     );
   }

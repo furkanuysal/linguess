@@ -4,6 +4,7 @@ import 'settings_state.dart';
 
 const _kRepeatLearnedWordsKey = 'repeatLearnedWords';
 const _kSoundKey = 'soundEffects';
+const _kDarkModeKey = 'darkMode';
 
 final settingsControllerProvider =
     AsyncNotifierProvider<SettingsController, SettingsState>(
@@ -19,8 +20,13 @@ class SettingsController extends AsyncNotifier<SettingsState> {
 
     final repeat = _prefs.getBool(_kRepeatLearnedWordsKey) ?? true;
     final sound = _prefs.getBool(_kSoundKey) ?? false;
+    final darkMode = _prefs.getBool(_kDarkModeKey) ?? false;
 
-    return SettingsState(repeatLearnedWords: repeat, soundEffects: sound);
+    return SettingsState(
+      repeatLearnedWords: repeat,
+      soundEffects: sound,
+      darkMode: darkMode,
+    );
   }
 
   Future<void> setRepeatLearnedWords(bool value) async {
@@ -35,5 +41,12 @@ class SettingsController extends AsyncNotifier<SettingsState> {
     if (current == null) return;
     state = AsyncData(current.copyWith(soundEffects: value));
     await _prefs.setBool(_kSoundKey, value);
+  }
+
+  Future<void> setDarkMode(bool value) async {
+    final current = state.value;
+    if (current == null) return;
+    state = AsyncData(current.copyWith(darkMode: value));
+    await _prefs.setBool(_kDarkModeKey, value);
   }
 }

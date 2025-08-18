@@ -121,4 +121,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get learnedCountText => 'Kelime Öğrenildi';
+
+  @override
+  String get settingsDarkMode => 'Karanlık Mod';
+
+  @override
+  String get mainMenuPlayModeSelection => 'Bir oyun türü seçin';
+
+  @override
+  String get insufficientGold => 'Yetersiz Altın';
 }

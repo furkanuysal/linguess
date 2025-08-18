@@ -151,5 +151,17 @@
   "learnedCountText": "Kelime Öğrenildi",
   "@learnedCountText": {
     "description": "Label for the count of learned words in a level or category"
+  },
+  "settingsDarkMode": "Karanlık Mod",
+  "@settingsDarkMode": {
+    "description": "Label for the setting to enable or disable dark mode"
+  },
+  "mainMenuPlayModeSelection": "Bir oyun türü seçin",
+  "@mainMenuPlayModeSelection": {
+    "description": "Label for the main menu where the user selects a game mode"
+  },
+  "insufficientGold": "Yetersiz Altın",
+  "@insufficientGold": {
+    "description": "Error message shown when the user has insufficient gold"
   }
 }
