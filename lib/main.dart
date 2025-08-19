@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:linguess/features/home/home_selector.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:linguess/theme/app_theme.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/router/app_router.dart';
+
+final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,13 +22,15 @@ class LinguessApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(settingsControllerProvider);
-
+    final router = ref.watch(goRouterProvider);
     return asyncState.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(
         child: Text('${AppLocalizations.of(context)!.errorOccurred}: $e'),
       ),
-      data: (settings) => MaterialApp(
+      data: (settings) => MaterialApp.router(
+        scaffoldMessengerKey: scaffoldMessengerKey,
+        routerConfig: router,
         onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,
@@ -43,8 +47,13 @@ class LinguessApp extends ConsumerWidget {
           Locale('es'), // Spanish
           Locale('de'), // German
         ],
-        home: const HomeSelector(),
       ),
     );
   }
+}
+
+void showSnackBar(String message, Color? backgroundColor) {
+  scaffoldMessengerKey.currentState?.showSnackBar(
+    SnackBar(content: Text(message), backgroundColor: backgroundColor),
+  );
 }

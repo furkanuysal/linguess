@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../repositories/daily_puzzle_repository.dart';
-import '../pages/word_game_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
+import 'package:linguess/repositories/daily_puzzle_repository.dart';
 
 final firestoreProvider = Provider<FirebaseFirestore>((ref) {
   return FirebaseFirestore.instance;
@@ -13,7 +14,7 @@ final dailyPuzzleRepositoryProvider = Provider<DailyPuzzleRepository>((ref) {
   return DailyPuzzleRepository(ref.read(firestoreProvider));
 });
 
-// --- Bugünün ID'si ---
+// Today ID
 String todayIdLocal() {
   final now = DateTime.now();
   final y = now.year.toString().padLeft(4, '0');
@@ -24,7 +25,7 @@ String todayIdLocal() {
 
 final todayIdProvider = Provider<String>((ref) => todayIdLocal());
 
-// --- Çözüldü mü? ---
+// Did the user solve today's puzzle?
 final dailySolvedProvider = StreamProvider<bool>((ref) {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return const Stream<bool>.empty();
@@ -38,7 +39,7 @@ final dailySolvedProvider = StreamProvider<bool>((ref) {
   return doc.snapshots().map((snap) => snap.exists);
 });
 
-// --- Ana sayfadan buton tıklanınca çağrılır ---
+// Handle daily button press
 Future<void> handleDailyButton(BuildContext context, WidgetRef ref) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
   if (uid == null) return;
@@ -57,14 +58,16 @@ Future<void> handleDailyButton(BuildContext context, WidgetRef ref) async {
       await showDialog(
         context: context,
         builder: (_) => AlertDialog(
-          title: const Text('🎯 Günlük Kelime Tamamlandı'),
-          content: const Text(
-            'Bugünün kelimesini çözdünüz. Yeni kelime yarın!',
+          title: Text(
+            '🎯 ${AppLocalizations.of(context)!.dailyWordCompletedTitleAlert}',
+          ),
+          content: Text(
+            AppLocalizations.of(context)!.dailyWordCompletedBodyAlert,
           ),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('Tamam'),
+              onPressed: () => context.pop(),
+              child: Text(AppLocalizations.of(context)!.okay),
             ),
           ],
         ),
@@ -74,11 +77,6 @@ Future<void> handleDailyButton(BuildContext context, WidgetRef ref) async {
   }
 
   if (context.mounted) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => WordGamePage(selectedValue: todayId, mode: 'daily'),
-      ),
-    );
+    context.push('/game/daily/$todayId');
   }
 }

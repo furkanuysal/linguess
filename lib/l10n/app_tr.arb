@@ -61,7 +61,7 @@
     "description": "'Translation' label for the translation of the word"
   },
   "close": "Kapat",
-  "@close":{
+  "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
   "login": "Giriş Yap",
@@ -71,7 +71,7 @@
   "logout": "Çıkış Yap",
   "@logout": {
     "description": "Button text for logging out"
-  }, 
+  },
   "profile": "Profil",
   "@profile": {
     "description": "Label for the user profile section"
@@ -163,5 +163,65 @@
   "insufficientGold": "Yetersiz Altın",
   "@insufficientGold": {
     "description": "Error message shown when the user has insufficient gold"
+  },
+  "dailyWordCompletedTitleAlert": "Günlük Kelime Tamamlandı",
+  "@dailyWordCompletedTitleAlert": {
+    "description": "Alert message shown when the daily word is completed"
+  },
+  "dailyWordCompletedBodyAlert": "Bugünün kelimesini çözdünüz. Yeni kelime yarın!",
+  "@dailyWordCompletedBodyAlert": {
+    "description": "Body message shown when the daily word is completed"
+  },
+  "okay": "Tamam",
+  "@okay": {
+    "description": "'Okay' button text for alerts or confirmations"
+  },
+  "emailRequired": "E-posta alanı boş bırakılamaz!",
+  "@emailRequired": {
+    "description": "Error message shown when email is required"
+  },
+  "passwordRequired": "Şifre alanı boş bırakılamaz!",
+  "@passwordRequired": {
+    "description": "Error message shown when password is required"
+  },
+  "errorSignUpFailed": "Kayıt başarısız",
+  "@errorSignUpFailed": {
+    "description": "Error message shown when sign-up fails"
+  },
+  "errorWeakPassword": "Şifre çok zayıf",
+  "@errorWeakPassword": {
+    "description": "Error message shown when the password is too weak"
+  },
+  "errorEmailAlreadyInUse": "Bu e-posta zaten kullanılıyor!",
+  "@errorEmailAlreadyInUse": {
+    "description": "Error message shown when the email is already in use"
+  },
+  "errorUserNotFound": "Kullanıcı bulunamadı.",
+  "@errorUserNotFound": {
+    "description": "Error message shown when the user is not found"
+  },
+  "errorTooManyRequests": "Çok fazla deneme yapıldı. Lütfen daha sonra tekrar deneyin.",
+  "@errorTooManyRequests": {
+    "description": "Error message shown when there are too many requests"
+  },
+  "errorWrongPassword": "Yanlış şifre!",
+  "@errorWrongPassword": {
+    "description": "Error message shown when the password is wrong"
+  },
+  "errorInvalidEmail": "Geçersiz e-posta adresi!",
+  "@errorInvalidEmail": {
+    "description": "Error message shown when the email is invalid"
+  },
+  "errorNetwork": "Ağ hatası. Lütfen internet bağlantınızı kontrol edin.",
+  "@errorNetwork": {
+    "description": "Error message shown when there is a network error"
+  },
+  "successSignIn": "Giriş başarılı!",
+  "@successSignIn": {
+    "description": "Message shown when sign-in is successful"
+  },
+  "successRegister": "Kayıt başarılı!",
+  "@successRegister": {
+    "description": "Message shown when registration is successful"
   }
 }

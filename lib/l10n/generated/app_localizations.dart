@@ -345,6 +345,96 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yetersiz Altın'**
   String get insufficientGold;
+
+  /// Alert message shown when the daily word is completed
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük Kelime Tamamlandı'**
+  String get dailyWordCompletedTitleAlert;
+
+  /// Body message shown when the daily word is completed
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünün kelimesini çözdünüz. Yeni kelime yarın!'**
+  String get dailyWordCompletedBodyAlert;
+
+  /// 'Okay' button text for alerts or confirmations
+  ///
+  /// In tr, this message translates to:
+  /// **'Tamam'**
+  String get okay;
+
+  /// Error message shown when email is required
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta alanı boş bırakılamaz!'**
+  String get emailRequired;
+
+  /// Error message shown when password is required
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre alanı boş bırakılamaz!'**
+  String get passwordRequired;
+
+  /// Error message shown when sign-up fails
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt başarısız'**
+  String get errorSignUpFailed;
+
+  /// Error message shown when the password is too weak
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre çok zayıf'**
+  String get errorWeakPassword;
+
+  /// Error message shown when the email is already in use
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu e-posta zaten kullanılıyor!'**
+  String get errorEmailAlreadyInUse;
+
+  /// Error message shown when the user is not found
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı bulunamadı.'**
+  String get errorUserNotFound;
+
+  /// Error message shown when there are too many requests
+  ///
+  /// In tr, this message translates to:
+  /// **'Çok fazla deneme yapıldı. Lütfen daha sonra tekrar deneyin.'**
+  String get errorTooManyRequests;
+
+  /// Error message shown when the password is wrong
+  ///
+  /// In tr, this message translates to:
+  /// **'Yanlış şifre!'**
+  String get errorWrongPassword;
+
+  /// Error message shown when the email is invalid
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçersiz e-posta adresi!'**
+  String get errorInvalidEmail;
+
+  /// Error message shown when there is a network error
+  ///
+  /// In tr, this message translates to:
+  /// **'Ağ hatası. Lütfen internet bağlantınızı kontrol edin.'**
+  String get errorNetwork;
+
+  /// Message shown when sign-in is successful
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş başarılı!'**
+  String get successSignIn;
+
+  /// Message shown when registration is successful
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt başarılı!'**
+  String get successRegister;
 }
 
 class _AppLocalizationsDelegate

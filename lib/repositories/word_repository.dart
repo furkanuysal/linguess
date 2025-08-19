@@ -18,7 +18,7 @@ class WordRepository {
           .map((doc) => WordModel.fromJson(doc.id, doc.data()))
           .toList();
 
-      words.shuffle(); // Rastgele sıralamak için
+      words.shuffle(); // Shuffle the words randomly
 
       return words;
     } catch (e) {
@@ -37,7 +37,7 @@ class WordRepository {
           .map((doc) => WordModel.fromJson(doc.id, doc.data()))
           .toList();
 
-      words.shuffle(); // Rastgele sıralamak için
+      words.shuffle();
 
       return words;
     } catch (e) {

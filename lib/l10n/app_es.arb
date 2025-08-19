@@ -163,5 +163,65 @@
   "insufficientGold": "Oro insuficiente",
   "@insufficientGold": {
     "description": "Error message shown when the user has insufficient gold"
+  },
+  "dailyWordCompletedTitleAlert": "Palabra diaria completada",
+  "@dailyWordCompletedTitleAlert": {
+    "description": "Alert message shown when the daily word is completed"
+  },
+  "dailyWordCompletedBodyAlert": "Has descifrado la palabra de hoy. ¡Mañana habrá una nueva palabra!",
+  "@dailyWordCompletedBodyAlert": {
+    "description": "Body message shown when the daily word is completed"
+  },
+  "okay": "Aceptar",
+  "@okay": {
+    "description": "'Okay' button text for alerts or confirmations"
+  },
+  "emailRequired": "¡El campo de correo electrónico no puede estar vacío!",
+  "@emailRequired": {
+    "description": "Error message shown when email is required"
+  },
+  "passwordRequired": "¡El campo de contraseña no puede estar vacío!",
+  "@passwordRequired": {
+    "description": "Error message shown when password is required"
+  },
+  "errorSignUpFailed": "Error al registrarse",
+  "@errorSignUpFailed": {
+    "description": "Error message shown when sign-up fails"
+  },
+  "errorWeakPassword": "Contraseña muy débil",
+  "@errorWeakPassword": {
+    "description": "Error message shown when the password is too weak"
+  },
+  "errorEmailAlreadyInUse": "¡Este correo electrónico ya está en uso!",
+  "@errorEmailAlreadyInUse": {
+    "description": "Error message shown when the email is already in use"
+  },
+  "errorUserNotFound": "Usuario no encontrado.",
+  "@errorUserNotFound": {
+    "description": "Error message shown when the user is not found"
+  },
+  "errorTooManyRequests": "Se han realizado demasiados intentos. Por favor, inténtelo de nuevo más tarde.",
+  "@errorTooManyRequests": {
+    "description": "Error message shown when there are too many requests"
+  },
+  "errorWrongPassword": "Contraseña incorrecta",
+  "@errorWrongPassword": {
+    "description": "Error message shown when the password is wrong"
+  },
+  "errorInvalidEmail": "¡Correo electrónico inválido!",
+  "@errorInvalidEmail": {
+    "description": "Error message shown when the email is invalid"
+  },
+  "errorNetwork": "Error de red. Por favor, verifique su conexión a Internet.",
+  "@errorNetwork": {
+    "description": "Error message shown when there is a network error"
+  },
+  "successSignIn": "¡Inicio de sesión exitoso!",
+  "@successSignIn": {
+    "description": "Message shown when sign-in is successful"
+  },
+  "successRegister": "¡Registro exitoso!",
+  "@successRegister": {
+    "description": "Message shown when registration is successful"
   }
 }

@@ -14,14 +14,14 @@ class CategoryRepository {
           .collection('categories')
           .orderBy('index')
           .get();
-      log('Kategori sayısı: ${snapshot.docs.length}');
+      log('Category count: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
         return CategoryModel.fromJson(data);
       }).toList();
     } catch (e) {
-      log('Kategori çekme hatası: $e');
+      log('Error fetching categories: $e');
       return [];
     }
   }

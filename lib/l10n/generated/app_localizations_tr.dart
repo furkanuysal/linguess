@@ -130,4 +130,52 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get insufficientGold => 'Yetersiz Altın';
+
+  @override
+  String get dailyWordCompletedTitleAlert => 'Günlük Kelime Tamamlandı';
+
+  @override
+  String get dailyWordCompletedBodyAlert =>
+      'Bugünün kelimesini çözdünüz. Yeni kelime yarın!';
+
+  @override
+  String get okay => 'Tamam';
+
+  @override
+  String get emailRequired => 'E-posta alanı boş bırakılamaz!';
+
+  @override
+  String get passwordRequired => 'Şifre alanı boş bırakılamaz!';
+
+  @override
+  String get errorSignUpFailed => 'Kayıt başarısız';
+
+  @override
+  String get errorWeakPassword => 'Şifre çok zayıf';
+
+  @override
+  String get errorEmailAlreadyInUse => 'Bu e-posta zaten kullanılıyor!';
+
+  @override
+  String get errorUserNotFound => 'Kullanıcı bulunamadı.';
+
+  @override
+  String get errorTooManyRequests =>
+      'Çok fazla deneme yapıldı. Lütfen daha sonra tekrar deneyin.';
+
+  @override
+  String get errorWrongPassword => 'Yanlış şifre!';
+
+  @override
+  String get errorInvalidEmail => 'Geçersiz e-posta adresi!';
+
+  @override
+  String get errorNetwork =>
+      'Ağ hatası. Lütfen internet bağlantınızı kontrol edin.';
+
+  @override
+  String get successSignIn => 'Giriş başarılı!';
+
+  @override
+  String get successRegister => 'Kayıt başarılı!';
 }

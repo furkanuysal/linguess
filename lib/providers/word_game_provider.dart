@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/models/word_model.dart';
@@ -291,10 +292,11 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
   void _showSuccessDialog(BuildContext context) async {
     final economyService = _ref.read(economyServiceProvider);
-    await economyService.rewardGold(state.hintIndices.length);
-
     final locale = Localizations.localeOf(context).languageCode;
+    final wordToSolve = state.currentWord!.translations[locale] ?? '???';
     final correctAnswerFormatted = _capitalize(state.currentTarget);
+
+    await economyService.rewardGold(state.hintIndices.length);
 
     if (state.isDaily &&
         !state.dailyAlreadySolved &&
@@ -312,9 +314,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              '${AppLocalizations.of(context)!.yourWord}: ${state.currentWord!.translations[locale] ?? '???'}',
-            ),
+            Text('${AppLocalizations.of(context)!.yourWord}: $wordToSolve'),
             Text(
               '${AppLocalizations.of(context)!.correctAnswer}: $correctAnswerFormatted',
             ),
@@ -323,9 +323,9 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop();
+              context.pop();
               if (_mode == 'daily') {
-                Navigator.of(context).pop();
+                context.pop();
               } else {
                 _loadRandomWord();
               }
@@ -342,7 +342,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   Future<void> checkAnswer(BuildContext context) async {
-    // Günlük çözüldüyse hiç işlem yapma
+    // Do nothing if daily puzzle is already solved
     if (state.isDaily && state.dailyAlreadySolved) return;
 
     bool isAllCorrect = true;
@@ -363,8 +363,8 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
     if (isAllCorrect) {
       final userService = _ref.read(userServiceProvider);
-      await userService.handleCorrectAnswer(state.currentTarget);
       _showSuccessDialog(context);
+      await userService.handleCorrectAnswer(state.currentTarget);
     } else {
       state = state.copyWith(isShaking: true);
     }
@@ -426,7 +426,9 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       );
 
       if (state.controllers.every((c) => c.text.isNotEmpty)) {
-        await checkAnswer(context);
+        if (context.mounted) {
+          await checkAnswer(context);
+        }
       }
     }
   }

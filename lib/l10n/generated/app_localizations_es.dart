@@ -131,4 +131,55 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get insufficientGold => 'Oro insuficiente';
+
+  @override
+  String get dailyWordCompletedTitleAlert => 'Palabra diaria completada';
+
+  @override
+  String get dailyWordCompletedBodyAlert =>
+      'Has descifrado la palabra de hoy. ¡Mañana habrá una nueva palabra!';
+
+  @override
+  String get okay => 'Aceptar';
+
+  @override
+  String get emailRequired =>
+      '¡El campo de correo electrónico no puede estar vacío!';
+
+  @override
+  String get passwordRequired =>
+      '¡El campo de contraseña no puede estar vacío!';
+
+  @override
+  String get errorSignUpFailed => 'Error al registrarse';
+
+  @override
+  String get errorWeakPassword => 'Contraseña muy débil';
+
+  @override
+  String get errorEmailAlreadyInUse =>
+      '¡Este correo electrónico ya está en uso!';
+
+  @override
+  String get errorUserNotFound => 'Usuario no encontrado.';
+
+  @override
+  String get errorTooManyRequests =>
+      'Se han realizado demasiados intentos. Por favor, inténtelo de nuevo más tarde.';
+
+  @override
+  String get errorWrongPassword => 'Contraseña incorrecta';
+
+  @override
+  String get errorInvalidEmail => '¡Correo electrónico inválido!';
+
+  @override
+  String get errorNetwork =>
+      'Error de red. Por favor, verifique su conexión a Internet.';
+
+  @override
+  String get successSignIn => '¡Inicio de sesión exitoso!';
+
+  @override
+  String get successRegister => '¡Registro exitoso!';
 }

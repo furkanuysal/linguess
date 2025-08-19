@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:linguess/features/auth/view/login_page.dart';
 import 'package:linguess/features/settings/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/pages/category_page.dart';
-import 'package:linguess/pages/level_page.dart';
-import 'package:linguess/pages/profile_page.dart';
 import 'package:linguess/providers/daily_puzzle_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeMobile extends ConsumerStatefulWidget {
   const HomeMobile({super.key});
@@ -38,18 +35,14 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
             ElevatedButton(
               onPressed: () {
                 // Navigate to the category screen
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const CategoryPage()));
+                context.push('/category');
               },
               child: Text(AppLocalizations.of(context)!.selectCategory),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const LevelPage()));
+                context.push('/level');
               },
               child: Text(AppLocalizations.of(context)!.selectLevel),
             ),
@@ -74,15 +67,9 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (user == null) {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const LoginPage()),
-                        );
+                        context.push('/login');
                       } else {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => const ProfilePage(),
-                          ),
-                        );
+                        context.push('/profile');
                       }
                     },
                     child: Text(

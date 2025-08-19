@@ -12,7 +12,7 @@ class CategoryModel {
           ? json['index'] as int
           : (json['index'] is double)
           ? (json['index'] as double).toInt()
-          : 0, // ya da default değer ver
+          : 0, // or default value
       icon: json['icon'] as String?,
     );
   }
