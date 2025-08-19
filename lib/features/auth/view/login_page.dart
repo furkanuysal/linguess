@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:linguess/features/auth/view/register_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,11 +14,13 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   bool _isLoading = false;
   String? _errorMessage;
 
   void _signIn() async {
+    if (!_formKey.currentState!.validate()) return;
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -29,9 +31,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
-      if (user != null) {
+      if (user != null && mounted) {
         // Sign in successful, navigate to home page
-        Navigator.of(context).pop(); // or Navigator.pushReplacement etc.
+        context.go('/');
       }
     } catch (e) {
       setState(() {
@@ -57,44 +59,64 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     return Scaffold(
       appBar: AppBar(title: Text(AppLocalizations.of(context)!.login)),
       body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.email,
+        padding: const EdgeInsets.all(24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.email,
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLocalizations.of(context)!.emailRequired;
+                  }
+                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                  if (!emailRegex.hasMatch(value)) {
+                    return AppLocalizations.of(context)!.invalidEmail;
+                  }
+                  return null;
+                },
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: AppLocalizations.of(context)!.password,
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.password,
+                ),
+                obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return AppLocalizations.of(context)!.passwordRequired;
+                  }
+                  if (value.length < 6) {
+                    return AppLocalizations.of(context)!.passwordTooShort;
+                  }
+                  return null;
+                },
               ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            if (_errorMessage != null) ...[
-              Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              if (_errorMessage != null) ...[
+                Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+                const SizedBox(height: 10),
+              ],
+              _isLoading
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: _signIn,
+                      child: Text(AppLocalizations.of(context)!.login),
+                    ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  context.push('/register');
+                },
+                child: Text(AppLocalizations.of(context)!.registerButtonText),
+              ),
             ],
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _signIn,
-                    child: Text(AppLocalizations.of(context)!.login),
-                  ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.of(
-                  context,
-                ).push(MaterialPageRoute(builder: (_) => const RegisterPage()));
-              },
-              child: Text(AppLocalizations.of(context)!.registerButtonText),
-            ),
-          ],
+          ),
         ),
       ),
     );

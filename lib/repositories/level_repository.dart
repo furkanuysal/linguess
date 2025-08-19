@@ -14,14 +14,14 @@ class LevelRepository {
           .collection('levels')
           .orderBy('index')
           .get();
-      log('Seviye sayısı: ${snapshot.docs.length}');
+      log('Level count: ${snapshot.docs.length}');
       return snapshot.docs.map((doc) {
         final data = doc.data();
         data['id'] = doc.id;
         return LevelModel.fromJson(data);
       }).toList();
     } catch (e) {
-      log('Seviye çekme hatası: $e');
+      log('Error fetching levels: $e');
       return [];
     }
   }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/pages/word_game_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/providers/learned_count_provider.dart';
 import 'package:linguess/providers/word_game_provider.dart';
-import '../models/category_model.dart';
-import '../repositories/category_repository.dart';
-import '../l10n/generated/app_localizations.dart';
-import '../l10n/generated/app_localizations_extensions.dart';
+import 'package:linguess/models/category_model.dart';
+import 'package:linguess/repositories/category_repository.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
+import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 
 class CategoryPage extends ConsumerStatefulWidget {
   const CategoryPage({super.key});
@@ -73,26 +73,25 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                         error: (_, _) => const Text('-'),
                       ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WordGamePage(
-                          selectedValue: category.id,
-                          mode: 'category',
-                        ),
-                      ),
-                    ).then((_) {
-                      // Geri dönüldüğünde bu blok çalışır.
-                      // 'ref.invalidate' kullanarak provider'ı sıfırlıyoruz.
-                      ref.invalidate(
-                        wordGameProvider(
-                          WordGameParams(
+                    context
+                        .push(
+                          '/game/category/${category.id}',
+                          extra: WordGameParams(
                             mode: 'category',
                             selectedValue: category.id,
                           ),
-                        ),
-                      );
-                    });
+                        )
+                        .then((_) {
+                          // Revalidate the provider when returning
+                          ref.invalidate(
+                            wordGameProvider(
+                              WordGameParams(
+                                mode: 'category',
+                                selectedValue: category.id,
+                              ),
+                            ),
+                          );
+                        });
                   },
                 );
               },

@@ -20,8 +20,9 @@ class UserService {
         'createdAt': FieldValue.serverTimestamp(),
         'gold': 0,
         'correctCount': 0,
-        'learnedWords': <String>[], // boş liste olarak başlat
-        'badges': <String>[], // kazanılmış başarımlar
+        'learnedWords':
+            <String>[], // learned words, creating with an empty list
+        'achievements': <String>[], // achievements, creating with an empty list
       });
     }
   }

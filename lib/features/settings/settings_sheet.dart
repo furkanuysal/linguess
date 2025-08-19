@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'settings_controller.dart';
 
@@ -29,7 +30,7 @@ class SettingsSheet extends ConsumerWidget {
               alignment: Alignment.topRight,
               child: IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => context.pop(),
               ),
             ),
             Text(

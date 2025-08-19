@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/pages/word_game_page.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/providers/learned_count_provider.dart';
 import 'package:linguess/providers/word_game_provider.dart';
-import '../models/level_model.dart';
-import '../repositories/level_repository.dart';
-import '../l10n/generated/app_localizations.dart';
+import 'package:linguess/models/level_model.dart';
+import 'package:linguess/repositories/level_repository.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class LevelPage extends ConsumerStatefulWidget {
   const LevelPage({super.key});
@@ -68,24 +68,25 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                       ),
 
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WordGamePage(
-                          selectedValue: level.id,
-                          mode: 'level',
-                        ),
-                      ),
-                    ).then((_) {
-                      ref.invalidate(
-                        wordGameProvider(
-                          WordGameParams(
+                    context
+                        .push(
+                          '/game/level/${level.id}',
+                          extra: WordGameParams(
                             mode: 'level',
                             selectedValue: level.id,
                           ),
-                        ),
-                      );
-                    });
+                        )
+                        .then((_) {
+                          // Revalidate the provider when returning
+                          ref.invalidate(
+                            wordGameProvider(
+                              WordGameParams(
+                                mode: 'level',
+                                selectedValue: level.id,
+                              ),
+                            ),
+                          );
+                        });
                   },
                 );
               },

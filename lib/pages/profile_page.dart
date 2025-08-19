@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/models/word_model.dart';
@@ -37,7 +38,7 @@ class ProfilePage extends ConsumerWidget {
           }
 
           final data = snapshot.data() as Map<String, dynamic>;
-          final email = data['email'] ?? 'Yok';
+          final email = data['email'] ?? 'None';
           final gold = data['gold'] ?? 0;
           final learnedWords = List<String>.from(data['learnedWords'] ?? []);
 
@@ -119,8 +120,7 @@ class ProfilePage extends ConsumerWidget {
                                   ),
                                   actions: [
                                     TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
+                                      onPressed: () => context.pop(),
                                       child: Text(
                                         AppLocalizations.of(context)!.close,
                                       ),
@@ -140,7 +140,7 @@ class ProfilePage extends ConsumerWidget {
                   onPressed: () async {
                     await ref.read(authServiceProvider).signOut();
                     if (context.mounted) {
-                      Navigator.of(context).popUntil((route) => route.isFirst);
+                      context.go('/'); // Redirect to home after logout
                     }
                   },
                   child: Text(AppLocalizations.of(context)!.logout),

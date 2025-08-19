@@ -132,4 +132,53 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get insufficientGold => 'Nicht genügend Gold';
+
+  @override
+  String get dailyWordCompletedTitleAlert => 'Tägliches Wort abgeschlossen';
+
+  @override
+  String get dailyWordCompletedBodyAlert =>
+      'Sie haben das Wort des Tages entschlüsselt. Morgen gibt es ein neues Wort!';
+
+  @override
+  String get okay => 'OK';
+
+  @override
+  String get emailRequired => 'E-Mail-Adresse ist erforderlich!';
+
+  @override
+  String get passwordRequired => 'Passwort ist erforderlich!';
+
+  @override
+  String get errorSignUpFailed => 'Fehler bei der Registrierung';
+
+  @override
+  String get errorWeakPassword => 'Passwort zu schwach';
+
+  @override
+  String get errorEmailAlreadyInUse =>
+      'Diese E-Mail-Adresse ist bereits vergeben!';
+
+  @override
+  String get errorUserNotFound => 'Benutzer nicht gefunden.';
+
+  @override
+  String get errorTooManyRequests =>
+      'Zu viele Versuche. Bitte versuchen Sie es später erneut.';
+
+  @override
+  String get errorWrongPassword => 'Falsches Passwort!';
+
+  @override
+  String get errorInvalidEmail => 'Ungültige E-Mail-Adresse!';
+
+  @override
+  String get errorNetwork =>
+      'Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.';
+
+  @override
+  String get successSignIn => 'Anmeldung erfolgreich!';
+
+  @override
+  String get successRegister => 'Registrierung erfolgreich!';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/user_data_provider.dart';
 
@@ -29,10 +30,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         .read(userRegisterProvider.notifier)
         .register(_emailController.text, _passwordController.text);
 
+    if (!mounted) return;
+
     final state = ref.read(userRegisterProvider);
     if (state is! AsyncError) {
-      if (!mounted) return;
-      Navigator.pop(context); // Başarılıysa login'e dön
+      context.go('/');
     }
   }
 
@@ -48,11 +50,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           key: _formKey,
           child: Column(
             children: [
-              if (registerState.hasError)
-                Text(
-                  registerState.error.toString(),
-                  style: const TextStyle(color: Colors.red),
-                ),
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -73,12 +70,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     : AppLocalizations.of(context)!.passwordTooShort,
               ),
               const SizedBox(height: 24),
-              registerState.isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      onPressed: _submit,
-                      child: Text(AppLocalizations.of(context)!.register),
-                    ),
+              ElevatedButton(
+                onPressed: _submit,
+                child: Text(AppLocalizations.of(context)!.register),
+              ),
             ],
           ),
         ),

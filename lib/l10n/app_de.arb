@@ -71,7 +71,7 @@
   "logout": "Abmelden",
   "@logout": {
     "description": "Button text for logging out"
-  }, 
+  },
   "profile": "Profil",
   "@profile": {
     "description": "Label for the user profile section"
@@ -163,5 +163,65 @@
   "insufficientGold": "Nicht genügend Gold",
   "@insufficientGold": {
     "description": "Error message shown when the user has insufficient gold"
+  },
+  "dailyWordCompletedTitleAlert": "Tägliches Wort abgeschlossen",
+  "@dailyWordCompletedTitleAlert": {
+    "description": "Alert message shown when the daily word is completed"
+  },
+  "dailyWordCompletedBodyAlert": "Sie haben das Wort des Tages entschlüsselt. Morgen gibt es ein neues Wort!",
+  "@dailyWordCompletedBodyAlert": {
+    "description": "Body message shown when the daily word is completed"
+  },
+  "okay": "OK",
+  "@okay": {
+    "description": "'Okay' button text for alerts or confirmations"
+  },
+  "emailRequired": "E-Mail-Adresse ist erforderlich!",
+  "@emailRequired": {
+    "description": "Error message shown when email is required"
+  },
+  "passwordRequired": "Passwort ist erforderlich!",
+  "@passwordRequired": {
+    "description": "Error message shown when password is required"
+  },
+  "errorSignUpFailed": "Fehler bei der Registrierung",
+  "@errorSignUpFailed": {
+    "description": "Error message shown when sign-up fails"
+  },
+  "errorWeakPassword": "Passwort zu schwach",
+  "@errorWeakPassword": {
+    "description": "Error message shown when the password is too weak"
+  },
+  "errorEmailAlreadyInUse": "Diese E-Mail-Adresse ist bereits vergeben!",
+  "@errorEmailAlreadyInUse": {
+    "description": "Error message shown when the email is already in use"
+  },
+  "errorUserNotFound": "Benutzer nicht gefunden.",
+  "@errorUserNotFound": {
+    "description": "Error message shown when the user is not found"
+  },
+  "errorTooManyRequests": "Zu viele Versuche. Bitte versuchen Sie es später erneut.",
+  "@errorTooManyRequests": {
+    "description": "Error message shown when there are too many requests"
+  },
+  "errorWrongPassword": "Falsches Passwort!",
+  "@errorWrongPassword": {
+    "description": "Error message shown when the password is wrong"
+  },
+  "errorInvalidEmail": "Ungültige E-Mail-Adresse!",
+  "@errorInvalidEmail": {
+    "description": "Error message shown when the email is invalid"
+  },
+  "errorNetwork": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
+  "@errorNetwork": {
+    "description": "Error message shown when there is a network error"
+  },
+  "successSignIn": "Anmeldung erfolgreich!",
+  "@successSignIn": {
+    "description": "Message shown when sign-in is successful"
+  },
+  "successRegister": "Registrierung erfolgreich!",
+  "@successRegister": {
+    "description": "Message shown when registration is successful"
   }
 }
