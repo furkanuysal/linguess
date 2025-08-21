@@ -9,20 +9,24 @@ class AuthService {
   AuthService(this.ref);
 
   FirebaseAuth get _auth => ref.read(firebaseAuthProvider);
+
   // Sign in with email and password
   Future<User?> signInWithEmailAndPassword(
     String email,
     String password,
   ) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+      final cred = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
-      return userCredential.user;
-    } catch (e) {
-      log("Error signing in: $e");
-      return null;
+      return cred.user;
+    } on FirebaseAuthException catch (e, st) {
+      log("Auth signIn error: [${e.code}] ${e.message}", stackTrace: st);
+      rethrow; // Trigger the catch blocks for FirebaseAuthException in the UI
+    } catch (e, st) {
+      log("Auth signIn unexpected error: $e", stackTrace: st);
+      rethrow;
     }
   }
 
@@ -32,12 +36,17 @@ class AuthService {
     String password,
   ) async {
     try {
-      UserCredential userCredential = await _auth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return userCredential.user;
-    } catch (e) {
-      log("Error registering: $e");
-      return null;
+      final cred = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return cred.user;
+    } on FirebaseAuthException catch (e, st) {
+      log("Auth register error: [${e.code}] ${e.message}", stackTrace: st);
+      rethrow;
+    } catch (e, st) {
+      log("Auth register unexpected error: $e", stackTrace: st);
+      rethrow;
     }
   }
 
@@ -45,23 +54,31 @@ class AuthService {
   Future<void> resetPassword(String email) async {
     try {
       await _auth.sendPasswordResetEmail(email: email);
-    } catch (e) {
-      log("Error resetting password: $e");
+    } on FirebaseAuthException catch (e, st) {
+      log("Auth resetPassword error: [${e.code}] ${e.message}", stackTrace: st);
+      rethrow;
+    } catch (e, st) {
+      log("Auth resetPassword unexpected error: $e", stackTrace: st);
+      rethrow;
     }
   }
 
   // Auth state changes
-  Stream<User?> get authStateChanges {
-    return _auth.authStateChanges();
-  }
+  Stream<User?> get authStateChanges => _auth.authStateChanges();
 
   // Sign out
   Future<void> signOut() async {
-    await _auth.signOut();
+    try {
+      await _auth.signOut();
+    } on FirebaseAuthException catch (e, st) {
+      log("Auth signOut error: [${e.code}] ${e.message}", stackTrace: st);
+      rethrow;
+    } catch (e, st) {
+      log("Auth signOut unexpected error: $e", stackTrace: st);
+      rethrow;
+    }
   }
 
   // Get current user
-  User? getCurrentUser() {
-    return _auth.currentUser;
-  }
+  User? getCurrentUser() => _auth.currentUser;
 }

@@ -223,5 +223,29 @@
   "successRegister": "Registrierung erfolgreich!",
   "@successRegister": {
     "description": "Message shown when registration is successful"
+  },
+  "errorInvalidCredential": "Ungültige E-Mail-Adresse oder Passwort.",
+  "@errorInvalidCredential": {
+    "description": "Error message shown when the credentials are invalid"
+  },
+  "successResetPasswordEmailSent": "E-Mail zum Zurücksetzen des Passworts erfolgreich gesendet!",
+  "@successResetPasswordEmailSent": {
+    "description": "Message shown when the reset password email is sent successfully"
+  },
+  "sendResetLink": "Link zum Zurücksetzen senden",
+  "@sendResetLink": {
+    "description": "Label for the button to send the password reset link"
+  },
+  "forgotPassword": "Haben Sie Ihr Passwort vergessen?",
+  "@forgotPassword": {
+    "description": "Label for the forgot password button"
+  },
+  "resetPassword": "Passwort zurücksetzen",
+  "@resetPassword": {
+    "description": "Label for the reset password button"
+  },
+  "totalWordText": "Gesamtanzahl der Wörter",
+  "@totalWordText": {
+    "description": "Label for the total word count"
   }
 }

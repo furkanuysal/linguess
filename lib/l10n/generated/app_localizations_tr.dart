@@ -178,4 +178,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get successRegister => 'Kayıt başarılı!';
+
+  @override
+  String get errorInvalidCredential => 'E-posta veya parola hatalı!';
+
+  @override
+  String get successResetPasswordEmailSent =>
+      'Şifre sıfırlama e-postası gönderildi!';
+
+  @override
+  String get sendResetLink => 'Şifre sıfırlama bağlantısı gönder';
+
+  @override
+  String get forgotPassword => 'Şifrenizi mi unuttunuz?';
+
+  @override
+  String get resetPassword => 'Şifreyi Sıfırla';
+
+  @override
+  String get totalWordText => 'Toplam Kelime';
 }

@@ -21,10 +21,13 @@ class UserRegisterController extends AsyncNotifier<void> {
       if (user != null) {
         await ref.read(userServiceProvider).createUserDocument(user);
       }
-    } on FirebaseAuthException catch (e) {
-      state = AsyncError(e.message ?? 'Bir hata oluştu', StackTrace.current);
-    } catch (e) {
-      state = AsyncError('Bilinmeyen bir hata oluştu', StackTrace.current);
+      state = const AsyncData(null);
+    } on FirebaseAuthException catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
+    } catch (e, st) {
+      state = AsyncError(e, st);
+      rethrow;
     }
   }
 }

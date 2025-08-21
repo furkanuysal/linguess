@@ -44,8 +44,9 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.appTitle)),
+      appBar: AppBar(title: Text(l10n.appTitle)),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -56,9 +57,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                   leading: category.icon != null
                       ? Image.asset(category.icon!)
                       : null,
-                  title: Text(
-                    AppLocalizations.of(context)!.categoryTitle(category.id),
-                  ),
+                  title: Text(l10n.categoryTitle(category.id)),
                   subtitle: ref
                       .watch(
                         progressProvider(
@@ -67,7 +66,9 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                       )
                       .when(
                         data: (p) => Text(
-                          '${p.learnedCount}/${p.totalCount} ${AppLocalizations.of(context)!.learnedCountText}',
+                          p.hasUser
+                              ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                              : '${p.totalCount} ${l10n.totalWordText}',
                         ),
                         loading: () => const Text('...'),
                         error: (_, _) => const Text('-'),

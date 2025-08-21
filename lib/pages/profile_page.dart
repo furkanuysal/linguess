@@ -26,15 +26,14 @@ class ProfilePage extends ConsumerWidget {
     final userDataAsync = ref.watch(userDataProvider);
     final wordRepository = ref.watch(wordRepositoryProvider);
     final locale = Localizations.localeOf(context).languageCode;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.profile)),
+      appBar: AppBar(title: Text(l10n.profile)),
       body: userDataAsync.when(
         data: (snapshot) {
           if (snapshot == null || !snapshot.exists) {
-            return Center(
-              child: Text(AppLocalizations.of(context)!.noDataToShow),
-            );
+            return Center(child: Text(l10n.noDataToShow));
           }
 
           final data = snapshot.data() as Map<String, dynamic>;
@@ -48,17 +47,17 @@ class ProfilePage extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${AppLocalizations.of(context)!.email}: $email',
+                  '${l10n.email}: $email',
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  '${AppLocalizations.of(context)!.gold}: $gold',
+                  '${l10n.gold}: $gold',
                   style: const TextStyle(fontSize: 18),
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  '${AppLocalizations.of(context)!.learnedWordsText} (${learnedWords.length}):',
+                  '${l10n.learnedWordsText} (${learnedWords.length}):',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -78,7 +77,7 @@ class ProfilePage extends ConsumerWidget {
                       if (snapshot.hasError) {
                         return Center(
                           child: Text(
-                            '${AppLocalizations.of(context)!.errorOccurred}: ${snapshot.error}',
+                            '${l10n.errorOccurred}: ${snapshot.error}',
                           ),
                         );
                       }
@@ -107,23 +106,17 @@ class ProfilePage extends ConsumerWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Text('${l10n.translation}: $localText'),
+                                      Text('${l10n.level}: ${word.level}'),
                                       Text(
-                                        '${AppLocalizations.of(context)!.translation}: $localText',
-                                      ),
-                                      Text(
-                                        '${AppLocalizations.of(context)!.level}: ${word.level}',
-                                      ),
-                                      Text(
-                                        '${AppLocalizations.of(context)!.category}: ${AppLocalizations.of(context)!.categoryTitle(word.category)}',
+                                        '${l10n.category}: ${l10n.categoryTitle(word.category)}',
                                       ),
                                     ],
                                   ),
                                   actions: [
                                     TextButton(
                                       onPressed: () => context.pop(),
-                                      child: Text(
-                                        AppLocalizations.of(context)!.close,
-                                      ),
+                                      child: Text(l10n.close),
                                     ),
                                   ],
                                 ),
@@ -143,16 +136,14 @@ class ProfilePage extends ConsumerWidget {
                       context.go('/'); // Redirect to home after logout
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.logout),
+                  child: Text(l10n.logout),
                 ),
               ],
             ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text('${AppLocalizations.of(context)!.errorOccurred}: $e'),
-        ),
+        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
       ),
     );
   }

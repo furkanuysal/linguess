@@ -223,5 +223,29 @@
   "successRegister": "Kayıt başarılı!",
   "@successRegister": {
     "description": "Message shown when registration is successful"
+  },
+  "errorInvalidCredential": "E-posta veya parola hatalı!",
+  "@errorInvalidCredential": {
+    "description": "Error message shown when the credentials are invalid"
+  },
+  "successResetPasswordEmailSent": "Şifre sıfırlama e-postası gönderildi!",
+  "@successResetPasswordEmailSent": {
+    "description": "Message shown when the password reset email is sent successfully"
+  },
+  "sendResetLink": "Şifre sıfırlama bağlantısı gönder",
+  "@sendResetLink": {
+    "description": "Label for the button to send the password reset link"
+  },
+  "forgotPassword": "Şifrenizi mi unuttunuz?",
+  "@forgotPassword": {
+    "description": "Label for the forgot password link"
+  },
+  "resetPassword": "Şifreyi Sıfırla",
+  "@resetPassword": {
+    "description": "Label for the reset password button"
+  },
+  "totalWordText": "Toplam Kelime",
+  "@totalWordText": {
+    "description": "Label for the total word count"
   }
 }

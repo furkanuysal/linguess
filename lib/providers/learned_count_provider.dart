@@ -1,5 +1,5 @@
-// lib/providers/progress_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/providers/auth_provider.dart';
 import 'package:linguess/providers/user_data_provider.dart';
 import 'package:linguess/providers/word_repository_provider.dart';
 import 'package:linguess/models/word_model.dart';
@@ -21,29 +21,49 @@ class ProgressParams {
 class ProgressResult {
   final int learnedCount;
   final int totalCount;
-  const ProgressResult({required this.learnedCount, required this.totalCount});
+  final bool hasUser;
+  const ProgressResult({
+    required this.learnedCount,
+    required this.totalCount,
+    required this.hasUser,
+  });
 }
 
-final progressProvider = FutureProvider.family<ProgressResult, ProgressParams>((
-  ref,
-  params,
-) async {
-  final userSnap = await ref.watch(userDataProvider.future);
-  final learnedIds = userSnap != null && userSnap.exists
-      ? List<String>.from(
-          (userSnap.data() as Map<String, dynamic>)['learnedWords'] ?? const [],
-        )
-      : const <String>[];
+final progressProvider = FutureProvider.autoDispose
+    .family<ProgressResult, ProgressParams>((ref, params) async {
+      // Watch user authentication state
+      final userAsync = ref.watch(firebaseUserProvider);
+      final hasUser = userAsync.value != null;
 
-  final repo = ref.read(wordRepositoryProvider);
-  List<WordModel> words;
-  if (params.mode == 'category') {
-    words = await repo.fetchWordsByCategory(params.id);
-  } else {
-    words = await repo.fetchWordsByLevel(params.id);
-  }
+      // Fetch words (category/level)
+      final repo = ref.read(wordRepositoryProvider);
+      final List<WordModel> words = params.mode == 'category'
+          ? await repo.fetchWordsByCategory(params.id)
+          : await repo.fetchWordsByLevel(params.id);
 
-  final learnedCount = words.where((w) => learnedIds.contains(w.id)).length;
+      // If not logged in: only totalCount
+      if (!hasUser) {
+        return ProgressResult(
+          learnedCount: 0,
+          totalCount: words.length,
+          hasUser: false,
+        );
+      }
 
-  return ProgressResult(learnedCount: learnedCount, totalCount: words.length);
-});
+      // If user is logged in: calculate learnedWords
+      final userSnap = ref.watch(userDataProvider).value;
+      final learnedIds = (userSnap != null && userSnap.exists)
+          ? List<String>.from(
+              (userSnap.data() as Map<String, dynamic>)['learnedWords'] ??
+                  const [],
+            )
+          : const <String>[];
+
+      final learnedCount = words.where((w) => learnedIds.contains(w.id)).length;
+
+      return ProgressResult(
+        learnedCount: learnedCount,
+        totalCount: words.length,
+        hasUser: true,
+      );
+    });
