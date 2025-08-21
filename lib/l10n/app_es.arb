@@ -223,5 +223,29 @@
   "successRegister": "¡Registro exitoso!",
   "@successRegister": {
     "description": "Message shown when registration is successful"
+  },
+  "errorInvalidCredential": "¡Correo electrónico o contraseña no válidos!",
+  "@errorInvalidCredential": {
+    "description": "Error message shown when the credentials are invalid"
+  },
+  "successResetPasswordEmailSent": "¡Correo electrónico de restablecimiento de contraseña enviado!",
+  "@successResetPasswordEmailSent": {
+    "description": "Message shown when the reset password email is sent successfully"
+  },
+  "sendResetLink": "Enviar enlace de restablecimiento",
+  "@sendResetLink": {
+    "description": "Label for the button to send the password reset link"
+  },
+  "forgotPassword": "¿Olvidaste tu contraseña?",
+  "@forgotPassword": {
+    "description": "Label for the forgot password button"
+  },
+  "resetPassword": "Restablecer la contraseña",
+  "@resetPassword": {
+    "description": "Label for the reset password button"
+  },
+  "totalWordText": "Total de palabras",
+  "@totalWordText": {
+    "description": "Label for the total word count"
   }
 }

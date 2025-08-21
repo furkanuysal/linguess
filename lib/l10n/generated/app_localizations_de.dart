@@ -181,4 +181,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get successRegister => 'Registrierung erfolgreich!';
+
+  @override
+  String get errorInvalidCredential =>
+      'Ungültige E-Mail-Adresse oder Passwort.';
+
+  @override
+  String get successResetPasswordEmailSent =>
+      'E-Mail zum Zurücksetzen des Passworts erfolgreich gesendet!';
+
+  @override
+  String get sendResetLink => 'Link zum Zurücksetzen senden';
+
+  @override
+  String get forgotPassword => 'Haben Sie Ihr Passwort vergessen?';
+
+  @override
+  String get resetPassword => 'Passwort zurücksetzen';
+
+  @override
+  String get totalWordText => 'Gesamtanzahl der Wörter';
 }

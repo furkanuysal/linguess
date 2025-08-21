@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -26,24 +27,59 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   void _submit() async {
     if (!_formKey.currentState!.validate()) return;
 
-    await ref
-        .read(userRegisterProvider.notifier)
-        .register(_emailController.text, _passwordController.text);
+    // Close keyboard
+    FocusScope.of(context).unfocus();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
 
-    if (!mounted) return;
+    try {
+      // Try to register
+      await ref.read(userRegisterProvider.notifier).register(email, password);
 
-    final state = ref.read(userRegisterProvider);
-    if (state is! AsyncError) {
+      if (!mounted) return;
+
+      // Success -> green snackbar + redirect
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.successRegister),
+          backgroundColor: Colors.green,
+        ),
+      );
       context.go('/');
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context)!;
+
+      // Handle error code and provide localized message
+      final String message = switch (e.code) {
+        'email-already-in-use' => l10n.errorEmailAlreadyInUse,
+        'invalid-email' => l10n.errorInvalidEmail,
+        'weak-password' => l10n.errorWeakPassword,
+        'too-many-requests' => l10n.errorTooManyRequests,
+        'network-request-failed' => l10n.errorNetwork,
+        _ => l10n.errorSignUpFailed, // genel fallback
+      };
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message), backgroundColor: Colors.red),
+      );
+    } catch (_) {
+      if (!mounted) return;
+      // Unexpected error -> general message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context)!.errorSignUpFailed),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final registerState = ref.watch(userRegisterProvider);
-
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.register)),
+      appBar: AppBar(title: Text(l10n.register)),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -52,28 +88,28 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
             children: [
               TextFormField(
                 controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.email,
-                ),
-                validator: (val) => val != null && val.contains('@')
-                    ? null
-                    : AppLocalizations.of(context)!.invalidEmail,
+                decoration: InputDecoration(labelText: l10n.email),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return l10n.emailRequired;
+                  }
+                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                  if (!emailRegex.hasMatch(value)) {
+                    return l10n.invalidEmail;
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: AppLocalizations.of(context)!.password,
-                ),
+                decoration: InputDecoration(labelText: l10n.password),
                 obscureText: true,
                 validator: (val) => val != null && val.length >= 6
                     ? null
-                    : AppLocalizations.of(context)!.passwordTooShort,
+                    : l10n.passwordTooShort,
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _submit,
-                child: Text(AppLocalizations.of(context)!.register),
-              ),
+              ElevatedButton(onPressed: _submit, child: Text(l10n.register)),
             ],
           ),
         ),

@@ -435,6 +435,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kayıt başarılı!'**
   String get successRegister;
+
+  /// Error message shown when the credentials are invalid
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta veya parola hatalı!'**
+  String get errorInvalidCredential;
+
+  /// Message shown when the password reset email is sent successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre sıfırlama e-postası gönderildi!'**
+  String get successResetPasswordEmailSent;
+
+  /// Label for the button to send the password reset link
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre sıfırlama bağlantısı gönder'**
+  String get sendResetLink;
+
+  /// Label for the forgot password link
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifrenizi mi unuttunuz?'**
+  String get forgotPassword;
+
+  /// Label for the reset password button
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreyi Sıfırla'**
+  String get resetPassword;
+
+  /// Label for the total word count
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam Kelime'**
+  String get totalWordText;
 }
 
 class _AppLocalizationsDelegate

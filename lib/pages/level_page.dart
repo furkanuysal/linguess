@@ -43,8 +43,9 @@ class _LevelPageState extends ConsumerState<LevelPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context)!.appTitle)),
+      appBar: AppBar(title: Text(l10n.appTitle)),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -61,7 +62,9 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                       )
                       .when(
                         data: (p) => Text(
-                          '${p.learnedCount}/${p.totalCount} ${AppLocalizations.of(context)!.learnedCountText}',
+                          p.hasUser
+                              ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                              : '${p.totalCount} ${l10n.totalWordText}',
                         ),
                         loading: () => const Text('...'),
                         error: (_, _) => const Text('-'),

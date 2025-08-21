@@ -68,15 +68,14 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     if (state.isShaking && !_shakeController.isAnimating) {
       _shakeController.forward(from: 0);
     }
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           widget.mode == "daily"
-              ? AppLocalizations.of(context)!.dailyWord
-              : AppLocalizations.of(
-                  context,
-                )!.categoryTitle(widget.selectedValue),
+              ? l10n.dailyWord
+              : l10n.categoryTitle(widget.selectedValue),
         ),
         actions: [
           IconButton(
@@ -86,7 +85,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                     state.currentTarget.replaceAll(' ', '').length
                 ? null
                 : () => notifier.showHintLetter(context),
-            tooltip: AppLocalizations.of(context)!.letterHint,
+            tooltip: l10n.letterHint,
           ),
         ],
       ),
@@ -129,7 +128,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    '${AppLocalizations.of(context)!.yourWord}: $hint',
+                    '${l10n.yourWord}: $hint',
                     style: const TextStyle(fontSize: 20),
                   ),
                   const SizedBox(height: 24),
@@ -201,9 +200,8 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('${AppLocalizations.of(context)!.errorOccurred}: $error'),
-        ),
+        error: (error, stack) =>
+            Center(child: Text('${l10n.errorOccurred}: $error')),
       ),
     );
   }

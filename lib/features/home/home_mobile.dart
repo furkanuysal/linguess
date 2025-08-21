@@ -16,18 +16,16 @@ class HomeMobile extends ConsumerStatefulWidget {
 class _HomeMobileState extends ConsumerState<HomeMobile> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appTitle),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: Text(l10n.appTitle), centerTitle: true),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              AppLocalizations.of(context)!.mainMenuPlayModeSelection,
+              l10n.mainMenuPlayModeSelection,
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -37,24 +35,24 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                 // Navigate to the category screen
                 context.push('/category');
               },
-              child: Text(AppLocalizations.of(context)!.selectCategory),
+              child: Text(l10n.selectCategory),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {
                 context.push('/level');
               },
-              child: Text(AppLocalizations.of(context)!.selectLevel),
+              child: Text(l10n.selectLevel),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () => handleDailyButton(context, ref),
-              child: Text(AppLocalizations.of(context)!.dailyWord),
+              child: Text(l10n.dailyWord),
             ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () => showSettingsSheet(context),
-              child: Text(AppLocalizations.of(context)!.settings),
+              child: Text(l10n.settings),
             ),
             const Spacer(),
             StreamBuilder<User?>(
@@ -72,11 +70,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                         context.push('/profile');
                       }
                     },
-                    child: Text(
-                      user == null
-                          ? AppLocalizations.of(context)!.login
-                          : AppLocalizations.of(context)!.profile,
-                    ),
+                    child: Text(user == null ? l10n.login : l10n.profile),
                   ),
                 );
               },

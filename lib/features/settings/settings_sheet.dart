@@ -10,6 +10,7 @@ class SettingsSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(settingsControllerProvider);
+    final l10n = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -20,9 +21,7 @@ class SettingsSheet extends ConsumerWidget {
       ),
       child: asyncState.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(
-          child: Text('${AppLocalizations.of(context)!.errorOccurred}: $e'),
-        ),
+        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
         data: (settings) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -40,7 +39,7 @@ class SettingsSheet extends ConsumerWidget {
             const SizedBox(height: 16),
 
             SwitchListTile(
-              title: Text(AppLocalizations.of(context)!.settingsLearnedWords),
+              title: Text(l10n.settingsLearnedWords),
               value: settings.repeatLearnedWords,
               onChanged: (val) {
                 ref
@@ -49,7 +48,7 @@ class SettingsSheet extends ConsumerWidget {
               },
             ),
             SwitchListTile(
-              title: Text(AppLocalizations.of(context)!.settingsSoundEffects),
+              title: Text(l10n.settingsSoundEffects),
               value: settings.soundEffects,
               onChanged: (val) {
                 ref
@@ -58,7 +57,7 @@ class SettingsSheet extends ConsumerWidget {
               },
             ),
             SwitchListTile(
-              title: Text(AppLocalizations.of(context)!.settingsDarkMode),
+              title: Text(l10n.settingsDarkMode),
               value: settings.darkMode,
               onChanged: (val) {
                 ref.read(settingsControllerProvider.notifier).setDarkMode(val);
