@@ -71,7 +71,7 @@ final wordGameProvider = StateNotifierProvider.family
 
 class WordGameParams {
   final String mode; // 'category' | 'level' | 'daily'
-  final String selectedValue; // categoryId | levelId | (daily'de dummy/ignored)
+  final String selectedValue; // categoryId | levelId | (dummy/ignored on daily)
 
   const WordGameParams({required this.mode, required this.selectedValue});
 
@@ -100,7 +100,6 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       super(const WordGameState()) {
     _fetchWords(_mode, _selectedValue);
 
-    // Re-apply filters if not in daily mode
     if (_mode != 'daily') {
       _ref.listen(settingsControllerProvider, (prev, next) {
         _reapplyFilters();
@@ -178,7 +177,6 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
         _initializeWord(word);
 
-        // Fill in the boxes with the correct letters and mark them all as "correct"
         if (already) {
           for (int i = 0; i < _targetWithoutSpaces.length; i++) {
             state.controllers[i].text = _targetWithoutSpaces[i];
@@ -203,31 +201,36 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
           : await wordRepository.fetchWordsByLevel(selectedValue);
 
       _rawWords = words;
-      _reapplyFilters(initial: true);
+      await _reapplyFilters(initial: true);
     } catch (e, st) {
+      if (!mounted) return;
       state = state.copyWith(words: AsyncValue.error(e, st));
     }
   }
 
-  void _reapplyFilters({bool initial = false}) {
+  /// Filter words based on user settings and learned words
+  Future<void> _reapplyFilters({bool initial = false}) async {
     if (_mode == 'daily') return;
 
     final settings = _ref.read(settingsControllerProvider).valueOrNull;
     final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
 
-    final userDoc = _ref
-        .read(userDataProvider)
-        .maybeWhen(data: (snap) => snap, orElse: () => null);
+    List<String> learnedIds = const [];
+    final uid = FirebaseAuth.instance.currentUser?.uid;
 
-    List<String> learnedWords = [];
-    if (userDoc != null && userDoc.exists) {
-      final data = userDoc.data() as Map<String, dynamic>;
-      learnedWords = List<String>.from(data['learnedWords'] ?? const []);
+    if (!repeatLearnedWords && uid != null) {
+      // Fetch ids from users/{uid}/learnedWords subcollection
+      final snap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('learnedWords')
+          .get();
+      learnedIds = snap.docs.map((d) => d.id).toList();
     }
 
     List<WordModel> filtered = _rawWords;
     if (!repeatLearnedWords) {
-      filtered = _rawWords.where((w) => !learnedWords.contains(w.id)).toList();
+      filtered = _rawWords.where((w) => !learnedIds.contains(w.id)).toList();
       if (filtered.isEmpty) filtered = _rawWords; // fallback
     }
 
@@ -342,7 +345,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   Future<void> checkAnswer(BuildContext context) async {
-    // Do nothing if daily puzzle is already solved
+    // Günlük zaten çözülmüşse hiçbir şey yapma
     if (state.isDaily && state.dailyAlreadySolved) return;
 
     bool isAllCorrect = true;
@@ -364,7 +367,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     if (isAllCorrect) {
       final userService = _ref.read(userServiceProvider);
       _showSuccessDialog(context);
-      await userService.handleCorrectAnswer(state.currentTarget);
+      await userService.onCorrectAnswer(word: state.currentWord!);
     } else {
       state = state.copyWith(isShaking: true);
     }
@@ -389,7 +392,6 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
 
   void showHintLetter(BuildContext context) async {
     if (state.isDaily && state.dailyAlreadySolved) return;
-
     if (state.hintIndices.length >= _targetWithoutSpaces.length) return;
 
     final economyService = _ref.read(economyServiceProvider);

@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linguess/providers/auth_provider.dart';
-import 'package:linguess/providers/user_data_provider.dart';
 import 'package:linguess/providers/word_repository_provider.dart';
 import 'package:linguess/models/word_model.dart';
 
@@ -31,18 +31,18 @@ class ProgressResult {
 
 final progressProvider = FutureProvider.autoDispose
     .family<ProgressResult, ProgressParams>((ref, params) async {
-      // Watch user authentication state
+      // Auth state
       final userAsync = ref.watch(firebaseUserProvider);
-      final hasUser = userAsync.value != null;
+      final user = userAsync.value;
 
-      // Fetch words (category/level)
+      // Words (category/level)
       final repo = ref.read(wordRepositoryProvider);
       final List<WordModel> words = params.mode == 'category'
           ? await repo.fetchWordsByCategory(params.id)
           : await repo.fetchWordsByLevel(params.id);
 
-      // If not logged in: only totalCount
-      if (!hasUser) {
+      if (user == null) {
+        // Not logged in → only total
         return ProgressResult(
           learnedCount: 0,
           totalCount: words.length,
@@ -50,14 +50,14 @@ final progressProvider = FutureProvider.autoDispose
         );
       }
 
-      // If user is logged in: calculate learnedWords
-      final userSnap = ref.watch(userDataProvider).value;
-      final learnedIds = (userSnap != null && userSnap.exists)
-          ? List<String>.from(
-              (userSnap.data() as Map<String, dynamic>)['learnedWords'] ??
-                  const [],
-            )
-          : const <String>[];
+      // Logged in → read learned word IDs from subcollection
+      final learnedSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('learnedWords')
+          .get();
+
+      final learnedIds = learnedSnap.docs.map((d) => d.id).toSet();
 
       final learnedCount = words.where((w) => learnedIds.contains(w.id)).length;
 

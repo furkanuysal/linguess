@@ -197,4 +197,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get totalWordText => 'Toplam Kelime';
+
+  @override
+  String get loadingText => 'Yükleniyor...';
+
+  @override
+  String get totalLearnedWordsText => 'Toplam Öğrenilen Kelime';
+
+  @override
+  String get achievements => 'Başarımlar';
+
+  @override
+  String get viewAll => 'Tümünü Gör';
+
+  @override
+  String get comingSoon => 'Yakında';
 }

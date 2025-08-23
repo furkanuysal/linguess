@@ -201,4 +201,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get totalWordText => 'Gesamtanzahl der Wörter';
+
+  @override
+  String get loadingText => 'Wird geladen...';
+
+  @override
+  String get totalLearnedWordsText => 'Gesamtanzahl der gelernten Wörter';
+
+  @override
+  String get achievements => 'Erfolge';
+
+  @override
+  String get viewAll => 'Alle anzeigen';
+
+  @override
+  String get comingSoon => 'Demnächst';
 }
