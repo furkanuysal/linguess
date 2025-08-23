@@ -2,15 +2,16 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/models/word_model.dart';
 
 class UserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final Ref ref;
   UserService(this.ref);
 
+  // New user document creation
   Future<void> createUserDocument(User user) async {
     final userDoc = _firestore.collection('users').doc(user.uid);
-
     final docSnapshot = await userDoc.get();
 
     if (!docSnapshot.exists) {
@@ -20,9 +21,6 @@ class UserService {
         'createdAt': FieldValue.serverTimestamp(),
         'gold': 0,
         'correctCount': 0,
-        'learnedWords':
-            <String>[], // learned words, creating with an empty list
-        'achievements': <String>[], // achievements, creating with an empty list
       });
     }
   }
@@ -44,33 +42,63 @@ class UserService {
     }
   }
 
-  Future<void> handleCorrectAnswer(String word) async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+  /// Doğru cevap sonrası sayaç güncelleme.
+  /// - users/{uid}/wordProgress/{wordId}.count += 1
+  /// - 5'e ulaştıysa users/{uid}/learnedWords/{wordId} oluşturulur/merge edilir
+  Future<void> onCorrectAnswer({required WordModel word}) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return;
 
-    final userDoc = _firestore.collection('users').doc(user.uid);
-    final snapshot = await userDoc.get();
+    final userRef = _firestore.collection('users').doc(uid);
+    final progressRef = userRef.collection('wordProgress').doc(word.id);
+    final learnedRef = userRef.collection('learnedWords').doc(word.id);
 
-    if (!snapshot.exists) return;
+    await _firestore.runTransaction((tx) async {
+      final snap = await tx.get(progressRef);
+      final prevCount = (snap.data()?['count'] as int?) ?? 0;
+      final newCount = prevCount + 1;
 
-    final data = snapshot.data() ?? {};
-    final Map<String, dynamic> wordProgress = Map<String, dynamic>.from(
-      data['wordProgress'] ?? {},
-    );
-    final List<dynamic> learnedWords = List.from(data['learnedWords'] ?? []);
+      // wordProgress/{wordId}
+      tx.set(progressRef, {
+        'count': newCount,
+        'updatedAt': FieldValue.serverTimestamp(),
+        if (!snap.exists) ...{'firstSeenAt': FieldValue.serverTimestamp()},
+      }, SetOptions(merge: true));
 
-    final normalizedWord = word.toLowerCase();
-
-    final currentCount = (wordProgress[normalizedWord] ?? 0) + 1;
-    wordProgress[normalizedWord] = currentCount;
-
-    if (currentCount >= 5 && !learnedWords.contains(normalizedWord)) {
-      learnedWords.add(normalizedWord);
-    }
-
-    await userDoc.update({
-      'wordProgress': wordProgress,
-      'learnedWords': learnedWords,
+      // 5'e ulaşınca learnedWords/{wordId}
+      if (newCount >= 5) {
+        tx.set(learnedRef, {
+          'learnedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
     });
+  }
+
+  /// (İsteğe bağlı yardımcılar)
+
+  /// Bu kelime için mevcut doğru sayısı
+  Future<int> getProgressCount(String wordId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return 0;
+    final doc = await _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('wordProgress')
+        .doc(wordId)
+        .get();
+    return (doc.data()?['count'] as int?) ?? 0;
+  }
+
+  /// Bu kelime öğrenilmiş mi?
+  Future<bool> isLearned(String wordId) async {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return false;
+    final doc = await _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('learnedWords')
+        .doc(wordId)
+        .get();
+    return doc.exists;
   }
 }

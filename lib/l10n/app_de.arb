@@ -247,5 +247,25 @@
   "totalWordText": "Gesamtanzahl der Wörter",
   "@totalWordText": {
     "description": "Label for the total word count"
+  },
+  "loadingText": "Wird geladen...",
+  "@loadingText": {
+    "description": "Label for the loading indicator"
+  },
+  "totalLearnedWordsText": "Gesamtanzahl der gelernten Wörter",
+  "@totalLearnedWordsText": {
+    "description": "Label for the total learned word count"
+  },
+  "achievements": "Erfolge",
+  "@achievements": {
+    "description": "Label for the achievements section"
+  },
+  "viewAll": "Alle anzeigen",
+  "@viewAll": {
+    "description": "Label for the 'view all' button"
+  },
+  "comingSoon": "Demnächst",
+  "@comingSoon": {
+    "description": "Label for the 'coming soon' message"
   }
 }

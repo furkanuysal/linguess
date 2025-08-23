@@ -247,5 +247,25 @@
   "totalWordText": "Toplam Kelime",
   "@totalWordText": {
     "description": "Label for the total word count"
+  },
+  "loadingText": "Yükleniyor...",
+  "@loadingText": {
+    "description": "Label for the loading indicator"
+  },
+  "totalLearnedWordsText": "Toplam Öğrenilen Kelime",
+  "@totalLearnedWordsText": {
+    "description": "Label for the total learned word count"
+  },
+  "achievements": "Başarımlar",
+  "@achievements": {
+    "description": "Label for the achievements section"
+  },
+  "viewAll": "Tümünü Gör",
+  "@viewAll": {
+    "description": "Label for the 'view all' button"
+  },
+  "comingSoon": "Yakında",
+  "@comingSoon": {
+    "description": "Label for the 'coming soon' message"
   }
 }

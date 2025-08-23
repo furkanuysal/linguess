@@ -471,6 +471,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Toplam Kelime'**
   String get totalWordText;
+
+  /// Label for the loading indicator
+  ///
+  /// In tr, this message translates to:
+  /// **'Yükleniyor...'**
+  String get loadingText;
+
+  /// Label for the total learned word count
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam Öğrenilen Kelime'**
+  String get totalLearnedWordsText;
+
+  /// Label for the achievements section
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarımlar'**
+  String get achievements;
+
+  /// Label for the 'view all' button
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümünü Gör'**
+  String get viewAll;
+
+  /// Label for the 'coming soon' message
+  ///
+  /// In tr, this message translates to:
+  /// **'Yakında'**
+  String get comingSoon;
 }
 
 class _AppLocalizationsDelegate
