@@ -42,7 +42,18 @@ final dailySolvedProvider = StreamProvider<bool>((ref) {
 // Handle daily button press
 Future<void> handleDailyButton(BuildContext context, WidgetRef ref) async {
   final uid = FirebaseAuth.instance.currentUser?.uid;
-  if (uid == null) return;
+  // If not logged in: show snackbar and return
+  if (uid == null) {
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(l10n.dailyWordLoginRequired),
+        backgroundColor: Colors.red,
+      ),
+    );
+    return;
+  }
 
   final todayId = ref.read(todayIdProvider);
   final snap = await ref
