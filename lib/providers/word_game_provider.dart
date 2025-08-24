@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/models/word_model.dart';
+import 'package:linguess/providers/achievements_provider.dart';
 import 'package:linguess/providers/daily_puzzle_provider.dart';
 import 'package:linguess/providers/economy_provider.dart';
 import 'package:linguess/providers/user_data_provider.dart';
@@ -306,6 +307,21 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
         state.currentWord != null) {
       await _markDailySolved(_todayIdLocal(), state.currentWord!.id);
       state = state.copyWith(dailyAlreadySolved: true);
+    }
+
+    try {
+      final ach = _ref.read(achievementsServiceProvider);
+
+      if (state.hintIndices.isEmpty) {
+        // No hints used achievement
+        await ach.awardIfNotEarned('solve_firstword_nohint');
+      }
+      if (state.isDaily) {
+        // Daily word first time achievement
+        await ach.awardIfNotEarned('solve_dailyword_firsttime');
+      }
+    } catch (_) {
+      // silently ignore; if achievement can't be awarded, don't disrupt game flow
     }
 
     if (!context.mounted) return;

@@ -267,5 +267,33 @@
   "comingSoon": "Yakında",
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
+  },
+  "dailyWordLoginRequired": "Günlük kelimeyi çözmek için giriş yapmalısınız.",
+  "@dailyWordLoginRequired": {
+    "description": "Message shown when the user needs to log in to solve the daily word"
+  },
+  "achievement_learn_firstword_title": "İlk Kelime!",
+  "@achievement_learn_firstword_title": {
+    "description": "Title for the 'learn first word' achievement"
+  },
+  "achievement_learn_firstword_description": "İlk kez bir kelimeyi öğrendin.",
+  "@achievement_learn_firstword_description": {
+    "description": "Description for the 'learn first word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_title": "Günlük Başlangıç",
+  "@achievement_solve_dailyword_firsttime_title": {
+    "description": "Title for the 'solve daily word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_description": "İlk kez günlük kelimeyi çözdün.",
+  "@achievement_solve_dailyword_firsttime_description": {
+    "description": "Description for the 'solve daily word' achievement"
+  },
+  "achievement_solve_firstword_nohint_title": "Kopya çekmeden!",
+  "@achievement_solve_firstword_nohint_title": {
+    "description": "Title for the 'solve first word without hint' achievement"
+  },
+  "achievement_solve_firstword_nohint_description": "Bir kelimeyi hiç ipucu kullanmadan çözdün.",
+  "@achievement_solve_firstword_nohint_description": {
+    "description": "Description for the 'solve first word without hint' achievement"
   }
 }

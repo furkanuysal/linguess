@@ -501,6 +501,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yakında'**
   String get comingSoon;
+
+  /// Message shown when the user needs to log in to solve the daily word
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük kelimeyi çözmek için giriş yapmalısınız.'**
+  String get dailyWordLoginRequired;
+
+  /// Title for the 'learn first word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Kelime!'**
+  String get achievement_learn_firstword_title;
+
+  /// Description for the 'learn first word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez bir kelimeyi öğrendin.'**
+  String get achievement_learn_firstword_description;
+
+  /// Title for the 'solve daily word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük Başlangıç'**
+  String get achievement_solve_dailyword_firsttime_title;
+
+  /// Description for the 'solve daily word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez günlük kelimeyi çözdün.'**
+  String get achievement_solve_dailyword_firsttime_description;
+
+  /// Title for the 'solve first word without hint' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Kopya çekmeden!'**
+  String get achievement_solve_firstword_nohint_title;
+
+  /// Description for the 'solve first word without hint' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir kelimeyi hiç ipucu kullanmadan çözdün.'**
+  String get achievement_solve_firstword_nohint_description;
 }
 
 class _AppLocalizationsDelegate

@@ -44,7 +44,11 @@ class EconomyService {
     final userDoc = _firestore.collection('users').doc(uid);
     final userSnapshot = await userDoc.get();
     int currentGold = userSnapshot.data()?['gold'] ?? 0;
+    int correctCount = userSnapshot.data()?['correctCount'] ?? 0;
 
-    await userDoc.update({'gold': currentGold + goldToAdd});
+    await userDoc.update({
+      'gold': currentGold + goldToAdd,
+      'correctCount': correctCount + 1,
+    });
   }
 }

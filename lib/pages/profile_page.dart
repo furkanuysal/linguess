@@ -28,11 +28,6 @@ class ProfilePage extends ConsumerWidget {
           final email = data['email'] ?? '—';
           final gold = (data['gold'] ?? 0).toString();
 
-          final learnedCount = learnedIdsAsync.maybeWhen(
-            data: (ids) => ids.length,
-            orElse: () => 0,
-          );
-
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [

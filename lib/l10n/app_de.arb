@@ -267,5 +267,33 @@
   "comingSoon": "Demnächst",
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
+  },
+  "dailyWordLoginRequired": "Für die Lösung des täglichen Wortes ist eine Anmeldung erforderlich.",
+  "@dailyWordLoginRequired": {
+    "description": "Message shown when the user needs to log in to solve the daily word"
+  },
+  "achievement_learn_firstword_title": "Erste Wörter lernen",
+  "@achievement_learn_firstword_title": {
+    "description": "Title for the 'learn first word' achievement"
+  },
+  "achievement_learn_firstword_description": "Du hast zum ersten Mal ein Wort gelernt.",
+  "@achievement_learn_firstword_description": {
+    "description": "Description for the 'learn first word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_title": "Tägliches Wort lösen",
+  "@achievement_solve_dailyword_firsttime_title": {
+    "description": "Title for the 'solve daily word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_description": "Du hast das tägliche Wort zum ersten Mal gelöst.",
+  "@achievement_solve_dailyword_firsttime_description": {
+    "description": "Description for the 'solve daily word' achievement"
+  },
+  "achievement_solve_firstword_nohint_title": "Ohne Hilfe gelöst!",
+  "@achievement_solve_firstword_nohint_title": {
+    "description": "Title for the 'solve first word without hint' achievement"
+  },
+  "achievement_solve_firstword_nohint_description": "Du hast die erste Wort ohne Hilfe gelöst.",
+  "@achievement_solve_firstword_nohint_description": {
+    "description": "Description for the 'solve first word without hint' achievement"
   }
 }

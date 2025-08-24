@@ -212,4 +212,29 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get comingSoon => 'Yakında';
+
+  @override
+  String get dailyWordLoginRequired =>
+      'Günlük kelimeyi çözmek için giriş yapmalısınız.';
+
+  @override
+  String get achievement_learn_firstword_title => 'İlk Kelime!';
+
+  @override
+  String get achievement_learn_firstword_description =>
+      'İlk kez bir kelimeyi öğrendin.';
+
+  @override
+  String get achievement_solve_dailyword_firsttime_title => 'Günlük Başlangıç';
+
+  @override
+  String get achievement_solve_dailyword_firsttime_description =>
+      'İlk kez günlük kelimeyi çözdün.';
+
+  @override
+  String get achievement_solve_firstword_nohint_title => 'Kopya çekmeden!';
+
+  @override
+  String get achievement_solve_firstword_nohint_description =>
+      'Bir kelimeyi hiç ipucu kullanmadan çözdün.';
 }
