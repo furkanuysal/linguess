@@ -217,4 +217,29 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get comingSoon => 'Próximamente';
+
+  @override
+  String get dailyWordLoginRequired =>
+      'Se requiere iniciar sesión para resolver la palabra diaria.';
+
+  @override
+  String get achievement_learn_firstword_title => '¡Primera palabra!';
+
+  @override
+  String get achievement_learn_firstword_description =>
+      'Has aprendido una palabra por primera vez.';
+
+  @override
+  String get achievement_solve_dailyword_firsttime_title => 'Inicio diario';
+
+  @override
+  String get achievement_solve_dailyword_firsttime_description =>
+      'Has resuelto la palabra diaria por primera vez.';
+
+  @override
+  String get achievement_solve_firstword_nohint_title => '¡Sin pistas!';
+
+  @override
+  String get achievement_solve_firstword_nohint_description =>
+      'Has resuelto la primera palabra sin ninguna pista.';
 }

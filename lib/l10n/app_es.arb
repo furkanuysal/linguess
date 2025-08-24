@@ -267,5 +267,33 @@
   "comingSoon": "Próximamente",
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
+  },
+  "dailyWordLoginRequired": "Se requiere iniciar sesión para resolver la palabra diaria.",
+  "@dailyWordLoginRequired": {
+    "description": "Message shown when the user needs to log in to solve the daily word"
+  },
+  "achievement_learn_firstword_title": "¡Primera palabra!",
+  "@achievement_learn_firstword_title": {
+    "description": "Title for the 'learn first word' achievement"
+  },
+  "achievement_learn_firstword_description": "Has aprendido una palabra por primera vez.",
+  "@achievement_learn_firstword_description": {
+    "description": "Description for the 'learn first word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_title": "Inicio diario",
+  "@achievement_solve_dailyword_firsttime_title": {
+    "description": "Title for the 'solve daily word' achievement"
+  },
+  "achievement_solve_dailyword_firsttime_description": "Has resuelto la palabra diaria por primera vez.",
+  "@achievement_solve_dailyword_firsttime_description": {
+    "description": "Description for the 'solve daily word' achievement"
+  },
+  "achievement_solve_firstword_nohint_title": "¡Sin pistas!",
+  "@achievement_solve_firstword_nohint_title": {
+    "description": "Title for the 'solve first word without hint' achievement"
+  },
+  "achievement_solve_firstword_nohint_description": "Has resuelto la primera palabra sin ninguna pista.",
+  "@achievement_solve_firstword_nohint_description": {
+    "description": "Description for the 'solve first word without hint' achievement"
   }
 }

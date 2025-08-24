@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/models/word_model.dart';
+import 'package:linguess/providers/achievements_provider.dart';
 
 class UserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -42,9 +43,8 @@ class UserService {
     }
   }
 
-  /// Doğru cevap sonrası sayaç güncelleme.
+  /// Answered word correct count update.
   /// - users/{uid}/wordProgress/{wordId}.count += 1
-  /// - 5'e ulaştıysa users/{uid}/learnedWords/{wordId} oluşturulur/merge edilir
   Future<void> onCorrectAnswer({required WordModel word}) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
@@ -52,6 +52,8 @@ class UserService {
     final userRef = _firestore.collection('users').doc(uid);
     final progressRef = userRef.collection('wordProgress').doc(word.id);
     final learnedRef = userRef.collection('learnedWords').doc(word.id);
+
+    bool justLearned = false;
 
     await _firestore.runTransaction((tx) async {
       final snap = await tx.get(progressRef);
@@ -61,22 +63,26 @@ class UserService {
       // wordProgress/{wordId}
       tx.set(progressRef, {
         'count': newCount,
-        'updatedAt': FieldValue.serverTimestamp(),
         if (!snap.exists) ...{'firstSeenAt': FieldValue.serverTimestamp()},
       }, SetOptions(merge: true));
 
-      // 5'e ulaşınca learnedWords/{wordId}
-      if (newCount >= 5) {
+      // If count reaches 5, mark as learned
+      if (prevCount < 5 && newCount >= 5) {
+        justLearned = true;
         tx.set(learnedRef, {
           'learnedAt': FieldValue.serverTimestamp(),
         }, SetOptions(merge: true));
       }
     });
+    if (justLearned) {
+      final ach = ref.read(achievementsServiceProvider);
+      ach.awardIfNotEarned('learn_firstword');
+    }
   }
 
-  /// (İsteğe bağlı yardımcılar)
+  /// (Optional helpers)
 
-  /// Bu kelime için mevcut doğru sayısı
+  /// Current correct count for this word
   Future<int> getProgressCount(String wordId) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return 0;
@@ -89,7 +95,7 @@ class UserService {
     return (doc.data()?['count'] as int?) ?? 0;
   }
 
-  /// Bu kelime öğrenilmiş mi?
+  /// Is this word learned?
   Future<bool> isLearned(String wordId) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return false;
