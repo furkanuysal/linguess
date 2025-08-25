@@ -33,6 +33,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get category_animal => 'Hayvanlar';
 
   @override
+  String get category_job => 'Meslekler';
+
+  @override
+  String get category_electronic => 'Elektronik';
+
+  @override
   String get category_vehicle => 'Araçlar';
 
   @override
@@ -237,4 +243,49 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get achievement_solve_firstword_nohint_description =>
       'Bir kelimeyi hiç ipucu kullanmadan çözdün.';
+
+  @override
+  String get achievementUnlockedText => 'Başarım kazanıldı!';
+
+  @override
+  String get unknownAchievementTitleText => 'Bilinmeyen Başarım';
+
+  @override
+  String get unknownAchievementDescriptionText =>
+      'Bu başarı hakkında bilgi yok.';
+
+  @override
+  String get achievement_solve_ten_words_title => 'Onun gücü!';
+
+  @override
+  String get achievement_solve_ten_words_description =>
+      'Başarıyla 10 kelime çözdün!';
+
+  @override
+  String get achievement_solve_fifty_words_title => '50\'lik zafer!';
+
+  @override
+  String get achievement_solve_fifty_words_description =>
+      'Başarıyla 50 kelime çözdün!';
+
+  @override
+  String get achievement_solve_hundred_words_title => 'Kelime Yüzbaşısı';
+
+  @override
+  String get achievement_solve_hundred_words_description =>
+      'Başarıyla 100 kelime çözdün!';
+
+  @override
+  String get achievement_solve_fivehundred_words_title => 'Beş Yüzlü Bilge';
+
+  @override
+  String get achievement_solve_fivehundred_words_description =>
+      'Başarıyla 500 kelime çözdün!';
+
+  @override
+  String get achievement_solve_thousand_words_title => 'Binbaşı Kelime Uzmanı';
+
+  @override
+  String get achievement_solve_thousand_words_description =>
+      'Başarıyla 1000 kelime çözdün!';
 }

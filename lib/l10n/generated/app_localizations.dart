@@ -148,6 +148,18 @@ abstract class AppLocalizations {
   /// **'Hayvanlar'**
   String get category_animal;
 
+  /// Category label for jobs
+  ///
+  /// In tr, this message translates to:
+  /// **'Meslekler'**
+  String get category_job;
+
+  /// Category label for electronics
+  ///
+  /// In tr, this message translates to:
+  /// **'Elektronik'**
+  String get category_electronic;
+
   /// Category label for vehicles
   ///
   /// In tr, this message translates to:
@@ -543,6 +555,84 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bir kelimeyi hiç ipucu kullanmadan çözdün.'**
   String get achievement_solve_firstword_nohint_description;
+
+  /// Message shown when an achievement is unlocked
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarım kazanıldı!'**
+  String get achievementUnlockedText;
+
+  /// Label for an unknown achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilinmeyen Başarım'**
+  String get unknownAchievementTitleText;
+
+  /// Description for an unknown achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu başarı hakkında bilgi yok.'**
+  String get unknownAchievementDescriptionText;
+
+  /// Title for the 'solve ten words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Onun gücü!'**
+  String get achievement_solve_ten_words_title;
+
+  /// Description for the 'solve ten words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla 10 kelime çözdün!'**
+  String get achievement_solve_ten_words_description;
+
+  /// Title for the 'solve fifty words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'50\'lik zafer!'**
+  String get achievement_solve_fifty_words_title;
+
+  /// Description for the 'solve fifty words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla 50 kelime çözdün!'**
+  String get achievement_solve_fifty_words_description;
+
+  /// Title for the 'solve hundred words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Yüzbaşısı'**
+  String get achievement_solve_hundred_words_title;
+
+  /// Description for the 'solve hundred words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla 100 kelime çözdün!'**
+  String get achievement_solve_hundred_words_description;
+
+  /// Title for the 'solve five hundred words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Beş Yüzlü Bilge'**
+  String get achievement_solve_fivehundred_words_title;
+
+  /// Description for the 'solve five hundred words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla 500 kelime çözdün!'**
+  String get achievement_solve_fivehundred_words_description;
+
+  /// Title for the 'solve thousand words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Binbaşı Kelime Uzmanı'**
+  String get achievement_solve_thousand_words_title;
+
+  /// Description for the 'solve thousand words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla 1000 kelime çözdün!'**
+  String get achievement_solve_thousand_words_description;
 }
 
 class _AppLocalizationsDelegate

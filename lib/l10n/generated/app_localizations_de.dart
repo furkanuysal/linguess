@@ -33,6 +33,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get category_animal => 'Tiere';
 
   @override
+  String get category_job => 'Berufe';
+
+  @override
+  String get category_electronic => 'Elektronik';
+
+  @override
   String get category_vehicle => 'Fahrzeuge';
 
   @override
@@ -242,4 +248,51 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get achievement_solve_firstword_nohint_description =>
       'Du hast die erste Wort ohne Hilfe gelöst.';
+
+  @override
+  String get achievementUnlockedText => 'Erfolg freigeschaltet!';
+
+  @override
+  String get unknownAchievementTitleText => 'Unbekannter Erfolg';
+
+  @override
+  String get unknownAchievementDescriptionText =>
+      'Keine Informationen zu diesem Erfolg verfügbar.';
+
+  @override
+  String get achievement_solve_ten_words_title => 'Zehn Wörter lösen';
+
+  @override
+  String get achievement_solve_ten_words_description =>
+      'Du hast zehn Wörter gelöst.';
+
+  @override
+  String get achievement_solve_fifty_words_title => 'Wortmeister 50';
+
+  @override
+  String get achievement_solve_fifty_words_description =>
+      'Du hast fünfzig Wörter gelöst.';
+
+  @override
+  String get achievement_solve_hundred_words_title =>
+      'Hundert Worte, ein Held!';
+
+  @override
+  String get achievement_solve_hundred_words_description =>
+      'Du hast hundert Wörter gelöst.';
+
+  @override
+  String get achievement_solve_fivehundred_words_title =>
+      'Fünf Hundert Worte, ein Weiser!';
+
+  @override
+  String get achievement_solve_fivehundred_words_description =>
+      'Du hast fünfhundert Wörter gelöst.';
+
+  @override
+  String get achievement_solve_thousand_words_title => 'Tausend-sassa';
+
+  @override
+  String get achievement_solve_thousand_words_description =>
+      'Du hast tausend Wörter gelöst.';
 }

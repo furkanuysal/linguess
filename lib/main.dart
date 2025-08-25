@@ -7,6 +7,7 @@ import 'package:linguess/theme/app_theme.dart';
 import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/router/app_router.dart';
+import 'package:linguess/features/achievement/achievement_toast_widget.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -23,6 +24,7 @@ class LinguessApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(settingsControllerProvider);
     final router = ref.watch(goRouterProvider);
+
     return asyncState.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (e, _) => Center(
@@ -31,6 +33,14 @@ class LinguessApp extends ConsumerWidget {
       data: (settings) => MaterialApp.router(
         scaffoldMessengerKey: scaffoldMessengerKey,
         routerConfig: router,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              child ?? const SizedBox(),
+              const AchievementToastWidget(),
+            ],
+          );
+        },
         onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
         theme: AppTheme.light,
         darkTheme: AppTheme.dark,

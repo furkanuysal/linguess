@@ -7,6 +7,10 @@ extension CategoryLocalizations on AppLocalizations {
         return category_animal;
       case 'food':
         return category_food;
+      case 'job':
+        return category_job;
+      case 'electronic':
+        return category_electronic;
       case 'vehicle':
         return category_vehicle;
       default:

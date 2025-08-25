@@ -33,6 +33,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get category_animal => 'Animales';
 
   @override
+  String get category_job => 'Trabajos';
+
+  @override
+  String get category_electronic => 'Electrónica';
+
+  @override
   String get category_vehicle => 'Vehículos';
 
   @override
@@ -242,4 +248,48 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get achievement_solve_firstword_nohint_description =>
       'Has resuelto la primera palabra sin ninguna pista.';
+
+  @override
+  String get achievementUnlockedText => '¡Logro desbloqueado!';
+
+  @override
+  String get unknownAchievementTitleText => 'Logro desconocido';
+
+  @override
+  String get unknownAchievementDescriptionText => 'Descripción desconocida';
+
+  @override
+  String get achievement_solve_ten_words_title => '¡Diez resueltas!';
+
+  @override
+  String get achievement_solve_ten_words_description =>
+      '¡Has resuelto diez palabras!';
+
+  @override
+  String get achievement_solve_fifty_words_title => 'Medio Centenar';
+
+  @override
+  String get achievement_solve_fifty_words_description =>
+      '¡Has resuelto cincuenta palabras!';
+
+  @override
+  String get achievement_solve_hundred_words_title => 'Cien por Cien';
+
+  @override
+  String get achievement_solve_hundred_words_description =>
+      'Has resuelto cien palabras.';
+
+  @override
+  String get achievement_solve_fivehundred_words_title => 'Medio Milenio';
+
+  @override
+  String get achievement_solve_fivehundred_words_description =>
+      '¡Has resuelto quinientas palabras!';
+
+  @override
+  String get achievement_solve_thousand_words_title => 'Señor de los Mil';
+
+  @override
+  String get achievement_solve_thousand_words_description =>
+      'Has resuelto mil palabras.';
 }
