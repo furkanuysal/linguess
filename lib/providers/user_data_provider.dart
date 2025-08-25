@@ -20,6 +20,23 @@ final userDataProvider = StreamProvider.autoDispose<DocumentSnapshot?>((ref) {
   return docStream;
 });
 
+final userCorrectCountProvider = StreamProvider.autoDispose<int>((ref) {
+  final user = ref.watch(firebaseUserProvider).value;
+  if (user == null) {
+    return const Stream<int>.empty();
+  }
+
+  return FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .snapshots()
+      .map((doc) {
+        if (!doc.exists) return 0;
+        final data = doc.data();
+        return (data?['correctCount'] as int?) ?? 0;
+      });
+});
+
 final userRegisterProvider =
     AsyncNotifierProvider<UserRegisterController, void>(
       UserRegisterController.new,

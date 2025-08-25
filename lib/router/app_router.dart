@@ -2,8 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-// Pages
 import 'package:linguess/features/home/home_selector.dart';
 import 'package:linguess/features/auth/view/login_page.dart';
 import 'package:linguess/features/auth/view/register_page.dart';
@@ -29,8 +27,16 @@ class GoRouterRefreshStream extends ChangeNotifier {
   }
 }
 
+// Global navigator key provider
+final navigatorKeyProvider = Provider<GlobalKey<NavigatorState>>((ref) {
+  return GlobalKey<NavigatorState>();
+});
+
 final goRouterProvider = Provider<GoRouter>((ref) {
+  final navigatorKey = ref.watch(navigatorKeyProvider);
+
   return GoRouter(
+    navigatorKey: navigatorKey,
     initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const HomeSelector()),
