@@ -32,6 +32,14 @@
   "@category_animal": {
     "description": "Category label for animals"
   },
+  "category_job": "Meslekler",
+  "@category_job": {
+    "description": "Category label for jobs"
+  },
+  "category_electronic": "Elektronik",
+  "@category_electronic": {
+    "description": "Category label for electronics"
+  },
   "category_vehicle": "Araçlar",
   "@category_vehicle": {
     "description": "Category label for vehicles"
@@ -295,5 +303,57 @@
   "achievement_solve_firstword_nohint_description": "Bir kelimeyi hiç ipucu kullanmadan çözdün.",
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
+  },
+  "achievementUnlockedText": "Başarım kazanıldı!",
+  "@achievementUnlockedText": {
+    "description": "Message shown when an achievement is unlocked"
+  },
+  "unknownAchievementTitleText": "Bilinmeyen Başarım",
+  "@unknownAchievementTitleText": {
+    "description": "Label for an unknown achievement"
+  },
+  "unknownAchievementDescriptionText": "Bu başarı hakkında bilgi yok.",
+  "@unknownAchievementDescriptionText": {
+    "description": "Description for an unknown achievement"
+  },
+  "achievement_solve_ten_words_title": "Onun gücü!",
+  "@achievement_solve_ten_words_title": {
+    "description": "Title for the 'solve ten words' achievement"
+  },
+  "achievement_solve_ten_words_description": "Başarıyla 10 kelime çözdün!",
+  "@achievement_solve_ten_words_description": {
+    "description": "Description for the 'solve ten words' achievement"
+  },
+  "achievement_solve_fifty_words_title": "50'lik zafer!",
+  "@achievement_solve_fifty_words_title": {
+    "description": "Title for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_fifty_words_description": "Başarıyla 50 kelime çözdün!",
+  "@achievement_solve_fifty_words_description": {
+    "description": "Description for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_hundred_words_title": "Kelime Yüzbaşısı",
+  "@achievement_solve_hundred_words_title": {
+    "description": "Title for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_hundred_words_description": "Başarıyla 100 kelime çözdün!",
+  "@achievement_solve_hundred_words_description": {
+    "description": "Description for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_title": "Beş Yüzlü Bilge",
+  "@achievement_solve_fivehundred_words_title": {
+    "description": "Title for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_description": "Başarıyla 500 kelime çözdün!",
+  "@achievement_solve_fivehundred_words_description": {
+    "description": "Description for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_thousand_words_title": "Binbaşı Kelime Uzmanı",
+  "@achievement_solve_thousand_words_title": {
+    "description": "Title for the 'solve thousand words' achievement"
+  },
+  "achievement_solve_thousand_words_description": "Başarıyla 1000 kelime çözdün!",
+  "@achievement_solve_thousand_words_description": {
+    "description": "Description for the 'solve thousand words' achievement"
   }
 }

@@ -24,5 +24,35 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       description: l10n.achievement_solve_firstword_nohint_description,
       icon: '/empty',
     ),
+    AchievementModel(
+      id: 'solve_ten_words',
+      title: l10n.achievement_solve_ten_words_title,
+      description: l10n.achievement_solve_ten_words_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
+      id: 'solve_fifty_words',
+      title: l10n.achievement_solve_fifty_words_title,
+      description: l10n.achievement_solve_fifty_words_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
+      id: 'solve_hundred_words',
+      title: l10n.achievement_solve_hundred_words_title,
+      description: l10n.achievement_solve_hundred_words_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
+      id: 'solve_fivehundred_words',
+      title: l10n.achievement_solve_fivehundred_words_title,
+      description: l10n.achievement_solve_fivehundred_words_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
+      id: 'solve_thousand_words',
+      title: l10n.achievement_solve_thousand_words_title,
+      description: l10n.achievement_solve_thousand_words_description,
+      icon: '/empty',
+    ),
   ];
 }

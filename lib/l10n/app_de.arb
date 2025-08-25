@@ -32,6 +32,14 @@
   "@category_animal": {
     "description": "Category label for animals"
   },
+  "category_job": "Berufe",
+  "@category_job": {
+    "description": "Category label for jobs"
+  },
+  "category_electronic": "Elektronik",
+  "@category_electronic": {
+    "description": "Category label for electronics"
+  },
   "category_vehicle": "Fahrzeuge",
   "@category_vehicle": {
     "description": "Category label for vehicles"
@@ -295,5 +303,57 @@
   "achievement_solve_firstword_nohint_description": "Du hast die erste Wort ohne Hilfe gelöst.",
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
+  },
+  "achievementUnlockedText": "Erfolg freigeschaltet!",
+  "@achievementUnlockedText": {
+    "description": "Toast message shown when an achievement is unlocked"
+  },
+  "unknownAchievementTitleText": "Unbekannter Erfolg",
+  "@unknownAchievementTitleText": {
+    "description": "Title for an unknown achievement"
+  },
+  "unknownAchievementDescriptionText": "Keine Informationen zu diesem Erfolg verfügbar.",
+  "@unknownAchievementDescriptionText": {
+    "description": "Description for an unknown achievement"
+  },
+  "achievement_solve_ten_words_title": "Zehn Wörter lösen",
+  "@achievement_solve_ten_words_title": {
+    "description": "Title for the 'solve ten words' achievement"
+  },
+  "achievement_solve_ten_words_description": "Du hast zehn Wörter gelöst.",
+  "@achievement_solve_ten_words_description": {
+    "description": "Description for the 'solve ten words' achievement"
+  },
+  "achievement_solve_fifty_words_title": "Wortmeister 50",
+  "@achievement_solve_fifty_words_title": {
+    "description": "Title for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_fifty_words_description": "Du hast fünfzig Wörter gelöst.",
+  "@achievement_solve_fifty_words_description": {
+    "description": "Description for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_hundred_words_title": "Hundert Worte, ein Held!",
+  "@achievement_solve_hundred_words_title": {
+    "description": "Title for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_hundred_words_description": "Du hast hundert Wörter gelöst.",
+  "@achievement_solve_hundred_words_description": {
+    "description": "Description for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_title": "Fünf Hundert Worte, ein Weiser!",
+  "@achievement_solve_fivehundred_words_title": {
+    "description": "Title for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_description": "Du hast fünfhundert Wörter gelöst.",
+  "@achievement_solve_fivehundred_words_description": {
+    "description": "Description for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_thousand_words_title": "Tausend-sassa",
+  "@achievement_solve_thousand_words_title": {
+    "description": "Title for the 'solve thousand words' achievement"
+  },
+  "achievement_solve_thousand_words_description": "Du hast tausend Wörter gelöst.",
+  "@achievement_solve_thousand_words_description": {
+    "description": "Description for the 'solve thousand words' achievement"
   }
 }

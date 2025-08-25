@@ -32,6 +32,14 @@
   "@category_animal": {
     "description": "Category label for animals"
   },
+  "category_job": "Trabajos",
+  "@category_job": {
+    "description": "Category label for jobs"
+  },
+  "category_electronic": "Electrónica",
+  "@category_electronic": {
+    "description": "Category label for electronics"
+  },
   "category_vehicle": "Vehículos",
   "@category_vehicle": {
     "description": "Category label for vehicles"
@@ -295,5 +303,57 @@
   "achievement_solve_firstword_nohint_description": "Has resuelto la primera palabra sin ninguna pista.",
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
+  },
+  "achievementUnlockedText": "¡Logro desbloqueado!",
+  "@achievementUnlockedText": {
+    "description": "Message shown when an achievement is unlocked"
+  },
+  "unknownAchievementTitleText": "Logro desconocido",
+  "@unknownAchievementTitleText": {
+    "description": "Title for an unknown achievement"
+  },
+  "unknownAchievementDescriptionText": "Descripción desconocida",
+  "@unknownAchievementDescriptionText": {
+    "description": "Description for an unknown achievement"
+  },
+  "achievement_solve_ten_words_title": "¡Diez resueltas!",
+  "@achievement_solve_ten_words_title": {
+    "description": "Title for the 'solve ten words' achievement"
+  },
+  "achievement_solve_ten_words_description": "¡Has resuelto diez palabras!",
+  "@achievement_solve_ten_words_description": {
+    "description": "Description for the 'solve ten words' achievement"
+  },
+  "achievement_solve_fifty_words_title": "Medio Centenar",
+  "@achievement_solve_fifty_words_title": {
+    "description": "Title for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_fifty_words_description": "¡Has resuelto cincuenta palabras!",
+  "@achievement_solve_fifty_words_description": {
+    "description": "Description for the 'solve fifty words' achievement"
+  },
+  "achievement_solve_hundred_words_title": "Cien por Cien",
+  "@achievement_solve_hundred_words_title": {
+    "description": "Title for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_hundred_words_description": "Has resuelto cien palabras.",
+  "@achievement_solve_hundred_words_description": {
+    "description": "Description for the 'solve hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_title": "Medio Milenio",
+  "@achievement_solve_fivehundred_words_title": {
+    "description": "Title for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_fivehundred_words_description": "¡Has resuelto quinientas palabras!",
+  "@achievement_solve_fivehundred_words_description": {
+    "description": "Description for the 'solve five hundred words' achievement"
+  },
+  "achievement_solve_thousand_words_title": "Señor de los Mil",
+  "@achievement_solve_thousand_words_title": {
+    "description": "Title for the 'solve thousand words' achievement"
+  },
+  "achievement_solve_thousand_words_description": "Has resuelto mil palabras.",
+  "@achievement_solve_thousand_words_description": {
+    "description": "Description for the 'solve thousand words' achievement"
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
+import 'package:linguess/providers/user_data_provider.dart';
 import 'package:linguess/providers/word_game_provider.dart';
 
 class WordGamePage extends ConsumerStatefulWidget {
@@ -20,9 +21,12 @@ class WordGamePage extends ConsumerStatefulWidget {
 }
 
 class _WordGamePageState extends ConsumerState<WordGamePage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late final AnimationController _shakeController;
   late final Animation<double> _shakeAnimation;
+  late final AnimationController _goldAnimationController;
+  late final Animation<double> _goldScaleAnimation;
+  late final Animation<Color?> _goldColorAnimation;
   final GlobalKey _wrapKey = GlobalKey();
   late final WordGameParams params;
 
@@ -48,12 +52,42 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     _shakeAnimation = Tween<double>(begin: 0, end: 24).animate(
       CurvedAnimation(parent: _shakeController, curve: Curves.elasticIn),
     );
+
+    _goldAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    _goldScaleAnimation = Tween<double>(begin: 1.0, end: 1.3).animate(
+      CurvedAnimation(
+        parent: _goldAnimationController,
+        curve: Curves.elasticOut,
+      ),
+    );
+
+    _goldColorAnimation =
+        ColorTween(
+          begin: Colors.amber.shade700,
+          end: Colors.red.shade600,
+        ).animate(
+          CurvedAnimation(
+            parent: _goldAnimationController,
+            curve: Curves.easeInOut,
+          ),
+        );
   }
 
   @override
   void dispose() {
     _shakeController.dispose();
+    _goldAnimationController.dispose();
     super.dispose();
+  }
+
+  void _triggerGoldAnimation() {
+    _goldAnimationController.forward().then((_) {
+      _goldAnimationController.reverse();
+    });
   }
 
   @override
@@ -64,6 +98,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     );
     final state = ref.watch(wordGameProvider(params));
     final notifier = ref.read(wordGameProvider(params).notifier);
+    final userDataAsync = ref.watch(userDataProvider);
 
     if (state.isShaking && !_shakeController.isAnimating) {
       _shakeController.forward(from: 0);
@@ -78,13 +113,82 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
               : l10n.categoryTitle(widget.selectedValue),
         ),
         actions: [
+          AnimatedBuilder(
+            animation: _goldAnimationController,
+            builder: (context, child) {
+              return Transform.scale(
+                scale: _goldScaleAnimation.value,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.amber.shade50,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.amber.shade400),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.monetization_on,
+                        color:
+                            _goldColorAnimation.value ?? Colors.amber.shade800,
+                        size: 18,
+                      ),
+                      const SizedBox(width: 4),
+                      userDataAsync.when(
+                        data: (snap) {
+                          if (snap == null || !snap.exists) {
+                            return const Text('0');
+                          }
+                          final data = snap.data() as Map<String, dynamic>;
+                          final gold = (data['gold'] ?? 0).toString();
+                          return Text(
+                            gold,
+                            style: TextStyle(
+                              color:
+                                  _goldColorAnimation.value ??
+                                  Colors.amber.shade800,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          );
+                        },
+                        loading: () => const SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        error: (_, _) => Text(
+                          '?',
+                          style: TextStyle(
+                            color:
+                                _goldColorAnimation.value ??
+                                Colors.amber.shade800,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.lightbulb_outline),
             onPressed:
                 state.hintIndices.length >=
                     state.currentTarget.replaceAll(' ', '').length
                 ? null
-                : () => notifier.showHintLetter(context),
+                : () {
+                    _triggerGoldAnimation();
+                    notifier.showHintLetter(context);
+                  },
             tooltip: l10n.letterHint,
           ),
         ],
@@ -92,7 +196,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
       body: state.words.when(
         data: (words) {
           if (state.currentWord == null) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: Text(l10n.comingSoon));
           }
           final String currentLanguage = Localizations.localeOf(
             context,

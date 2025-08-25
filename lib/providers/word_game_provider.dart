@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/flame/confetti_particle.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/models/word_model.dart';
@@ -328,31 +329,49 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AlertDialog(
-        title: Text('🎉 ${AppLocalizations.of(context)!.correctText}!'),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('${AppLocalizations.of(context)!.yourWord}: $wordToSolve'),
-            Text(
-              '${AppLocalizations.of(context)!.correctAnswer}: $correctAnswerFormatted',
+      builder: (context) => Stack(
+        children: [
+          // Confetti layer
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: ConfettiWidget(
+                child:
+                    SizedBox.expand(), // Empty widget for confetti background
+              ),
             ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              context.pop();
-              if (_mode == 'daily') {
-                context.pop();
-              } else {
-                _loadRandomWord();
-              }
-            },
-            child: Text(
-              _mode == 'daily'
-                  ? AppLocalizations.of(context)!.close
-                  : AppLocalizations.of(context)!.nextWord,
+          ),
+          // Dialog layer
+          Center(
+            child: AlertDialog(
+              title: Text('🎉 ${AppLocalizations.of(context)!.correctText}!'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '${AppLocalizations.of(context)!.yourWord}: $wordToSolve',
+                  ),
+                  Text(
+                    '${AppLocalizations.of(context)!.correctAnswer}: $correctAnswerFormatted',
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context.pop();
+                    if (_mode == 'daily') {
+                      context.pop();
+                    } else {
+                      _loadRandomWord();
+                    }
+                  },
+                  child: Text(
+                    _mode == 'daily'
+                        ? AppLocalizations.of(context)!.close
+                        : AppLocalizations.of(context)!.nextWord,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -361,7 +380,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   }
 
   Future<void> checkAnswer(BuildContext context) async {
-    // Günlük zaten çözülmüşse hiçbir şey yapma
+    // If daily word is already solved, do nothing
     if (state.isDaily && state.dailyAlreadySolved) return;
 
     bool isAllCorrect = true;
