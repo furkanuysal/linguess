@@ -51,4 +51,18 @@ class EconomyService {
       'correctCount': correctCount + 1,
     });
   }
+
+  Future<void> grantAdRewardGold(int amount) async {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null || amount <= 0) return;
+
+    final userDoc = _firestore.collection('users').doc(uid);
+    await _firestore.runTransaction((tx) async {
+      final snapshot = await tx.get(userDoc);
+      if (!snapshot.exists) return;
+
+      final currentGold = snapshot.data()?['gold'] ?? 0;
+      tx.update(userDoc, {'gold': currentGold + amount});
+    });
+  }
 }
