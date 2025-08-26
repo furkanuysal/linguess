@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/flame/confetti_particle.dart';
@@ -494,6 +495,37 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     if (allFilled) {
       checkAnswer(context);
     }
+  }
+
+  bool onKeyEvent(int logicalIndex, KeyEvent event) {
+    if (state.isDaily && state.dailyAlreadySolved) return false;
+
+    // Only handle when the backspace key is pressed
+    if (event is KeyDownEvent &&
+        event.logicalKey == LogicalKeyboardKey.backspace) {
+      // If the current box has text, clear it and stay in the same box
+      if (state.controllers[logicalIndex].text.isNotEmpty) {
+        if (!state.correctIndices[logicalIndex]) {
+          // Only clear boxes that are not correct
+          state.controllers[logicalIndex].clear();
+        }
+        return true; // Consume the event
+      }
+      // If the current box is empty, move to the previous box and clear it
+      else {
+        for (int i = logicalIndex - 1; i >= 0; i--) {
+          if (!state.correctIndices[i]) {
+            // Only go to boxes that are not correct
+            state.focusNodes[i].requestFocus();
+            state.controllers[i].clear();
+            break;
+          }
+        }
+        return true; // Consume the event
+      }
+    }
+
+    return false; // Do not consume the event
   }
 
   @override

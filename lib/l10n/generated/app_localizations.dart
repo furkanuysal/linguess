@@ -633,6 +633,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Başarıyla 1000 kelime çözdün!'**
   String get achievement_solve_thousand_words_description;
+
+  /// Error message shown when the ad is not ready
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam hazır değil. Biraz sonra tekrar deneyin.'**
+  String get adNotReady;
+
+  /// Error message shown when the ad is not loaded
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam gösterilemiyor.'**
+  String get adNotLoaded;
+
+  /// The message shown when the user earns gold from watching an ad
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam ödülü olarak {gold} altın kazandınız!'**
+  String adRewardGoldEarned(int gold);
+
+  /// Tooltip shown when the user can earn gold by watching an ad
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam ödülü'**
+  String get adRewardTooltip;
 }
 
 class _AppLocalizationsDelegate
