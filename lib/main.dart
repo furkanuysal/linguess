@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -14,6 +15,7 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await MobileAds.instance.initialize();
   runApp(const ProviderScope(child: LinguessApp()));
 }
 

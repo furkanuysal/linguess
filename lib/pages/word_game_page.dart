@@ -264,29 +264,39 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                                       .logicalIndexFromVisual(index);
                                   return SizedBox(
                                     width: boxWidth,
-                                    child: TextField(
-                                      controller:
-                                          state.controllers[logicalIndex],
-                                      focusNode: state.focusNodes[logicalIndex],
-                                      enabled:
-                                          !state.correctIndices[logicalIndex],
-                                      textAlign: TextAlign.center,
-                                      maxLength: 1,
-                                      onChanged: (val) =>
-                                          notifier.onTextChanged(
-                                            context,
-                                            logicalIndex,
-                                            val,
-                                          ),
-                                      decoration: const InputDecoration(
-                                        counterText: '',
-                                      ),
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color:
-                                            state.correctIndices[logicalIndex]
-                                            ? Colors.green
-                                            : scheme.onSurface,
+                                    child: KeyboardListener(
+                                      focusNode: FocusNode(),
+                                      onKeyEvent: (event) {
+                                        notifier.onKeyEvent(
+                                          logicalIndex,
+                                          event,
+                                        );
+                                      },
+                                      child: TextField(
+                                        controller:
+                                            state.controllers[logicalIndex],
+                                        focusNode:
+                                            state.focusNodes[logicalIndex],
+                                        enabled:
+                                            !state.correctIndices[logicalIndex],
+                                        textAlign: TextAlign.center,
+                                        maxLength: 1,
+                                        onChanged: (val) =>
+                                            notifier.onTextChanged(
+                                              context,
+                                              logicalIndex,
+                                              val,
+                                            ),
+                                        decoration: const InputDecoration(
+                                          counterText: '',
+                                        ),
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          color:
+                                              state.correctIndices[logicalIndex]
+                                              ? Colors.green
+                                              : scheme.onSurface,
+                                        ),
                                       ),
                                     ),
                                   );

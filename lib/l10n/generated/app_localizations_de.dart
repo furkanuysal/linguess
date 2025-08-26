@@ -295,4 +295,19 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get achievement_solve_thousand_words_description =>
       'Du hast tausend Wörter gelöst.';
+
+  @override
+  String get adNotReady =>
+      'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
+
+  @override
+  String get adNotLoaded => 'Anzeige nicht geladen.';
+
+  @override
+  String adRewardGoldEarned(int gold) {
+    return 'Als Werbebelohnung hast du $gold Gold erhalten!';
+  }
+
+  @override
+  String get adRewardTooltip => 'Verdiene Gold, indem du Werbung ansiehst.';
 }

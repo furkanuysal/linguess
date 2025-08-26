@@ -355,5 +355,27 @@
   "achievement_solve_thousand_words_description": "Du hast tausend Wörter gelöst.",
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
+  },
+  "adNotReady": "Anzeige nicht verfügbar. Bitte später erneut versuchen.",
+  "@adNotReady": {
+    "description": "Error message shown when the ad is not ready"
+  },
+  "adNotLoaded": "Anzeige nicht geladen.",
+  "@adNotLoaded": {
+    "description": "Error message shown when the ad is not loaded"
+  },
+  "adRewardGoldEarned": "Als Werbebelohnung hast du {gold} Gold erhalten!",
+  "@adRewardGoldEarned": {
+    "description": "The message shown when the user earns gold from watching an ad",
+    "placeholders": {
+      "gold": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "adRewardTooltip": "Verdiene Gold, indem du Werbung ansiehst.",
+  "@adRewardTooltip": {
+    "description": "Tooltip shown when the user can earn gold by watching an ad"
   }
 }

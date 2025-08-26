@@ -288,4 +288,18 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get achievement_solve_thousand_words_description =>
       'Başarıyla 1000 kelime çözdün!';
+
+  @override
+  String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';
+
+  @override
+  String get adNotLoaded => 'Reklam gösterilemiyor.';
+
+  @override
+  String adRewardGoldEarned(int gold) {
+    return 'Reklam ödülü olarak $gold altın kazandınız!';
+  }
+
+  @override
+  String get adRewardTooltip => 'Reklam ödülü';
 }

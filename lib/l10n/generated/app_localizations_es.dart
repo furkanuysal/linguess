@@ -292,4 +292,19 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get achievement_solve_thousand_words_description =>
       'Has resuelto mil palabras.';
+
+  @override
+  String get adNotReady =>
+      'Anuncio no disponible. Inténtalo de nuevo más tarde.';
+
+  @override
+  String get adNotLoaded => 'Anuncio no cargado.';
+
+  @override
+  String adRewardGoldEarned(int gold) {
+    return '¡Has ganado $gold de oro como recompensa por el anuncio!';
+  }
+
+  @override
+  String get adRewardTooltip => 'Gana oro viendo anuncios.';
 }
