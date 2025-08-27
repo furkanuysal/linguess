@@ -13,10 +13,12 @@ import java.io.FileInputStream
 
 // Read key.properties (android/key.properties)
 val keystoreProperties = Properties()
-val keystorePropertiesFile = rootProject.file("android/key.properties")
-if (keystorePropertiesFile.exists()) {
-    keystoreProperties.load(FileInputStream(keystorePropertiesFile))
+val keystorePropertiesFile = rootProject.file("key.properties")
+if (!keystorePropertiesFile.exists()) {
+    throw GradleException("key.properties bulunamadı: ${keystorePropertiesFile.absolutePath}")
 }
+
+keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "com.litusware.linguess"
@@ -43,10 +45,20 @@ android {
 
     signingConfigs {
         create("release") {
-            keyAlias = keystoreProperties["keyAlias"] as String?
-            keyPassword = keystoreProperties["keyPassword"] as String?
-            storeFile = (keystoreProperties["storeFile"] as String?)?.let { file(it) }
-            storePassword = keystoreProperties["storePassword"] as String?
+            val alias = (keystoreProperties["keyAlias"] as String?) ?: throw GradleException("keyAlias boş")
+            val keyPass = (keystoreProperties["keyPassword"] as String?) ?: throw GradleException("keyPassword boş")
+            val storePass = (keystoreProperties["storePassword"] as String?) ?: throw GradleException("storePassword boş")
+            val storePath = (keystoreProperties["storeFile"] as String?) ?: throw GradleException("storeFile boş")
+
+            keyAlias = alias
+            keyPassword = keyPass
+            storePassword = storePass
+
+            val f = file(storePath) // path app modülüne göre çözümlenir
+            if (!f.exists()) {
+                throw GradleException("Keystore bulunamadı: ${f.absolutePath}")
+            }
+            storeFile = f
         }
     }
 
