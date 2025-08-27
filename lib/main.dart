@@ -16,6 +16,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await MobileAds.instance.initialize();
+
+  await MobileAds.instance.updateRequestConfiguration(
+    RequestConfiguration(
+      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes, // COPPA
+      tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes, // EEA UAC
+      maxAdContentRating: MaxAdContentRating.g, // "G" Content
+    ),
+  );
+
   runApp(const ProviderScope(child: LinguessApp()));
 }
 

@@ -17,13 +17,17 @@ class AdsService {
     }
   }
 
+  final adRequest = AdRequest(
+    nonPersonalizedAds: true, // Non-personalized ads
+  );
+
   Future<void> loadRewarded() async {
     if (_isLoading || _rewardedAd != null) return;
     _isLoading = true;
 
     await RewardedAd.load(
       adUnitId: goldRewardedUnitId,
-      request: const AdRequest(),
+      request: adRequest,
       rewardedAdLoadCallback: RewardedAdLoadCallback(
         onAdLoaded: (ad) {
           _rewardedAd = ad;
