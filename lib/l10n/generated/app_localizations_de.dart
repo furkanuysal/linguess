@@ -310,4 +310,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get adRewardTooltip => 'Verdiene Gold, indem du Werbung ansiehst.';
+
+  @override
+  String get appLanguage => 'App-Sprache';
+
+  @override
+  String get targetLanguage => 'Zielsprache';
 }

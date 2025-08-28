@@ -12,6 +12,20 @@ class SettingsSheet extends ConsumerWidget {
     final asyncState = ref.watch(settingsControllerProvider);
     final l10n = AppLocalizations.of(context)!;
 
+    const appLangs = [
+      {'code': 'tr', 'label': 'Türkçe'},
+      {'code': 'en', 'label': 'English'},
+      {'code': 'es', 'label': 'Español'},
+      {'code': 'de', 'label': 'Deutsch'},
+    ];
+
+    const targetLangs = [
+      {'code': 'tr', 'label': 'Türkçe'},
+      {'code': 'en', 'label': 'English'},
+      {'code': 'es', 'label': 'Español'},
+      {'code': 'de', 'label': 'Deutsch'},
+    ];
+
     return Padding(
       padding: EdgeInsets.only(
         top: 16,
@@ -37,7 +51,52 @@ class SettingsSheet extends ConsumerWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelText: l10n.appLanguage,
+                border: const OutlineInputBorder(),
+              ),
+              value: settings.appLangCode,
+              items: appLangs
+                  .map(
+                    (lang) => DropdownMenuItem<String>(
+                      value: lang['code'],
+                      child: Text(lang['label']!),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (val) {
+                if (val != null) {
+                  ref
+                      .read(settingsControllerProvider.notifier)
+                      .setAppLangCode(val);
+                }
+              },
+            ),
+            const SizedBox(height: 12),
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                labelText: l10n.targetLanguage,
+                border: const OutlineInputBorder(),
+              ),
+              value: settings.targetLangCode,
+              items: targetLangs
+                  .map(
+                    (lang) => DropdownMenuItem<String>(
+                      value: lang['code'],
+                      child: Text(lang['label']!),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (val) {
+                if (val != null) {
+                  ref
+                      .read(settingsControllerProvider.notifier)
+                      .setAppLangCode(val);
+                }
+              },
+            ),
+            const Divider(height: 24),
             SwitchListTile(
               title: Text(l10n.settingsLearnedWords),
               value: settings.repeatLearnedWords,

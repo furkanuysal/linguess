@@ -63,10 +63,12 @@ class LinguessApp extends ConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
+        locale: Locale(settings.appLangCode),
         supportedLocales: const [
           Locale('tr'), // Turkish
           Locale('es'), // Spanish
           Locale('de'), // German
+          Locale('en'), // English
         ],
       ),
     );
