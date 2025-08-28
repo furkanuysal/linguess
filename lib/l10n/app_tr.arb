@@ -377,5 +377,13 @@
   "adRewardTooltip": "Reklam ödülü",
   "@adRewardTooltip": {
     "description": "Tooltip shown when the user can earn gold by watching an ad"
+  },
+  "appLanguage": "Uygulama Dili",
+  "@appLanguage": {
+    "description": "Label for the app language setting"
+  },
+  "targetLanguage": "Hedef Dil",
+  "@targetLanguage": {
+    "description": "Label for the target language setting"
   }
 }

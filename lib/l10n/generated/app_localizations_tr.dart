@@ -302,4 +302,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get adRewardTooltip => 'Reklam ödülü';
+
+  @override
+  String get appLanguage => 'Uygulama Dili';
+
+  @override
+  String get targetLanguage => 'Hedef Dil';
 }

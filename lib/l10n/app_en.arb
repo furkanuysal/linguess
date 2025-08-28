@@ -1,122 +1,122 @@
 {
-  "@@locale": "de",
+  "@@locale": "en",
   "appTitle": "Linguess",
   "@appTitle": {
     "description": "The name of the application"
   },
-  "selectCategory": "Kategorie auswählen",
+  "selectCategory": "Select Category",
   "@selectCategory": {
     "description": "Button or label text prompting user to choose a category"
   },
-  "selectLevel": "Stufe auswählen",
+  "selectLevel": "Select Level",
   "@selectLevel": {
     "description": "Button or label text prompting user to choose a difficulty level"
   },
-  "dailyWord": "Tägliches Wort",
+  "dailyWord": "Daily Word",
   "@dailyWord": {
     "description": "Label for the daily word challenge"
   },
-  "settings": "Einstellungen",
+  "settings": "Settings",
   "@settings": {
     "description": "Label for the settings option"
   },
-  "category": "Kategorie",
+  "category": "Category",
   "@category": {
     "description": "Label for the category selection"
   },
-  "category_food": "Lebensmittel",
+  "category_food": "Food",
   "@category_food": {
     "description": "Category label for food"
   },
-  "category_animal": "Tiere",
+  "category_animal": "Animals",
   "@category_animal": {
     "description": "Category label for animals"
   },
-  "category_job": "Berufe",
+  "category_job": "Jobs",
   "@category_job": {
     "description": "Category label for jobs"
   },
-  "category_electronic": "Elektronik",
+  "category_electronic": "Electronics",
   "@category_electronic": {
     "description": "Category label for electronics"
   },
-  "category_vehicle": "Fahrzeuge",
+  "category_vehicle": "Vehicles",
   "@category_vehicle": {
     "description": "Category label for vehicles"
   },
-  "nextWord": "Nächstes Wort",
+  "nextWord": "Next Word",
   "@nextWord": {
     "description": "Button text to load the next word in the game"
   },
-  "checkAnswer": "Antwort überprüfen",
+  "checkAnswer": "Check Answer",
   "@checkAnswer": {
     "description": "Button text to check the user's answer"
   },
-  "letterHint": "Hinweis",
+  "letterHint": "Hint",
   "@letterHint": {
     "description": "Hint text for the letter input"
   },
-  "yourWord": "Dein Wort",
+  "yourWord": "Your Word",
   "@yourWord": {
     "description": "'Your word' label for the asked word in the game"
   },
-  "level": "Stufe",
+  "level": "Level",
   "@level": {
     "description": "'Level' label for the difficulty of the word"
   },
-  "translation": "Übersetzung",
+  "translation": "Translation",
   "@translation": {
     "description": "'Translation' label for the translation of the word"
   },
-  "close": "Schließen",
+  "close": "Close",
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "login": "Anmelden",
+  "login": "Log In",
   "@login": {
     "description": "Button text for logging in"
   },
-  "logout": "Abmelden",
+  "logout": "Log Out",
   "@logout": {
     "description": "Button text for logging out"
   },
-  "profile": "Profil",
+  "profile": "Profile",
   "@profile": {
     "description": "Label for the user profile section"
   },
-  "correctAnswer": "Richtige Antwort",
+  "correctAnswer": "Correct Answer",
   "@correctAnswer": {
     "description": "Label for the 'correct answer' in the game"
   },
-  "correctText": "Richtig",
+  "correctText": "Correct",
   "@correctText": {
     "description": "Word that means 'correct' in the game context"
   },
-  "registerButtonText": "Kein Konto? Registrieren",
+  "registerButtonText": "Don't have an account? Sign up",
   "@registerButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
-  "email": "E-Mail",
+  "email": "Email",
   "@email": {
     "description": "Label for the email input field"
   },
-  "password": "Passwort",
+  "password": "Password",
   "@password": {
     "description": "Label for the password input field"
   },
-  "register": "Registrieren",
+  "register": "Register",
   "@register": {
     "description": "Button text for registering a new user"
   },
-  "registerSuccess": "Registrierung erfolgreich! Sie können sich jetzt anmelden.",
+  "registerSuccess": "Registration successful! You can log in now.",
   "@registerSuccess": {
     "description": "Message shown after successful registration"
   },
-  "invalidEmail": "Ungültige E-Mail-Adresse",
+  "invalidEmail": "Invalid email address",
   "@invalidEmail": {
     "description": "Error message for invalid email format"
   },
-  "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein",
+  "passwordTooShort": "Password must be at least 6 characters long",
   "@passwordTooShort": {
     "description": "Error message for password that is too short"
   },
@@ -124,247 +124,247 @@
   "@gold": {
     "description": "Label for the user's gold amount in the profile"
   },
-  "learnedWordsText": "Gelernte Wörter",
+  "learnedWordsText": "Learned Words",
   "@learnedWordsText": {
     "description": "Label for the list of words learned by the user"
   },
-  "learnedWordsEmpty": "Noch keine gelernten Wörter",
+  "learnedWordsEmpty": "No words learned yet",
   "@learnedWordsEmpty": {
     "description": "Message shown when the user has no learned words"
   },
-  "errorOccurred": "Ein Fehler ist aufgetreten",
+  "errorOccurred": "An error occurred",
   "@errorOccurred": {
     "description": "Generic error message shown when an error occurs"
   },
-  "noDataToShow": "Keine Daten zum Anzeigen",
+  "noDataToShow": "No data to show",
   "@noDataToShow": {
     "description": "Message shown when there is no data to display"
   },
-  "errorSignInFailed": "Anmeldung fehlgeschlagen",
+  "errorSignInFailed": "Sign-in failed",
   "@errorSignInFailed": {
     "description": "Error message shown when sign-in fails"
   },
-  "wordCount": "Wortanzahl",
+  "wordCount": "Word Count",
   "@wordCount": {
     "description": "Label for the number of words in a category or level"
   },
-  "settingsLearnedWords": "Gelernte Wörter wiederholen",
+  "settingsLearnedWords": "Show learned words again",
   "@settingsLearnedWords": {
     "description": "Label for the setting to repeat learned words"
   },
-  "settingsSoundEffects": "Soundeffekte",
+  "settingsSoundEffects": "Sound Effects",
   "@settingsSoundEffects": {
     "description": "Label for the setting to enable or disable sound effects"
   },
-  "learnedCountText": "Wort gelernt",
+  "learnedCountText": "Words Learned",
   "@learnedCountText": {
     "description": "Label for the count of learned words in a level or category"
   },
-  "settingsDarkMode": "Dunkelmodus",
+  "settingsDarkMode": "Dark Mode",
   "@settingsDarkMode": {
     "description": "Label for the setting to enable or disable dark mode"
   },
-  "mainMenuPlayModeSelection": "Wählen Sie einen Spielmodus",
+  "mainMenuPlayModeSelection": "Select a game mode",
   "@mainMenuPlayModeSelection": {
     "description": "Label for the main menu where the user selects a game mode"
   },
-  "insufficientGold": "Nicht genügend Gold",
+  "insufficientGold": "Insufficient Gold",
   "@insufficientGold": {
     "description": "Error message shown when the user has insufficient gold"
   },
-  "dailyWordCompletedTitleAlert": "Tägliches Wort abgeschlossen",
+  "dailyWordCompletedTitleAlert": "Daily Word Completed",
   "@dailyWordCompletedTitleAlert": {
     "description": "Alert message shown when the daily word is completed"
   },
-  "dailyWordCompletedBodyAlert": "Sie haben das Wort des Tages entschlüsselt. Morgen gibt es ein neues Wort!",
+  "dailyWordCompletedBodyAlert": "You solved today's word. A new word will be available tomorrow!",
   "@dailyWordCompletedBodyAlert": {
     "description": "Body message shown when the daily word is completed"
   },
-  "okay": "OK",
+  "okay": "Okay",
   "@okay": {
     "description": "'Okay' button text for alerts or confirmations"
   },
-  "emailRequired": "E-Mail-Adresse ist erforderlich!",
+  "emailRequired": "Email field cannot be empty!",
   "@emailRequired": {
     "description": "Error message shown when email is required"
   },
-  "passwordRequired": "Passwort ist erforderlich!",
+  "passwordRequired": "Password field cannot be empty!",
   "@passwordRequired": {
     "description": "Error message shown when password is required"
   },
-  "errorSignUpFailed": "Fehler bei der Registrierung",
+  "errorSignUpFailed": "Sign-up failed",
   "@errorSignUpFailed": {
     "description": "Error message shown when sign-up fails"
   },
-  "errorWeakPassword": "Passwort zu schwach",
+  "errorWeakPassword": "Password is too weak",
   "@errorWeakPassword": {
     "description": "Error message shown when the password is too weak"
   },
-  "errorEmailAlreadyInUse": "Diese E-Mail-Adresse ist bereits vergeben!",
+  "errorEmailAlreadyInUse": "This email is already in use!",
   "@errorEmailAlreadyInUse": {
     "description": "Error message shown when the email is already in use"
   },
-  "errorUserNotFound": "Benutzer nicht gefunden.",
+  "errorUserNotFound": "User not found.",
   "@errorUserNotFound": {
     "description": "Error message shown when the user is not found"
   },
-  "errorTooManyRequests": "Zu viele Versuche. Bitte versuchen Sie es später erneut.",
+  "errorTooManyRequests": "Too many attempts have been made. Please try again later.",
   "@errorTooManyRequests": {
     "description": "Error message shown when there are too many requests"
   },
-  "errorWrongPassword": "Falsches Passwort!",
+  "errorWrongPassword": "Wrong password!",
   "@errorWrongPassword": {
     "description": "Error message shown when the password is wrong"
   },
-  "errorInvalidEmail": "Ungültige E-Mail-Adresse!",
+  "errorInvalidEmail": "Invalid email address!",
   "@errorInvalidEmail": {
     "description": "Error message shown when the email is invalid"
   },
-  "errorNetwork": "Netzwerkfehler. Bitte überprüfen Sie Ihre Internetverbindung.",
+  "errorNetwork": "Network error. Please check your internet connection.",
   "@errorNetwork": {
     "description": "Error message shown when there is a network error"
   },
-  "successSignIn": "Anmeldung erfolgreich!",
+  "successSignIn": "Sign-in successful!",
   "@successSignIn": {
     "description": "Message shown when sign-in is successful"
   },
-  "successRegister": "Registrierung erfolgreich!",
+  "successRegister": "Registration successful!",
   "@successRegister": {
     "description": "Message shown when registration is successful"
   },
-  "errorInvalidCredential": "Ungültige E-Mail-Adresse oder Passwort.",
+  "errorInvalidCredential": "Email or password is incorrect!",
   "@errorInvalidCredential": {
     "description": "Error message shown when the credentials are invalid"
   },
-  "successResetPasswordEmailSent": "E-Mail zum Zurücksetzen des Passworts erfolgreich gesendet!",
+  "successResetPasswordEmailSent": "Password reset email sent!",
   "@successResetPasswordEmailSent": {
-    "description": "Message shown when the reset password email is sent successfully"
+    "description": "Message shown when the password reset email is sent successfully"
   },
-  "sendResetLink": "Link zum Zurücksetzen senden",
+  "sendResetLink": "Send Password Reset Link",
   "@sendResetLink": {
     "description": "Label for the button to send the password reset link"
   },
-  "forgotPassword": "Haben Sie Ihr Passwort vergessen?",
+  "forgotPassword": "Forgot your password?",
   "@forgotPassword": {
-    "description": "Label for the forgot password button"
+    "description": "Label for the forgot password link"
   },
-  "resetPassword": "Passwort zurücksetzen",
+  "resetPassword": "Reset Password",
   "@resetPassword": {
     "description": "Label for the reset password button"
   },
-  "totalWordText": "Gesamtanzahl der Wörter",
+  "totalWordText": "Total Words",
   "@totalWordText": {
     "description": "Label for the total word count"
   },
-  "loadingText": "Wird geladen...",
+  "loadingText": "Loading...",
   "@loadingText": {
     "description": "Label for the loading indicator"
   },
-  "totalLearnedWordsText": "Gesamtanzahl der gelernten Wörter",
+  "totalLearnedWordsText": "Total Learned Words",
   "@totalLearnedWordsText": {
     "description": "Label for the total learned word count"
   },
-  "achievements": "Erfolge",
+  "achievements": "Achievements",
   "@achievements": {
     "description": "Label for the achievements section"
   },
-  "viewAll": "Alle anzeigen",
+  "viewAll": "View All",
   "@viewAll": {
     "description": "Label for the 'view all' button"
   },
-  "comingSoon": "Demnächst",
+  "comingSoon": "Coming Soon",
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordLoginRequired": "Für die Lösung des täglichen Wortes ist eine Anmeldung erforderlich.",
+  "dailyWordLoginRequired": "You must be logged in to solve the daily word.",
   "@dailyWordLoginRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
-  "achievement_learn_firstword_title": "Erste Wörter lernen",
+  "achievement_learn_firstword_title": "First Word!",
   "@achievement_learn_firstword_title": {
     "description": "Title for the 'learn first word' achievement"
   },
-  "achievement_learn_firstword_description": "Du hast zum ersten Mal ein Wort gelernt.",
+  "achievement_learn_firstword_description": "You learned a word for the first time.",
   "@achievement_learn_firstword_description": {
     "description": "Description for the 'learn first word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_title": "Tägliches Wort lösen",
+  "achievement_solve_dailyword_firsttime_title": "Daily Start",
   "@achievement_solve_dailyword_firsttime_title": {
     "description": "Title for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_description": "Du hast das tägliche Wort zum ersten Mal gelöst.",
+  "achievement_solve_dailyword_firsttime_description": "You solved the daily word for the first time.",
   "@achievement_solve_dailyword_firsttime_description": {
     "description": "Description for the 'solve daily word' achievement"
   },
-  "achievement_solve_firstword_nohint_title": "Ohne Hilfe gelöst!",
+  "achievement_solve_firstword_nohint_title": "No hint!",
   "@achievement_solve_firstword_nohint_title": {
     "description": "Title for the 'solve first word without hint' achievement"
   },
-  "achievement_solve_firstword_nohint_description": "Du hast die erste Wort ohne Hilfe gelöst.",
+  "achievement_solve_firstword_nohint_description": "You solved a word without using any hints.",
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
   },
-  "achievementUnlockedText": "Erfolg freigeschaltet!",
+  "achievementUnlockedText": "Achievement Unlocked!",
   "@achievementUnlockedText": {
-    "description": "Toast message shown when an achievement is unlocked"
+    "description": "Message shown when an achievement is unlocked"
   },
-  "unknownAchievementTitleText": "Unbekannter Erfolg",
+  "unknownAchievementTitleText": "Unknown Achievement",
   "@unknownAchievementTitleText": {
-    "description": "Title for an unknown achievement"
+    "description": "Label for an unknown achievement"
   },
-  "unknownAchievementDescriptionText": "Keine Informationen zu diesem Erfolg verfügbar.",
+  "unknownAchievementDescriptionText": "No information available about this achievement.",
   "@unknownAchievementDescriptionText": {
     "description": "Description for an unknown achievement"
   },
-  "achievement_solve_ten_words_title": "Zehn Wörter lösen",
+  "achievement_solve_ten_words_title": "Tenten!",
   "@achievement_solve_ten_words_title": {
     "description": "Title for the 'solve ten words' achievement"
   },
-  "achievement_solve_ten_words_description": "Du hast zehn Wörter gelöst.",
+  "achievement_solve_ten_words_description": "You solved 10 words successfully!",
   "@achievement_solve_ten_words_description": {
     "description": "Description for the 'solve ten words' achievement"
   },
-  "achievement_solve_fifty_words_title": "Wortmeister 50",
+  "achievement_solve_fifty_words_title": "Half hundred!",
   "@achievement_solve_fifty_words_title": {
     "description": "Title for the 'solve fifty words' achievement"
   },
-  "achievement_solve_fifty_words_description": "Du hast fünfzig Wörter gelöst.",
+  "achievement_solve_fifty_words_description": "You solved 50 words successfully!",
   "@achievement_solve_fifty_words_description": {
     "description": "Description for the 'solve fifty words' achievement"
   },
-  "achievement_solve_hundred_words_title": "Hundert Worte, ein Held!",
+  "achievement_solve_hundred_words_title": "100%",
   "@achievement_solve_hundred_words_title": {
     "description": "Title for the 'solve hundred words' achievement"
   },
-  "achievement_solve_hundred_words_description": "Du hast hundert Wörter gelöst.",
+  "achievement_solve_hundred_words_description": "You solved 100 words successfully!",
   "@achievement_solve_hundred_words_description": {
     "description": "Description for the 'solve hundred words' achievement"
   },
-  "achievement_solve_fivehundred_words_title": "Fünf Hundert Worte, ein Weiser!",
+  "achievement_solve_fivehundred_words_title": "Half thousand!",
   "@achievement_solve_fivehundred_words_title": {
     "description": "Title for the 'solve five hundred words' achievement"
   },
-  "achievement_solve_fivehundred_words_description": "Du hast fünfhundert Wörter gelöst.",
+  "achievement_solve_fivehundred_words_description": "You solved 500 words successfully!",
   "@achievement_solve_fivehundred_words_description": {
     "description": "Description for the 'solve five hundred words' achievement"
   },
-  "achievement_solve_thousand_words_title": "Tausend-sassa",
+  "achievement_solve_thousand_words_title": "Thousand!",
   "@achievement_solve_thousand_words_title": {
     "description": "Title for the 'solve thousand words' achievement"
   },
-  "achievement_solve_thousand_words_description": "Du hast tausend Wörter gelöst.",
+  "achievement_solve_thousand_words_description": "You solved 1000 words successfully!",
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
-  "adNotReady": "Anzeige nicht verfügbar. Bitte später erneut versuchen.",
+  "adNotReady": "Ad not ready. Please try again later.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
   },
-  "adNotLoaded": "Anzeige nicht geladen.",
+  "adNotLoaded": "Ad could not be loaded.",
   "@adNotLoaded": {
     "description": "Error message shown when the ad is not loaded"
   },
-  "adRewardGoldEarned": "Als Werbebelohnung hast du {gold} Gold erhalten!",
+  "adRewardGoldEarned": "You earned {gold} gold as an ad reward!",
   "@adRewardGoldEarned": {
     "description": "The message shown when the user earns gold from watching an ad",
     "placeholders": {
@@ -374,15 +374,15 @@
       }
     }
   },
-  "adRewardTooltip": "Verdiene Gold, indem du Werbung ansiehst.",
+  "adRewardTooltip": "Ad reward",
   "@adRewardTooltip": {
     "description": "Tooltip shown when the user can earn gold by watching an ad"
   },
-  "appLanguage": "App-Sprache",
+  "appLanguage": "App Language",
   "@appLanguage": {
     "description": "Label for the app language setting"
   },
-  "targetLanguage": "Zielsprache",
+  "targetLanguage": "Target Language",
   "@targetLanguage": {
     "description": "Label for the target language setting"
   }

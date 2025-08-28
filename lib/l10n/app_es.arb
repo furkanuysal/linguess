@@ -377,5 +377,13 @@
   "adRewardTooltip": "Gana oro viendo anuncios.",
   "@adRewardTooltip": {
     "description": "Tooltip shown when the user can earn gold by watching an ad"
+  },
+  "appLanguage": "Idioma de la aplicación",
+  "@appLanguage": {
+    "description": "Label for the app language setting"
+  },
+  "targetLanguage": "Idioma de destino",
+  "@targetLanguage": {
+    "description": "Label for the target language setting"
   }
 }
