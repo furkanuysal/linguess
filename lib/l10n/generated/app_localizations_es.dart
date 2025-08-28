@@ -307,4 +307,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get adRewardTooltip => 'Gana oro viendo anuncios.';
+
+  @override
+  String get appLanguage => 'Idioma de la aplicación';
+
+  @override
+  String get targetLanguage => 'Idioma de destino';
 }
