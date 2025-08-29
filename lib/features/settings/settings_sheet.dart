@@ -7,6 +7,23 @@ import 'settings_controller.dart';
 class SettingsSheet extends ConsumerWidget {
   const SettingsSheet({super.key});
 
+  // Generate items, disabling the language selected in the other dropdown
+  List<DropdownMenuItem<String>> _buildLangItems(
+    List<Map<String, String>> langs, {
+    required String disabledCode,
+  }) {
+    return langs.map((e) {
+      final code = e['code']!;
+      final label = e['label']!;
+      final isDisabled = code == disabledCode;
+      return DropdownMenuItem<String>(
+        value: code,
+        enabled: !isDisabled,
+        child: Opacity(opacity: isDisabled ? 0.5 : 1.0, child: Text(label)),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(settingsControllerProvider);
@@ -47,54 +64,86 @@ class SettingsSheet extends ConsumerWidget {
               ),
             ),
             Text(
-              AppLocalizations.of(context)!.settings,
+              l10n.settings,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
+
             const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: l10n.appLanguage,
-                border: const OutlineInputBorder(),
-              ),
-              value: settings.appLangCode,
-              items: appLangs
-                  .map(
-                    (lang) => DropdownMenuItem<String>(
-                      value: lang['code'],
-                      child: Text(lang['label']!),
+            Row(
+              children: [
+                // App Language
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: l10n.appLanguage,
+                      border: const OutlineInputBorder(),
                     ),
-                  )
-                  .toList(),
-              onChanged: (val) {
-                if (val != null) {
-                  ref
-                      .read(settingsControllerProvider.notifier)
-                      .setAppLangCode(val);
-                }
-              },
-            ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: l10n.targetLanguage,
-                border: const OutlineInputBorder(),
-              ),
-              value: settings.targetLangCode,
-              items: targetLangs
-                  .map(
-                    (lang) => DropdownMenuItem<String>(
-                      value: lang['code'],
-                      child: Text(lang['label']!),
+                    value: settings.appLangCode,
+                    items: _buildLangItems(
+                      appLangs,
+                      disabledCode: settings.targetLangCode,
                     ),
-                  )
-                  .toList(),
-              onChanged: (val) {
-                if (val != null) {
-                  ref
-                      .read(settingsControllerProvider.notifier)
-                      .setAppLangCode(val);
-                }
-              },
+                    onChanged: (val) {
+                      if (val == null) return;
+                      if (val == settings.targetLangCode) return;
+                      ref
+                          .read(settingsControllerProvider.notifier)
+                          .setAppLangCode(val);
+                    },
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Swap button
+                SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.zero,
+                      shape: const CircleBorder(),
+                    ),
+                    onPressed: () async {
+                      final app = settings.appLangCode;
+                      final target = settings.targetLangCode;
+                      if (app == target) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.errorOccurred)),
+                        );
+                        return;
+                      }
+                      final notifier = ref.read(
+                        settingsControllerProvider.notifier,
+                      );
+                      // first set target to app, then app to target
+                      await notifier.setAppLangCode(target);
+                      await notifier.setTargetLangCode(app);
+                    },
+                    child: const Icon(Icons.swap_horiz),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                // Target Language
+                Expanded(
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: l10n.targetLanguage,
+                      border: const OutlineInputBorder(),
+                    ),
+                    value: settings.targetLangCode,
+                    items: _buildLangItems(
+                      targetLangs,
+                      disabledCode: settings.appLangCode,
+                    ),
+                    onChanged: (val) {
+                      if (val == null) return;
+                      if (val == settings.appLangCode) return;
+                      ref
+                          .read(settingsControllerProvider.notifier)
+                          .setTargetLangCode(val);
+                    },
+                  ),
+                ),
+              ],
             ),
             const Divider(height: 24),
             SwitchListTile(

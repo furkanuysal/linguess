@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/providers/auth_provider.dart';
 import 'package:linguess/providers/word_repository_provider.dart';
 import 'package:linguess/models/word_model.dart';
@@ -34,6 +35,8 @@ final progressProvider = FutureProvider.autoDispose
       // Auth state
       final userAsync = ref.watch(firebaseUserProvider);
       final user = userAsync.value;
+      final targetLang =
+          ref.watch(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
       // Words (category/level)
       final repo = ref.read(wordRepositoryProvider);
@@ -54,6 +57,8 @@ final progressProvider = FutureProvider.autoDispose
       final learnedSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
+          .collection('targets')
+          .doc(targetLang)
           .collection('learnedWords')
           .get();
 
