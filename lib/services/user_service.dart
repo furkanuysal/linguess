@@ -43,30 +43,43 @@ class UserService {
     }
   }
 
-  /// Answered word correct count update.
-  /// - users/{uid}/wordProgress/{wordId}.count += 1
-  Future<void> onCorrectAnswer({required WordModel word}) async {
+  // Update correct answer count under target language
+  // - users/{uid}/targets/{targetLang}/wordProgress/{wordId}.count += 1
+  // - When it reaches 5, create users/{uid}/targets/{targetLang}/learnedWords/{wordId}
+  Future<void> onCorrectAnswer({
+    required WordModel word,
+    required String targetLang,
+  }) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
 
     final userRef = _firestore.collection('users').doc(uid);
-    final progressRef = userRef.collection('wordProgress').doc(word.id);
-    final learnedRef = userRef.collection('learnedWords').doc(word.id);
+    final targetDocRef = userRef.collection('targets').doc(targetLang);
+    final progressRef = targetDocRef.collection('wordProgress').doc(word.id);
+    final learnedRef = targetDocRef.collection('learnedWords').doc(word.id);
 
-    bool justLearned = false;
+    var justLearned = false;
 
     await _firestore.runTransaction((tx) async {
-      final snap = await tx.get(progressRef);
-      final prevCount = (snap.data()?['count'] as int?) ?? 0;
+      // Read first
+      final targetSnap = await tx.get(targetDocRef);
+      final progressSnap = await tx.get(progressRef);
+
+      final prevCount = (progressSnap.data()?['count'] as int?) ?? 0;
       final newCount = prevCount + 1;
 
-      // wordProgress/{wordId}
+      // Then write
+      if (!targetSnap.exists) {
+        tx.set(targetDocRef, {
+          'createdAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+
       tx.set(progressRef, {
         'count': newCount,
-        if (!snap.exists) ...{'firstSeenAt': FieldValue.serverTimestamp()},
+        if (!progressSnap.exists) 'firstSeenAt': FieldValue.serverTimestamp(),
       }, SetOptions(merge: true));
 
-      // If count reaches 5, mark as learned
       if (prevCount < 5 && newCount >= 5) {
         justLearned = true;
         tx.set(learnedRef, {
@@ -74,34 +87,37 @@ class UserService {
         }, SetOptions(merge: true));
       }
     });
+
     if (justLearned) {
       final ach = ref.read(achievementsServiceProvider);
       ach.awardIfNotEarned('learn_firstword');
     }
   }
 
-  /// (Optional helpers)
-
-  /// Current correct count for this word
-  Future<int> getProgressCount(String wordId) async {
+  // The correct answer count for the word under the target language
+  Future<int> getProgressCount(String wordId, String targetLang) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return 0;
     final doc = await _firestore
         .collection('users')
         .doc(uid)
+        .collection('targets')
+        .doc(targetLang)
         .collection('wordProgress')
         .doc(wordId)
         .get();
     return (doc.data()?['count'] as int?) ?? 0;
   }
 
-  /// Is this word learned?
-  Future<bool> isLearned(String wordId) async {
+  // Is the word has been learned under the target language?
+  Future<bool> isLearned(String wordId, String targetLang) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return false;
     final doc = await _firestore
         .collection('users')
         .doc(uid)
+        .collection('targets')
+        .doc(targetLang)
         .collection('learnedWords')
         .doc(wordId)
         .get();
