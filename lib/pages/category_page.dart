@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/game/word_game_state.dart';
 import 'package:linguess/providers/learned_count_provider.dart';
 import 'package:linguess/providers/word_game_provider.dart';
 import 'package:linguess/models/category_model.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/settings/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/models/word_model.dart';
@@ -13,22 +14,32 @@ class LearnedWordsPage extends ConsumerWidget {
   Future<List<WordModel>> _loadDetails(
     List<String> ids,
     WordRepository repo,
+    String sortLang,
   ) async {
     if (ids.isEmpty) return const [];
     final list = await Future.wait(ids.map(repo.fetchWordById));
-    return list.whereType<WordModel>().toList()..sort((a, b) {
-      final ea = (a.translations['en'] ?? '').toLowerCase();
-      final eb = (b.translations['en'] ?? '').toLowerCase();
-      return ea.compareTo(eb);
+    final words = list.whereType<WordModel>().toList();
+    words.sort((a, b) {
+      final ta = (a.translations[sortLang] ?? '').toLowerCase();
+      final tb = (b.translations[sortLang] ?? '').toLowerCase();
+      return ta.compareTo(tb);
     });
+    return words;
   }
+
+  String _cap(String s) =>
+      s.isEmpty ? s : s[0].toUpperCase() + s.substring(1).toLowerCase();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+
+    final settings = ref.watch(settingsControllerProvider).valueOrNull;
+    final targetLangCode = settings?.targetLangCode ?? 'en';
+    final appLangCode = settings?.appLangCode ?? 'en';
+
     final idsAsync = ref.watch(learnedWordIdsProvider);
     final repo = ref.watch(wordRepositoryProvider);
-    final locale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.learnedWordsText)),
@@ -40,7 +51,7 @@ class LearnedWordsPage extends ConsumerWidget {
             return Center(child: Text(l10n.noDataToShow));
           }
           return FutureBuilder<List<WordModel>>(
-            future: _loadDetails(ids, repo),
+            future: _loadDetails(ids, repo, targetLangCode),
             builder: (context, snap) {
               if (snap.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -58,26 +69,33 @@ class LearnedWordsPage extends ConsumerWidget {
                 separatorBuilder: (_, _) => const Divider(height: 1),
                 itemBuilder: (context, i) {
                   final w = words[i];
-                  final en = (w.translations['en'] ?? '???');
-                  final enCap = en.isEmpty
-                      ? en
-                      : en[0].toUpperCase() + en.substring(1).toLowerCase();
-                  final local = w.translations[locale] ?? '???';
+
+                  final targetText = w.translations[targetLangCode] ?? '???';
+                  final appText = w.translations[appLangCode] ?? '???';
+
+                  final titleText = _cap(targetText);
+                  final subtitleText = appText;
 
                   return ListTile(
-                    title: Text(enCap),
-                    subtitle: Text(local),
+                    title: Text(titleText),
+                    subtitle: Text(subtitleText),
                     onTap: () {
                       showDialog(
                         context: context,
                         builder: (_) => AlertDialog(
-                          title: Text(enCap),
+                          title: Text(titleText),
                           content: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('${l10n.translation}: $local'),
+                              Text(
+                                '${l10n.translation} (${targetLangCode.toUpperCase()}): $targetText',
+                              ),
                               const SizedBox(height: 4),
+                              Text(
+                                '${l10n.translation} (${appLangCode.toUpperCase()}): $appText',
+                              ),
+                              const SizedBox(height: 8),
                               Text('${l10n.level}: ${w.level}'),
                               const SizedBox(height: 4),
                               Text(
