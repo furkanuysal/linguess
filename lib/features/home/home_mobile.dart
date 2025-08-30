@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/settings/settings_sheet.dart';
+import 'package:linguess/features/sfx/sfx_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/daily_puzzle_provider.dart';
 import 'package:linguess/providers/economy_provider.dart';
-import 'package:linguess/providers/ads_provider.dart'; // Rewarded Ads provider
+import 'package:linguess/providers/ads_provider.dart';
 
 class HomeMobile extends ConsumerStatefulWidget {
   const HomeMobile({super.key});
@@ -25,7 +26,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
         title: Text(l10n.appTitle),
         centerTitle: true,
         actions: [
-          IconButton(
+          SfxIconButton(
             tooltip: l10n.adRewardTooltip,
             icon: const Icon(Icons.play_circle_fill),
             onPressed: () async {
@@ -60,22 +61,22 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
-            ElevatedButton(
+            SfxElevatedButton(
               onPressed: () => context.push('/category'),
               child: Text(l10n.selectCategory),
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
+            SfxElevatedButton(
               onPressed: () => context.push('/level'),
               child: Text(l10n.selectLevel),
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
+            SfxElevatedButton(
               onPressed: () => handleDailyButton(context, ref),
               child: Text(l10n.dailyWord),
             ),
             const SizedBox(height: 12),
-            ElevatedButton(
+            SfxElevatedButton(
               onPressed: () => showSettingsSheet(context),
               child: Text(l10n.settings),
             ),
@@ -86,7 +87,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                 final user = snapshot.data;
                 return Align(
                   alignment: Alignment.bottomRight,
-                  child: ElevatedButton(
+                  child: SfxElevatedButton(
                     onPressed: () {
                       if (user == null) {
                         context.push('/login');
