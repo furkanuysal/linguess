@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/game/word_game_state.dart';
+import 'package:linguess/features/sfx/sfx_service.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/providers/user_data_provider.dart';
@@ -100,9 +101,11 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     final state = ref.watch(wordGameProvider(params));
     final notifier = ref.read(wordGameProvider(params).notifier);
     final userDataAsync = ref.watch(userDataProvider);
+    final sfx = ref.watch(sfxProvider);
 
     if (state.isShaking && !_shakeController.isAnimating) {
       _shakeController.forward(from: 0);
+      sfx.wrong();
     }
     final l10n = AppLocalizations.of(context)!;
 

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/game/word_game_state.dart';
 import 'package:linguess/providers/learned_count_provider.dart';
-import 'package:linguess/providers/word_game_provider.dart';
 import 'package:linguess/models/category_model.dart';
 import 'package:linguess/repositories/category_repository.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -25,6 +24,25 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   void initState() {
     super.initState();
     _loadCategories();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh progresses only if categories are loaded
+    if (_categories.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _refreshProgress();
+      });
+    }
+  }
+
+  void _refreshProgress() {
+    for (final category in _categories) {
+      ref.invalidate(
+        progressProvider(ProgressParams(mode: 'category', id: category.id)),
+      );
+    }
   }
 
   Future<void> _loadCategories() async {
@@ -84,13 +102,10 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                           ),
                         )
                         .then((_) {
-                          // Revalidate the provider when returning
+                          // After return, invalidate only the relevant provider
                           ref.invalidate(
-                            wordGameProvider(
-                              WordGameParams(
-                                mode: 'category',
-                                selectedValue: category.id,
-                              ),
+                            progressProvider(
+                              ProgressParams(mode: 'category', id: category.id),
                             ),
                           );
                         });
