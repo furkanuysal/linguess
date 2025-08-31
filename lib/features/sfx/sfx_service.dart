@@ -20,6 +20,7 @@ class SfxService {
   final Map<String, String> _assets = const {
     'select': 'assets/sfx/buttonSelect.wav',
     'confetti': 'assets/sfx/confetti.wav',
+    'wrong': 'assets/sfx/wrong.wav',
   };
 
   String? _current; // loaded asset
@@ -67,6 +68,7 @@ class SfxService {
   // Shortcuts
   Future<void> select() => _playKey('select');
   Future<void> confetti() => _playKey('confetti');
+  Future<void> wrong() => _playKey('wrong');
 
   Future<void> dispose() async {
     await _player.dispose();

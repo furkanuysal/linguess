@@ -26,6 +26,25 @@ class _LevelPageState extends ConsumerState<LevelPage> {
     _loadCategories();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Refresh progresses only if levels are loaded
+    if (_levels.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _refreshProgress();
+      });
+    }
+  }
+
+  void _refreshProgress() {
+    for (final level in _levels) {
+      ref.invalidate(
+        progressProvider(ProgressParams(mode: 'level', id: level.id)),
+      );
+    }
+  }
+
   Future<void> _loadCategories() async {
     setState(() {
       _isLoading = true;
@@ -81,7 +100,12 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                           ),
                         )
                         .then((_) {
-                          // Revalidate the provider when returning
+                          // Invalidate relevant providers after returning
+                          ref.invalidate(
+                            progressProvider(
+                              ProgressParams(mode: 'level', id: level.id),
+                            ),
+                          );
                           ref.invalidate(
                             wordGameProvider(
                               WordGameParams(

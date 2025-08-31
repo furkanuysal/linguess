@@ -3,35 +3,47 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/features/sfx/sfx_service.dart'; // sfxProvider
+import 'package:linguess/features/sfx/sfx_service.dart';
 
 class ConfettiGame extends FlameGame {
   ConfettiGame({this.onBurstSound});
 
-  /// Sound to be played on each burst wave
   final VoidCallback? onBurstSound;
-
-  DateTime? _lastBurstSoundAt;
-  final Duration _cooldown = const Duration(milliseconds: 180);
+  int burstPhase = 0; // 0: first burst, 1: second burst, 2: finished
+  bool isWaitingForSecondBurst = false;
+  double waitTimer = 0;
+  static const double waitDuration = 1.5; // wait for 1.5 seconds
 
   @override
   Color backgroundColor() => Colors.transparent;
 
-  /// Called when a particle makes a "base burst"
-  void playBurstSoundThrottled() {
-    final now = DateTime.now();
-    if (_lastBurstSoundAt == null ||
-        now.difference(_lastBurstSoundAt!) > _cooldown) {
-      _lastBurstSoundAt = now;
-      onBurstSound?.call();
-    }
+  @override
+  Future<void> onLoad() async {
+    // First burst
+    _createBurst();
+    onBurstSound?.call();
+    burstPhase = 1;
+    isWaitingForSecondBurst = true;
   }
 
   @override
-  Future<void> onLoad() async {
-    // First burst sound
-    playBurstSoundThrottled();
+  void update(double dt) {
+    super.update(dt);
 
+    // Wait for the second burst
+    if (isWaitingForSecondBurst) {
+      waitTimer += dt;
+      if (waitTimer >= waitDuration) {
+        // Second burst
+        _createBurst();
+        onBurstSound?.call();
+        burstPhase = 2;
+        isWaitingForSecondBurst = false;
+      }
+    }
+  }
+
+  void _createBurst() {
     for (int i = 0; i < 50; i++) {
       add(ConfettiParticle());
     }
@@ -44,14 +56,12 @@ class ConfettiParticle extends RectangleComponent
   late double rotationSpeed;
   late Color particleColor;
   late double initialSpeed;
-  int resetCount = 0;
-  static const int maxResets = 1;
 
   @override
   Future<void> onLoad() async {
     final random = Random();
 
-    // color
+    // Color
     final colors = [
       Colors.red,
       Colors.blue,
@@ -63,16 +73,16 @@ class ConfettiParticle extends RectangleComponent
     ];
     particleColor = colors[random.nextInt(colors.length)];
 
-    // size
+    // Size
     size = Vector2(8 + random.nextDouble() * 12, 8 + random.nextDouble() * 12);
 
-    // initial position (around the base center)
+    // Initial position
     position = Vector2(
       game.size.x * 0.5 + (random.nextDouble() - 0.5) * 100,
       game.size.y + size.y,
     );
 
-    // initial launch speed
+    // Speed
     initialSpeed = 300 + random.nextDouble() * 200;
     velocity = Vector2((random.nextDouble() - 0.5) * 300, -initialSpeed);
 
@@ -87,35 +97,15 @@ class ConfettiParticle extends RectangleComponent
     position += velocity * dt;
     angle += rotationSpeed * dt;
 
-    // gravity
+    // Gravity
     velocity.y += 500 * dt;
 
-    // reset if it leaves the screen
-    if (position.y > game.size.y + size.y ||
-        position.x < -size.x ||
-        position.x > game.size.x + size.x) {
-      if (resetCount < maxResets) {
-        _resetParticle(); // launch again from the base
-        game.playBurstSoundThrottled(); // request sound on each burst wave
-      } else {
-        // "finish"
-        position = Vector2(-1000, -1000);
-        velocity = Vector2.zero();
-      }
+    // Remove when out of screen
+    if (position.y > game.size.y + size.y + 100 ||
+        position.x < -size.x - 100 ||
+        position.x > game.size.x + size.x + 100) {
+      removeFromParent();
     }
-  }
-
-  void _resetParticle() {
-    final random = Random();
-    resetCount++;
-
-    position = Vector2(
-      game.size.x * 0.5 + (random.nextDouble() - 0.5) * 100,
-      game.size.y + size.y,
-    );
-
-    initialSpeed = 300 + random.nextDouble() * 200;
-    velocity = Vector2((random.nextDouble() - 0.5) * 300, -initialSpeed);
   }
 }
 
@@ -125,7 +115,7 @@ class ConfettiWidget extends ConsumerStatefulWidget {
 
   const ConfettiWidget({
     super.key,
-    this.duration = const Duration(seconds: 4),
+    this.duration = const Duration(seconds: 3),
     required this.child,
   });
 
@@ -135,13 +125,14 @@ class ConfettiWidget extends ConsumerStatefulWidget {
 
 class _ConfettiWidgetState extends ConsumerState<ConfettiWidget> {
   bool _showConfetti = false;
+  late ConfettiGame _confettiGame;
 
   @override
   void initState() {
     super.initState();
-    // sfx preload
-    ref.read(sfxProvider);
-    _startConfetti();
+    // Create once
+    final sfx = ref.read(sfxProvider);
+    _confettiGame = ConfettiGame(onBurstSound: () => sfx.confetti());
   }
 
   void _startConfetti() {
@@ -153,21 +144,17 @@ class _ConfettiWidgetState extends ConsumerState<ConfettiWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final sfx = ref.read(sfxProvider);
+    // Start confetti on first build
+    if (!_showConfetti) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _startConfetti());
+    }
 
     return Stack(
       children: [
         widget.child,
         if (_showConfetti)
           Positioned.fill(
-            child: IgnorePointer(
-              child: GameWidget(
-                game: ConfettiGame(
-                  onBurstSound: () =>
-                      sfx.confetti(), // first + subsequent bursts
-                ),
-              ),
-            ),
+            child: IgnorePointer(child: GameWidget(game: _confettiGame)),
           ),
       ],
     );
