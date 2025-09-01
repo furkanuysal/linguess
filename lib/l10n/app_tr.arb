@@ -397,5 +397,27 @@
   "dailyWordDescription": "Bugünün özel meydan okuması",
   "@dailyWordDescription": {
     "description": "Description text for the daily word challenge card"
+  },
+  "adRewardConfirmTitle": "Reklam ödülü!",
+  "@adRewardConfirmTitle": {
+    "description": "Title for the ad reward confirmation dialog"
+  },
+  "adRewardConfirmBody": "Reklamı izleyerek {gold} altın kazanabilirsiniz.",
+  "@adRewardConfirmBody": {
+    "description": "Body for the ad reward confirmation dialog",
+    "placeholders": {
+      "gold": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "cancelText": "Vazgeç",
+  "@cancelText": {
+    "description": "Label for the cancel button in the confirmation dialog"
+  },
+  "watchAdText": "Reklamı İzle",
+  "@watchAdText": {
+    "description": "Label for the watch ad button in the confirmation dialog"
   }
 }

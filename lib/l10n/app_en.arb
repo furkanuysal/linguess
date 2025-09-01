@@ -397,5 +397,27 @@
   "dailyWordDescription": "Today's special challenge",
   "@dailyWordDescription": {
     "description": "Description text for the daily word challenge card"
+  },
+  "adRewardConfirmTitle": "Watch Ad for Gold",
+  "@adRewardConfirmTitle": {
+    "description": "Title for the ad reward confirmation dialog"
+  },
+  "adRewardConfirmBody": "Do you want to watch an ad to earn {gold} gold?",
+  "@adRewardConfirmBody": {
+    "description": "Body for the ad reward confirmation dialog",
+    "placeholders": {
+      "gold": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "cancelText": "Cancel",
+  "@cancelText": {
+    "description": "Label for the cancel button in the confirmation dialog"
+  },
+  "watchAdText": "Watch Ad",
+  "@watchAdText": {
+    "description": "Label for the watch ad button in the confirmation dialog"
   }
 }

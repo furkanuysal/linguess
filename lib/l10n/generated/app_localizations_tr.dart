@@ -318,4 +318,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get dailyWordDescription => 'Bugünün özel meydan okuması';
+
+  @override
+  String get adRewardConfirmTitle => 'Reklam ödülü!';
+
+  @override
+  String adRewardConfirmBody(int gold) {
+    return 'Reklamı izleyerek $gold altın kazanabilirsiniz.';
+  }
+
+  @override
+  String get cancelText => 'Vazgeç';
+
+  @override
+  String get watchAdText => 'Reklamı İzle';
 }
