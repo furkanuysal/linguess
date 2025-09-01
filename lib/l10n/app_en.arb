@@ -385,5 +385,17 @@
   "targetLanguage": "Target Language",
   "@targetLanguage": {
     "description": "Label for the target language setting"
+  },
+  "selectCategoryDescription": "Choose from different word categories",
+  "@selectCategoryDescription": {
+    "description": "Description text for the category selection card"
+  },
+  "selectLevelDescription": "Choose your difficulty level",
+  "@selectLevelDescription": {
+    "description": "Description text for the level selection card"
+  },
+  "dailyWordDescription": "Today's special challenge",
+  "@dailyWordDescription": {
+    "description": "Description text for the daily word challenge card"
   }
 }

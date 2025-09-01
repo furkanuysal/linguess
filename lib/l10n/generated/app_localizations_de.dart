@@ -316,4 +316,14 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get targetLanguage => 'Zielsprache';
+
+  @override
+  String get selectCategoryDescription =>
+      'Wählen Sie eine der verschiedenen Wortkategorien';
+
+  @override
+  String get selectLevelDescription => 'Wählen Sie Ihr Schwierigkeitsniveau';
+
+  @override
+  String get dailyWordDescription => 'Die besondere Herausforderung von heute';
 }

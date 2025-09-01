@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -155,15 +156,16 @@ class SettingsSheet extends ConsumerWidget {
                     .setRepeatLearnedWords(val);
               },
             ),
-            SwitchListTile(
-              title: Text(l10n.settingsSoundEffects),
-              value: settings.soundEffects,
-              onChanged: (val) {
-                ref
-                    .read(settingsControllerProvider.notifier)
-                    .setSoundEffects(val);
-              },
-            ),
+            if (!kIsWeb)
+              SwitchListTile(
+                title: Text(l10n.settingsSoundEffects),
+                value: settings.soundEffects,
+                onChanged: (val) {
+                  ref
+                      .read(settingsControllerProvider.notifier)
+                      .setSoundEffects(val);
+                },
+              ),
             SwitchListTile(
               title: Text(l10n.settingsDarkMode),
               value: settings.darkMode,

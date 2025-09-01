@@ -671,6 +671,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hedef Dil'**
   String get targetLanguage;
+
+  /// Description text for the category selection card
+  ///
+  /// In tr, this message translates to:
+  /// **'Farklı kelime kategorilerinden birini seçin'**
+  String get selectCategoryDescription;
+
+  /// Description text for the level selection card
+  ///
+  /// In tr, this message translates to:
+  /// **'Zorluk seviyenizi seçin'**
+  String get selectLevelDescription;
+
+  /// Description text for the daily word challenge card
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugünün özel meydan okuması'**
+  String get dailyWordDescription;
 }
 
 class _AppLocalizationsDelegate

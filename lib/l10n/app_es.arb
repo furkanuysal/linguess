@@ -385,5 +385,17 @@
   "targetLanguage": "Idioma de destino",
   "@targetLanguage": {
     "description": "Label for the target language setting"
+  },
+  "selectCategoryDescription": "Selecciona una de las diferentes categorías de palabras",
+  "@selectCategoryDescription": {
+    "description": "Description text for the category selection card"
+  },
+  "selectLevelDescription": "Elige tu nivel de dificultad",
+  "@selectLevelDescription": {
+    "description": "Description text for the level selection card"
+  },
+  "dailyWordDescription": "El desafío especial de hoy",
+  "@dailyWordDescription": {
+    "description": "Description text for the daily word challenge card"
   }
 }

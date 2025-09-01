@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
@@ -6,15 +7,18 @@ final sfxProvider = Provider<SfxService>((ref) => SfxService(ref));
 
 class SfxService {
   SfxService(this._ref) {
-    _player = AudioPlayer();
-    _preload(); // preload at start
+    if (!kIsWeb) {
+      _player = AudioPlayer();
+      _preload(); // preload at start
+    }
   }
 
   final Ref _ref;
-  late final AudioPlayer _player;
+  AudioPlayer? _player;
 
   bool get _enabled =>
-      _ref.read(settingsControllerProvider).value?.soundEffects ?? false;
+      !kIsWeb &&
+      (_ref.read(settingsControllerProvider).value?.soundEffects ?? false);
 
   // Asset map
   final Map<String, String> _assets = const {
@@ -28,15 +32,16 @@ class SfxService {
   final Duration _minGap = const Duration(milliseconds: 80);
 
   Future<void> _preload() async {
+    if (kIsWeb || _player == null) return;
     try {
       // Preload the most used asset
-      await _player.setAsset(_assets['select']!);
+      await _player!.setAsset(_assets['select']!);
       _current = _assets['select'];
     } catch (_) {}
   }
 
   Future<void> _playKey(String key, {double volume = 1.0}) async {
-    if (!_enabled) return;
+    if (!_enabled || kIsWeb || _player == null) return;
     final asset = _assets[key];
     if (asset == null) return;
 
@@ -49,18 +54,18 @@ class SfxService {
     try {
       if (_current == asset) {
         // same source → restart immediately
-        await _player.stop();
-        await _player.setVolume(volume);
-        await _player.seek(Duration.zero);
-        await _player.play();
+        await _player!.stop();
+        await _player!.setVolume(volume);
+        await _player!.seek(Duration.zero);
+        await _player!.play();
       } else {
         // different source → setAsset + play
-        await _player.stop();
-        await _player.setVolume(volume);
-        await _player.setAsset(asset);
+        await _player!.stop();
+        await _player!.setVolume(volume);
+        await _player!.setAsset(asset);
         _current = asset;
-        await _player.seek(Duration.zero);
-        await _player.play();
+        await _player!.seek(Duration.zero);
+        await _player!.play();
       }
     } catch (_) {}
   }
@@ -71,6 +76,8 @@ class SfxService {
   Future<void> wrong() => _playKey('wrong');
 
   Future<void> dispose() async {
-    await _player.dispose();
+    if (!kIsWeb && _player != null) {
+      await _player!.dispose();
+    }
   }
 }

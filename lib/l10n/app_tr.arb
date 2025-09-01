@@ -385,5 +385,17 @@
   "targetLanguage": "Hedef Dil",
   "@targetLanguage": {
     "description": "Label for the target language setting"
+  },
+  "selectCategoryDescription": "Farklı kelime kategorilerinden birini seçin",
+  "@selectCategoryDescription": {
+    "description": "Description text for the category selection card"
+  },
+  "selectLevelDescription": "Zorluk seviyenizi seçin",
+  "@selectLevelDescription": {
+    "description": "Description text for the level selection card"
+  },
+  "dailyWordDescription": "Bugünün özel meydan okuması",
+  "@dailyWordDescription": {
+    "description": "Description text for the daily word challenge card"
   }
 }
