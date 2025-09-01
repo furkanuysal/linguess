@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/sfx/sfx_service.dart';
@@ -21,7 +22,9 @@ class ConfettiGame extends FlameGame {
   Future<void> onLoad() async {
     // First burst
     _createBurst();
-    onBurstSound?.call();
+    if (!kIsWeb) {
+      onBurstSound?.call();
+    }
     burstPhase = 1;
     isWaitingForSecondBurst = true;
   }
@@ -36,7 +39,9 @@ class ConfettiGame extends FlameGame {
       if (waitTimer >= waitDuration) {
         // Second burst
         _createBurst();
-        onBurstSound?.call();
+        if (!kIsWeb) {
+          onBurstSound?.call();
+        }
         burstPhase = 2;
         isWaitingForSecondBurst = false;
       }
@@ -132,7 +137,9 @@ class _ConfettiWidgetState extends ConsumerState<ConfettiWidget> {
     super.initState();
     // Create once
     final sfx = ref.read(sfxProvider);
-    _confettiGame = ConfettiGame(onBurstSound: () => sfx.confetti());
+    _confettiGame = ConfettiGame(
+      onBurstSound: !kIsWeb ? () => sfx.confetti() : null,
+    );
   }
 
   void _startConfetti() {

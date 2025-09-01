@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/game/word_game_state.dart';
@@ -105,7 +106,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
 
     if (state.isShaking && !_shakeController.isAnimating) {
       _shakeController.forward(from: 0);
-      sfx.wrong();
+      if (!kIsWeb) {
+        sfx.wrong();
+      }
     }
     final l10n = AppLocalizations.of(context)!;
 

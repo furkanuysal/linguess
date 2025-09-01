@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:io' show Platform;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:linguess/features/settings/settings_controller.dart';
@@ -15,15 +17,18 @@ final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await MobileAds.instance.initialize();
 
-  await MobileAds.instance.updateRequestConfiguration(
-    RequestConfiguration(
-      tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes, // COPPA
-      tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes, // EEA UAC
-      maxAdContentRating: MaxAdContentRating.g, // "G" Content
-    ),
-  );
+  final adsSupported = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  if (adsSupported) {
+    await MobileAds.instance.initialize();
+    await MobileAds.instance.updateRequestConfiguration(
+      RequestConfiguration(
+        tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes, // COPPA
+        tagForUnderAgeOfConsent: TagForUnderAgeOfConsent.yes, // EEA UAC
+        maxAdContentRating: MaxAdContentRating.g, // "G" Content
+      ),
+    );
+  }
 
   runApp(const ProviderScope(child: LinguessApp()));
 }

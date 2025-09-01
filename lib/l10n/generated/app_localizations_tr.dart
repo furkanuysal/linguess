@@ -308,4 +308,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get targetLanguage => 'Hedef Dil';
+
+  @override
+  String get selectCategoryDescription =>
+      'Farklı kelime kategorilerinden birini seçin';
+
+  @override
+  String get selectLevelDescription => 'Zorluk seviyenizi seçin';
+
+  @override
+  String get dailyWordDescription => 'Bugünün özel meydan okuması';
 }

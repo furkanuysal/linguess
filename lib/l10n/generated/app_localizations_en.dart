@@ -307,4 +307,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get targetLanguage => 'Target Language';
+
+  @override
+  String get selectCategoryDescription =>
+      'Choose from different word categories';
+
+  @override
+  String get selectLevelDescription => 'Choose your difficulty level';
+
+  @override
+  String get dailyWordDescription => 'Today\'s special challenge';
 }
