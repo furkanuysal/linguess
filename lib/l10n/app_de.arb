@@ -397,5 +397,27 @@
   "dailyWordDescription": "Die besondere Herausforderung von heute",
   "@dailyWordDescription": {
     "description": "Description text for the daily word challenge card"
+  },
+  "adRewardConfirmTitle": "Werbung ansehen?",
+  "@adRewardConfirmTitle": {
+    "description": "Title for the ad reward confirmation dialog"
+  },
+  "adRewardConfirmBody": "Möchten Sie eine Werbung ansehen, um {gold} Gold zu verdienen?",
+  "@adRewardConfirmBody": {
+    "description": "Body for the ad reward confirmation dialog",
+    "placeholders": {
+      "gold": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "cancelText": "Abbrechen",
+  "@cancelText": {
+    "description": "Label for the cancel button in the confirmation dialog"
+  },
+  "watchAdText": "Werbung ansehen",
+  "@watchAdText": {
+    "description": "Label for the watch ad button in the confirmation dialog"
   }
 }

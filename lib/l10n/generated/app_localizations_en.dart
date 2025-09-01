@@ -317,4 +317,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyWordDescription => 'Today\'s special challenge';
+
+  @override
+  String get adRewardConfirmTitle => 'Watch Ad for Gold';
+
+  @override
+  String adRewardConfirmBody(int gold) {
+    return 'Do you want to watch an ad to earn $gold gold?';
+  }
+
+  @override
+  String get cancelText => 'Cancel';
+
+  @override
+  String get watchAdText => 'Watch Ad';
 }

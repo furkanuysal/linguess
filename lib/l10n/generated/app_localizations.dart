@@ -689,6 +689,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bugünün özel meydan okuması'**
   String get dailyWordDescription;
+
+  /// Title for the ad reward confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam ödülü!'**
+  String get adRewardConfirmTitle;
+
+  /// Body for the ad reward confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklamı izleyerek {gold} altın kazanabilirsiniz.'**
+  String adRewardConfirmBody(int gold);
+
+  /// Label for the cancel button in the confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Vazgeç'**
+  String get cancelText;
+
+  /// Label for the watch ad button in the confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklamı İzle'**
+  String get watchAdText;
 }
 
 class _AppLocalizationsDelegate

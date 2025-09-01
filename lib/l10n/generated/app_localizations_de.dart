@@ -326,4 +326,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get dailyWordDescription => 'Die besondere Herausforderung von heute';
+
+  @override
+  String get adRewardConfirmTitle => 'Werbung ansehen?';
+
+  @override
+  String adRewardConfirmBody(int gold) {
+    return 'Möchten Sie eine Werbung ansehen, um $gold Gold zu verdienen?';
+  }
+
+  @override
+  String get cancelText => 'Abbrechen';
+
+  @override
+  String get watchAdText => 'Werbung ansehen';
 }

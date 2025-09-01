@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/ads/confirm_reward_dialog.dart';
 import 'package:linguess/features/settings/settings_sheet.dart';
 import 'package:linguess/features/sfx/sfx_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -26,27 +27,69 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
         title: Text(l10n.appTitle),
         centerTitle: true,
         actions: [
-          SfxIconButton(
-            tooltip: l10n.adRewardTooltip,
-            icon: const Icon(Icons.play_circle_fill),
-            onPressed: () async {
-              final ads = ref.read(adsServiceProvider);
-              await ads.showRewarded(
-                context,
-                onReward: (reward) async {
-                  final economy = ref.read(economyServiceProvider);
-                  await economy.grantAdRewardGold(50); // Gold reward
-                  if (context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(l10n.adRewardGoldEarned(50)),
-                        backgroundColor: Colors.green,
+          Semantics(
+            // Erişilebilirlik için reklam olduğunu belirt
+            label: '${l10n.adRewardTooltip} — Ad',
+            button: true,
+            child: SfxIconButton(
+              tooltip: '${l10n.adRewardTooltip} • Ad',
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(Icons.ondemand_video),
+                  Positioned(
+                    // small "Ad" label at the top right corner
+                    right: -2,
+                    top: -2,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 4,
+                        vertical: 2,
                       ),
-                    );
-                  }
-                },
-              );
-            },
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: const Text(
+                        'Ad',
+                        style: TextStyle(
+                          fontSize: 8,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w900,
+                          height: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () async {
+                final confirmed = await confirmRewardAd(
+                  context,
+                  title: l10n.adRewardConfirmTitle,
+                  message: l10n.adRewardConfirmBody(50),
+                  cancelText: l10n.cancelText,
+                  confirmText: l10n.watchAdText,
+                );
+                if (!confirmed || !context.mounted) return;
+                final ads = ref.read(adsServiceProvider);
+                await ads.showRewarded(
+                  context,
+                  onReward: (reward) async {
+                    final economy = ref.read(economyServiceProvider);
+                    await economy.grantAdRewardGold(50);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(l10n.adRewardGoldEarned(50)),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
