@@ -11,6 +11,8 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+.env.local
+build_release.ps1
 
 # IntelliJ related
 *.iml
