@@ -337,4 +337,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get watchAdText => 'Ver anuncio';
+
+  @override
+  String get overwriteIfExists => 'Sobrescribir si existe';
+
+  @override
+  String get saveText => 'Guardar';
+
+  @override
+  String get addUpdateWordTitle => 'Agregar / Actualizar Palabra';
+
+  @override
+  String get errorOnlyAdminsCanAccess =>
+      'Solo los administradores pueden acceder a esta página.';
+
+  @override
+  String get requiredText => 'Requerido';
+
+  @override
+  String get chooseCategoryAndLevel => '¡Elige una categoría y un nivel!';
 }

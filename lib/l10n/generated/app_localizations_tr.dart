@@ -332,4 +332,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get watchAdText => 'Reklamı İzle';
+
+  @override
+  String get overwriteIfExists => 'Mevcutsa Üzerine Yaz';
+
+  @override
+  String get saveText => 'Kaydet';
+
+  @override
+  String get addUpdateWordTitle => 'Kelime Ekle / Güncelle';
+
+  @override
+  String get errorOnlyAdminsCanAccess =>
+      'Yalnızca yöneticiler bu sayfaya erişebilir.';
+
+  @override
+  String get requiredText => 'Gerekli';
+
+  @override
+  String get chooseCategoryAndLevel => 'Lütfen bir kategori ve seviye seçin.';
 }

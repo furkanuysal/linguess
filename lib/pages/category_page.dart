@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/game/word_game_state.dart';
+import 'package:linguess/providers/category_repository_provider.dart';
 import 'package:linguess/providers/learned_count_provider.dart';
-import 'package:linguess/models/category_model.dart';
-import 'package:linguess/repositories/category_repository.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 
@@ -16,103 +15,78 @@ class CategoryPage extends ConsumerStatefulWidget {
 }
 
 class _CategoryPageState extends ConsumerState<CategoryPage> {
-  final CategoryRepository _categoryRepository = CategoryRepository();
-  List<CategoryModel> _categories = [];
-  bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCategories();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Refresh progresses only if categories are loaded
-    if (_categories.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _refreshProgress();
-      });
-    }
-  }
-
-  void _refreshProgress() {
-    for (final category in _categories) {
-      ref.invalidate(
-        progressProvider(ProgressParams(mode: 'category', id: category.id)),
-      );
-    }
-  }
-
-  Future<void> _loadCategories() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      _categories = await _categoryRepository.fetchCategories();
-    } catch (e) {
-      // Handle error
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final categoriesAsync = ref.watch(categoriesProvider);
+
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appTitle)),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: _categories.length,
-              itemBuilder: (context, index) {
-                final category = _categories[index];
-                return ListTile(
-                  leading: category.icon != null
-                      ? Image.asset(category.icon!)
-                      : null,
-                  title: Text(l10n.categoryTitle(category.id)),
-                  subtitle: ref
-                      .watch(
-                        progressProvider(
-                          ProgressParams(mode: 'category', id: category.id),
+      body: categoriesAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
+        data: (categories) {
+          // Invalidate relevant progress providers when categories are loaded
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            for (final category in categories) {
+              ref.invalidate(
+                progressProvider(
+                  ProgressParams(mode: 'category', id: category.id),
+                ),
+              );
+            }
+          });
+
+          if (categories.isEmpty) {
+            return Center(child: Text(l10n.noDataToShow));
+          }
+
+          return ListView.builder(
+            itemCount: categories.length,
+            itemBuilder: (context, index) {
+              final category = categories[index];
+              return ListTile(
+                leading: category.icon != null
+                    ? Image.asset(category.icon!)
+                    : null,
+                title: Text(l10n.categoryTitle(category.id)),
+                subtitle: ref
+                    .watch(
+                      progressProvider(
+                        ProgressParams(mode: 'category', id: category.id),
+                      ),
+                    )
+                    .when(
+                      data: (p) => Text(
+                        p.hasUser
+                            ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                            : '${p.totalCount} ${l10n.totalWordText}',
+                      ),
+                      loading: () => const Text('...'),
+                      error: (_, _) => const Text('-'),
+                    ),
+                onTap: () {
+                  context
+                      .push(
+                        '/game/category/${category.id}',
+                        extra: WordGameParams(
+                          mode: 'category',
+                          selectedValue: category.id,
                         ),
                       )
-                      .when(
-                        data: (p) => Text(
-                          p.hasUser
-                              ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
-                              : '${p.totalCount} ${l10n.totalWordText}',
-                        ),
-                        loading: () => const Text('...'),
-                        error: (_, _) => const Text('-'),
-                      ),
-                  onTap: () {
-                    context
-                        .push(
-                          '/game/category/${category.id}',
-                          extra: WordGameParams(
-                            mode: 'category',
-                            selectedValue: category.id,
+                      .then((_) {
+                        ref.invalidate(
+                          progressProvider(
+                            ProgressParams(mode: 'category', id: category.id),
                           ),
-                        )
-                        .then((_) {
-                          // After return, invalidate only the relevant provider
-                          ref.invalidate(
-                            progressProvider(
-                              ProgressParams(mode: 'category', id: category.id),
-                            ),
-                          );
-                        });
-                  },
-                );
-              },
-            ),
+                        );
+                      });
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

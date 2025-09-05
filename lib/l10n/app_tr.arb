@@ -419,5 +419,29 @@
   "watchAdText": "Reklamı İzle",
   "@watchAdText": {
     "description": "Label for the watch ad button in the confirmation dialog"
+  },
+  "overwriteIfExists": "Mevcutsa Üzerine Yaz",
+  "@overwriteIfExists": {
+    "description": "Label for the option to overwrite existing entries"
+  },
+  "saveText": "Kaydet",
+  "@saveText": {
+    "description": "Label for the save button"
+  },
+  "addUpdateWordTitle": "Kelime Ekle / Güncelle",
+  "@addUpdateWordTitle": {
+    "description": "Title for the admin page to add or update words"
+  },
+  "errorOnlyAdminsCanAccess": "Yalnızca yöneticiler bu sayfaya erişebilir.",
+  "@errorOnlyAdminsCanAccess": {
+    "description": "Error message shown when a non-admin user tries to access the admin page"
+  },
+  "requiredText": "Gerekli",
+  "@requiredText": {
+    "description": "Validation message indicating a required field"
+  },
+  "chooseCategoryAndLevel": "Lütfen bir kategori ve seviye seçin.",
+  "@chooseCategoryAndLevel": {
+    "description": "Error message shown when category and level are not selected"
   }
 }

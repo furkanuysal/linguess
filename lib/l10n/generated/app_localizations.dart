@@ -713,6 +713,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Reklamı İzle'**
   String get watchAdText;
+
+  /// Label for the option to overwrite existing entries
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcutsa Üzerine Yaz'**
+  String get overwriteIfExists;
+
+  /// Label for the save button
+  ///
+  /// In tr, this message translates to:
+  /// **'Kaydet'**
+  String get saveText;
+
+  /// Title for the admin page to add or update words
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Ekle / Güncelle'**
+  String get addUpdateWordTitle;
+
+  /// Error message shown when a non-admin user tries to access the admin page
+  ///
+  /// In tr, this message translates to:
+  /// **'Yalnızca yöneticiler bu sayfaya erişebilir.'**
+  String get errorOnlyAdminsCanAccess;
+
+  /// Validation message indicating a required field
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerekli'**
+  String get requiredText;
+
+  /// Error message shown when category and level are not selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Lütfen bir kategori ve seviye seçin.'**
+  String get chooseCategoryAndLevel;
 }
 
 class _AppLocalizationsDelegate

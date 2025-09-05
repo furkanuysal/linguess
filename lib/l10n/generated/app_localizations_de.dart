@@ -340,4 +340,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get watchAdText => 'Werbung ansehen';
+
+  @override
+  String get overwriteIfExists => 'Vorhandene Einträge überschreiben';
+
+  @override
+  String get saveText => 'Speichern';
+
+  @override
+  String get addUpdateWordTitle => 'Wort Hinzufügen / Aktualisieren';
+
+  @override
+  String get errorOnlyAdminsCanAccess =>
+      'Nur Administratoren können auf diese Seite zugreifen.';
+
+  @override
+  String get requiredText => 'Erforderlich';
+
+  @override
+  String get chooseCategoryAndLevel =>
+      'Bitte wählen Sie eine Kategorie und ein Niveau aus.';
 }

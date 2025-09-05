@@ -6,6 +6,7 @@ import 'package:linguess/features/home/home_selector.dart';
 import 'package:linguess/features/auth/view/login_page.dart';
 import 'package:linguess/features/auth/view/register_page.dart';
 import 'package:linguess/pages/achievements_page.dart';
+import 'package:linguess/pages/admin/admin_add_word_page.dart';
 import 'package:linguess/pages/category_page.dart';
 import 'package:linguess/pages/learned_words_page.dart';
 import 'package:linguess/pages/level_page.dart';
@@ -69,6 +70,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/learned-words',
         builder: (context, state) => const LearnedWordsPage(),
+      ),
+      GoRoute(
+        path: '/admin/words/add',
+        builder: (context, state) => const AdminAddWordPage(),
       ),
     ],
   );
