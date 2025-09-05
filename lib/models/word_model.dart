@@ -19,4 +19,13 @@ class WordModel {
       translations: Map<String, String>.from(json['translations']),
     );
   }
+
+  // For writing to Firestore
+  Map<String, dynamic> toCreateJson() {
+    return {'category': category, 'level': level, 'translations': translations};
+  }
+
+  Map<String, dynamic> toUpdateJson() {
+    return {'category': category, 'level': level, 'translations': translations};
+  }
 }

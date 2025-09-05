@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/features/settings/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/providers/daily_puzzle_provider.dart';
+import 'package:linguess/providers/is_admin_provider.dart';
 
 class HomeWeb extends ConsumerStatefulWidget {
   const HomeWeb({super.key});
@@ -37,6 +38,28 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                     context.push('/profile');
                   }
                 },
+              );
+            },
+          ),
+          const SizedBox(width: 8),
+
+          // 🔑 admin panel button
+          Consumer(
+            builder: (context, ref, _) {
+              final isAdminAsync = ref.watch(isAdminProvider);
+              return isAdminAsync.when(
+                data: (isAdmin) {
+                  if (!isAdmin) return const SizedBox.shrink();
+                  return IconButton(
+                    tooltip: 'Admin Panel',
+                    icon: const Icon(Icons.admin_panel_settings),
+                    onPressed: () {
+                      context.push('/admin/words/add');
+                    },
+                  );
+                },
+                loading: () => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
               );
             },
           ),

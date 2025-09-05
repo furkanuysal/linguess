@@ -331,4 +331,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get watchAdText => 'Watch Ad';
+
+  @override
+  String get overwriteIfExists => 'Overwrite if exists';
+
+  @override
+  String get saveText => 'Save';
+
+  @override
+  String get addUpdateWordTitle => 'Add / Update Word';
+
+  @override
+  String get errorOnlyAdminsCanAccess => 'Only admins can access this page.';
+
+  @override
+  String get requiredText => 'Required';
+
+  @override
+  String get chooseCategoryAndLevel => 'Please choose a category and level.';
 }

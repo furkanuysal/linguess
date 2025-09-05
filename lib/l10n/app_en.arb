@@ -419,5 +419,29 @@
   "watchAdText": "Watch Ad",
   "@watchAdText": {
     "description": "Label for the watch ad button in the confirmation dialog"
+  },
+  "overwriteIfExists": "Overwrite if exists",
+  "@overwriteIfExists": {
+    "description": "Label for the option to overwrite existing entries"
+  },
+  "saveText": "Save",
+  "@saveText": {
+    "description": "Label for the save button"
+  },
+  "addUpdateWordTitle": "Add / Update Word",
+  "@addUpdateWordTitle": {
+    "description": "Title for the admin page to add or update words"
+  },
+  "errorOnlyAdminsCanAccess": "Only admins can access this page.",
+  "@errorOnlyAdminsCanAccess": {
+    "description": "Error message shown when a non-admin user tries to access the admin page"
+  },
+  "requiredText": "Required",
+  "@requiredText": {
+    "description": "Validation message indicating a required field"
+  },
+  "chooseCategoryAndLevel": "Please choose a category and level.",
+  "@chooseCategoryAndLevel": {
+    "description": "Error message shown when category and level are not selected"
   }
 }
