@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/achievements/presentation/pages/achievements_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_add_word_page.dart';
+import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
+import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
 import 'package:linguess/features/auth/pages/login_page.dart';
 import 'package:linguess/features/auth/pages/register_page.dart';
 import 'package:linguess/features/game/presentation/pages/category_page.dart';
@@ -72,8 +74,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LearnedWordsPage(),
       ),
       GoRoute(
+        path: '/admin',
+        builder: (context, state) => const AdminPanelPage(),
+      ),
+      GoRoute(
+        path: '/admin/words',
+        builder: (context, state) => const AdminWordsListPage(),
+      ),
+      GoRoute(
         path: '/admin/words/add',
-        builder: (context, state) => const AdminAddWordPage(),
+        builder: (context, state) => AdminAddWordPage(
+          editId: (state.extra as Map?)?['editId'] as String?,
+        ),
       ),
     ],
   );

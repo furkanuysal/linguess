@@ -1,16 +1,17 @@
-// lib/features/admin/admin_add_word_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/admin/presentation/providers/add_word_controller_provider.dart';
-import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
-import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
-import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
 import 'package:linguess/features/admin/presentation/controllers/add_word_controller.dart';
+import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
+import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
+import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
+import 'package:linguess/features/admin/presentation/providers/word_by_id_provider.dart';
 
 class AdminAddWordPage extends ConsumerStatefulWidget {
-  const AdminAddWordPage({super.key});
+  const AdminAddWordPage({super.key, this.editId});
+  final String? editId;
 
   @override
   ConsumerState<AdminAddWordPage> createState() => _AdminAddWordPageState();
@@ -26,6 +27,7 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
   String? _selectedCategory;
   String? _selectedLevel;
   bool _overwrite = false;
+  bool _prefilled = false; // To fill the form once with doc data in edit mode
 
   @override
   void dispose() {
@@ -64,22 +66,24 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
             level: level,
             translations: translations,
             overwrite: _overwrite,
+            editId: widget.editId, // Update the same doc in edit mode
           );
 
       if (!mounted) return;
 
-      // Show the saved ID in a SnackBar (Success message)
-      final savedId = slugify(_en.text);
+      final savedId = widget.editId ?? slugify(_en.text);
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text('Saved ✅  (id: $savedId)')));
 
-      // Clear form
-      _en.clear();
-      _tr.clear();
-      _de.clear();
-      _es.clear();
-      setState(() => _overwrite = false);
+      // Only clear the form in add mode
+      if (widget.editId == null) {
+        _en.clear();
+        _tr.clear();
+        _de.clear();
+        _es.clear();
+        setState(() => _overwrite = false);
+      }
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(
@@ -90,16 +94,36 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isAdminAsync = ref.watch(isAdminProvider);
-    final saving = ref.watch(addWordControllerProvider).isLoading;
     final l10n = AppLocalizations.of(context)!;
 
-    final categoriesAsync = ref.watch(
-      categoriesProvider,
-    ); // FutureProvider<List<CategoryModel>>
-    final levelsAsync = ref.watch(
-      levelsProvider,
-    ); // FutureProvider<List<LevelModel>>
+    final isAdminAsync = ref.watch(isAdminProvider);
+    final saving = ref.watch(addWordControllerProvider).isLoading;
+
+    // Dropdown data
+    final categoriesAsync = ref.watch(categoriesProvider);
+    final levelsAsync = ref.watch(levelsProvider);
+
+    // If in edit mode, fetch the document
+    final wordAsync = widget.editId == null
+        ? const AsyncValue.data(null)
+        : ref.watch(wordByIdProvider(widget.editId!));
+
+    // If edit data is available, fill the form once
+    wordAsync.whenData((w) {
+      if (w != null && !_prefilled) {
+        _en.text = (w.translations['en'] ?? '');
+        _tr.text = (w.translations['tr'] ?? '');
+        _de.text = (w.translations['de'] ?? '');
+        _es.text = (w.translations['es'] ?? '');
+        _selectedCategory = w.category;
+        _selectedLevel = w.level;
+        _overwrite = true; // Always enabled in edit mode
+        _prefilled = true;
+        setState(() {});
+      }
+    });
+
+    final isEdit = widget.editId != null;
 
     return isAdminAsync.when(
       loading: () =>
@@ -136,7 +160,6 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                     error: (e, _) => Text('${l10n.errorOccurred}: $e'),
                     data: (categories) {
                       final names = categories.map((c) => c.id).toList();
-
                       return DropdownButtonFormField<String>(
                         value: _selectedCategory,
                         hint: Text(l10n.selectCategory),
@@ -159,7 +182,6 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                     error: (e, _) => Text('${l10n.errorOccurred}: $e'),
                     data: (levels) {
                       final codes = levels.map((l) => l.id).toList();
-
                       return DropdownButtonFormField<String>(
                         value: _selectedLevel,
                         hint: Text(l10n.selectLevel),
@@ -179,11 +201,19 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                   // ——— TRANSLATIONS ———
                   TextFormField(
                     controller: _en,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       labelText: 'English (en)*',
+                      fillColor: isEdit ? Colors.grey.shade200 : null,
                     ),
                     validator: (v) => v == null || v.trim().isEmpty
                         ? l10n.requiredText
+                        : null,
+                    readOnly: isEdit, // Cannot be changed in edit mode
+                    style: isEdit
+                        ? TextStyle(
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.bold,
+                          )
                         : null,
                   ),
                   const SizedBox(height: 8),
@@ -209,8 +239,12 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
 
                   // ——— OVERWRITE ———
                   SwitchListTile(
-                    value: _overwrite,
-                    onChanged: (v) => setState(() => _overwrite = v),
+                    value: isEdit
+                        ? true
+                        : _overwrite, // Always true in edit mode
+                    onChanged: isEdit
+                        ? null
+                        : (v) => setState(() => _overwrite = v),
                     title: Text(l10n.overwriteIfExists),
                   ),
                   const SizedBox(height: 12),
