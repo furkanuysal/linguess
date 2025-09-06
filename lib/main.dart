@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:linguess/features/settings/settings_controller.dart';
-import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:linguess/theme/app_theme.dart';
-import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/router/app_router.dart';
-import 'package:linguess/features/achievement/achievement_toast_widget.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:linguess/app/router/app_router.dart';
+import 'package:linguess/features/achievements/presentation/widgets/achievement_toast_widget.dart';
+import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/firebase_options.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
+import 'package:linguess/core/theme/app_theme.dart';
 
 final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
@@ -78,10 +78,4 @@ class LinguessApp extends ConsumerWidget {
       ),
     );
   }
-}
-
-void showSnackBar(String message, Color? backgroundColor) {
-  scaffoldMessengerKey.currentState?.showSnackBar(
-    SnackBar(content: Text(message), backgroundColor: backgroundColor),
-  );
 }
