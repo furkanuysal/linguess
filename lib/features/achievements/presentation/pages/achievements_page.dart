@@ -25,7 +25,7 @@ class AchievementsPage extends ConsumerWidget {
             subtitle: Text(item.def.description),
             trailing: item.earned
                 ? const Icon(Icons.check_circle, color: Colors.green)
-                : const Icon(Icons.radio_button_unchecked),
+                : const Icon(Icons.check_circle_outline),
           );
         },
       ),

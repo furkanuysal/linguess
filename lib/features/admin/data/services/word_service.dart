@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:linguess/features/game/data/models/word_model.dart';
 
 class WordAdminService {
   final _col = FirebaseFirestore.instance.collection('words');
@@ -13,6 +14,13 @@ class WordAdminService {
 
   Future<void> delete(String id) => _col.doc(id).delete();
 
+  Future<WordModel?> getById(String id) async {
+    final snap = await _col.doc(id).get();
+    if (!snap.exists) return null;
+    final data = snap.data()!;
+    return WordModel.fromJson(snap.id, data);
+  }
+
   // Simple listing
   Query<Map<String, dynamic>> query({String? category, String? level}) {
     Query<Map<String, dynamic>> q = _col;
@@ -22,6 +30,6 @@ class WordAdminService {
     if (level != null && level.isNotEmpty) {
       q = q.where('level', isEqualTo: level);
     }
-    return q.orderBy('translations.en');
+    return q;
   }
 }

@@ -1,6 +1,5 @@
 // lib/controllers/add_word_controller.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/features/game/data/models/word_model.dart';
 import 'package:linguess/features/admin/data/services/word_service.dart';
 
 final wordServiceProvider = Provider((ref) => WordAdminService());
@@ -23,9 +22,9 @@ class AddWordController extends AsyncNotifier<void> {
     required String level,
     required Map<String, String> translations,
     required bool overwrite,
+    String? editId,
   }) async {
     state = const AsyncLoading();
-
     try {
       final en = (translations['en'] ?? '').trim();
       if (en.isEmpty) throw Exception('English is required');
@@ -34,30 +33,40 @@ class AddWordController extends AsyncNotifier<void> {
       }
       if (category.trim().isEmpty) throw Exception('Category is required');
 
-      final id = slugify(en);
       final svc = ref.read(wordServiceProvider);
-      final exists = await svc.exists(id);
-
-      // remove empty strings
       final cleaned = <String, String>{
         for (final e in translations.entries)
           if (e.value.trim().isNotEmpty) e.key: e.value.trim(),
       };
 
-      final word = WordModel(
-        id: id,
-        category: category.trim(),
-        level: level.trim(),
-        translations: cleaned,
-      );
+      // id: in edit mode, use the existing doc id; otherwise, use slugify(en)
+      final id = editId ?? slugify(en);
 
-      if (exists) {
-        if (!overwrite) {
+      if (editId != null) {
+        // zorunlu update
+        await svc.update(id, {
+          'category': category.trim(),
+          'level': level.trim(),
+          'translations': cleaned,
+        });
+      } else {
+        final exists = await svc.exists(id);
+        if (exists && !overwrite) {
           throw Exception('This word already exists ($id)');
         }
-        await svc.update(word.id, word.toUpdateJson());
-      } else {
-        await svc.create(word.id, word.toCreateJson());
+        if (exists) {
+          await svc.update(id, {
+            'category': category.trim(),
+            'level': level.trim(),
+            'translations': cleaned,
+          });
+        } else {
+          await svc.create(id, {
+            'category': category.trim(),
+            'level': level.trim(),
+            'translations': cleaned,
+          });
+        }
       }
 
       state = const AsyncData(null);

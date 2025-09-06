@@ -54,7 +54,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                     tooltip: 'Admin Panel',
                     icon: const Icon(Icons.admin_panel_settings),
                     onPressed: () {
-                      context.push('/admin/words/add');
+                      context.push('/admin');
                     },
                   );
                 },
