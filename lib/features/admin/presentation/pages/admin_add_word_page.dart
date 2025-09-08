@@ -72,9 +72,9 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
       if (!mounted) return;
 
       final savedId = widget.editId ?? slugify(_en.text);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Saved ✅  (id: $savedId)')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${l10n.savedSuccessfully} ✅  (id: $savedId)')),
+      );
 
       // Only clear the form in add mode
       if (widget.editId == null) {

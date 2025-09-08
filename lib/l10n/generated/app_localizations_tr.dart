@@ -340,15 +340,67 @@ class AppLocalizationsTr extends AppLocalizations {
   String get saveText => 'Kaydet';
 
   @override
-  String get addUpdateWordTitle => 'Kelime Ekle / Güncelle';
-
-  @override
-  String get errorOnlyAdminsCanAccess =>
-      'Yalnızca yöneticiler bu sayfaya erişebilir.';
+  String get errorOnlyAdminsCanAccess => 'Yalnızca yöneticiler erişebilir.';
 
   @override
   String get requiredText => 'Gerekli';
 
   @override
   String get chooseCategoryAndLevel => 'Lütfen bir kategori ve seviye seçin.';
+
+  @override
+  String get addUpdateWordTitle => 'Kelime Ekle / Güncelle';
+
+  @override
+  String get noDailyEntries => 'Günlük kelimelere ait giriş yok';
+
+  @override
+  String get dailyListText => 'Günlük Kelime Listesi';
+
+  @override
+  String get deleteWordText => 'Kelime Sil';
+
+  @override
+  String deleteWordBody(String word) {
+    return 'Kelime \'$word\' silinsin mi?';
+  }
+
+  @override
+  String get deletedWordSuccess => 'Kelime başarıyla silindi.';
+
+  @override
+  String get addWordTitle => 'Yeni Kelime Ekle';
+
+  @override
+  String get updateWordText => 'Kelime Güncelle';
+
+  @override
+  String get allText => 'Tümü';
+
+  @override
+  String get searchTheWordEnglish => 'Kelimeyi Ara (İngilizce)';
+
+  @override
+  String get clearText => 'Temizle';
+
+  @override
+  String get noWordsFound => 'Hiç kelime bulunamadı';
+
+  @override
+  String get wordsListText => 'Kelime Listesi';
+
+  @override
+  String get addWordDesc => 'Yeni bir kelime girişi oluştur';
+
+  @override
+  String get wordsListDesc => 'Mevcut kelimeleri görüntüle ve yönet';
+
+  @override
+  String get dailyListDesc => 'Günlük kelime seçimlerini görüntüle';
+
+  @override
+  String get adminPanelTitle => 'Admin Panel';
+
+  @override
+  String get savedSuccessfully => 'Başarıyla kaydedildi';
 }

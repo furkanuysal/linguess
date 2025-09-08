@@ -345,9 +345,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get saveText => 'Guardar';
 
   @override
-  String get addUpdateWordTitle => 'Agregar / Actualizar Palabra';
-
-  @override
   String get errorOnlyAdminsCanAccess =>
       'Solo los administradores pueden acceder a esta página.';
 
@@ -356,4 +353,60 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get chooseCategoryAndLevel => '¡Elige una categoría y un nivel!';
+
+  @override
+  String get addUpdateWordTitle => 'Agregar / Actualizar Palabra';
+
+  @override
+  String get noDailyEntries => 'No hay entradas diarias.';
+
+  @override
+  String get dailyListText => 'Lista diaria';
+
+  @override
+  String get deleteWordText => 'Eliminar palabra';
+
+  @override
+  String deleteWordBody(String word) {
+    return '¿Estás seguro de que deseas eliminar la palabra \'$word\'?';
+  }
+
+  @override
+  String get deletedWordSuccess => 'Palabra eliminada con éxito.';
+
+  @override
+  String get addWordTitle => 'Agregar nueva palabra';
+
+  @override
+  String get updateWordText => 'Actualizar palabra';
+
+  @override
+  String get allText => 'Todo';
+
+  @override
+  String get searchTheWordEnglish => 'Buscar la palabra (inglés)';
+
+  @override
+  String get clearText => 'Limpiar';
+
+  @override
+  String get noWordsFound => 'No se encontraron palabras.';
+
+  @override
+  String get wordsListText => 'Lista de palabras';
+
+  @override
+  String get addWordDesc => 'Crear una nueva entrada de palabra';
+
+  @override
+  String get wordsListDesc => 'Ver y gestionar palabras existentes';
+
+  @override
+  String get dailyListDesc => 'Ver selecciones diarias recientes';
+
+  @override
+  String get adminPanelTitle => 'Panel de administración';
+
+  @override
+  String get savedSuccessfully => 'Guardado con éxito';
 }

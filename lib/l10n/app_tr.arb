@@ -428,11 +428,7 @@
   "@saveText": {
     "description": "Label for the save button"
   },
-  "addUpdateWordTitle": "Kelime Ekle / Güncelle",
-  "@addUpdateWordTitle": {
-    "description": "Title for the admin page to add or update words"
-  },
-  "errorOnlyAdminsCanAccess": "Yalnızca yöneticiler bu sayfaya erişebilir.",
+  "errorOnlyAdminsCanAccess": "Yalnızca yöneticiler erişebilir.",
   "@errorOnlyAdminsCanAccess": {
     "description": "Error message shown when a non-admin user tries to access the admin page"
   },
@@ -443,5 +439,83 @@
   "chooseCategoryAndLevel": "Lütfen bir kategori ve seviye seçin.",
   "@chooseCategoryAndLevel": {
     "description": "Error message shown when category and level are not selected"
+  },
+  "addUpdateWordTitle": "Kelime Ekle / Güncelle",
+  "@addUpdateWordTitle": {
+    "description": "Title for the admin page to add or update words"
+  },
+  "noDailyEntries": "Günlük kelimelere ait giriş yok",
+  "@noDailyEntries": {
+    "description": "Message shown when there are no daily entries"
+  },
+  "dailyListText": "Günlük Kelime Listesi",
+  "@dailyListText": {
+    "description": "Label for the daily entries list"
+  },
+  "deleteWordText": "Kelime Sil",
+  "@deleteWordText": {
+    "description": "Title for the delete word confirmation dialog"
+  },
+  "deleteWordBody": "Kelime '{word}' silinsin mi?",
+  "@deleteWordBody": {
+    "description": "Body for the delete word confirmation dialog",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "apple"
+      }
+    }
+  },
+  "deletedWordSuccess": "Kelime başarıyla silindi.",
+  "@deletedWordSuccess": {
+    "description": "Message shown when a word is deleted successfully"
+  },
+  "addWordTitle": "Yeni Kelime Ekle",
+  "@addWordTitle": {
+    "description": "Label for the button to add a new word"
+  },
+  "updateWordText": "Kelime Güncelle",
+  "@updateWordText": {
+    "description": "Label for the button to update an existing word"
+  },
+  "allText": "Tümü",
+  "@allText": {
+    "description": "Label for the 'all' option in filters"
+  },
+  "searchTheWordEnglish": "Kelimeyi Ara (İngilizce)",
+  "@searchTheWordEnglish": {
+    "description": "Placeholder text for the search input to find words in English"
+  },
+  "clearText": "Temizle",
+  "@clearText": {
+    "description": "Label for the button to clear the search input"
+  },
+  "noWordsFound": "Hiç kelime bulunamadı",
+  "@noWordsFound": {
+    "description": "Message shown when no words match the search criteria"
+  },
+  "wordsListText": "Kelime Listesi",
+  "@wordsListText": {
+    "description": "Label for the words list in the admin panel"
+  },
+  "addWordDesc": "Yeni bir kelime girişi oluştur",
+  "@addWordDesc": {
+    "description": "Description text for the add word card"
+  },
+  "wordsListDesc": "Mevcut kelimeleri görüntüle ve yönet",
+  "@wordsListDesc": {
+    "description": "Description text for the words list card"
+  },
+  "dailyListDesc": "Günlük kelime seçimlerini görüntüle",
+  "@dailyListDesc": {
+    "description": "Description text for the daily list card"
+  },
+  "adminPanelTitle": "Admin Panel",
+  "@adminPanelTitle": {
+    "description": "Title for the admin panel page"
+  },
+  "savedSuccessfully": "Başarıyla kaydedildi",
+  "@savedSuccessfully": {
+    "description": "Message shown when a word is saved successfully"
   }
 }

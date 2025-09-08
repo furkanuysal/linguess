@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdminPanelPage extends ConsumerStatefulWidget {
   const AdminPanelPage({super.key});
@@ -14,24 +15,25 @@ class AdminPanelPage extends ConsumerStatefulWidget {
 class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isAdminAsync = ref.watch(isAdminProvider);
 
     return isAdminAsync.when(
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
-        appBar: AppBar(title: const Text('Admin Panel')),
-        body: Center(child: Text('Hata: $e')),
+        appBar: AppBar(title: Text(l10n.adminPanelTitle)),
+        body: Center(child: Text('${l10n.errorOccurred}: $e')),
       ),
       data: (isAdmin) {
         if (!isAdmin) {
-          return const Scaffold(
-            body: Center(child: Text('Only admins can access this page.')),
+          return Scaffold(
+            body: Center(child: Text(l10n.errorOnlyAdminsCanAccess)),
           );
         }
 
         return Scaffold(
-          appBar: AppBar(title: const Text('Admin Panel'), centerTitle: true),
+          appBar: AppBar(title: Text(l10n.adminPanelTitle), centerTitle: true),
           body: Padding(
             padding: const EdgeInsets.all(48.0),
             child: Center(
@@ -45,19 +47,27 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
                   children: [
                     _buildAdminCard(
                       context,
-                      title: 'Add Word',
-                      description: 'Create a new word entry',
+                      title: l10n.addWordTitle,
+                      description: l10n.addWordDesc,
                       icon: Icons.add_circle_outline,
                       color: Colors.teal,
                       onTap: () => context.push('/admin/words/add'),
                     ),
                     _buildAdminCard(
                       context,
-                      title: 'Words List',
-                      description: 'Filter, search, edit or delete',
+                      title: l10n.wordsListText,
+                      description: l10n.wordsListDesc,
                       icon: Icons.list_alt,
                       color: Colors.indigo,
                       onTap: () => context.push('/admin/words'),
+                    ),
+                    _buildAdminCard(
+                      context,
+                      title: l10n.dailyListText,
+                      description: l10n.dailyListDesc,
+                      icon: Icons.today,
+                      color: Colors.orange,
+                      onTap: () => context.push('/admin/daily'),
                     ),
                   ],
                 ),

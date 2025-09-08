@@ -443,5 +443,79 @@
   "chooseCategoryAndLevel": "Please choose a category and level.",
   "@chooseCategoryAndLevel": {
     "description": "Error message shown when category and level are not selected"
+  },
+  "noDailyEntries": "No daily entries",
+  "@noDailyEntries": {
+    "description": "Message shown when there are no daily entries"
+  },
+  "dailyListText": "Daily List",
+  "@dailyListText": {
+    "description": "Label for the daily entries list"
+  },
+  "deleteWordText": "Delete Word",
+  "@deleteWordText": {
+    "description": "Title for the delete word confirmation dialog"
+  },
+  "deleteWordBody": "Are you sure you want to delete the word '{word}'?",
+  "@deleteWordBody": {
+    "description": "Body for the delete word confirmation dialog",
+    "placeholders": {
+      "word": {
+        "type": "String",
+        "example": "apple"
+      }
+    }
+  },
+  "deletedWordSuccess": "Word deleted successfully.",
+  "@deletedWordSuccess": {
+    "description": "Message shown when a word is deleted successfully"
+  },
+  "addWordTitle": "Add New Word",
+  "@addWordTitle": {
+    "description": "Label for the button to add a new word"
+  },
+  "updateWordText": "Update Word",
+  "@updateWordText": {
+    "description": "Label for the button to update an existing word"
+  },
+  "allText": "All",
+  "@allText": {
+    "description": "Label for the 'all' option in filters"
+  },
+  "searchTheWordEnglish": "Search the word (English)",
+  "@searchTheWordEnglish": {
+    "description": "Placeholder text for the search input to find words in English"
+  },
+  "clearText": "Clear",
+  "@clearText": {
+    "description": "Label for the button to clear the search input"
+  },
+  "noWordsFound": "No words found",
+  "@noWordsFound": {
+    "description": "Message shown when no words match the search criteria"
+  },
+  "wordsListText": "Words List",
+  "@wordsListText": {
+    "description": "Label for the words list in the admin panel"
+  },
+  "addWordDesc": "Create a new word entry",
+  "@addWordDesc": {
+    "description": "Description text for the add word card"
+  },
+  "wordsListDesc": "View and manage existing words",
+  "@wordsListDesc": {
+    "description": "Description text for the words list card"
+  },
+  "dailyListDesc": "View recent daily picks",
+  "@dailyListDesc": {
+    "description": "Description text for the daily list card"
+  },
+  "adminPanelTitle": "Admin Panel",
+  "@adminPanelTitle": {
+    "description": "Title for the admin panel page"
+  },
+  "savedSuccessfully": "Saved successfully",
+  "@savedSuccessfully": {
+    "description": "Message shown when a word is saved successfully"
   }
 }
