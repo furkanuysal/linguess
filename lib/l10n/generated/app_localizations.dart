@@ -726,16 +726,10 @@ abstract class AppLocalizations {
   /// **'Kaydet'**
   String get saveText;
 
-  /// Title for the admin page to add or update words
-  ///
-  /// In tr, this message translates to:
-  /// **'Kelime Ekle / Güncelle'**
-  String get addUpdateWordTitle;
-
   /// Error message shown when a non-admin user tries to access the admin page
   ///
   /// In tr, this message translates to:
-  /// **'Yalnızca yöneticiler bu sayfaya erişebilir.'**
+  /// **'Yalnızca yöneticiler erişebilir.'**
   String get errorOnlyAdminsCanAccess;
 
   /// Validation message indicating a required field
@@ -749,6 +743,114 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Lütfen bir kategori ve seviye seçin.'**
   String get chooseCategoryAndLevel;
+
+  /// Title for the admin page to add or update words
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Ekle / Güncelle'**
+  String get addUpdateWordTitle;
+
+  /// Message shown when there are no daily entries
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük kelimelere ait giriş yok'**
+  String get noDailyEntries;
+
+  /// Label for the daily entries list
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük Kelime Listesi'**
+  String get dailyListText;
+
+  /// Title for the delete word confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Sil'**
+  String get deleteWordText;
+
+  /// Body for the delete word confirmation dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime \'{word}\' silinsin mi?'**
+  String deleteWordBody(String word);
+
+  /// Message shown when a word is deleted successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime başarıyla silindi.'**
+  String get deletedWordSuccess;
+
+  /// Label for the button to add a new word
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Kelime Ekle'**
+  String get addWordTitle;
+
+  /// Label for the button to update an existing word
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Güncelle'**
+  String get updateWordText;
+
+  /// Label for the 'all' option in filters
+  ///
+  /// In tr, this message translates to:
+  /// **'Tümü'**
+  String get allText;
+
+  /// Placeholder text for the search input to find words in English
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelimeyi Ara (İngilizce)'**
+  String get searchTheWordEnglish;
+
+  /// Label for the button to clear the search input
+  ///
+  /// In tr, this message translates to:
+  /// **'Temizle'**
+  String get clearText;
+
+  /// Message shown when no words match the search criteria
+  ///
+  /// In tr, this message translates to:
+  /// **'Hiç kelime bulunamadı'**
+  String get noWordsFound;
+
+  /// Label for the words list in the admin panel
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Listesi'**
+  String get wordsListText;
+
+  /// Description text for the add word card
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni bir kelime girişi oluştur'**
+  String get addWordDesc;
+
+  /// Description text for the words list card
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut kelimeleri görüntüle ve yönet'**
+  String get wordsListDesc;
+
+  /// Description text for the daily list card
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük kelime seçimlerini görüntüle'**
+  String get dailyListDesc;
+
+  /// Title for the admin panel page
+  ///
+  /// In tr, this message translates to:
+  /// **'Admin Panel'**
+  String get adminPanelTitle;
+
+  /// Message shown when a word is saved successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Başarıyla kaydedildi'**
+  String get savedSuccessfully;
 }
 
 class _AppLocalizationsDelegate

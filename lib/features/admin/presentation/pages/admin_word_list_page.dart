@@ -7,6 +7,7 @@ import 'package:linguess/features/admin/presentation/providers/is_admin_provider
 import 'package:linguess/features/admin/presentation/providers/word_list_provider.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
+import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdminWordsListPage extends ConsumerStatefulWidget {
   const AdminWordsListPage({super.key});
@@ -35,19 +36,20 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
   }
 
   Future<void> _confirmDelete(String id) async {
+    final l10n = AppLocalizations.of(context)!;
     final ok = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('Delete word?'),
-        content: Text('This will permanently delete: $id'),
+        title: Text(l10n.deleteWordText),
+        content: Text(l10n.deleteWordBody(id)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancelText),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(l10n.deleteWordText),
           ),
         ],
       ),
@@ -55,15 +57,16 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
     if (ok == true) {
       await ref.read(wordServiceProvider).delete(id);
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Deleted: $id')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${l10n.deletedWordSuccess}: $id')),
+        );
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isAdminAsync = ref.watch(isAdminProvider);
     final filter = ref.watch(wordsFilterProvider);
     final words = ref.watch(wordsListProvider);
@@ -75,20 +78,21 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
     return isAdminAsync.when(
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (e, _) => Scaffold(body: Center(child: Text('Hata: $e'))),
+      error: (e, _) =>
+          Scaffold(body: Center(child: Text('${l10n.errorOccurred}: $e'))),
       data: (isAdmin) {
         if (!isAdmin) {
-          return const Scaffold(
-            body: Center(child: Text('Only admins can access this page.')),
+          return Scaffold(
+            body: Center(child: Text(l10n.errorOnlyAdminsCanAccess)),
           );
         }
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Words'),
+            title: Text(l10n.wordsListText),
             actions: [
               IconButton(
-                tooltip: 'Add word',
+                tooltip: l10n.addWordTitle,
                 icon: const Icon(Icons.add),
                 onPressed: () => context.push('/admin/words/add'),
               ),
@@ -111,7 +115,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                         error: (e, _) => SizedBox(
                           width: 160,
                           child: Text(
-                            'Cat err: $e',
+                            '${l10n.errorOccurred}: $e',
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -123,11 +127,11 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                               value: filter.category.isEmpty
                                   ? null
                                   : filter.category,
-                              hint: const Text('Category'),
+                              hint: Text(l10n.category),
                               items: [
-                                const DropdownMenuItem(
+                                DropdownMenuItem(
                                   value: '',
-                                  child: Text('All'),
+                                  child: Text(l10n.allText),
                                 ),
                                 for (final n in items)
                                   DropdownMenuItem(value: n, child: Text(n)),
@@ -152,7 +156,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                         error: (e, _) => SizedBox(
                           width: 120,
                           child: Text(
-                            'Lvl err: $e',
+                            '${l10n.errorOccurred}: $e',
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -162,11 +166,11 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                             width: 140,
                             child: DropdownButtonFormField<String>(
                               value: filter.level.isEmpty ? null : filter.level,
-                              hint: const Text('Level'),
+                              hint: Text(l10n.level),
                               items: [
-                                const DropdownMenuItem(
+                                DropdownMenuItem(
                                   value: '',
-                                  child: Text('All'),
+                                  child: Text(l10n.allText),
                                 ),
                                 for (final n in items)
                                   DropdownMenuItem(value: n, child: Text(n)),
@@ -187,10 +191,10 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                         child: TextField(
                           controller: _searchCtrl,
                           onChanged: _onSearchChanged,
-                          decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.search),
-                            hintText: 'Search English…',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            prefixIcon: const Icon(Icons.search),
+                            hintText: l10n.searchTheWordEnglish,
+                            border: const OutlineInputBorder(),
                             isDense: true,
                           ),
                         ),
@@ -198,7 +202,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
 
                       const SizedBox(width: 12),
                       IconButton(
-                        tooltip: 'Clear',
+                        tooltip: l10n.clearText,
                         onPressed: () {
                           _searchCtrl.clear();
                           ref.read(wordsFilterProvider.notifier).state =
@@ -213,7 +217,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                   // LIST
                   Expanded(
                     child: words.isEmpty
-                        ? const Center(child: Text('No words'))
+                        ? Center(child: Text(l10n.noWordsFound))
                         : ListView.separated(
                             itemCount: words.length,
                             separatorBuilder: (_, _) =>
@@ -237,7 +241,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                                   spacing: 8,
                                   children: [
                                     IconButton(
-                                      tooltip: 'Edit',
+                                      tooltip: l10n.updateWordText,
                                       icon: const Icon(Icons.edit),
                                       onPressed: () {
                                         context.push(
@@ -247,7 +251,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                                       },
                                     ),
                                     IconButton(
-                                      tooltip: 'Delete',
+                                      tooltip: l10n.deleteWordText,
                                       icon: const Icon(Icons.delete_forever),
                                       onPressed: () => _confirmDelete(id),
                                     ),

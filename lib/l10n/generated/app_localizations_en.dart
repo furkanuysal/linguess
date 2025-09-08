@@ -339,9 +339,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveText => 'Save';
 
   @override
-  String get addUpdateWordTitle => 'Add / Update Word';
-
-  @override
   String get errorOnlyAdminsCanAccess => 'Only admins can access this page.';
 
   @override
@@ -349,4 +346,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get chooseCategoryAndLevel => 'Please choose a category and level.';
+
+  @override
+  String get addUpdateWordTitle => 'Add / Update Word';
+
+  @override
+  String get noDailyEntries => 'No daily entries';
+
+  @override
+  String get dailyListText => 'Daily List';
+
+  @override
+  String get deleteWordText => 'Delete Word';
+
+  @override
+  String deleteWordBody(String word) {
+    return 'Are you sure you want to delete the word \'$word\'?';
+  }
+
+  @override
+  String get deletedWordSuccess => 'Word deleted successfully.';
+
+  @override
+  String get addWordTitle => 'Add New Word';
+
+  @override
+  String get updateWordText => 'Update Word';
+
+  @override
+  String get allText => 'All';
+
+  @override
+  String get searchTheWordEnglish => 'Search the word (English)';
+
+  @override
+  String get clearText => 'Clear';
+
+  @override
+  String get noWordsFound => 'No words found';
+
+  @override
+  String get wordsListText => 'Words List';
+
+  @override
+  String get addWordDesc => 'Create a new word entry';
+
+  @override
+  String get wordsListDesc => 'View and manage existing words';
+
+  @override
+  String get dailyListDesc => 'View recent daily picks';
+
+  @override
+  String get adminPanelTitle => 'Admin Panel';
+
+  @override
+  String get savedSuccessfully => 'Saved successfully';
 }
