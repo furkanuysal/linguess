@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -102,6 +103,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     final state = ref.watch(wordGameProvider(params));
     final notifier = ref.read(wordGameProvider(params).notifier);
     final userDataAsync = ref.watch(userDataProvider);
+    final userAsync = ref.watch(firebaseUserProvider);
+    final user = userAsync.value; // User? (null = not signed in)
+
     final sfx = ref.watch(sfxProvider);
 
     if (state.isShaking && !_shakeController.isAnimating) {
@@ -146,31 +150,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                         size: 18,
                       ),
                       const SizedBox(width: 4),
-                      userDataAsync.when(
-                        data: (snap) {
-                          if (snap == null || !snap.exists) {
-                            return const Text('0');
-                          }
-                          final data = snap.data() as Map<String, dynamic>;
-                          final gold = (data['gold'] ?? 0).toString();
-                          return Text(
-                            gold,
-                            style: TextStyle(
-                              color:
-                                  _goldColorAnimation.value ??
-                                  Colors.amber.shade800,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                            ),
-                          );
-                        },
-                        loading: () => const SizedBox(
-                          width: 16,
-                          height: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                        error: (_, _) => Text(
-                          '?',
+                      if (user == null)
+                        Text(
+                          '0',
                           style: TextStyle(
                             color:
                                 _goldColorAnimation.value ??
@@ -178,8 +160,42 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
+                        )
+                      else
+                        userDataAsync.when(
+                          data: (snap) {
+                            if (snap == null || !snap.exists) {
+                              return const Text('0');
+                            }
+                            final data = snap.data() as Map<String, dynamic>;
+                            final gold = (data['gold'] ?? 0).toString();
+                            return Text(
+                              gold,
+                              style: TextStyle(
+                                color:
+                                    _goldColorAnimation.value ??
+                                    Colors.amber.shade800,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            );
+                          },
+                          loading: () => const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                          error: (_, _) => Text(
+                            '?',
+                            style: TextStyle(
+                              color:
+                                  _goldColorAnimation.value ??
+                                  Colors.amber.shade800,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
                         ),
-                      ),
                     ],
                   ),
                 ),
