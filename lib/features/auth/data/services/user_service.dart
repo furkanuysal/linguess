@@ -22,6 +22,7 @@ class UserService {
         'createdAt': FieldValue.serverTimestamp(),
         'gold': 0,
         'correctCount': 0,
+        'role': 'user',
       });
     }
   }
