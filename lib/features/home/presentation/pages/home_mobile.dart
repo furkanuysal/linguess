@@ -28,7 +28,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
         centerTitle: true,
         actions: [
           Semantics(
-            // Erişilebilirlik için reklam olduğunu belirt
+            // Indicate that this is an ad for accessibility
             label: '${l10n.adRewardTooltip} — Ad',
             button: true,
             child: SfxIconButton(
@@ -73,19 +73,20 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                 );
                 if (!confirmed || !context.mounted) return;
                 final ads = ref.read(adsServiceProvider);
-                await ads.showRewarded(
+                await ads.showRewardedInterstitialAd(
                   context,
-                  onReward: (reward) async {
-                    final economy = ref.read(economyServiceProvider);
-                    await economy.grantAdRewardGold(50);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(l10n.adRewardGoldEarned(50)),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
-                    }
+                  onReward: (amount, type) async {
+                    // amount => AdsService.rewardAmount (50), type => 'gold'
+                    await ref
+                        .read(economyServiceProvider)
+                        .grantAdRewardGold(amount);
+                    if (!context.mounted) return;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(l10n.adRewardGoldEarned(amount)),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   },
                 );
               },

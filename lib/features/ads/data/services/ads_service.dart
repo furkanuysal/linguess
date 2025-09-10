@@ -1,4 +1,3 @@
-// ads_service.dart
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,107 +5,87 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdsService {
-  RewardedAd? _rewardedAd;
+  RewardedInterstitialAd? _ad;
   bool _isLoading = false;
 
-  // Platform support check
-  bool get _isAdsSupported => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  static const _androidTest = 'ca-app-pub-3940256099942544/5354046379';
+  static const _iosTest = 'ca-app-pub-3940256099942544/6978759866';
 
-  //Build time injection of AdMob Unit ID
-  static const String _rewardedUnitId = String.fromEnvironment(
-    'ADMOB_REWARDED_UNIT_ID',
-    defaultValue: 'ca-app-pub-3940256099942544/5224354917',
+  static const _unitIdEnv = String.fromEnvironment(
+    'ADMOB_REWARD_INTERSTITIAL_UNIT_ID',
+    defaultValue: '',
   );
 
-  // 50 gold reward unit ID from AdMob
-  String get goldRewardedUnitId {
-    if (!_isAdsSupported) return '';
-
+  String get unitId {
+    if (kIsWeb) return '';
     if (Platform.isAndroid) {
-      return _rewardedUnitId;
-    } else {
-      return '';
+      return _unitIdEnv.isNotEmpty ? _unitIdEnv : _androidTest;
     }
+    if (Platform.isIOS) return _unitIdEnv.isNotEmpty ? _unitIdEnv : _iosTest;
+    return '';
   }
 
-  final adRequest = AdRequest(
-    nonPersonalizedAds: true, // Non-personalized ads
-  );
+  final adRequest = const AdRequest(nonPersonalizedAds: true);
 
-  Future<void> loadRewarded() async {
-    if (!_isAdsSupported) return;
-    if (_isLoading || _rewardedAd != null) return;
+  Future<void> loadRewardedInterstitialAd() async {
+    if (_isLoading || _ad != null) return;
     _isLoading = true;
-
-    await RewardedAd.load(
-      adUnitId: goldRewardedUnitId,
+    await RewardedInterstitialAd.load(
+      adUnitId: unitId,
       request: adRequest,
-      rewardedAdLoadCallback: RewardedAdLoadCallback(
+      rewardedInterstitialAdLoadCallback: RewardedInterstitialAdLoadCallback(
         onAdLoaded: (ad) {
-          _rewardedAd = ad;
+          _ad = ad;
           _isLoading = false;
         },
-        onAdFailedToLoad: (error) {
-          _rewardedAd = null;
+        onAdFailedToLoad: (e) {
+          _ad = null;
           _isLoading = false;
         },
       ),
     );
   }
 
-  bool get isReady => _isAdsSupported && _rewardedAd != null;
+  bool get isReady => _ad != null;
 
-  // Shows the ad. If the user earns a reward, onReward is called.
-  Future<void> showRewarded(
+  Future<void> showRewardedInterstitialAd(
     BuildContext context, {
-    required Future<void> Function(RewardItem reward) onReward,
+    required Future<void> Function(int amount, String type) onReward,
   }) async {
     final scaffoldMessenger = ScaffoldMessenger.of(context);
     final l10n = AppLocalizations.of(context)!;
+    if (_ad == null) await loadRewardedInterstitialAd();
+    final ad = _ad;
 
-    // If ads aren't supported, directly give the reward
-    if (!_isAdsSupported) {
-      await onReward(RewardItem(50, 'gold')); // Mock reward
-      return;
-    }
-
-    if (_rewardedAd == null) {
-      await loadRewarded();
-    }
-    final ad = _rewardedAd;
     if (ad == null) {
       scaffoldMessenger.showSnackBar(SnackBar(content: Text(l10n.adNotReady)));
       return;
     }
-
-    _rewardedAd = null; // single-use
+    _ad = null; // single-use
 
     ad.fullScreenContentCallback = FullScreenContentCallback(
       onAdDismissedFullScreenContent: (ad) {
         ad.dispose();
-        // Reload for next use
-        loadRewarded();
+        loadRewardedInterstitialAd();
       },
       onAdFailedToShowFullScreenContent: (ad, error) {
         ad.dispose();
-        loadRewarded();
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(l10n.adNotLoaded)));
+        loadRewardedInterstitialAd();
+        scaffoldMessenger.showSnackBar(
+          SnackBar(content: Text(l10n.adNotLoaded)),
+        );
       },
     );
 
     await ad.show(
       onUserEarnedReward: (ad, reward) async {
-        await onReward(reward); // handle giving gold, etc. here
+        await onReward(reward.amount.toInt(), reward.type);
       },
     );
   }
 
   void dispose() {
-    if (_isAdsSupported) {
-      _rewardedAd?.dispose();
-      _rewardedAd = null;
-    }
+    _ad?.dispose();
+    _ad = null;
   }
 }

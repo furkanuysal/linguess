@@ -6,6 +6,6 @@ final adsServiceProvider = Provider<AdsService>((ref) {
   final svc = AdsService();
   ref.onDispose(() => svc.dispose());
   // Preload one as soon as the app opens
-  svc.loadRewarded();
+  svc.loadRewardedInterstitialAd();
   return svc;
 });
