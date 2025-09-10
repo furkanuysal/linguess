@@ -20,7 +20,6 @@ void main() async {
 
   final adsSupported = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
   if (adsSupported) {
-    await MobileAds.instance.initialize();
     await MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(
         tagForChildDirectedTreatment: TagForChildDirectedTreatment.yes, // COPPA
@@ -28,6 +27,7 @@ void main() async {
         maxAdContentRating: MaxAdContentRating.g, // "G" Content
       ),
     );
+    await MobileAds.instance.initialize();
   }
 
   runApp(const ProviderScope(child: LinguessApp()));
