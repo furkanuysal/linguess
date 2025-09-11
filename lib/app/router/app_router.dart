@@ -7,6 +7,7 @@ import 'package:linguess/features/admin/presentation/pages/admin_add_word_page.d
 import 'package:linguess/features/admin/presentation/pages/admin_daily_list_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
+import 'package:linguess/features/admin/presentation/widgets/admin_guard.dart';
 import 'package:linguess/features/auth/pages/login_page.dart';
 import 'package:linguess/features/auth/pages/register_page.dart';
 import 'package:linguess/features/game/presentation/pages/category_page.dart';
@@ -76,21 +77,24 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/admin',
-        builder: (context, state) => const AdminPanelPage(),
+        builder: (context, state) => const AdminGuard(child: AdminPanelPage()),
       ),
       GoRoute(
         path: '/admin/words',
-        builder: (context, state) => const AdminWordsListPage(),
+        builder: (context, state) =>
+            const AdminGuard(child: AdminWordsListPage()),
       ),
       GoRoute(
         path: '/admin/words/add',
-        builder: (context, state) => AdminAddWordPage(
-          editId: (state.extra as Map?)?['editId'] as String?,
-        ),
+        builder: (context, state) {
+          final editId = (state.extra as Map?)?['editId'] as String?;
+          return AdminGuard(child: AdminAddWordPage(editId: editId));
+        },
       ),
       GoRoute(
         path: '/admin/daily',
-        builder: (context, state) => const AdminDailyListPage(),
+        builder: (context, state) =>
+            const AdminGuard(child: AdminDailyListPage()),
       ),
     ],
   );

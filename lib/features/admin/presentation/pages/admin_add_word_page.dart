@@ -6,7 +6,6 @@ import 'package:linguess/features/admin/presentation/providers/add_word_controll
 import 'package:linguess/features/admin/presentation/controllers/add_word_controller.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
-import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 import 'package:linguess/features/admin/presentation/providers/word_by_id_provider.dart';
 
 class AdminAddWordPage extends ConsumerStatefulWidget {
@@ -95,8 +94,6 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-
-    final isAdminAsync = ref.watch(isAdminProvider);
     final saving = ref.watch(addWordControllerProvider).isLoading;
 
     // Dropdown data
@@ -125,148 +122,127 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
 
     final isEdit = widget.editId != null;
 
-    return isAdminAsync.when(
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (e, _) =>
-          Scaffold(body: Center(child: Text('${l10n.errorOccurred}: $e'))),
-      data: (isAdmin) {
-        if (!isAdmin) {
-          return Scaffold(
-            body: Center(child: Text(l10n.errorOnlyAdminsCanAccess)),
-          );
-        }
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.addUpdateWordTitle),
+        actions: [
+          IconButton(
+            tooltip: l10n.close,
+            icon: const Icon(Icons.close),
+            onPressed: () => context.pop(),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              // ——— CATEGORY ———
+              categoriesAsync.when(
+                loading: () => const LinearProgressIndicator(),
+                error: (e, _) => Text('${l10n.errorOccurred}: $e'),
+                data: (categories) {
+                  final names = categories.map((c) => c.id).toList();
+                  return DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    hint: Text(l10n.selectCategory),
+                    items: [
+                      for (final n in names)
+                        DropdownMenuItem(value: n, child: Text(n)),
+                    ],
+                    onChanged: (v) => setState(() => _selectedCategory = v),
+                    decoration: InputDecoration(labelText: l10n.category),
+                    validator: (v) => v == null ? l10n.requiredText : null,
+                  );
+                },
+              ),
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(l10n.addUpdateWordTitle),
-            actions: [
-              IconButton(
-                tooltip: l10n.close,
-                icon: const Icon(Icons.close),
-                onPressed: () => context.pop(),
+              const SizedBox(height: 12),
+
+              // ——— LEVEL ———
+              levelsAsync.when(
+                loading: () => const LinearProgressIndicator(),
+                error: (e, _) => Text('${l10n.errorOccurred}: $e'),
+                data: (levels) {
+                  final codes = levels.map((l) => l.id).toList();
+                  return DropdownButtonFormField<String>(
+                    value: _selectedLevel,
+                    hint: Text(l10n.selectLevel),
+                    items: [
+                      for (final code in codes)
+                        DropdownMenuItem(value: code, child: Text(code)),
+                    ],
+                    onChanged: (v) => setState(() => _selectedLevel = v),
+                    decoration: InputDecoration(labelText: l10n.level),
+                    validator: (v) => v == null ? l10n.requiredText : null,
+                  );
+                },
+              ),
+
+              const SizedBox(height: 16),
+
+              // ——— TRANSLATIONS ———
+              TextFormField(
+                controller: _en,
+                decoration: InputDecoration(
+                  labelText: 'English (en)*',
+                  fillColor: isEdit ? Colors.grey.shade200 : null,
+                ),
+                validator: (v) =>
+                    v == null || v.trim().isEmpty ? l10n.requiredText : null,
+                readOnly: isEdit, // Cannot be changed in edit mode
+                style: isEdit
+                    ? TextStyle(
+                        color: Colors.grey.shade600,
+                        fontWeight: FontWeight.bold,
+                      )
+                    : null,
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _tr,
+                decoration: const InputDecoration(labelText: 'Turkish (tr)'),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _de,
+                decoration: const InputDecoration(labelText: 'German (de)'),
+              ),
+              const SizedBox(height: 8),
+              TextFormField(
+                controller: _es,
+                decoration: const InputDecoration(labelText: 'Spanish (es)'),
+              ),
+              const SizedBox(height: 12),
+
+              // ——— OVERWRITE ———
+              SwitchListTile(
+                value: isEdit ? true : _overwrite, // Always true in edit mode
+                onChanged: isEdit
+                    ? null
+                    : (v) => setState(() => _overwrite = v),
+                title: Text(l10n.overwriteIfExists),
+              ),
+              const SizedBox(height: 12),
+
+              // ——— SAVE ———
+              ElevatedButton.icon(
+                onPressed: saving ? null : _save,
+                icon: saving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.save),
+                label: Text(l10n.saveText),
               ),
             ],
           ),
-          body: SafeArea(
-            child: Form(
-              key: _formKey,
-              child: ListView(
-                padding: const EdgeInsets.all(16),
-                children: [
-                  // ——— CATEGORY ———
-                  categoriesAsync.when(
-                    loading: () => const LinearProgressIndicator(),
-                    error: (e, _) => Text('${l10n.errorOccurred}: $e'),
-                    data: (categories) {
-                      final names = categories.map((c) => c.id).toList();
-                      return DropdownButtonFormField<String>(
-                        value: _selectedCategory,
-                        hint: Text(l10n.selectCategory),
-                        items: [
-                          for (final n in names)
-                            DropdownMenuItem(value: n, child: Text(n)),
-                        ],
-                        onChanged: (v) => setState(() => _selectedCategory = v),
-                        decoration: InputDecoration(labelText: l10n.category),
-                        validator: (v) => v == null ? l10n.requiredText : null,
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  // ——— LEVEL ———
-                  levelsAsync.when(
-                    loading: () => const LinearProgressIndicator(),
-                    error: (e, _) => Text('${l10n.errorOccurred}: $e'),
-                    data: (levels) {
-                      final codes = levels.map((l) => l.id).toList();
-                      return DropdownButtonFormField<String>(
-                        value: _selectedLevel,
-                        hint: Text(l10n.selectLevel),
-                        items: [
-                          for (final code in codes)
-                            DropdownMenuItem(value: code, child: Text(code)),
-                        ],
-                        onChanged: (v) => setState(() => _selectedLevel = v),
-                        decoration: InputDecoration(labelText: l10n.level),
-                        validator: (v) => v == null ? l10n.requiredText : null,
-                      );
-                    },
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // ——— TRANSLATIONS ———
-                  TextFormField(
-                    controller: _en,
-                    decoration: InputDecoration(
-                      labelText: 'English (en)*',
-                      fillColor: isEdit ? Colors.grey.shade200 : null,
-                    ),
-                    validator: (v) => v == null || v.trim().isEmpty
-                        ? l10n.requiredText
-                        : null,
-                    readOnly: isEdit, // Cannot be changed in edit mode
-                    style: isEdit
-                        ? TextStyle(
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : null,
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _tr,
-                    decoration: const InputDecoration(
-                      labelText: 'Turkish (tr)',
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _de,
-                    decoration: const InputDecoration(labelText: 'German (de)'),
-                  ),
-                  const SizedBox(height: 8),
-                  TextFormField(
-                    controller: _es,
-                    decoration: const InputDecoration(
-                      labelText: 'Spanish (es)',
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // ——— OVERWRITE ———
-                  SwitchListTile(
-                    value: isEdit
-                        ? true
-                        : _overwrite, // Always true in edit mode
-                    onChanged: isEdit
-                        ? null
-                        : (v) => setState(() => _overwrite = v),
-                    title: Text(l10n.overwriteIfExists),
-                  ),
-                  const SizedBox(height: 12),
-
-                  // ——— SAVE ———
-                  ElevatedButton.icon(
-                    onPressed: saving ? null : _save,
-                    icon: saving
-                        ? const SizedBox(
-                            width: 16,
-                            height: 16,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          )
-                        : const Icon(Icons.save),
-                    label: Text(l10n.saveText),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
