@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 import 'package:linguess/features/admin/presentation/providers/daily_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
@@ -11,65 +10,50 @@ class AdminDailyListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
-    final isAdminAsync = ref.watch(isAdminProvider);
     final dailyAsync = ref.watch(dailyListProvider);
     final dfDate = DateFormat('yyyy-MM-dd');
     final dfCreated = DateFormat('yyyy-MM-dd HH:mm');
 
-    return isAdminAsync.when(
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (e, _) =>
-          Scaffold(body: Center(child: Text('${l10n.errorOccurred}: $e'))),
-      data: (isAdmin) {
-        if (!isAdmin) {
-          return Scaffold(
-            body: Center(child: Text(l10n.errorOnlyAdminsCanAccess)),
-          );
-        }
+    return Scaffold(
+      appBar: AppBar(title: Text(l10n.dailyListText)),
+      body: dailyAsync.when(
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
+        data: (items) {
+          if (items.isEmpty) {
+            return Center(child: Text(l10n.noDailyEntries));
+          }
 
-        return Scaffold(
-          appBar: AppBar(title: Text(l10n.dailyListText)),
-          body: dailyAsync.when(
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
-            data: (items) {
-              if (items.isEmpty) {
-                return Center(child: Text(l10n.noDailyEntries));
-              }
+          return ListView.separated(
+            padding: const EdgeInsets.all(12),
+            itemCount: items.length,
+            separatorBuilder: (_, _) => const Divider(height: 1),
+            itemBuilder: (context, i) {
+              final d = items[i];
+              final dateStr = dfDate.format(d.date);
+              final createdStr = d.createdAt != null
+                  ? dfCreated.format(d.createdAt!)
+                  : '—';
+              final enAsync = ref.watch(wordEnByIdProvider(d.wordId));
 
-              return ListView.separated(
-                padding: const EdgeInsets.all(12),
-                itemCount: items.length,
-                separatorBuilder: (_, _) => const Divider(height: 1),
-                itemBuilder: (context, i) {
-                  final d = items[i];
-                  final dateStr = dfDate.format(d.date);
-                  final createdStr = d.createdAt != null
-                      ? dfCreated.format(d.createdAt!)
-                      : '—';
-                  final enAsync = ref.watch(wordEnByIdProvider(d.wordId));
-
-                  return ListTile(
-                    leading: const Icon(Icons.calendar_today),
-                    title: Text('$dateStr  (${d.id})'),
-                    subtitle: enAsync.when(
-                      loading: () => Text('wordId: ${d.wordId} • ...'),
-                      error: (_, _) => Text('wordId: ${d.wordId}'),
-                      data: (en) => Text(
-                        en == null || en.isEmpty
-                            ? 'wordId: ${d.wordId}'
-                            : 'wordId: ${d.wordId} • "$en"',
-                      ),
-                    ),
-                    trailing: Text(createdStr),
-                  );
-                },
+              return ListTile(
+                leading: const Icon(Icons.calendar_today),
+                title: Text('$dateStr  (${d.id})'),
+                subtitle: enAsync.when(
+                  loading: () => Text('wordId: ${d.wordId} • ...'),
+                  error: (_, _) => Text('wordId: ${d.wordId}'),
+                  data: (en) => Text(
+                    en == null || en.isEmpty
+                        ? 'wordId: ${d.wordId}'
+                        : 'wordId: ${d.wordId} • "$en"',
+                  ),
+                ),
+                trailing: Text(createdStr),
               );
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
