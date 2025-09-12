@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/achievements/presentation/pages/achievements_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_add_word_page.dart';
+import 'package:linguess/features/admin/presentation/pages/admin_categories_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_daily_list_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
@@ -95,6 +96,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/admin/daily',
         builder: (context, state) =>
             const AdminGuard(child: AdminDailyListPage()),
+      ),
+      GoRoute(
+        path: '/admin/categories',
+        builder: (context, state) =>
+            const AdminGuard(child: AdminCategoriesPage()),
       ),
     ],
   );

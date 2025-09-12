@@ -57,7 +57,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
       await ref.read(wordServiceProvider).delete(id);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.deletedWordSuccess}: $id')),
+          SnackBar(content: Text('${l10n.wordSuccessfullyDeleted}: $id')),
         );
       }
     }

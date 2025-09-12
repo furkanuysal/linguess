@@ -466,8 +466,8 @@
       }
     }
   },
-  "deletedWordSuccess": "Wort erfolgreich gelöscht.",
-  "@deletedWordSuccess": {
+  "wordSuccessfullyDeleted": "Wort erfolgreich gelöscht.",
+  "@wordSuccessfullyDeleted": {
     "description": "Message shown when a word is deleted successfully"
   },
   "addWordTitle": "Neues Wort hinzufügen",
@@ -517,5 +517,59 @@
   "savedSuccessfully": "Erfolgreich gespeichert",
   "@savedSuccessfully": {
     "description": "Message shown when a word is saved successfully"
+  },
+  "categoriesText": "Kategorien",
+  "@categoriesText": {
+    "description": "Label for the categories section in the admin panel"
+  },
+  "categoryListDesc": "Bestehende Kategorien anzeigen und verwalten",
+  "@categoryListDesc": {
+    "description": "Description text for the categories list card"
+  },
+  "manageCategories": "Kategorien verwalten",
+  "@manageCategories": {
+    "description": "Label for the button to manage categories"
+  },
+  "addCategory": "Neue Kategorie hinzufügen",
+  "@addCategory": {
+    "description": "Label for the button to add a new category"
+  },
+  "moveUpText": "Nach oben verschieben",
+  "@moveUpText": {
+    "description": "Tooltip for the button to move a category up in the list"
+  },
+  "moveDownText": "Nach unten verschieben",
+  "@moveDownText": {
+    "description": "Tooltip for the button to move a category down in the list"
+  },
+  "updateCategoryText": "Kategorie aktualisieren",
+  "@updateCategoryText": {
+    "description": "Label for the button to update a category"
+  },
+  "deleteCategoryText": "Kategorie löschen",
+  "@deleteCategoryText": {
+    "description": "Label for the button to delete a category"
+  },
+  "categoryIdFormLabel": "Kategorie-ID (Slug, unveränderlich)",
+  "@categoryIdFormLabel": {
+    "description": "Label for the category ID input field in the category form"
+  },
+  "categoryIconFormLabel": "Kategorie-Icon (Material-Icon-CodePoint, optional)",
+  "@categoryIconFormLabel": {
+    "description": "Label for the category icon input field in the category form"
+  },
+  "deleteCategoryConfirmation": "Kategorie '{id}' löschen?",
+  "@deleteCategoryConfirmation": {
+    "description": "Confirmation message shown when deleting a category",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "food"
+      }
+    }
+  },
+  "categorySuccessfullyDeleted": "Kategorie erfolgreich gelöscht.",
+  "@categorySuccessfullyDeleted": {
+    "description": "Message shown when a category is deleted successfully"
   }
 }

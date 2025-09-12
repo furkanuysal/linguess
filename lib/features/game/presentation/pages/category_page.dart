@@ -38,52 +38,81 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
           });
 
           if (categories.isEmpty) {
-            return Center(child: Text(l10n.noDataToShow));
+            // Use ListView + physics to allow pull-to-refresh even when empty
+            return RefreshIndicator(
+              onRefresh: () async {
+                ref.invalidate(categoriesProvider);
+                await ref.read(categoriesProvider.future);
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(l10n.noDataToShow),
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
 
-          return ListView.builder(
-            itemCount: categories.length,
-            itemBuilder: (context, index) {
-              final category = categories[index];
-              return ListTile(
-                leading: category.icon != null
-                    ? Image.asset(category.icon!)
-                    : null,
-                title: Text(l10n.categoryTitle(category.id)),
-                subtitle: ref
-                    .watch(
-                      progressProvider(
-                        ProgressParams(mode: 'category', id: category.id),
-                      ),
-                    )
-                    .when(
-                      data: (p) => Text(
-                        p.hasUser
-                            ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
-                            : '${p.totalCount} ${l10n.totalWordText}',
-                      ),
-                      loading: () => const Text('...'),
-                      error: (_, _) => const Text('-'),
-                    ),
-                onTap: () {
-                  context
-                      .push(
-                        '/game/category/${category.id}',
-                        extra: WordGameParams(
-                          mode: 'category',
-                          selectedValue: category.id,
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(categoriesProvider);
+              await ref.read(categoriesProvider.future);
+            },
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: categories.length,
+              itemBuilder: (context, index) {
+                final category = categories[index];
+                return ListTile(
+                  leading: category.icon != null
+                      ? Icon(
+                          IconData(
+                            int.parse(category.icon!),
+                            fontFamily: 'MaterialIcons',
+                          ),
+                        )
+                      : null,
+                  title: Text(l10n.categoryTitle(category.id)),
+                  subtitle: ref
+                      .watch(
+                        progressProvider(
+                          ProgressParams(mode: 'category', id: category.id),
                         ),
                       )
-                      .then((_) {
-                        ref.invalidate(
-                          progressProvider(
-                            ProgressParams(mode: 'category', id: category.id),
+                      .when(
+                        data: (p) => Text(
+                          p.hasUser
+                              ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                              : '${p.totalCount} ${l10n.totalWordText}',
+                        ),
+                        loading: () => const Text('...'),
+                        error: (_, _) => const Text('-'),
+                      ),
+                  onTap: () {
+                    context
+                        .push(
+                          '/game/category/${category.id}',
+                          extra: WordGameParams(
+                            mode: 'category',
+                            selectedValue: category.id,
                           ),
-                        );
-                      });
-                },
-              );
-            },
+                        )
+                        .then((_) {
+                          ref.invalidate(
+                            progressProvider(
+                              ProgressParams(mode: 'category', id: category.id),
+                            ),
+                          );
+                        });
+                  },
+                );
+              },
+            ),
           );
         },
       ),

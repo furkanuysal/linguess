@@ -18,6 +18,6 @@ class CategoryModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'index': index, if (icon != null) 'icon': icon};
+    return {'index': index, if (icon != null) 'icon': icon};
   }
 }
