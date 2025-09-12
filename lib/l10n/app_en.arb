@@ -466,8 +466,8 @@
       }
     }
   },
-  "deletedWordSuccess": "Word deleted successfully.",
-  "@deletedWordSuccess": {
+  "wordSuccessfullyDeleted": "Word deleted successfully.",
+  "@wordSuccessfullyDeleted": {
     "description": "Message shown when a word is deleted successfully"
   },
   "addWordTitle": "Add New Word",
@@ -517,5 +517,60 @@
   "savedSuccessfully": "Saved successfully",
   "@savedSuccessfully": {
     "description": "Message shown when a word is saved successfully"
+  },
+ 
+  "categoriesText": "Categories",
+  "@categoriesText": {
+    "description": "Title for the categories management page"
+  },
+  "categoryListDesc": "View and manage existing categories",
+  "@categoryListDesc": {
+    "description": "Description text for the categories list card"
+  },
+  "manageCategories": "Manage Categories",
+  "@manageCategories": {
+    "description": "Label for the button to manage categories"
+  },
+  "addCategory": "Add New Category",
+  "@addCategory": {
+    "description": "Label for the button to add a new category"
+  },
+  "moveUpText": "Move Up",
+  "@moveUpText": {
+    "description": "Tooltip for the button to move a category up in the list"
+  },
+  "moveDownText": "Move Down",
+  "@moveDownText": {
+    "description": "Tooltip for the button to move a category down in the list"
+  },
+  "updateCategoryText": "Update Category",
+  "@updateCategoryText": {
+    "description": "Label for the button to update a category"
+  },
+  "deleteCategoryText": "Delete Category",
+  "@deleteCategoryText": {
+    "description": "Label for the button to delete a category"
+  },
+  "categoryIdFormLabel": "Category ID (slug, immutable)",
+  "@categoryIdFormLabel": {
+    "description": "Label for the category ID input field in the category form"
+  },
+  "categoryIconFormLabel": "Category Icon (Material icon codePoint, optional)",
+  "@categoryIconFormLabel": {
+    "description": "Label for the category icon input field in the category form"
+  },
+  "deleteCategoryConfirmation": "Delete category '{id}'?",
+  "@deleteCategoryConfirmation": {
+    "description": "Confirmation message shown when deleting a category",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "food"
+      }
+    }
+  },
+  "categorySuccessfullyDeleted": "Category deleted successfully.",
+  "@categorySuccessfullyDeleted": {
+    "description": "Message shown when a category is deleted successfully"
   }
 }

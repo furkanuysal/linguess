@@ -37,59 +37,83 @@ class _LevelPageState extends ConsumerState<LevelPage> {
           });
 
           if (levels.isEmpty) {
-            return Center(child: Text(l10n.noDataToShow));
+            // Use ListView + physics to allow pull-to-refresh even when empty
+            return RefreshIndicator(
+              onRefresh: () async {
+                ref.invalidate(levelsProvider);
+                await ref.read(levelsProvider.future);
+              },
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Text(l10n.noDataToShow),
+                    ),
+                  ),
+                ],
+              ),
+            );
           }
 
-          return ListView.builder(
-            itemCount: levels.length,
-            itemBuilder: (context, index) {
-              final LevelModel level = levels[index];
+          return RefreshIndicator(
+            onRefresh: () async {
+              ref.invalidate(levelsProvider);
+              await ref.read(levelsProvider.future);
+            },
+            child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: levels.length,
+              itemBuilder: (context, index) {
+                final LevelModel level = levels[index];
 
-              return ListTile(
-                title: Text(level.id),
-                subtitle: ref
-                    .watch(
-                      progressProvider(
-                        ProgressParams(mode: 'level', id: level.id),
-                      ),
-                    )
-                    .when(
-                      data: (p) => Text(
-                        p.hasUser
-                            ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
-                            : '${p.totalCount} ${l10n.totalWordText}',
-                      ),
-                      loading: () => const Text('...'),
-                      error: (_, _) => const Text('-'),
-                    ),
-                onTap: () {
-                  context
-                      .push(
-                        '/game/level/${level.id}',
-                        extra: WordGameParams(
-                          mode: 'level',
-                          selectedValue: level.id,
+                return ListTile(
+                  title: Text(level.id),
+                  subtitle: ref
+                      .watch(
+                        progressProvider(
+                          ProgressParams(mode: 'level', id: level.id),
                         ),
                       )
-                      .then((_) {
-                        // Refresh relevant providers on return
-                        ref.invalidate(
-                          progressProvider(
-                            ProgressParams(mode: 'level', id: level.id),
+                      .when(
+                        data: (p) => Text(
+                          p.hasUser
+                              ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                              : '${p.totalCount} ${l10n.totalWordText}',
+                        ),
+                        loading: () => const Text('...'),
+                        error: (_, _) => const Text('-'),
+                      ),
+                  onTap: () {
+                    context
+                        .push(
+                          '/game/level/${level.id}',
+                          extra: WordGameParams(
+                            mode: 'level',
+                            selectedValue: level.id,
                           ),
-                        );
-                        ref.invalidate(
-                          wordGameProvider(
-                            WordGameParams(
-                              mode: 'level',
-                              selectedValue: level.id,
+                        )
+                        .then((_) {
+                          // Refresh relevant providers on return
+                          ref.invalidate(
+                            progressProvider(
+                              ProgressParams(mode: 'level', id: level.id),
                             ),
-                          ),
-                        );
-                      });
-                },
-              );
-            },
+                          );
+                          ref.invalidate(
+                            wordGameProvider(
+                              WordGameParams(
+                                mode: 'level',
+                                selectedValue: level.id,
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                );
+              },
+            ),
           );
         },
       ),

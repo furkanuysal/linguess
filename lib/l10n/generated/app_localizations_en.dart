@@ -365,7 +365,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get deletedWordSuccess => 'Word deleted successfully.';
+  String get wordSuccessfullyDeleted => 'Word deleted successfully.';
 
   @override
   String get addWordTitle => 'Add New Word';
@@ -402,4 +402,43 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedSuccessfully => 'Saved successfully';
+
+  @override
+  String get categoriesText => 'Categories';
+
+  @override
+  String get categoryListDesc => 'View and manage existing categories';
+
+  @override
+  String get manageCategories => 'Manage Categories';
+
+  @override
+  String get addCategory => 'Add New Category';
+
+  @override
+  String get moveUpText => 'Move Up';
+
+  @override
+  String get moveDownText => 'Move Down';
+
+  @override
+  String get updateCategoryText => 'Update Category';
+
+  @override
+  String get deleteCategoryText => 'Delete Category';
+
+  @override
+  String get categoryIdFormLabel => 'Category ID (slug, immutable)';
+
+  @override
+  String get categoryIconFormLabel =>
+      'Category Icon (Material icon codePoint, optional)';
+
+  @override
+  String deleteCategoryConfirmation(String id) {
+    return 'Delete category \'$id\'?';
+  }
+
+  @override
+  String get categorySuccessfullyDeleted => 'Category deleted successfully.';
 }

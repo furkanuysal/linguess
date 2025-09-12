@@ -778,7 +778,7 @@ abstract class AppLocalizations {
   ///
   /// In tr, this message translates to:
   /// **'Kelime başarıyla silindi.'**
-  String get deletedWordSuccess;
+  String get wordSuccessfullyDeleted;
 
   /// Label for the button to add a new word
   ///
@@ -851,6 +851,78 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Başarıyla kaydedildi'**
   String get savedSuccessfully;
+
+  /// Title for the categories management page
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategoriler'**
+  String get categoriesText;
+
+  /// Description text for the categories list card
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut kategorileri görüntüle ve yönet'**
+  String get categoryListDesc;
+
+  /// Label for the button to manage categories
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategorileri Yönet'**
+  String get manageCategories;
+
+  /// Label for the button to add a new category
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Kategori Ekle'**
+  String get addCategory;
+
+  /// Tooltip for the button to move a category up in the list
+  ///
+  /// In tr, this message translates to:
+  /// **'Yukarı Taşı'**
+  String get moveUpText;
+
+  /// Tooltip for the button to move a category down in the list
+  ///
+  /// In tr, this message translates to:
+  /// **'Aşağı Taşı'**
+  String get moveDownText;
+
+  /// Label for the button to update a category
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori Güncelle'**
+  String get updateCategoryText;
+
+  /// Label for the button to delete a category
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori Sil'**
+  String get deleteCategoryText;
+
+  /// Label for the category ID input field in the category form
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori ID\'si (kısa ad, değiştirilemez)'**
+  String get categoryIdFormLabel;
+
+  /// Label for the category icon input field in the category form
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori Simgesi (Material icon codePoint, opsiyonel)'**
+  String get categoryIconFormLabel;
+
+  /// Confirmation message shown when deleting a category
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori \'{id}\' silinsin mi?'**
+  String deleteCategoryConfirmation(String id);
+
+  /// Message shown when a category is deleted successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori başarıyla silindi.'**
+  String get categorySuccessfullyDeleted;
 }
 
 class _AppLocalizationsDelegate

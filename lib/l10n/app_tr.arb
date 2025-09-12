@@ -466,8 +466,8 @@
       }
     }
   },
-  "deletedWordSuccess": "Kelime başarıyla silindi.",
-  "@deletedWordSuccess": {
+  "wordSuccessfullyDeleted": "Kelime başarıyla silindi.",
+  "@wordSuccessfullyDeleted": {
     "description": "Message shown when a word is deleted successfully"
   },
   "addWordTitle": "Yeni Kelime Ekle",
@@ -517,5 +517,59 @@
   "savedSuccessfully": "Başarıyla kaydedildi",
   "@savedSuccessfully": {
     "description": "Message shown when a word is saved successfully"
+  },
+  "categoriesText": "Kategoriler",
+  "@categoriesText": {
+    "description": "Title for the categories management page"
+  },
+  "categoryListDesc": "Mevcut kategorileri görüntüle ve yönet",
+  "@categoryListDesc": {
+    "description": "Description text for the categories list card"
+  },
+  "manageCategories": "Kategorileri Yönet",
+  "@manageCategories": {
+    "description": "Label for the button to manage categories"
+  },
+  "addCategory": "Yeni Kategori Ekle",
+  "@addCategory": {
+    "description": "Label for the button to add a new category"
+  },
+  "moveUpText": "Yukarı Taşı",
+  "@moveUpText": {
+    "description": "Tooltip for the button to move a category up in the list"
+  },
+  "moveDownText": "Aşağı Taşı",
+  "@moveDownText": {
+    "description": "Tooltip for the button to move a category down in the list"
+  },
+  "updateCategoryText": "Kategori Güncelle",
+  "@updateCategoryText": {
+    "description": "Label for the button to update a category"
+  },
+  "deleteCategoryText": "Kategori Sil",
+  "@deleteCategoryText": {
+    "description": "Label for the button to delete a category"
+  },
+  "categoryIdFormLabel": "Kategori ID'si (kısa ad, değiştirilemez)",
+  "@categoryIdFormLabel": {
+    "description": "Label for the category ID input field in the category form"
+  },
+  "categoryIconFormLabel": "Kategori Simgesi (Material icon codePoint, opsiyonel)",
+  "@categoryIconFormLabel": {
+    "description": "Label for the category icon input field in the category form"
+  },
+  "deleteCategoryConfirmation": "Kategori '{id}' silinsin mi?",
+  "@deleteCategoryConfirmation": {
+    "description": "Confirmation message shown when deleting a category",
+    "placeholders": {
+      "id": {
+        "type": "String",
+        "example": "food"
+      }
+    }
+  },
+  "categorySuccessfullyDeleted": "Kategori başarıyla silindi.",
+  "@categorySuccessfullyDeleted": {
+    "description": "Message shown when a category is deleted successfully"
   }
 }

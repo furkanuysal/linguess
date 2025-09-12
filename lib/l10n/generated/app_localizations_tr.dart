@@ -366,7 +366,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get deletedWordSuccess => 'Kelime başarıyla silindi.';
+  String get wordSuccessfullyDeleted => 'Kelime başarıyla silindi.';
 
   @override
   String get addWordTitle => 'Yeni Kelime Ekle';
@@ -403,4 +403,43 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get savedSuccessfully => 'Başarıyla kaydedildi';
+
+  @override
+  String get categoriesText => 'Kategoriler';
+
+  @override
+  String get categoryListDesc => 'Mevcut kategorileri görüntüle ve yönet';
+
+  @override
+  String get manageCategories => 'Kategorileri Yönet';
+
+  @override
+  String get addCategory => 'Yeni Kategori Ekle';
+
+  @override
+  String get moveUpText => 'Yukarı Taşı';
+
+  @override
+  String get moveDownText => 'Aşağı Taşı';
+
+  @override
+  String get updateCategoryText => 'Kategori Güncelle';
+
+  @override
+  String get deleteCategoryText => 'Kategori Sil';
+
+  @override
+  String get categoryIdFormLabel => 'Kategori ID\'si (kısa ad, değiştirilemez)';
+
+  @override
+  String get categoryIconFormLabel =>
+      'Kategori Simgesi (Material icon codePoint, opsiyonel)';
+
+  @override
+  String deleteCategoryConfirmation(String id) {
+    return 'Kategori \'$id\' silinsin mi?';
+  }
+
+  @override
+  String get categorySuccessfullyDeleted => 'Kategori başarıyla silindi.';
 }
