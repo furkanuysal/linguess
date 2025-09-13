@@ -231,7 +231,7 @@ class AdminCategoriesPage extends ConsumerWidget {
       context: context,
       builder: (_) => AlertDialog(
         title: Text(l10n.deleteCategoryText),
-        content: Text('${l10n.deleteCategoryConfirmation}: $id'),
+        content: Text(l10n.deleteCategoryConfirmation(id)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),

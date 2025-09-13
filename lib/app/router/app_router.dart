@@ -9,8 +9,8 @@ import 'package:linguess/features/admin/presentation/pages/admin_daily_list_page
 import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
 import 'package:linguess/features/admin/presentation/widgets/admin_guard.dart';
-import 'package:linguess/features/auth/pages/login_page.dart';
-import 'package:linguess/features/auth/pages/register_page.dart';
+import 'package:linguess/features/auth/presentation/pages/login_page.dart';
+import 'package:linguess/features/auth/presentation/pages/register_page.dart';
 import 'package:linguess/features/game/presentation/pages/category_page.dart';
 import 'package:linguess/features/game/presentation/pages/level_page.dart';
 import 'package:linguess/features/game/presentation/pages/word_game_page.dart';
