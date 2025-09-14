@@ -29,8 +29,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
   void _onSearchChanged(String v) {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 300), () {
-      final f = ref.read(wordsFilterProvider);
-      ref.read(wordsFilterProvider.notifier).state = f.copyWith(search: v);
+      ref.read(wordsFilterProvider.notifier).setSearch(v);
     });
   }
 
@@ -123,9 +122,9 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                               DropdownMenuItem(value: n, child: Text(n)),
                           ],
                           onChanged: (v) {
-                            final f = ref.read(wordsFilterProvider);
-                            ref.read(wordsFilterProvider.notifier).state = f
-                                .copyWith(category: v ?? '');
+                            ref
+                                .read(wordsFilterProvider.notifier)
+                                .setCategory(v ?? '');
                           },
                         ),
                       );
@@ -162,9 +161,9 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                               DropdownMenuItem(value: n, child: Text(n)),
                           ],
                           onChanged: (v) {
-                            final f = ref.read(wordsFilterProvider);
-                            ref.read(wordsFilterProvider.notifier).state = f
-                                .copyWith(level: v ?? '');
+                            ref
+                                .read(wordsFilterProvider.notifier)
+                                .setLevel(v ?? '');
                           },
                         ),
                       );
@@ -191,8 +190,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                     tooltip: l10n.clearText,
                     onPressed: () {
                       _searchCtrl.clear();
-                      ref.read(wordsFilterProvider.notifier).state =
-                          const WordsFilter();
+                      ref.read(wordsFilterProvider.notifier).reset();
                     },
                     icon: const Icon(Icons.clear),
                   ),

@@ -7,44 +7,41 @@ import 'package:linguess/features/auth/presentation/providers/user_data_provider
 import 'package:linguess/app/router/app_router.dart';
 
 final achievementToastProvider =
-    StateNotifierProvider<AchievementToastController, AchievementModel?>((ref) {
-      return AchievementToastController(ref);
-    });
+    NotifierProvider<AchievementToastController, AchievementModel?>(
+      AchievementToastController.new,
+    );
 
-class AchievementToastController extends StateNotifier<AchievementModel?> {
-  final Ref ref;
-
-  AchievementToastController(this.ref) : super(null) {
-    // Listen to achievements and detect newly earned ones
+class AchievementToastController extends Notifier<AchievementModel?> {
+  @override
+  AchievementModel? build() {
+    // Earned ID setindeki değişiklikleri dinle
     ref.listen<AsyncValue<Set<String>>>(earnedAchievementIdsProvider, (
       previous,
       next,
     ) {
       next.whenData((currentEarned) {
-        if (previous?.hasValue == true) {
-          final previousEarned = previous!.value!;
-          final newAchievements = currentEarned.difference(previousEarned);
-
-          if (newAchievements.isNotEmpty) {
-            _showToastForNewAchievement(newAchievements.first);
-          }
+        final previousEarned = previous?.value ?? <String>{};
+        final newAchievements = currentEarned.difference(previousEarned);
+        if (newAchievements.isNotEmpty) {
+          _showToastForNewAchievement(newAchievements.first);
         }
       });
     });
 
-    // Listen to changes in CorrectCount and check for achievements
+    // Doğru cevap sayısı değişimlerini dinle
     ref.listen<AsyncValue<int>>(userCorrectCountProvider, (previous, next) {
       next.whenData((correctCount) async {
         await _checkWordCountAchievements(correctCount);
       });
     });
+
+    return null; // başlangıç state
   }
 
-  // Check all word count based achievements
+  // Sayı bazlı tüm başarımları kontrol et
   Future<void> _checkWordCountAchievements(int correctCount) async {
     final achievementService = ref.read(achievementsServiceProvider);
 
-    // All count-based achievements are checked here
     final wordCountAchievements = {
       10: 'solve_ten_words',
       50: 'solve_fifty_words',
@@ -62,27 +59,27 @@ class AchievementToastController extends StateNotifier<AchievementModel?> {
 
   void _showToastForNewAchievement(String achievementId) {
     final context = ref.read(navigatorKeyProvider).currentContext;
-    if (context != null) {
-      final l10n = AppLocalizations.of(context)!;
-      final achievements = buildAchievements(context);
-      final achievement = achievements.firstWhere(
-        (a) => a.id == achievementId,
-        orElse: () => AchievementModel(
-          id: achievementId,
-          title: l10n.unknownAchievementTitleText,
-          description: l10n.unknownAchievementDescriptionText,
-          icon: '/empty',
-        ),
-      );
+    if (context == null) return;
 
-      state = achievement;
+    final l10n = AppLocalizations.of(context)!;
+    final achievements = buildAchievements(context);
+    final achievement = achievements.firstWhere(
+      (a) => a.id == achievementId,
+      orElse: () => AchievementModel(
+        id: achievementId,
+        title: l10n.unknownAchievementTitleText,
+        description: l10n.unknownAchievementDescriptionText,
+        icon: '/empty',
+      ),
+    );
 
-      Future.delayed(const Duration(seconds: 3), () {
-        if (mounted && state?.id == achievementId) {
-          state = null;
-        }
-      });
-    }
+    state = achievement;
+
+    Future.delayed(const Duration(seconds: 3), () {
+      if (ref.mounted && state?.id == achievementId) {
+        state = null;
+      }
+    });
   }
 
   void hideToast() {
