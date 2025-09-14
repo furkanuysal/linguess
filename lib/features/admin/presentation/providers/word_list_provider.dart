@@ -19,9 +19,24 @@ class WordsFilter {
       );
 }
 
+class WordsFilterNotifier extends Notifier<WordsFilter> {
+  @override
+  WordsFilter build() => const WordsFilter();
+
+  void setCategory(String? category) =>
+      state = state.copyWith(category: category ?? '');
+
+  void setLevel(String? level) => state = state.copyWith(level: level ?? '');
+
+  void setSearch(String? search) =>
+      state = state.copyWith(search: (search ?? '').trim());
+
+  void reset() => state = const WordsFilter();
+}
+
 // State to be controlled from the UI
-final wordsFilterProvider = StateProvider<WordsFilter>(
-  (ref) => const WordsFilter(),
+final wordsFilterProvider = NotifierProvider<WordsFilterNotifier, WordsFilter>(
+  WordsFilterNotifier.new,
 );
 
 // List from Firestore according to the filter

@@ -16,28 +16,36 @@ import 'package:linguess/features/auth/presentation/providers/user_data_provider
 import 'package:linguess/features/game/data/providers/word_repository_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 
-class WordGameNotifier extends StateNotifier<WordGameState> {
-  final Ref _ref;
-  final String _mode;
-  final String _selectedValue;
+class WordGameNotifier extends Notifier<WordGameState> {
+  WordGameNotifier(this.params);
+  final WordGameParams params;
 
   String _targetWithoutSpaces = '';
   List<WordModel> _rawWords = [];
+  bool _didInit = false; // build yeniden çağrılırsa iki kez init olmaması için
 
-  WordGameNotifier(this._ref, WordGameParams params)
-    : _mode = params.mode,
-      _selectedValue = params.selectedValue,
-      super(const WordGameState()) {
-    _fetchWords(_mode, _selectedValue);
+  @override
+  WordGameState build() {
+    if (!_didInit) {
+      _didInit = true;
 
-    if (_mode != 'daily') {
-      _ref.listen(settingsControllerProvider, (prev, next) {
-        _reapplyFilters();
-      });
-      _ref.listen(userDataProvider, (prev, next) {
-        _reapplyFilters();
-      });
+      if (params.mode != 'daily') {
+        ref.listen(settingsControllerProvider, (prev, next) {
+          _reapplyFilters();
+        });
+        ref.listen(userDataProvider, (prev, next) {
+          _reapplyFilters();
+        });
+      }
+
+      _fetchWords(params.mode, params.selectedValue);
+      ref.onDispose(_cleanUpResources);
+
+      return const WordGameState(); // ilk kurulum
     }
+
+    // build tekrar çağrılırsa mevcut state'i koru
+    return state;
   }
 
   void _cleanUpResources() {
@@ -69,23 +77,23 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   Future<void> _markDailySolved(String dateId, String wordId) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
-    final ref = FirebaseFirestore.instance
+    final refDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
         .collection('dailySolved')
         .doc(dateId);
-    await ref.set({
+    await refDoc.set({
       'wordId': wordId,
       'solvedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
 
   Future<void> _fetchWords(String mode, String selectedValue) async {
-    final wordRepository = _ref.read(wordRepositoryProvider);
+    final wordRepository = ref.read(wordRepositoryProvider);
 
     try {
       if (mode == 'daily') {
-        final dailyRepo = _ref.read(dailyPuzzleRepositoryProvider);
+        final dailyRepo = ref.read(dailyPuzzleRepositoryProvider);
         final todaysWordId = await dailyRepo.getOrCreateTodayDailyWordId();
         final word = await wordRepository.fetchWordById(todaysWordId);
         if (word == null) {
@@ -133,18 +141,18 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       _rawWords = words;
       await _reapplyFilters(initial: true);
     } catch (e, st) {
-      if (!mounted) return;
       state = state.copyWith(words: AsyncValue.error(e, st));
     }
   }
 
   Future<void> _reapplyFilters({bool initial = false}) async {
-    if (_mode == 'daily') return;
+    if (params.mode == 'daily') return;
 
-    final settings = _ref.read(settingsControllerProvider).valueOrNull;
+    // Riverpod 3: AsyncValue.valueOrNull yerine .value kullan
+    final settings = ref.read(settingsControllerProvider).value;
     final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
     final targetLang =
-        _ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+        ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
     List<String> learnedIds = const [];
     final uid = FirebaseAuth.instance.currentUser?.uid;
@@ -186,9 +194,8 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
   void _initializeWord(WordModel word) {
     // Get target language from settings
     final targetLang =
-        _ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+        ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
-    // Safe fallback: targetLang -> en -> any available translation
     String pickTarget(WordModel w) {
       final Map<String, String> t = w.translations;
       final fromTarget = t[targetLang];
@@ -238,12 +245,11 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     return s[0].toUpperCase() + s.substring(1).toLowerCase();
   }
 
-  void _showSuccessDialog(BuildContext context) async {
-    final economyService = _ref.read(economyServiceProvider);
+  Future<void> _showSuccessDialog(BuildContext context) async {
+    final economyService = ref.read(economyServiceProvider);
 
-    // App language (hint/translation to be displayed on screen)
     final appLang =
-        _ref.read(settingsControllerProvider).value?.appLangCode ??
+        ref.read(settingsControllerProvider).value?.appLangCode ??
         Localizations.localeOf(context).languageCode;
 
     final wordToSolve = state.currentWord!.translations[appLang] ?? '???';
@@ -259,7 +265,7 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     }
 
     try {
-      final ach = _ref.read(achievementsServiceProvider);
+      final ach = ref.read(achievementsServiceProvider);
       if (state.hintIndices.isEmpty) {
         await ach.awardIfNotEarned('solve_firstword_nohint');
       }
@@ -297,14 +303,14 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
                 TextButton(
                   onPressed: () {
                     context.pop();
-                    if (_mode == 'daily') {
+                    if (params.mode == 'daily') {
                       context.pop();
                     } else {
                       _loadRandomWord();
                     }
                   },
                   child: Text(
-                    _mode == 'daily'
+                    params.mode == 'daily'
                         ? AppLocalizations.of(context)!.close
                         : AppLocalizations.of(context)!.nextWord,
                   ),
@@ -337,10 +343,10 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     state = state.copyWith(correctIndices: newCorrectIndices);
 
     if (isAllCorrect) {
-      final userService = _ref.read(userServiceProvider);
+      final userService = ref.read(userServiceProvider);
       final targetLang =
-          _ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
-      _showSuccessDialog(context);
+          ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+      await _showSuccessDialog(context);
       await userService.onCorrectAnswer(
         word: state.currentWord!,
         targetLang: targetLang,
@@ -367,11 +373,11 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
     state = state.copyWith(isShaking: false);
   }
 
-  void showHintLetter(BuildContext context) async {
+  Future<void> showHintLetter(BuildContext context) async {
     if (state.isDaily && state.dailyAlreadySolved) return;
     if (state.hintIndices.length >= _targetWithoutSpaces.length) return;
 
-    final economyService = _ref.read(economyServiceProvider);
+    final economyService = ref.read(economyServiceProvider);
     final canUseHint = await economyService.tryUseHint();
     if (!canUseHint) {
       if (context.mounted) {
@@ -458,11 +464,5 @@ class WordGameNotifier extends StateNotifier<WordGameState> {
       }
     }
     return false;
-  }
-
-  @override
-  void dispose() {
-    _cleanUpResources();
-    super.dispose();
   }
 }

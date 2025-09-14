@@ -23,7 +23,7 @@ final achievementsViewProvider = Provider.autoDispose
       context,
     ) {
       final earned =
-          ref.watch(earnedAchievementIdsProvider).valueOrNull ?? <String>{};
+          ref.watch(earnedAchievementIdsProvider).value ?? <String>{};
       final defs = buildAchievements(context);
 
       return defs.map((d) => (def: d, earned: earned.contains(d.id))).toList();
