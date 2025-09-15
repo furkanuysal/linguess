@@ -522,6 +522,18 @@ abstract class AppLocalizations {
   /// **'Günlük kelimeyi çözmek için giriş yapmalısınız.'**
   String get dailyWordLoginRequired;
 
+  /// Title for the 'solve first word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Her şey bir kelimeyle başlar'**
+  String get achievement_solve_firstword_title;
+
+  /// Description for the 'solve first word' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez bir kelimeyi çözdün.'**
+  String get achievement_solve_firstword_description;
+
   /// Title for the 'learn first word' achievement
   ///
   /// In tr, this message translates to:

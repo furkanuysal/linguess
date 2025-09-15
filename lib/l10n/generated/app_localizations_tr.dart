@@ -224,6 +224,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Günlük kelimeyi çözmek için giriş yapmalısınız.';
 
   @override
+  String get achievement_solve_firstword_title =>
+      'Her şey bir kelimeyle başlar';
+
+  @override
+  String get achievement_solve_firstword_description =>
+      'İlk kez bir kelimeyi çözdün.';
+
+  @override
   String get achievement_learn_firstword_title => 'İlk Kelime!';
 
   @override

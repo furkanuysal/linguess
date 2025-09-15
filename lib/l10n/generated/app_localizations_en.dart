@@ -223,6 +223,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'You must be logged in to solve the daily word.';
 
   @override
+  String get achievement_solve_firstword_title => 'First of many!';
+
+  @override
+  String get achievement_solve_firstword_description =>
+      'You solved a word for the first time.';
+
+  @override
   String get achievement_learn_firstword_title => 'First Word!';
 
   @override

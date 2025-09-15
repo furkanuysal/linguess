@@ -7,52 +7,50 @@ final _firestoreProvider = Provider<FirebaseFirestore>(
   (ref) => FirebaseFirestore.instance,
 );
 final _authProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
-final _uidProvider = Provider<String>((ref) {
-  final u = ref.watch(_authProvider).currentUser;
-  if (u == null) throw StateError('Not signed in');
-  return u.uid;
+final _uidProvider = Provider<String?>((ref) {
+  return ref.watch(_authProvider).currentUser?.uid;
 });
 
 // Key: target language + category
-class ResumeCategoryKey {
+class ResumeKey {
   final String targetLang;
-  final String categoryId;
-  const ResumeCategoryKey(this.targetLang, this.categoryId);
+  final String gameModeId;
+  const ResumeKey(this.targetLang, this.gameModeId);
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is ResumeCategoryKey &&
+      (other is ResumeKey &&
           other.targetLang == targetLang &&
-          other.categoryId == categoryId);
+          other.gameModeId == gameModeId);
 
   @override
-  int get hashCode => Object.hash(targetLang, categoryId);
+  int get hashCode => Object.hash(targetLang, gameModeId);
 
   @override
-  String toString() => 'ResumeCategoryKey($targetLang/$categoryId)';
+  String toString() => 'ResumeKey($targetLang/$gameModeId)';
 }
 
-class ResumeCategoryRepository {
-  ResumeCategoryRepository({
+class ResumeRepository {
+  ResumeRepository({
     required this.db,
     required this.uid,
     required this.targetLang,
-    required this.categoryId,
+    required this.gameModeId,
   });
 
   final FirebaseFirestore db;
   final String uid;
   final String targetLang;
-  final String categoryId;
+  final String gameModeId;
 
   DocumentReference<Map<String, dynamic>> _doc() => db
       .collection('users')
       .doc(uid)
       .collection('targets')
       .doc(targetLang)
-      .collection('resume_category')
-      .doc(categoryId);
+      .collection('resume')
+      .doc(gameModeId);
 
   // Live listening
   Stream<ResumeState?> watch() {
@@ -77,8 +75,26 @@ class ResumeCategoryRepository {
     }, SetOptions(merge: true));
   }
 
+  Future<void> clearAll() async {
+    await _doc().set({
+      'currentWordId': '',
+      'userFilled': <String, String>{}, // empty
+      'hintCountUsed': 0,
+      'updatedAt': FieldValue.serverTimestamp(),
+    }, SetOptions(merge: false));
+  }
+
+  Future<void> setCurrentWord(String wordId) async {
+    await upsertInitial(currentWordId: wordId);
+  }
+
   // Write/change a letter (index → "A")
-  Future<void> setLetter({required int index, required String ch}) async {
+  Future<void> setLetter({
+    required int index,
+    required String ch,
+    int? wordLen,
+  }) async {
+    if (index < 0 || (wordLen != null && index >= wordLen)) return;
     final up = ch.toUpperCase();
     if (up.isEmpty) {
       await clearLetter(index: index);
@@ -138,17 +154,21 @@ class ResumeCategoryRepository {
 }
 
 // Providers
-final resumeCategoryRepositoryProvider = Provider.family
-    .autoDispose<ResumeCategoryRepository, ResumeCategoryKey>((ref, key) {
-      return ResumeCategoryRepository(
+final resumeRepositoryProvider = Provider.family
+    .autoDispose<ResumeRepository, ResumeKey>((ref, key) {
+      final uid = ref.watch(_uidProvider);
+      if (uid == null) {
+        throw StateError('Not signed in');
+      }
+      return ResumeRepository(
         db: ref.watch(_firestoreProvider),
-        uid: ref.watch(_uidProvider),
+        uid: uid,
         targetLang: key.targetLang,
-        categoryId: key.categoryId,
+        gameModeId: key.gameModeId,
       );
     });
 
-final resumeCategoryStreamProvider = StreamProvider.family
-    .autoDispose<ResumeState?, ResumeCategoryKey>((ref, key) {
-      return ref.watch(resumeCategoryRepositoryProvider(key)).watch();
+final resumeStreamProvider = StreamProvider.family
+    .autoDispose<ResumeState?, ResumeKey>((ref, key) {
+      return ref.watch(resumeRepositoryProvider(key)).watch();
     });

@@ -228,6 +228,13 @@ class AppLocalizationsDe extends AppLocalizations {
       'Für die Lösung des täglichen Wortes ist eine Anmeldung erforderlich.';
 
   @override
+  String get achievement_solve_firstword_title => 'Erstes Wort lösen';
+
+  @override
+  String get achievement_solve_firstword_description =>
+      'Du hast zum ersten Mal ein Wort gelöst.';
+
+  @override
   String get achievement_learn_firstword_title => 'Erste Wörter lernen';
 
   @override

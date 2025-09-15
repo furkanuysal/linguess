@@ -7,6 +7,12 @@ List<AchievementModel> buildAchievements(BuildContext context) {
 
   return [
     AchievementModel(
+      id: 'solve_firstword',
+      title: l10n.achievement_solve_firstword_title,
+      description: l10n.achievement_solve_firstword_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
       id: 'learn_firstword',
       title: l10n.achievement_learn_firstword_title,
       description: l10n.achievement_learn_firstword_description,

@@ -14,7 +14,7 @@ final achievementToastProvider =
 class AchievementToastController extends Notifier<AchievementModel?> {
   @override
   AchievementModel? build() {
-    // Earned ID setindeki değişiklikleri dinle
+    // Listen for changes in the set of earned achievement IDs
     ref.listen<AsyncValue<Set<String>>>(earnedAchievementIdsProvider, (
       previous,
       next,
@@ -28,21 +28,22 @@ class AchievementToastController extends Notifier<AchievementModel?> {
       });
     });
 
-    // Doğru cevap sayısı değişimlerini dinle
+    // Listen for changes in the correct answer count
     ref.listen<AsyncValue<int>>(userCorrectCountProvider, (previous, next) {
       next.whenData((correctCount) async {
         await _checkWordCountAchievements(correctCount);
       });
     });
 
-    return null; // başlangıç state
+    return null; // initial state
   }
 
-  // Sayı bazlı tüm başarımları kontrol et
+  // Check all count-based achievements
   Future<void> _checkWordCountAchievements(int correctCount) async {
     final achievementService = ref.read(achievementsServiceProvider);
 
     final wordCountAchievements = {
+      1: 'solve_firstword',
       10: 'solve_ten_words',
       50: 'solve_fifty_words',
       100: 'solve_hundred_words',
