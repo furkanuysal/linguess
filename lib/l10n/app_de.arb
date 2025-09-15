@@ -280,6 +280,14 @@
   "@dailyWordLoginRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
+  "achievement_solve_firstword_title": "Erstes Wort lösen",
+  "@achievement_solve_firstword_title": {
+    "description": "Title for the 'solve first word' achievement"
+  },
+  "achievement_solve_firstword_description": "Du hast zum ersten Mal ein Wort gelöst.",
+  "@achievement_solve_firstword_description": {
+    "description": "Description for the 'solve first word' achievement"
+  },
   "achievement_learn_firstword_title": "Erste Wörter lernen",
   "@achievement_learn_firstword_title": {
     "description": "Title for the 'learn first word' achievement"

@@ -219,7 +219,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
       body: state.words.when(
         data: (words) {
           if (state.currentWord == null) {
-            return Center(child: Text(l10n.comingSoon));
+            return Center(child: RefreshProgressIndicator());
           }
           final String currentLanguage = Localizations.localeOf(
             context,

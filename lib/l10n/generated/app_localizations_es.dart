@@ -229,6 +229,13 @@ class AppLocalizationsEs extends AppLocalizations {
       'Se requiere iniciar sesión para resolver la palabra diaria.';
 
   @override
+  String get achievement_solve_firstword_title => '¡Primera de muchas!';
+
+  @override
+  String get achievement_solve_firstword_description =>
+      'Has resuelto una palabra por primera vez.';
+
+  @override
   String get achievement_learn_firstword_title => '¡Primera palabra!';
 
   @override

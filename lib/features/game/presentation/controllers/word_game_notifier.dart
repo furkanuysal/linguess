@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/effects/confetti_particle.dart';
+import 'package:linguess/core/utils/id_utils.dart';
+import 'package:linguess/features/resume/data/models/resume_state.dart';
+import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
@@ -19,10 +22,17 @@ import 'package:linguess/features/game/presentation/controllers/word_game_state.
 class WordGameNotifier extends Notifier<WordGameState> {
   WordGameNotifier(this.params);
   final WordGameParams params;
+  ResumeKey? _resumeKey;
+
+  List<TextEditingController> _controllers = [];
+  List<FocusNode> _focusNodes = [];
 
   String _targetWithoutSpaces = '';
   List<WordModel> _rawWords = [];
-  bool _didInit = false; // build yeniden çağrılırsa iki kez init olmaması için
+  bool _didInit =
+      false; // to prevent double initialization if build is called again
+
+  int _hintsUsedForCurrentWord = 0;
 
   @override
   WordGameState build() {
@@ -41,20 +51,22 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _fetchWords(params.mode, params.selectedValue);
       ref.onDispose(_cleanUpResources);
 
-      return const WordGameState(); // ilk kurulum
+      return const WordGameState(); // initial setup
     }
 
-    // build tekrar çağrılırsa mevcut state'i koru
+    // If build is called again, preserve the current state
     return state;
   }
 
   void _cleanUpResources() {
-    for (var c in state.controllers) {
+    for (final c in _controllers) {
       c.dispose();
     }
-    for (var f in state.focusNodes) {
+    for (final f in _focusNodes) {
       f.dispose();
     }
+    _controllers = [];
+    _focusNodes = [];
   }
 
   String _todayIdLocal() {
@@ -148,7 +160,6 @@ class WordGameNotifier extends Notifier<WordGameState> {
   Future<void> _reapplyFilters({bool initial = false}) async {
     if (params.mode == 'daily') return;
 
-    // Riverpod 3: AsyncValue.valueOrNull yerine .value kullan
     final settings = ref.read(settingsControllerProvider).value;
     final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
     final targetLang =
@@ -178,14 +189,21 @@ class WordGameNotifier extends Notifier<WordGameState> {
     state = state.copyWith(words: AsyncValue.data(filtered));
 
     if (initial || state.currentWord == null) {
-      _loadRandomWord();
+      await _resumeHandshake(filtered, targetLang);
     }
   }
 
-  void _loadRandomWord() {
-    state.words.whenData((words) {
+  void _loadRandomWord() async {
+    state.words.whenData((words) async {
       if (words.isNotEmpty) {
         final randomWord = (words.toList()..shuffle()).first;
+        final key = _resumeKey;
+        if (key != null) {
+          await ref
+              .read(resumeRepositoryProvider(key))
+              .setCurrentWord(randomWord.id);
+          _hintsUsedForCurrentWord = 0;
+        }
         _initializeWord(randomWord);
       }
     });
@@ -197,11 +215,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
         ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
     String pickTarget(WordModel w) {
-      final Map<String, String> t = w.translations;
-      final fromTarget = t[targetLang];
-      final fromEn = t['en'];
-      final fromAny = t.isNotEmpty ? t.values.first : '';
-      return (fromTarget ?? fromEn ?? fromAny);
+      final t = w.translations;
+      return (t[targetLang] ?? t['en'] ?? (t.isNotEmpty ? t.values.first : ''));
     }
 
     final currentTarget = pickTarget(word).toUpperCase();
@@ -209,24 +224,24 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     _cleanUpResources();
 
-    final controllers = List.generate(
+    _controllers = List.generate(
       _targetWithoutSpaces.length,
       (_) => TextEditingController(),
     );
-    final focusNodes = List.generate(
+    _focusNodes = List.generate(
       _targetWithoutSpaces.length,
       (_) => FocusNode(),
     );
-    final correctIndices = List.generate(
+    final correctIndices = List<bool>.filled(
       _targetWithoutSpaces.length,
-      (_) => false,
+      false,
     );
 
     state = state.copyWith(
       currentWord: word,
       currentTarget: currentTarget,
-      controllers: controllers,
-      focusNodes: focusNodes,
+      controllers: _controllers,
+      focusNodes: _focusNodes,
       correctIndices: correctIndices,
       hintIndices: [],
     );
@@ -255,7 +270,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     final wordToSolve = state.currentWord!.translations[appLang] ?? '???';
     final correctAnswerFormatted = _capitalize(state.currentTarget);
 
-    await economyService.rewardGold(state.hintIndices.length);
+    await economyService.rewardGold(_hintsUsedForCurrentWord);
 
     if (state.isDaily &&
         !state.dailyAlreadySolved &&
@@ -342,10 +357,21 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     state = state.copyWith(correctIndices: newCorrectIndices);
 
+    if (_resumeKey != null) {
+      final repo = ref.read(resumeRepositoryProvider(_resumeKey!));
+      final correctMap = <int, String>{};
+      for (int i = 0; i < _targetWithoutSpaces.length; i++) {
+        final up = state.controllers[i].text.toUpperCase();
+        if (up == _targetWithoutSpaces[i]) correctMap[i] = up;
+      }
+      await repo.setLettersBulk(correctMap);
+    }
+
     if (isAllCorrect) {
       final userService = ref.read(userServiceProvider);
       final targetLang =
           ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+      if (!context.mounted) return;
       await _showSuccessDialog(context);
       await userService.onCorrectAnswer(
         word: state.currentWord!,
@@ -408,6 +434,19 @@ class WordGameNotifier extends Notifier<WordGameState> {
         correctIndices: newCorrectIndices,
       );
 
+      final repoKey = _resumeKey;
+      if (repoKey != null) {
+        final repo = ref.read(resumeRepositoryProvider(repoKey));
+        final ch = _targetWithoutSpaces[index];
+        await repo.setLetter(
+          index: index,
+          ch: ch,
+          wordLen: _targetWithoutSpaces.length,
+        );
+        await repo.incrementHintUsed(1);
+      }
+      _hintsUsedForCurrentWord += 1;
+
       if (state.controllers.every((c) => c.text.isNotEmpty)) {
         if (context.mounted) {
           await checkAnswer(context);
@@ -464,5 +503,70 @@ class WordGameNotifier extends Notifier<WordGameState> {
       }
     }
     return false;
+  }
+
+  Future<void> _resumeHandshake(List<WordModel> pool, String targetLang) async {
+    if (pool.isEmpty) return;
+
+    final docId = makeResumeDocId(
+      mode: params.mode,
+      selectedValue: params.selectedValue,
+    );
+
+    _resumeKey = ResumeKey(targetLang, docId);
+    final repo = ref.read(resumeRepositoryProvider(_resumeKey!));
+
+    // Candidate initial word (based on current chance)
+    final initialWord = pool.first;
+
+    final rs = await repo.fetch();
+
+    String effectiveWordId;
+    if (rs == null || (rs.currentWordId.isEmpty)) {
+      // No document or currentWordId is empty → start with a new selection
+      effectiveWordId = initialWord.id;
+      await repo.upsertInitial(currentWordId: effectiveWordId);
+    } else {
+      // Document exists and currentWordId is set → ALWAYS use it (even if there is no progress)
+      effectiveWordId = rs.currentWordId;
+    }
+
+    // Load the word
+    final wordRepo = ref.read(wordRepositoryProvider);
+    final word = (effectiveWordId == initialWord.id)
+        ? initialWord
+        : (await wordRepo.fetchWordById(effectiveWordId)) ?? initialWord;
+
+    if (rs != null && rs.currentWordId == effectiveWordId) {
+      _hintsUsedForCurrentWord = rs.hintCountUsed; // inherit
+    } else {
+      _hintsUsedForCurrentWord = 0; // Clean for new word
+    }
+    _initializeWord(word);
+
+    // Prefill (if the doc holds the same word, apply it)
+    if (rs != null && rs.currentWordId == word.id) {
+      _applyPrefillFromResume(rs);
+    }
+  }
+
+  void _applyPrefillFromResume(ResumeState rs) {
+    // rs.userFilled: { index : "A" }  → fill controllers
+    for (final e in rs.userFilled.entries) {
+      final i = e.key;
+      if (i >= 0 && i < state.controllers.length) {
+        final up = e.value.toUpperCase();
+        state.controllers[i].text = up;
+      }
+    }
+    // Mark correct ones as green/locked
+    final newCorrect = List<bool>.from(state.correctIndices);
+    for (int i = 0; i < state.controllers.length; i++) {
+      if (i < _targetWithoutSpaces.length &&
+          state.controllers[i].text.toUpperCase() == _targetWithoutSpaces[i]) {
+        newCorrect[i] = true;
+      }
+    }
+    state = state.copyWith(correctIndices: newCorrect);
   }
 }

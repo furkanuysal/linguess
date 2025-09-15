@@ -280,6 +280,14 @@
   "@dailyWordLoginRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
+  "achievement_solve_firstword_title": "Her şey bir kelimeyle başlar",
+  "@achievement_solve_firstword_title": {
+    "description": "Title for the 'solve first word' achievement"
+  },
+  "achievement_solve_firstword_description": "İlk kez bir kelimeyi çözdün.",
+  "@achievement_solve_firstword_description": {
+    "description": "Description for the 'solve first word' achievement"
+  },
   "achievement_learn_firstword_title": "İlk Kelime!",
   "@achievement_learn_firstword_title": {
     "description": "Title for the 'learn first word' achievement"
