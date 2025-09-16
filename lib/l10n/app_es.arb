@@ -364,6 +364,22 @@
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
+  "achievement_used_hint_powerup_first_time_title": "Pista inicial",
+  "@achievement_used_hint_powerup_first_time_title": {
+    "description": "Title for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_hint_powerup_first_time_description": "Has utilizado el potenciador de pista por primera vez.",
+  "@achievement_used_hint_powerup_first_time_description": {
+    "description": "Description for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_title": "Saltar inicial",
+  "@achievement_used_skip_powerup_first_time_title": {
+    "description": "Title for the 'used skip powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_description": "Has utilizado el potenciador de salto por primera vez.",
+  "@achievement_used_skip_powerup_first_time_description": {
+    "description": "Description for the 'used skip powerup first time' achievement"
+  },
   "adNotReady": "Anuncio no disponible. Inténtalo de nuevo más tarde.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -579,5 +595,21 @@
   "categorySuccessfullyDeleted": "Categoría eliminada con éxito.",
   "@categorySuccessfullyDeleted": {
     "description": "Message shown when a category is deleted successfully"
+  },
+  "thisPowerUpNotAllowedInDaily": "Este potenciador no está permitido en el modo diario.",
+  "@thisPowerUpNotAllowedInDaily": {
+    "description": "Message shown when the user tries to use a power-up in daily mode"
+  },
+  "allLettersRevealed": "Todas las letras reveladas",
+  "@allLettersRevealed": {
+    "description": "Tooltip shown when all letters have already been revealed"
+  },
+  "skipToNext": "Saltar a la siguiente palabra",
+  "@skipToNext": {
+    "description": "Tooltip shown for the skip to next power-up"
+  },
+  "nothingToSkip": "Nada que saltar",
+  "@nothingToSkip": {
+    "description": "Tooltip shown when there is nothing to skip"
   }
 }

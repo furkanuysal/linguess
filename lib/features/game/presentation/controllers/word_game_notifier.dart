@@ -399,12 +399,12 @@ class WordGameNotifier extends Notifier<WordGameState> {
     state = state.copyWith(isShaking: false);
   }
 
-  Future<void> showHintLetter(BuildContext context) async {
+  Future<void> showHintLetter(BuildContext context, {required int cost}) async {
     if (state.isDaily && state.dailyAlreadySolved) return;
     if (state.hintIndices.length >= _targetWithoutSpaces.length) return;
 
     final economyService = ref.read(economyServiceProvider);
-    final canUseHint = await economyService.tryUseHint();
+    final canUseHint = await economyService.trySpendGold(cost);
     if (!canUseHint) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -443,6 +443,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
           ch: ch,
           wordLen: _targetWithoutSpaces.length,
         );
+        final ach = ref.read(achievementsServiceProvider);
+        await ach.awardIfNotEarned('used_hint_powerup_first_time');
         await repo.incrementHintUsed(1);
       }
       _hintsUsedForCurrentWord += 1;
@@ -568,5 +570,56 @@ class WordGameNotifier extends Notifier<WordGameState> {
       }
     }
     state = state.copyWith(correctIndices: newCorrect);
+  }
+
+  Future<void> skipToNextWord(BuildContext context, {required int cost}) async {
+    final l10n = AppLocalizations.of(context)!;
+    if (state.isDaily) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.thisPowerUpNotAllowedInDaily)),
+        );
+      }
+      return;
+    }
+
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final economy = ref.read(economyServiceProvider);
+      final ok = await economy.trySpendGold(cost);
+      if (!ok) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.insufficientGold)));
+        }
+        return;
+      }
+
+      final words = state.words.value ?? const <WordModel>[];
+      if (words.isEmpty) return;
+
+      final currentId = state.currentWord?.id;
+      final pool = words.where((w) => w.id != currentId).toList();
+      final candidates = pool.isNotEmpty ? pool : words
+        ..shuffle();
+      final nextWord = candidates.first;
+
+      _hintsUsedForCurrentWord = 0;
+
+      final key = _resumeKey;
+      if (key != null) {
+        final repo = ref.read(resumeRepositoryProvider(key));
+        await repo.setCurrentWord(nextWord.id);
+        await repo.upsertInitial(currentWordId: nextWord.id);
+      }
+
+      _initializeWord(nextWord);
+    } finally {
+      final ach = ref.read(achievementsServiceProvider);
+      await ach.awardIfNotEarned('used_skip_powerup_first_time');
+      state = state.copyWith(isLoading: false);
+    }
   }
 }

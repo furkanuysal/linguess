@@ -304,6 +304,20 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast tausend Wörter gelöst.';
 
   @override
+  String get achievement_used_hint_powerup_first_time_title => 'Schlauer Tipp';
+
+  @override
+  String get achievement_used_hint_powerup_first_time_description =>
+      'Du hast den Hinweis-Power-Up zum ersten Mal verwendet.';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_title => 'Schnellvorlauf';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_description =>
+      'Du hast den Schnellvorlauf-Power-Up zum ersten Mal verwendet.';
+
+  @override
   String get adNotReady =>
       'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
 
@@ -459,4 +473,17 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get categorySuccessfullyDeleted => 'Kategorie erfolgreich gelöscht.';
+
+  @override
+  String get thisPowerUpNotAllowedInDaily =>
+      'Dieser Power-Up ist im täglichen Modus nicht erlaubt';
+
+  @override
+  String get allLettersRevealed => 'Alle Buchstaben aufgedeckt';
+
+  @override
+  String get skipToNext => 'Zum nächsten Wort überspringen';
+
+  @override
+  String get nothingToSkip => 'Nichts zum Überspringen';
 }

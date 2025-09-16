@@ -312,6 +312,22 @@
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
   },
+  "achievement_used_hint_powerup_first_time_title": "Schlauer Tipp",
+  "@achievement_used_hint_powerup_first_time_title": {
+    "description": "Title for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_hint_powerup_first_time_description": "Du hast den Hinweis-Power-Up zum ersten Mal verwendet.",
+  "@achievement_used_hint_powerup_first_time_description": {
+    "description": "Description for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_title": "Schnellvorlauf",
+  "@achievement_used_skip_powerup_first_time_title": {
+    "description": "Title for the 'used skip powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_description": "Du hast den Schnellvorlauf-Power-Up zum ersten Mal verwendet.",
+  "@achievement_used_skip_powerup_first_time_description": {
+    "description": "Description for the 'used skip powerup first time' achievement"
+  },
   "achievementUnlockedText": "Erfolg freigeschaltet!",
   "@achievementUnlockedText": {
     "description": "Toast message shown when an achievement is unlocked"
@@ -579,5 +595,21 @@
   "categorySuccessfullyDeleted": "Kategorie erfolgreich gelöscht.",
   "@categorySuccessfullyDeleted": {
     "description": "Message shown when a category is deleted successfully"
+  },
+  "thisPowerUpNotAllowedInDaily": "Dieser Power-Up ist im täglichen Modus nicht erlaubt",
+  "@thisPowerUpNotAllowedInDaily": {
+    "description": "Message shown when the user tries to use a power-up in daily mode"
+  },
+  "allLettersRevealed": "Alle Buchstaben aufgedeckt",
+  "@allLettersRevealed": {
+    "description": "Tooltip shown when all letters have already been revealed"
+  },
+  "skipToNext": "Zum nächsten Wort überspringen",
+  "@skipToNext": {
+    "description": "Tooltip shown for the skip to next power-up"
+  },
+  "nothingToSkip": "Nichts zum Überspringen",
+  "@nothingToSkip": {
+    "description": "Tooltip shown when there is nothing to skip"
   }
 }

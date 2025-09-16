@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
+import 'package:linguess/features/game/presentation/widgets/powerups_bar.dart';
 import 'package:linguess/features/game/presentation/widgets/word_answer_board.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
@@ -202,46 +203,38 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
               );
             },
           ),
-          IconButton(
-            icon: const Icon(Icons.lightbulb_outline),
-            onPressed:
-                state.hintIndices.length >=
-                    state.currentTarget.replaceAll(' ', '').length
-                ? null
-                : () {
-                    _triggerGoldAnimation();
-                    notifier.showHintLetter(context);
-                  },
-            tooltip: l10n.letterHint,
-          ),
         ],
       ),
       body: state.words.when(
         data: (words) {
           if (state.currentWord == null) {
-            return Center(child: RefreshProgressIndicator());
+            return const Center(child: RefreshProgressIndicator());
           }
-          final String currentLanguage = Localizations.localeOf(
-            context,
-          ).languageCode;
-          final String hint =
+
+          final currentLanguage = Localizations.localeOf(context).languageCode;
+          final hint =
               state.currentWord!.translations[currentLanguage] ?? '???';
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '${l10n.yourWord}: $hint',
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                  const SizedBox(height: 24),
-                  Center(
-                    child: AnimatedBuilder(
-                      animation: _shakeController,
-                      builder: (context, child) {
-                        return Transform.translate(
+
+          // Fixed heights and paddings for the power-ups bar
+          const double barHeight = 72;
+          const double barVerticalPadding = 12;
+
+          return Stack(
+            children: [
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        '${l10n.yourWord}: $hint',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      const SizedBox(height: 24),
+                      AnimatedBuilder(
+                        animation: _shakeController,
+                        builder: (context, child) => Transform.translate(
                           offset: Offset(
                             _shakeAnimation.value *
                                 sin(
@@ -253,27 +246,75 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                             0,
                           ),
                           child: child,
-                        );
-                      },
-                      child: WordAnswerBoard(
-                        text: state.currentTarget,
-                        controllers: state.controllers,
-                        focusNodes: state.focusNodes,
-                        correct: state.correctIndices,
-                        onKeyEvent: (i, e) => notifier.onKeyEvent(i, e),
-                        onChanged: (i, v) =>
-                            notifier.onTextChanged(context, i, v),
+                        ),
+                        child: WordAnswerBoard(
+                          text: state.currentTarget,
+                          controllers: state.controllers,
+                          focusNodes: state.focusNodes,
+                          correct: state.correctIndices,
+                          onKeyEvent: (i, e) => notifier.onKeyEvent(i, e),
+                          onChanged: (i, v) =>
+                              notifier.onTextChanged(context, i, v),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                top: 0,
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: barVerticalPadding),
+                    child: Center(
+                      child: Container(
+                        height: barHeight,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        child: PowerUpsBar(
+                          canRevealLetter:
+                              state.hintIndices.length <
+                              state.currentTarget.replaceAll(' ', '').length,
+                          canSkip: (state.words.value?.isNotEmpty ?? false),
+                          onRevealLetter: () {
+                            _triggerGoldAnimation();
+                            notifier.showHintLetter(context, cost: 5);
+                          },
+                          onSkipToNext: () async {
+                            _triggerGoldAnimation();
+                            await notifier.skipToNextWord(context, cost: 15);
+                          },
+                        ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            ),
+              if (state.isLoading) ...[
+                const Positioned.fill(
+                  child: IgnorePointer(
+                    child: ColoredBox(color: Colors.transparent),
+                  ),
+                ),
+                Positioned.fill(
+                  child: AbsorbPointer(
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.12),
+                      child: const Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+                ),
+              ],
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) =>
-            Center(child: Text('${l10n.errorOccurred}: $error')),
+        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
       ),
     );
   }

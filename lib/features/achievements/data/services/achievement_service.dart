@@ -31,16 +31,30 @@ class AchievementsService {
     return doc.exists;
   }
 
+  DocumentReference<Map<String, dynamic>> _doc(String id) {
+    final uid = _auth.currentUser!.uid;
+    return _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('achievements')
+        .doc(id);
+  }
+
   // If not earned, award it; if already earned, do nothing.
-  Future<void> awardIfNotEarned(String id) async {
-    final uid = _uid;
-    if (uid == null) return;
-    final ref = _userAchCol(uid).doc(id);
+  Future<bool> awardIfNotEarned(String id) async {
+    final ref = _doc(id);
+    var created = false;
+
     await _firestore.runTransaction((tx) async {
       final snap = await tx.get(ref);
       if (!snap.exists) {
-        tx.set(ref, {'earnedAt': FieldValue.serverTimestamp()});
+        created = true;
+        tx.set(ref, {
+          'earnedAt': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: false));
       }
     });
+
+    return created;
   }
 }
