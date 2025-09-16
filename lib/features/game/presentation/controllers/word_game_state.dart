@@ -13,6 +13,7 @@ class WordGameState {
   final bool isShaking;
   final bool isDaily;
   final bool dailyAlreadySolved;
+  final bool isLoading;
 
   const WordGameState({
     this.words = const AsyncValue.loading(),
@@ -25,6 +26,7 @@ class WordGameState {
     this.isShaking = false,
     this.isDaily = false,
     this.dailyAlreadySolved = false,
+    this.isLoading = false,
   });
 
   WordGameState copyWith({
@@ -38,6 +40,7 @@ class WordGameState {
     bool? isShaking,
     bool? isDaily,
     bool? dailyAlreadySolved,
+    bool? isLoading,
   }) {
     return WordGameState(
       words: words ?? this.words,
@@ -50,6 +53,7 @@ class WordGameState {
       isShaking: isShaking ?? this.isShaking,
       isDaily: isDaily ?? this.isDaily,
       dailyAlreadySolved: dailyAlreadySolved ?? this.dailyAlreadySolved,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }

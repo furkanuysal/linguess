@@ -298,6 +298,20 @@ class AppLocalizationsTr extends AppLocalizations {
       'Başarıyla 1000 kelime çözdün!';
 
   @override
+  String get achievement_used_hint_powerup_first_time_title => 'Ufak kopya';
+
+  @override
+  String get achievement_used_hint_powerup_first_time_description =>
+      'İlk kez ipucu güçlendiricisini kullandın.';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_title => 'Hızlı atla';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_description =>
+      'İlk kez atlama güçlendiricisini kullandın.';
+
+  @override
   String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';
 
   @override
@@ -450,4 +464,17 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get categorySuccessfullyDeleted => 'Kategori başarıyla silindi.';
+
+  @override
+  String get thisPowerUpNotAllowedInDaily =>
+      'Günlük modda bu güçlendirici kullanılamaz.';
+
+  @override
+  String get allLettersRevealed => 'Tüm harfler zaten açıldı';
+
+  @override
+  String get skipToNext => 'Sonraki kelimeye atla';
+
+  @override
+  String get nothingToSkip => 'Atlanacak kelime yok';
 }

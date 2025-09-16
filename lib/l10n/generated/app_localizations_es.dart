@@ -301,6 +301,20 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has resuelto mil palabras.';
 
   @override
+  String get achievement_used_hint_powerup_first_time_title => 'Pista inicial';
+
+  @override
+  String get achievement_used_hint_powerup_first_time_description =>
+      'Has utilizado el potenciador de pista por primera vez.';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_title => 'Saltar inicial';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_description =>
+      'Has utilizado el potenciador de salto por primera vez.';
+
+  @override
   String get adNotReady =>
       'Anuncio no disponible. Inténtalo de nuevo más tarde.';
 
@@ -455,4 +469,17 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get categorySuccessfullyDeleted => 'Categoría eliminada con éxito.';
+
+  @override
+  String get thisPowerUpNotAllowedInDaily =>
+      'Este potenciador no está permitido en el modo diario.';
+
+  @override
+  String get allLettersRevealed => 'Todas las letras reveladas';
+
+  @override
+  String get skipToNext => 'Saltar a la siguiente palabra';
+
+  @override
+  String get nothingToSkip => 'Nada que saltar';
 }

@@ -364,6 +364,22 @@
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
+  "achievement_used_hint_powerup_first_time_title": "Ufak kopya",
+  "@achievement_used_hint_powerup_first_time_title": {
+    "description": "Title for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_hint_powerup_first_time_description": "İlk kez ipucu güçlendiricisini kullandın.",
+  "@achievement_used_hint_powerup_first_time_description": {
+    "description": "Description for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_title": "Hızlı atla",
+  "@achievement_used_skip_powerup_first_time_title": {
+    "description": "Title for the 'used skip powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_description": "İlk kez atlama güçlendiricisini kullandın.",
+  "@achievement_used_skip_powerup_first_time_description": {
+    "description": "Description for the 'used skip powerup first time' achievement"
+  },
   "adNotReady": "Reklam hazır değil. Biraz sonra tekrar deneyin.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -579,5 +595,21 @@
   "categorySuccessfullyDeleted": "Kategori başarıyla silindi.",
   "@categorySuccessfullyDeleted": {
     "description": "Message shown when a category is deleted successfully"
+  },
+  "thisPowerUpNotAllowedInDaily": "Günlük modda bu güçlendirici kullanılamaz.",
+  "@thisPowerUpNotAllowedInDaily": {
+    "description": "Message shown when the user tries to use a power-up in daily mode"
+  },
+  "allLettersRevealed": "Tüm harfler zaten açıldı",
+  "@allLettersRevealed": {
+    "description": "Tooltip shown when all letters have already been revealed"
+  },
+  "skipToNext": "Sonraki kelimeye atla",
+  "@skipToNext": {
+    "description": "Tooltip shown for the skip to next power-up"
+  },
+  "nothingToSkip": "Atlanacak kelime yok",
+  "@nothingToSkip": {
+    "description": "Tooltip shown when there is nothing to skip"
   }
 }

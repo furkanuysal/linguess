@@ -60,5 +60,17 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       description: l10n.achievement_solve_thousand_words_description,
       icon: '/empty',
     ),
+    AchievementModel(
+      id: 'used_hint_powerup_first_time',
+      title: l10n.achievement_used_hint_powerup_first_time_title,
+      description: l10n.achievement_used_hint_powerup_first_time_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
+      id: 'used_skip_powerup_first_time',
+      title: l10n.achievement_used_skip_powerup_first_time_title,
+      description: l10n.achievement_used_skip_powerup_first_time_description,
+      icon: '/empty',
+    ),
   ];
 }

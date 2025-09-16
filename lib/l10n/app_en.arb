@@ -364,6 +364,22 @@
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
+  "achievement_used_hint_powerup_first_time_title": "Let's get a hint",
+  "@achievement_used_hint_powerup_first_time_title": {
+    "description": "Title for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_hint_powerup_first_time_description": "You used the hint power-up for the first time.",
+  "@achievement_used_hint_powerup_first_time_description": {
+    "description": "Description for the 'used hint powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_title": "Fast Forward",
+  "@achievement_used_skip_powerup_first_time_title": {
+    "description": "Title for the 'used skip powerup first time' achievement"
+  },
+  "achievement_used_skip_powerup_first_time_description": "You used the skip power-up for the first time.",
+  "@achievement_used_skip_powerup_first_time_description": {
+    "description": "Description for the 'used skip powerup first time' achievement"
+  },
   "adNotReady": "Ad not ready. Please try again later.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -526,7 +542,6 @@
   "@savedSuccessfully": {
     "description": "Message shown when a word is saved successfully"
   },
- 
   "categoriesText": "Categories",
   "@categoriesText": {
     "description": "Title for the categories management page"
@@ -580,5 +595,21 @@
   "categorySuccessfullyDeleted": "Category deleted successfully.",
   "@categorySuccessfullyDeleted": {
     "description": "Message shown when a category is deleted successfully"
+  },
+  "thisPowerUpNotAllowedInDaily": "This power-up is not allowed in daily mode",
+  "@thisPowerUpNotAllowedInDaily": {
+    "description": "Message shown when the user tries to use a power-up in daily mode"
+  },
+  "allLettersRevealed": "All letters have already been revealed",
+  "@allLettersRevealed": {
+    "description": "Tooltip shown when all letters have already been revealed"
+  },
+  "skipToNext": "Skip to Next Word",
+  "@skipToNext": {
+    "description": "Tooltip shown for the skip to next power-up"
+  },
+  "nothingToSkip": "Nothing to Skip",
+  "@nothingToSkip": {
+    "description": "Tooltip shown when there is nothing to skip"
   }
 }

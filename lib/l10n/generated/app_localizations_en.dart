@@ -296,6 +296,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'You solved 1000 words successfully!';
 
   @override
+  String get achievement_used_hint_powerup_first_time_title =>
+      'Let\'s get a hint';
+
+  @override
+  String get achievement_used_hint_powerup_first_time_description =>
+      'You used the hint power-up for the first time.';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_title => 'Fast Forward';
+
+  @override
+  String get achievement_used_skip_powerup_first_time_description =>
+      'You used the skip power-up for the first time.';
+
+  @override
   String get adNotReady => 'Ad not ready. Please try again later.';
 
   @override
@@ -448,4 +463,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categorySuccessfullyDeleted => 'Category deleted successfully.';
+
+  @override
+  String get thisPowerUpNotAllowedInDaily =>
+      'This power-up is not allowed in daily mode';
+
+  @override
+  String get allLettersRevealed => 'All letters have already been revealed';
+
+  @override
+  String get skipToNext => 'Skip to Next Word';
+
+  @override
+  String get nothingToSkip => 'Nothing to Skip';
 }

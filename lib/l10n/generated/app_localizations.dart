@@ -648,6 +648,30 @@ abstract class AppLocalizations {
   /// **'Başarıyla 1000 kelime çözdün!'**
   String get achievement_solve_thousand_words_description;
 
+  /// Title for the 'used hint powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Ufak kopya'**
+  String get achievement_used_hint_powerup_first_time_title;
+
+  /// Description for the 'used hint powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez ipucu güçlendiricisini kullandın.'**
+  String get achievement_used_hint_powerup_first_time_description;
+
+  /// Title for the 'used skip powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı atla'**
+  String get achievement_used_skip_powerup_first_time_title;
+
+  /// Description for the 'used skip powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez atlama güçlendiricisini kullandın.'**
+  String get achievement_used_skip_powerup_first_time_description;
+
   /// Error message shown when the ad is not ready
   ///
   /// In tr, this message translates to:
@@ -935,6 +959,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kategori başarıyla silindi.'**
   String get categorySuccessfullyDeleted;
+
+  /// Message shown when the user tries to use a power-up in daily mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Günlük modda bu güçlendirici kullanılamaz.'**
+  String get thisPowerUpNotAllowedInDaily;
+
+  /// Tooltip shown when all letters have already been revealed
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm harfler zaten açıldı'**
+  String get allLettersRevealed;
+
+  /// Tooltip shown for the skip to next power-up
+  ///
+  /// In tr, this message translates to:
+  /// **'Sonraki kelimeye atla'**
+  String get skipToNext;
+
+  /// Tooltip shown when there is nothing to skip
+  ///
+  /// In tr, this message translates to:
+  /// **'Atlanacak kelime yok'**
+  String get nothingToSkip;
 }
 
 class _AppLocalizationsDelegate

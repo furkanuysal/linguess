@@ -12,33 +12,46 @@ final achievementToastProvider =
     );
 
 class AchievementToastController extends Notifier<AchievementModel?> {
+  // ---- toast queue ----
+  final List<String> _queue = [];
+  bool _showing = false;
+  bool _initialized = false; // Skip the first snapshot
+
   @override
   AchievementModel? build() {
-    // Listen for changes in the set of earned achievement IDs
+    // Listen to earned achievement IDs
     ref.listen<AsyncValue<Set<String>>>(earnedAchievementIdsProvider, (
       previous,
       next,
     ) {
-      next.whenData((currentEarned) {
-        final previousEarned = previous?.value ?? <String>{};
-        final newAchievements = currentEarned.difference(previousEarned);
-        if (newAchievements.isNotEmpty) {
-          _showToastForNewAchievement(newAchievements.first);
+      // Skip the first emission (existing documents at startup)
+      if (!_initialized) {
+        _initialized = true;
+        return;
+      }
+
+      final prev = previous?.value ?? <String>{};
+      next.whenData((curr) {
+        final newlyAdded = curr.difference(prev);
+        if (newlyAdded.isNotEmpty) {
+          for (final id in newlyAdded) {
+            _enqueueToast(id);
+          }
         }
       });
     });
 
-    // Listen for changes in the correct answer count
+    // Listen to the correct count (may trigger awardIfNotEarned)
     ref.listen<AsyncValue<int>>(userCorrectCountProvider, (previous, next) {
       next.whenData((correctCount) async {
         await _checkWordCountAchievements(correctCount);
       });
     });
 
-    return null; // initial state
+    return null;
   }
 
-  // Check all count-based achievements
+  // Count-based achievements
   Future<void> _checkWordCountAchievements(int correctCount) async {
     final achievementService = ref.read(achievementsServiceProvider);
 
@@ -58,12 +71,30 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     }
   }
 
-  void _showToastForNewAchievement(String achievementId) {
+  // ---- Queue management ----
+  void _enqueueToast(String achievementId) {
+    _queue.add(achievementId);
+    if (!_showing) _dequeueAndShowNext();
+  }
+
+  void _dequeueAndShowNext() {
+    if (_queue.isEmpty || _showing) return;
+    _showing = true;
+
+    final nextId = _queue.removeAt(0);
+    _showToastForAchievement(nextId);
+  }
+
+  void _showToastForAchievement(String achievementId) {
     final context = ref.read(navigatorKeyProvider).currentContext;
-    if (context == null) return;
+    if (context == null) {
+      _showing = false;
+      return;
+    }
 
     final l10n = AppLocalizations.of(context)!;
     final achievements = buildAchievements(context);
+
     final achievement = achievements.firstWhere(
       (a) => a.id == achievementId,
       orElse: () => AchievementModel(
@@ -77,13 +108,18 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     state = achievement;
 
     Future.delayed(const Duration(seconds: 3), () {
-      if (ref.mounted && state?.id == achievementId) {
-        state = null;
-      }
+      if (!ref.mounted) return;
+      // Clear the state and show the next toast when closing the current one
+      state = null;
+      _showing = false;
+      _dequeueAndShowNext();
     });
   }
 
+  // İstersen manuel kapama
   void hideToast() {
     state = null;
+    _showing = false;
+    _dequeueAndShowNext();
   }
 }

@@ -5,9 +5,6 @@ class EconomyService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Constants
-  static const int hintCost = 5;
-
   Future<int> getUserGold() async {
     final user = _auth.currentUser;
     if (user == null) return 0;
@@ -18,7 +15,7 @@ class EconomyService {
 
   // Use a hint: if gold >= hintCost, decrement and return true, else false.
   // Condition: check + decrement with transaction.
-  Future<bool> tryUseHint() async {
+  Future<bool> trySpendGold(int goldCost) async {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return false;
 
@@ -30,9 +27,9 @@ class EconomyService {
         if (!snap.exists) return false;
 
         final currentGold = (snap.data()?['gold'] as int?) ?? 0;
-        if (currentGold < hintCost) return false;
+        if (currentGold < goldCost) return false;
 
-        tx.update(userDoc, {'gold': FieldValue.increment(-hintCost)});
+        tx.update(userDoc, {'gold': FieldValue.increment(-goldCost)});
         return true;
       });
     } catch (_) {
