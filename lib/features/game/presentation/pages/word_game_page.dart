@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
+import 'package:linguess/features/game/presentation/widgets/word_answer_board.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
@@ -31,7 +32,6 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   late final AnimationController _goldAnimationController;
   late final Animation<double> _goldScaleAnimation;
   late final Animation<Color?> _goldColorAnimation;
-  final GlobalKey _wrapKey = GlobalKey();
   late final WordGameParams params;
 
   @override
@@ -226,28 +226,6 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           ).languageCode;
           final String hint =
               state.currentWord!.translations[currentLanguage] ?? '???';
-
-          final screenWidth = MediaQuery.of(context).size.width;
-          const boxSpacing = 8.0;
-          const horizontalPadding = 32.0;
-          const maxBoxWidth = 40.0;
-
-          final letterCount = state.currentTarget.replaceAll(' ', '').length;
-          final spaceCount = ' '.allMatches(state.currentTarget).length;
-
-          final totalElementCount = state.currentTarget.length;
-          final totalSpacing = (totalElementCount - 1) * boxSpacing;
-          final totalSpaceWidth = spaceCount * (maxBoxWidth / 2);
-          final availableWidth =
-              screenWidth - horizontalPadding - totalSpacing - totalSpaceWidth;
-
-          double boxWidth = availableWidth / letterCount;
-          if (boxWidth > maxBoxWidth) {
-            boxWidth = maxBoxWidth;
-          }
-
-          final scheme = Theme.of(context).colorScheme;
-
           return Center(
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -274,61 +252,18 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                                 ),
                             0,
                           ),
-                          child: Wrap(
-                            key: _wrapKey,
-                            spacing: boxSpacing,
-                            children: List.generate(
-                              state.currentTarget.length,
-                              (index) {
-                                if (state.currentTarget[index] == ' ') {
-                                  return SizedBox(width: boxWidth / 2);
-                                } else {
-                                  final logicalIndex = notifier
-                                      .logicalIndexFromVisual(index);
-                                  return SizedBox(
-                                    width: boxWidth,
-                                    child: KeyboardListener(
-                                      focusNode: FocusNode(),
-                                      onKeyEvent: (event) {
-                                        notifier.onKeyEvent(
-                                          logicalIndex,
-                                          event,
-                                        );
-                                      },
-                                      child: TextField(
-                                        controller:
-                                            state.controllers[logicalIndex],
-                                        focusNode:
-                                            state.focusNodes[logicalIndex],
-                                        enabled:
-                                            !state.correctIndices[logicalIndex],
-                                        textAlign: TextAlign.center,
-                                        maxLength: 1,
-                                        onChanged: (val) =>
-                                            notifier.onTextChanged(
-                                              context,
-                                              logicalIndex,
-                                              val,
-                                            ),
-                                        decoration: const InputDecoration(
-                                          counterText: '',
-                                        ),
-                                        style: TextStyle(
-                                          fontSize: 22,
-                                          color:
-                                              state.correctIndices[logicalIndex]
-                                              ? Colors.green
-                                              : scheme.onSurface,
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                            ),
-                          ),
+                          child: child,
                         );
                       },
+                      child: WordAnswerBoard(
+                        text: state.currentTarget,
+                        controllers: state.controllers,
+                        focusNodes: state.focusNodes,
+                        correct: state.correctIndices,
+                        onKeyEvent: (i, e) => notifier.onKeyEvent(i, e),
+                        onChanged: (i, v) =>
+                            notifier.onTextChanged(context, i, v),
+                      ),
                     ),
                   ),
                 ],
