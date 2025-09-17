@@ -476,4 +476,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nothingToSkip => 'Nothing to Skip';
+
+  @override
+  String get wordMeaningText => 'Word Meaning';
 }

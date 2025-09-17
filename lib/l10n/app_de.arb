@@ -611,5 +611,9 @@
   "nothingToSkip": "Nichts zum Überspringen",
   "@nothingToSkip": {
     "description": "Tooltip shown when there is nothing to skip"
+  },
+  "wordMeaningText": "Wortbedeutung",
+  "@wordMeaningText": {
+    "description": "Label for the meaning of the word"
   }
 }

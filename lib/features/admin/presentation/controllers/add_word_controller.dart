@@ -1,17 +1,9 @@
 // lib/controllers/add_word_controller.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/core/utils/slugify.dart';
 import 'package:linguess/features/admin/data/services/word_service.dart';
 
 final wordServiceProvider = Provider((ref) => WordAdminService());
-
-String slugify(String s) {
-  return s
-      .trim()
-      .toLowerCase()
-      .replaceAll(RegExp(r'[^a-z0-9\\s]'), ' ')
-      .replaceAll(RegExp(r'\\s+'), ' ')
-      .trim();
-}
 
 class AddWordController extends AsyncNotifier<void> {
   @override
@@ -20,52 +12,62 @@ class AddWordController extends AsyncNotifier<void> {
   Future<void> addOrUpdate({
     required String category,
     required String level,
-    required Map<String, String> translations,
+    required Map<String, Map<String, String?>> locales,
     required bool overwrite,
     String? editId,
   }) async {
     state = const AsyncLoading();
     try {
-      final en = (translations['en'] ?? '').trim();
-      if (en.isEmpty) throw Exception('English is required');
+      final enMap = locales['en'] ?? {};
+      final enTerm = (enMap['term'] ?? '').trim();
+      if (enTerm.isEmpty) throw Exception('English is required');
       if (!['A1', 'A2', 'B1', 'B2', 'C1', 'C2'].contains(level)) {
         throw Exception('Invalid level');
       }
       if (category.trim().isEmpty) throw Exception('Category is required');
 
       final svc = ref.read(wordServiceProvider);
-      final cleaned = <String, String>{
-        for (final e in translations.entries)
-          if (e.value.trim().isNotEmpty) e.key: e.value.trim(),
-      };
+      final cleanedLocales = <String, Map<String, String>>{};
+      locales.forEach((lang, m) {
+        final term = (m['term'] ?? '').trim();
+        final meaning = (m['meaning'] ?? '').trim();
+        if (term.isEmpty && meaning.isEmpty) {
+          return; // skip language if both fields are empty
+        }
+        cleanedLocales[lang] = {
+          if (term.isNotEmpty) 'term': term,
+          if (meaning.isNotEmpty) 'meaning': meaning,
+        };
+      });
 
       // id: in edit mode, use the existing doc id; otherwise, use slugify(en)
-      final id = editId ?? slugify(en);
+      final id = editId ?? slugify(enTerm);
+
+      final Map<String, dynamic> patch = {
+        'category': category.trim(),
+        'level': level.trim(),
+      };
+      cleanedLocales.forEach((lang, m) {
+        m.forEach((k, v) {
+          patch['locales.$lang.$k'] = v; // locales.en.term / locales.tr.meaning
+        });
+      });
 
       if (editId != null) {
-        // zorunlu update
-        await svc.update(id, {
-          'category': category.trim(),
-          'level': level.trim(),
-          'translations': cleaned,
-        });
+        // UPDATE (throw error if document does not exist)
+        final exists = await svc.exists(id);
+        if (!exists) throw Exception('Document not found: $id');
+        await svc.update(id, patch);
       } else {
+        // CREATE/UPSERT behavior based on overwrite
         final exists = await svc.exists(id);
         if (exists && !overwrite) {
           throw Exception('This word already exists ($id)');
         }
         if (exists) {
-          await svc.update(id, {
-            'category': category.trim(),
-            'level': level.trim(),
-            'translations': cleaned,
-          });
+          await svc.update(id, patch);
         } else {
-          await svc.create(id, {
-            'category': category.trim(),
-            'level': level.trim(),
-            'translations': cleaned,
-          });
+          await svc.create(id, patch);
         }
       }
 

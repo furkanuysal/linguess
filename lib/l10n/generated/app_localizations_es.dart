@@ -482,4 +482,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get nothingToSkip => 'Nada que saltar';
+
+  @override
+  String get wordMeaningText => 'Significado de la palabra';
 }
