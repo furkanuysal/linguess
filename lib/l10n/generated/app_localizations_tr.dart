@@ -477,4 +477,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get nothingToSkip => 'Atlanacak kelime yok';
+
+  @override
+  String get wordMeaningText => 'Kelime Anlamı';
 }

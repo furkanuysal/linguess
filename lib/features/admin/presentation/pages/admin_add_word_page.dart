@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/admin/presentation/providers/add_word_controller_provider.dart';
-import 'package:linguess/features/admin/presentation/controllers/add_word_controller.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
 import 'package:linguess/features/admin/presentation/providers/word_by_id_provider.dart';
+import 'package:linguess/features/admin/presentation/providers/supported_langs_provider.dart';
+import 'package:linguess/features/admin/presentation/widgets/lang_fields.dart';
+import 'package:linguess/core/utils/slugify.dart';
 
 class AdminAddWordPage extends ConsumerStatefulWidget {
   const AdminAddWordPage({super.key, this.editId});
@@ -18,69 +20,92 @@ class AdminAddWordPage extends ConsumerStatefulWidget {
 
 class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
   final _formKey = GlobalKey<FormState>();
-  final _en = TextEditingController();
-  final _tr = TextEditingController();
-  final _de = TextEditingController();
-  final _es = TextEditingController();
+
+  late List<String> _langs;
+  late Map<String, TextEditingController> _termCtrls;
+  late Map<String, TextEditingController> _meaningCtrls;
 
   String? _selectedCategory;
   String? _selectedLevel;
   bool _overwrite = false;
-  bool _prefilled = false; // To fill the form once with doc data in edit mode
+  bool _prefilled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // get from provider on initial load
+    _langs = List.of(ref.read(supportedLangsProvider));
+    _termCtrls = {for (final l in _langs) l: TextEditingController()};
+    _meaningCtrls = {for (final l in _langs) l: TextEditingController()};
+  }
 
   @override
   void dispose() {
-    _en.dispose();
-    _tr.dispose();
-    _de.dispose();
-    _es.dispose();
+    for (final c in _termCtrls.values) {
+      c.dispose();
+    }
+    for (final c in _meaningCtrls.values) {
+      c.dispose();
+    }
     super.dispose();
+  }
+
+  void _ensureControllersForLangs(Iterable<String> langs) {
+    for (final lang in langs) {
+      _termCtrls.putIfAbsent(lang, () => TextEditingController());
+      _meaningCtrls.putIfAbsent(lang, () => TextEditingController());
+    }
+  }
+
+  Map<String, Map<String, String?>> _buildLocalesPatch() {
+    final Map<String, Map<String, String?>> locales = {};
+    for (final lang in _langs) {
+      final term = _termCtrls[lang]!.text.trim();
+      final meaning = _meaningCtrls[lang]!.text.trim();
+      if (term.isEmpty && meaning.isEmpty) continue;
+      locales[lang] = {
+        if (term.isNotEmpty) 'term': term,
+        if (meaning.isNotEmpty) 'meaning': meaning,
+      };
+    }
+    return locales;
   }
 
   Future<void> _save() async {
     final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
 
-    final category = _selectedCategory;
-    final level = _selectedLevel;
-    if (category == null || level == null) {
+    if (_selectedCategory == null || _selectedLevel == null) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text(l10n.chooseCategoryAndLevel)));
       return;
     }
 
-    final translations = <String, String>{
-      'en': _en.text,
-      if (_tr.text.trim().isNotEmpty) 'tr': _tr.text.trim(),
-      if (_de.text.trim().isNotEmpty) 'de': _de.text.trim(),
-      if (_es.text.trim().isNotEmpty) 'es': _es.text.trim(),
-    };
-
     try {
       await ref
           .read(addWordControllerProvider.notifier)
           .addOrUpdate(
-            category: category,
-            level: level,
-            translations: translations,
+            category: _selectedCategory!,
+            level: _selectedLevel!,
+            locales: _buildLocalesPatch(),
             overwrite: _overwrite,
-            editId: widget.editId, // Update the same doc in edit mode
+            editId: widget.editId,
           );
 
       if (!mounted) return;
-
-      final savedId = widget.editId ?? slugify(_en.text);
+      final savedId = widget.editId ?? slugify(_termCtrls['en']!.text);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('${l10n.savedSuccessfully} ✅  (id: $savedId)')),
+        SnackBar(content: Text('${l10n.savedSuccessfully} ✅ (id: $savedId)')),
       );
 
-      // Only clear the form in add mode
       if (widget.editId == null) {
-        _en.clear();
-        _tr.clear();
-        _de.clear();
-        _es.clear();
+        for (final c in _termCtrls.values) {
+          c.clear();
+        }
+        for (final c in _meaningCtrls.values) {
+          c.clear();
+        }
         setState(() => _overwrite = false);
       }
     } catch (e) {
@@ -94,33 +119,42 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final labels = ref.watch(languageLabelsProvider);
     final saving = ref.watch(addWordControllerProvider).isLoading;
 
-    // Dropdown data
     final categoriesAsync = ref.watch(categoriesProvider);
     final levelsAsync = ref.watch(levelsProvider);
-
-    // If in edit mode, fetch the document
     final wordAsync = widget.editId == null
         ? const AsyncValue.data(null)
         : ref.watch(wordByIdProvider(widget.editId!));
 
-    // If edit data is available, fill the form once
+    final isEdit = widget.editId != null;
+
+    // edit prefill: only locales
     wordAsync.whenData((w) {
       if (w != null && !_prefilled) {
-        _en.text = (w.translations['en'] ?? '');
-        _tr.text = (w.translations['tr'] ?? '');
-        _de.text = (w.translations['de'] ?? '');
-        _es.text = (w.translations['es'] ?? '');
+        final docLangs = <String>{..._langs, ...w.locales.keys}.toList()
+          ..sort();
+        _ensureControllersForLangs(docLangs);
+        _langs = docLangs;
+
+        for (final lang in _langs) {
+          _termCtrls[lang]!.text = w.locales[lang]?['term'] ?? '';
+          _meaningCtrls[lang]!.text = w.locales[lang]?['meaning'] ?? '';
+        }
+
         _selectedCategory = w.category;
         _selectedLevel = w.level;
-        _overwrite = true; // Always enabled in edit mode
+        _overwrite = true;
         _prefilled = true;
-        setState(() {});
+
+        if (mounted) setState(() {});
       }
     });
 
-    final isEdit = widget.editId != null;
+    if (isEdit && !_prefilled && wordAsync.isLoading) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -139,18 +173,17 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
           child: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              // ——— CATEGORY ———
+              // Category
               categoriesAsync.when(
                 loading: () => const LinearProgressIndicator(),
                 error: (e, _) => Text('${l10n.errorOccurred}: $e'),
                 data: (categories) {
-                  final names = categories.map((c) => c.id).toList();
                   return DropdownButtonFormField<String>(
                     value: _selectedCategory,
                     hint: Text(l10n.selectCategory),
                     items: [
-                      for (final n in names)
-                        DropdownMenuItem(value: n, child: Text(n)),
+                      for (final c in categories)
+                        DropdownMenuItem(value: c.id, child: Text(c.id)),
                     ],
                     onChanged: (v) => setState(() => _selectedCategory = v),
                     decoration: InputDecoration(labelText: l10n.category),
@@ -158,21 +191,19 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                   );
                 },
               ),
-
               const SizedBox(height: 12),
 
-              // ——— LEVEL ———
+              // Level
               levelsAsync.when(
                 loading: () => const LinearProgressIndicator(),
                 error: (e, _) => Text('${l10n.errorOccurred}: $e'),
                 data: (levels) {
-                  final codes = levels.map((l) => l.id).toList();
                   return DropdownButtonFormField<String>(
                     value: _selectedLevel,
                     hint: Text(l10n.selectLevel),
                     items: [
-                      for (final code in codes)
-                        DropdownMenuItem(value: code, child: Text(code)),
+                      for (final l in levels)
+                        DropdownMenuItem(value: l.id, child: Text(l.id)),
                     ],
                     onChanged: (v) => setState(() => _selectedLevel = v),
                     decoration: InputDecoration(labelText: l10n.level),
@@ -180,46 +211,33 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                   );
                 },
               ),
-
               const SizedBox(height: 16),
 
-              // ——— TRANSLATIONS ———
-              TextFormField(
-                controller: _en,
-                decoration: InputDecoration(
-                  labelText: 'English (en)*',
-                  fillColor: isEdit ? Colors.grey.shade200 : null,
+              // Language fields
+              LangFields(
+                lang: 'en',
+                langLabel: labels['en'] ?? 'English',
+                termCtrl: _termCtrls['en']!,
+                meaningCtrl: _meaningCtrls['en']!,
+                requiredField: true,
+                readOnly: isEdit,
+                requiredText: l10n.requiredText,
+              ),
+              for (final lang in _langs.where((l) => l != 'en'))
+                LangFields(
+                  lang: lang,
+                  langLabel: labels[lang] ?? lang.toUpperCase(),
+                  termCtrl: _termCtrls[lang]!,
+                  meaningCtrl: _meaningCtrls[lang]!,
+                  requiredField: false,
+                  readOnly: false,
+                  requiredText: l10n.requiredText,
                 ),
-                validator: (v) =>
-                    v == null || v.trim().isEmpty ? l10n.requiredText : null,
-                readOnly: isEdit, // Cannot be changed in edit mode
-                style: isEdit
-                    ? TextStyle(
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.bold,
-                      )
-                    : null,
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _tr,
-                decoration: const InputDecoration(labelText: 'Turkish (tr)'),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _de,
-                decoration: const InputDecoration(labelText: 'German (de)'),
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _es,
-                decoration: const InputDecoration(labelText: 'Spanish (es)'),
-              ),
+
               const SizedBox(height: 12),
 
-              // ——— OVERWRITE ———
               SwitchListTile(
-                value: isEdit ? true : _overwrite, // Always true in edit mode
+                value: isEdit ? true : _overwrite,
                 onChanged: isEdit
                     ? null
                     : (v) => setState(() => _overwrite = v),
@@ -227,7 +245,6 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
               ),
               const SizedBox(height: 12),
 
-              // ——— SAVE ———
               ElevatedButton.icon(
                 onPressed: saving ? null : _save,
                 icon: saving

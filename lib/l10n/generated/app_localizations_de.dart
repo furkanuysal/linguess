@@ -486,4 +486,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get nothingToSkip => 'Nichts zum Überspringen';
+
+  @override
+  String get wordMeaningText => 'Wortbedeutung';
 }

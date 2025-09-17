@@ -983,6 +983,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Atlanacak kelime yok'**
   String get nothingToSkip;
+
+  /// Label for the meaning of the word
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Anlamı'**
+  String get wordMeaningText;
 }
 
 class _AppLocalizationsDelegate
