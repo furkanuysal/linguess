@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
@@ -20,8 +21,8 @@ class LearnedWordsPage extends ConsumerWidget {
     final list = await Future.wait(ids.map(repo.fetchWordById));
     final words = list.whereType<WordModel>().toList();
     words.sort((a, b) {
-      final ta = (a.translations[sortLang] ?? '').toLowerCase();
-      final tb = (b.translations[sortLang] ?? '').toLowerCase();
+      final ta = (a.pickDisplayTerm(sortLang)).toLowerCase();
+      final tb = (b.pickDisplayTerm(sortLang)).toLowerCase();
       return ta.compareTo(tb);
     });
     return words;
@@ -70,8 +71,8 @@ class LearnedWordsPage extends ConsumerWidget {
                 itemBuilder: (context, i) {
                   final w = words[i];
 
-                  final targetText = w.translations[targetLangCode] ?? '???';
-                  final appText = w.translations[appLangCode] ?? '???';
+                  final targetText = w.pickDisplayTerm(targetLangCode);
+                  final appText = w.pickDisplayTerm(appLangCode);
 
                   final titleText = _cap(targetText);
                   final subtitleText = appText;

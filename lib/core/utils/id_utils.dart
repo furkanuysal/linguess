@@ -1,5 +1,4 @@
 // Core-wide ID helpers (docId, slugs, sanitization)
-library;
 
 // Produces a Firestore-safe docId string.
 // Only [A–Z a–z 0–9 _ . -] remain; others are replaced with '_'.
