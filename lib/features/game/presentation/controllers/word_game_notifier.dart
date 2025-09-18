@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/effects/confetti_particle.dart';
 import 'package:linguess/core/utils/id_utils.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -215,8 +216,16 @@ class WordGameNotifier extends Notifier<WordGameState> {
         ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
     String pickTarget(WordModel w) {
-      final t = w.translations;
-      return (t[targetLang] ?? t['en'] ?? (t.isNotEmpty ? t.values.first : ''));
+      final t = w.locales as Map<String, dynamic>;
+
+      if (t.termOf(targetLang).isNotEmpty) return t.termOf(targetLang);
+      if (t.termOf('en').isNotEmpty) return t.termOf('en');
+
+      final firstNonEmpty = t.values.firstWhere(
+        (v) => (v['term']?.trim() ?? '').isNotEmpty,
+        orElse: () => {'term': ''},
+      );
+      return (firstNonEmpty['term'] ?? '').toString().trim();
     }
 
     final currentTarget = pickTarget(word).toUpperCase();
@@ -267,7 +276,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
         ref.read(settingsControllerProvider).value?.appLangCode ??
         Localizations.localeOf(context).languageCode;
 
-    final wordToSolve = state.currentWord!.translations[appLang] ?? '???';
+    final wordToSolve = state.currentWord!.pickDisplayTerm(appLang);
     final correctAnswerFormatted = _capitalize(state.currentTarget);
 
     await economyService.rewardGold(_hintsUsedForCurrentWord);

@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
@@ -212,8 +213,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           }
 
           final currentLanguage = Localizations.localeOf(context).languageCode;
-          final hint =
-              state.currentWord!.translations[currentLanguage] ?? '???';
+          final hint = state.currentWord!.pickDisplayTerm(currentLanguage);
 
           // Fixed heights and paddings for the power-ups bar
           const double barHeight = 72;

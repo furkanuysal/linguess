@@ -1,8 +1,8 @@
-// lib/features/admin/admin_words_list_page.dart
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/admin/presentation/providers/word_list_provider.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
@@ -206,19 +206,20 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                         itemCount: words.length,
                         separatorBuilder: (_, _) => const Divider(height: 1),
                         itemBuilder: (context, i) {
-                          final w = words[i];
+                          final w = Map<String, dynamic>.from(words[i]);
                           final id = w['__id'] as String;
                           final category = (w['category'] ?? '').toString();
                           final level = (w['level'] ?? '').toString();
-                          final en = (w['translations']?['en'] ?? '')
-                              .toString();
-                          final tr = (w['translations']?['tr'] ?? '')
-                              .toString();
+
+                          // Read from locales safely
+                          final en = w.termOf('en');
+                          final tr = w.termOf('tr');
 
                           return ListTile(
-                            title: Text(en),
+                            title: Text(en.isNotEmpty ? en : '—'),
                             subtitle: Text(
-                              '$category • $level${tr.isNotEmpty ? ' • tr: $tr' : ''}',
+                              '$category • $level'
+                              '${tr.isNotEmpty ? ' • tr: $tr' : ''}',
                             ),
                             trailing: Wrap(
                               spacing: 8,

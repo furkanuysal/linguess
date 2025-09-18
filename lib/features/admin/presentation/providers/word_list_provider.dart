@@ -1,6 +1,6 @@
-// lib/providers/words_list_providers.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/admin/data/services/word_service.dart';
 
 final wordServiceProvider = Provider((ref) => WordAdminService());
@@ -39,25 +39,29 @@ final wordsFilterProvider = NotifierProvider<WordsFilterNotifier, WordsFilter>(
   WordsFilterNotifier.new,
 );
 
-// List from Firestore according to the filter
+// Firestore query stream (category/level filtreleri server-side)
 final wordsQueryProvider =
     StreamProvider<List<QueryDocumentSnapshot<Map<String, dynamic>>>>((ref) {
       final filter = ref.watch(wordsFilterProvider);
       final svc = ref.watch(wordServiceProvider);
+
       final q = svc.query(
         category: filter.category.isEmpty ? null : filter.category,
         level: filter.level.isEmpty ? null : filter.level,
       );
+
       return q.snapshots().map((snap) => snap.docs);
     });
 
-// Final list after applying search (client-side contains)
+// Final list after applying search (client-side contains on locales.en.term)
 final wordsListProvider = Provider<List<Map<String, dynamic>>>((ref) {
   final filter = ref.watch(wordsFilterProvider);
   final docsAsync = ref.watch(wordsQueryProvider);
+
   return docsAsync.maybeWhen(
     data: (docs) {
       final s = filter.search.trim().toLowerCase();
+
       final list = docs.map((d) {
         final data = d.data();
         data['__id'] = d.id; // Add doc id for easy access
@@ -67,7 +71,7 @@ final wordsListProvider = Provider<List<Map<String, dynamic>>>((ref) {
       if (s.isEmpty) return list;
 
       return list.where((w) {
-        final en = ((w['translations']?['en']) ?? '').toString().toLowerCase();
+        final en = w.termOf('en').toLowerCase();
         return en.contains(s);
       }).toList();
     },

@@ -1,5 +1,3 @@
-library;
-
 String slugify(String s) {
   return s
       .trim()

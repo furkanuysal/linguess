@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 
 class DailyEntry {
   final String id; // "20250811"
@@ -58,18 +59,23 @@ final dailyListProvider = StreamProvider<List<DailyEntry>>((ref) async* {
   }
 });
 
-// wordId -> words/{wordId}.translations.en
+// wordId -> words/{wordId}.locales.en.term
 final wordEnByIdProvider = FutureProvider.family<String?, String>((
   ref,
   wordId,
 ) async {
   if (wordId.isEmpty) return null;
+
   final doc = await FirebaseFirestore.instance
       .collection('words')
       .doc(wordId)
       .get();
+
   if (!doc.exists) return null;
-  final data = doc.data() as Map<String, dynamic>;
-  final tr = (data['translations'] ?? {}) as Map<String, dynamic>;
-  return tr['en']?.toString();
+
+  final data = doc.data();
+  if (data == null) return null;
+
+  final en = data.termOf('en');
+  return en.isEmpty ? null : en;
 });
