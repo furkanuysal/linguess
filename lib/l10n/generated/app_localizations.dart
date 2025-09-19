@@ -214,7 +214,7 @@ abstract class AppLocalizations {
   ///
   /// In tr, this message translates to:
   /// **'Giriş Yap'**
-  String get login;
+  String get signIn;
 
   /// Button text for logging out
   ///
@@ -244,7 +244,7 @@ abstract class AppLocalizations {
   ///
   /// In tr, this message translates to:
   /// **'Hesabın yok mu? Kayıt ol'**
-  String get registerButtonText;
+  String get signUpButtonText;
 
   /// Label for the email input field
   ///
@@ -262,13 +262,13 @@ abstract class AppLocalizations {
   ///
   /// In tr, this message translates to:
   /// **'Kayıt Ol'**
-  String get register;
+  String get signUp;
 
   /// Message shown after successful registration
   ///
   /// In tr, this message translates to:
   /// **'Kayıt başarılı! Giriş yapabilirsiniz.'**
-  String get registerSuccess;
+  String get signUpSuccess;
 
   /// Error message for invalid email format
   ///
@@ -448,7 +448,7 @@ abstract class AppLocalizations {
   ///
   /// In tr, this message translates to:
   /// **'Kayıt başarılı!'**
-  String get successRegister;
+  String get successSignUp;
 
   /// Error message shown when the credentials are invalid
   ///
@@ -516,11 +516,11 @@ abstract class AppLocalizations {
   /// **'Yakında'**
   String get comingSoon;
 
-  /// Message shown when the user needs to log in to solve the daily word
+  /// Message shown when the user needs to sign in to solve the daily word
   ///
   /// In tr, this message translates to:
   /// **'Günlük kelimeyi çözmek için giriş yapmalısınız.'**
-  String get dailyWordLoginRequired;
+  String get dailyWordSignInRequired;
 
   /// Title for the 'solve first word' achievement
   ///
@@ -989,6 +989,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelime Anlamı'**
   String get wordMeaningText;
+
+  /// Button text for signing in with Google
+  ///
+  /// In tr, this message translates to:
+  /// **'Google ile Giriş Yap'**
+  String get signInWithGoogle;
+
+  /// Text to separate different sign-in options
+  ///
+  /// In tr, this message translates to:
+  /// **'veya'**
+  String get orText;
+
+  /// Label for the button to show the password
+  ///
+  /// In tr, this message translates to:
+  /// **'Göster'**
+  String get showText;
+
+  /// Label for the button to hide the password
+  ///
+  /// In tr, this message translates to:
+  /// **'Gizle'**
+  String get hideText;
 }
 
 class _AppLocalizationsDelegate

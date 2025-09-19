@@ -54,6 +54,7 @@ dependencies:
   go_router: ^16.2.0
   just_audio: ^0.10.4
   equatable: ^2.0.7
+  flutter_svg: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +84,7 @@ flutter:
     - assets/sfx/buttonSelect.wav
     - assets/sfx/confetti.wav
     - assets/sfx/wrong.wav
+    - assets/auth/google_g_logo.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

@@ -63,7 +63,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get close => 'Kapat';
 
   @override
-  String get login => 'Giriş Yap';
+  String get signIn => 'Giriş Yap';
 
   @override
   String get logout => 'Çıkış Yap';
@@ -78,7 +78,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get correctText => 'Doğru';
 
   @override
-  String get registerButtonText => 'Hesabın yok mu? Kayıt ol';
+  String get signUpButtonText => 'Hesabın yok mu? Kayıt ol';
 
   @override
   String get email => 'E-posta';
@@ -87,10 +87,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get password => 'Şifre';
 
   @override
-  String get register => 'Kayıt Ol';
+  String get signUp => 'Kayıt Ol';
 
   @override
-  String get registerSuccess => 'Kayıt başarılı! Giriş yapabilirsiniz.';
+  String get signUpSuccess => 'Kayıt başarılı! Giriş yapabilirsiniz.';
 
   @override
   String get invalidEmail => 'Geçersiz e-posta adresi';
@@ -183,7 +183,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get successSignIn => 'Giriş başarılı!';
 
   @override
-  String get successRegister => 'Kayıt başarılı!';
+  String get successSignUp => 'Kayıt başarılı!';
 
   @override
   String get errorInvalidCredential => 'E-posta veya parola hatalı!';
@@ -220,7 +220,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get comingSoon => 'Yakında';
 
   @override
-  String get dailyWordLoginRequired =>
+  String get dailyWordSignInRequired =>
       'Günlük kelimeyi çözmek için giriş yapmalısınız.';
 
   @override
@@ -480,4 +480,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get wordMeaningText => 'Kelime Anlamı';
+
+  @override
+  String get signInWithGoogle => 'Google ile Giriş Yap';
+
+  @override
+  String get orText => 'veya';
+
+  @override
+  String get showText => 'Göster';
+
+  @override
+  String get hideText => 'Gizle';
 }

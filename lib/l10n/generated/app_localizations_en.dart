@@ -63,7 +63,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get login => 'Log In';
+  String get signIn => 'Log In';
 
   @override
   String get logout => 'Log Out';
@@ -78,7 +78,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get correctText => 'Correct';
 
   @override
-  String get registerButtonText => 'Don\'t have an account? Sign up';
+  String get signUpButtonText => 'Don\'t have an account? Sign up';
 
   @override
   String get email => 'Email';
@@ -87,10 +87,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get password => 'Password';
 
   @override
-  String get register => 'Register';
+  String get signUp => 'Sign Up';
 
   @override
-  String get registerSuccess => 'Registration successful! You can log in now.';
+  String get signUpSuccess => 'Registration successful! You can log in now.';
 
   @override
   String get invalidEmail => 'Invalid email address';
@@ -183,7 +183,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get successSignIn => 'Sign-in successful!';
 
   @override
-  String get successRegister => 'Registration successful!';
+  String get successSignUp => 'Registration successful!';
 
   @override
   String get errorInvalidCredential => 'Email or password is incorrect!';
@@ -219,7 +219,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get comingSoon => 'Coming Soon';
 
   @override
-  String get dailyWordLoginRequired =>
+  String get dailyWordSignInRequired =>
       'You must be logged in to solve the daily word.';
 
   @override
@@ -479,4 +479,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get wordMeaningText => 'Word Meaning';
+
+  @override
+  String get signInWithGoogle => 'Sign in with Google';
+
+  @override
+  String get orText => 'or';
+
+  @override
+  String get showText => 'Show';
+
+  @override
+  String get hideText => 'Hide';
 }

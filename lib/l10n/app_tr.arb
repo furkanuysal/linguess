@@ -72,8 +72,8 @@
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "login": "Giriş Yap",
-  "@login": {
+  "signIn": "Giriş Yap",
+  "@signIn": {
     "description": "Button text for logging in"
   },
   "logout": "Çıkış Yap",
@@ -92,8 +92,8 @@
   "@correctText": {
     "description": "Word that means 'correct' in the game context"
   },
-  "registerButtonText": "Hesabın yok mu? Kayıt ol",
-  "@registerButtonText": {
+  "signUpButtonText": "Hesabın yok mu? Kayıt ol",
+  "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
   "email": "E-posta",
@@ -104,12 +104,12 @@
   "@password": {
     "description": "Label for the password input field"
   },
-  "register": "Kayıt Ol",
-  "@register": {
+  "signUp": "Kayıt Ol",
+  "@signUp": {
     "description": "Button text for registering a new user"
   },
-  "registerSuccess": "Kayıt başarılı! Giriş yapabilirsiniz.",
-  "@registerSuccess": {
+  "signUpSuccess": "Kayıt başarılı! Giriş yapabilirsiniz.",
+  "@signUpSuccess": {
     "description": "Message shown after successful registration"
   },
   "invalidEmail": "Geçersiz e-posta adresi",
@@ -228,8 +228,8 @@
   "@successSignIn": {
     "description": "Message shown when sign-in is successful"
   },
-  "successRegister": "Kayıt başarılı!",
-  "@successRegister": {
+  "successSignUp": "Kayıt başarılı!",
+  "@successSignUp": {
     "description": "Message shown when registration is successful"
   },
   "errorInvalidCredential": "E-posta veya parola hatalı!",
@@ -276,9 +276,9 @@
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordLoginRequired": "Günlük kelimeyi çözmek için giriş yapmalısınız.",
-  "@dailyWordLoginRequired": {
-    "description": "Message shown when the user needs to log in to solve the daily word"
+  "dailyWordSignInRequired": "Günlük kelimeyi çözmek için giriş yapmalısınız.",
+  "@dailyWordSignInRequired": {
+    "description": "Message shown when the user needs to sign in to solve the daily word"
   },
   "achievement_solve_firstword_title": "Her şey bir kelimeyle başlar",
   "@achievement_solve_firstword_title": {
@@ -615,5 +615,21 @@
   "wordMeaningText": "Kelime Anlamı",
   "@wordMeaningText": {
     "description": "Label for the meaning of the word"
+  },
+  "signInWithGoogle": "Google ile Giriş Yap",
+  "@signInWithGoogle": {
+    "description": "Button text for signing in with Google"
+  },
+  "orText": "veya",
+  "@orText": {
+    "description": "Text to separate different sign-in options"
+  },
+  "showText": "Göster",
+  "@showText": {
+    "description": "Label for the button to show the password"
+  },
+  "hideText": "Gizle",
+  "@hideText": {
+    "description": "Label for the button to hide the password"
   }
 }

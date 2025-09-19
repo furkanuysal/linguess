@@ -72,8 +72,8 @@
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "login": "Iniciar sesión",
-  "@login": {
+  "signIn": "Iniciar sesión",
+  "@signIn": {
     "description": "Button text for logging in"
   },
   "logout": "Cerrar sesión",
@@ -92,8 +92,8 @@
   "@correctText": {
     "description": "Word that means 'correct' in the game context"
   },
-  "registerButtonText": "¿No tienes cuenta? Regístrate",
-  "@registerButtonText": {
+  "signUpButtonText": "¿No tienes cuenta? Regístrate",
+  "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
   "email": "Correo electrónico",
@@ -104,12 +104,12 @@
   "@password": {
     "description": "Label for the password input field"
   },
-  "register": "Registrarse",
-  "@register": {
+  "signUp": "Registrarse",
+  "@signUp": {
     "description": "Button text for registering a new user"
   },
-  "registerSuccess": "¡Registro exitoso! Ya puedes iniciar sesión.",
-  "@registerSuccess": {
+  "signUpSuccess": "¡Registro exitoso! Ya puedes iniciar sesión.",
+  "@signUpSuccess": {
     "description": "Message shown after successful registration"
   },
   "invalidEmail": "Correo electrónico no válido",
@@ -228,8 +228,8 @@
   "@successSignIn": {
     "description": "Message shown when sign-in is successful"
   },
-  "successRegister": "¡Registro exitoso!",
-  "@successRegister": {
+  "successSignUp": "¡Registro exitoso!",
+  "@successSignUp": {
     "description": "Message shown when registration is successful"
   },
   "errorInvalidCredential": "¡Correo electrónico o contraseña no válidos!",
@@ -276,8 +276,8 @@
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordLoginRequired": "Se requiere iniciar sesión para resolver la palabra diaria.",
-  "@dailyWordLoginRequired": {
+  "dailyWordSignInRequired": "Se requiere iniciar sesión para resolver la palabra diaria.",
+  "@dailyWordSignInRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
   "achievement_solve_firstword_title": "¡Primera de muchas!",
@@ -615,5 +615,21 @@
   "wordMeaningText": "Significado de la palabra",
   "@wordMeaningText": {
     "description": "Label for the meaning of the word"
+  },
+  "signInWithGoogle": "Iniciar sesión con Google",
+  "@signInWithGoogle": {
+    "description": "Button text for signing in with Google"
+  },
+  "orText": "o",
+  "@orText": {
+    "description": "Text to separate different sign-in options"
+  },
+  "showText": "Mostrar",
+  "@showText": {
+    "description": "Label for the button to show the password"
+  },
+  "hideText": "Ocultar",
+  "@hideText": {
+    "description": "Label for the button to hide the password"
   }
 }

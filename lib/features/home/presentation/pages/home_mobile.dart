@@ -139,7 +139,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                         context.push('/profile');
                       }
                     },
-                    child: Text(user == null ? l10n.login : l10n.profile),
+                    child: Text(user == null ? l10n.signIn : l10n.profile),
                   ),
                 );
               },

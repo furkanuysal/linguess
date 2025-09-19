@@ -72,8 +72,8 @@
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "login": "Log In",
-  "@login": {
+  "signIn": "Log In",
+  "@signIn": {
     "description": "Button text for logging in"
   },
   "logout": "Log Out",
@@ -92,8 +92,8 @@
   "@correctText": {
     "description": "Word that means 'correct' in the game context"
   },
-  "registerButtonText": "Don't have an account? Sign up",
-  "@registerButtonText": {
+  "signUpButtonText": "Don't have an account? Sign up",
+  "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
   "email": "Email",
@@ -104,12 +104,12 @@
   "@password": {
     "description": "Label for the password input field"
   },
-  "register": "Register",
-  "@register": {
+  "signUp": "Sign Up",
+  "@signUp": {
     "description": "Button text for registering a new user"
   },
-  "registerSuccess": "Registration successful! You can log in now.",
-  "@registerSuccess": {
+  "signUpSuccess": "Registration successful! You can log in now.",
+  "@signUpSuccess": {
     "description": "Message shown after successful registration"
   },
   "invalidEmail": "Invalid email address",
@@ -228,8 +228,8 @@
   "@successSignIn": {
     "description": "Message shown when sign-in is successful"
   },
-  "successRegister": "Registration successful!",
-  "@successRegister": {
+  "successSignUp": "Registration successful!",
+  "@successSignUp": {
     "description": "Message shown when registration is successful"
   },
   "errorInvalidCredential": "Email or password is incorrect!",
@@ -276,8 +276,8 @@
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordLoginRequired": "You must be logged in to solve the daily word.",
-  "@dailyWordLoginRequired": {
+  "dailyWordSignInRequired": "You must be logged in to solve the daily word.",
+  "@dailyWordSignInRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
   "achievement_solve_firstword_title": "First of many!",
@@ -615,5 +615,21 @@
   "wordMeaningText": "Word Meaning",
   "@wordMeaningText": {
     "description": "Label for the meaning of the word"
+  },
+  "signInWithGoogle": "Sign in with Google",
+  "@signInWithGoogle": {
+    "description": "Button text for signing in with Google"
+  },
+  "orText" : "or",
+  "@orText": {
+    "description": "Text to separate different sign-in options"
+  },
+  "showText": "Show",
+  "@showText": {
+    "description": "Label for the button to show the password"
+  },
+  "hideText": "Hide",
+  "@hideText": {
+    "description": "Label for the button to hide the password"
   }
 }
