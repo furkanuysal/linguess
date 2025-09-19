@@ -41,7 +41,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       // Success -> green snackbar + redirect
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.successRegister),
+          content: Text(AppLocalizations.of(context)!.successSignUp),
           backgroundColor: Colors.green,
         ),
       );
@@ -79,7 +79,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.register)),
+      appBar: AppBar(title: Text(l10n.signUp)),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Form(
@@ -109,7 +109,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                     : l10n.passwordTooShort,
               ),
               const SizedBox(height: 24),
-              ElevatedButton(onPressed: _submit, child: Text(l10n.register)),
+              ElevatedButton(onPressed: _submit, child: Text(l10n.signUp)),
             ],
           ),
         ),

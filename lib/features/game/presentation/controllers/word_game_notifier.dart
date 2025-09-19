@@ -199,12 +199,11 @@ class WordGameNotifier extends Notifier<WordGameState> {
       if (words.isNotEmpty) {
         final randomWord = (words.toList()..shuffle()).first;
         final key = _resumeKey;
-        if (key != null) {
-          await ref
-              .read(resumeRepositoryProvider(key))
-              .setCurrentWord(randomWord.id);
-          _hintsUsedForCurrentWord = 0;
-        }
+        final repo = (key != null)
+            ? ref.read(resumeRepositoryProvider(key))
+            : null;
+        await repo?.setCurrentWord(randomWord.id);
+        _hintsUsedForCurrentWord = 0;
         _initializeWord(randomWord);
       }
     });
@@ -366,8 +365,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     state = state.copyWith(correctIndices: newCorrectIndices);
 
-    if (_resumeKey != null) {
-      final repo = ref.read(resumeRepositoryProvider(_resumeKey!));
+    final key = _resumeKey;
+    final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
+    if (repo != null) {
       final correctMap = <int, String>{};
       for (int i = 0; i < _targetWithoutSpaces.length; i++) {
         final up = state.controllers[i].text.toUpperCase();
@@ -443,9 +443,11 @@ class WordGameNotifier extends Notifier<WordGameState> {
         correctIndices: newCorrectIndices,
       );
 
-      final repoKey = _resumeKey;
-      if (repoKey != null) {
-        final repo = ref.read(resumeRepositoryProvider(repoKey));
+      final key = _resumeKey;
+      final repo = (key != null)
+          ? ref.read(resumeRepositoryProvider(key))
+          : null;
+      if (repo != null) {
         final ch = _targetWithoutSpaces[index];
         await repo.setLetter(
           index: index,
@@ -526,6 +528,12 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     _resumeKey = ResumeKey(targetLang, docId);
     final repo = ref.read(resumeRepositoryProvider(_resumeKey!));
+    if (repo == null) {
+      final initialWord = pool.first;
+      _hintsUsedForCurrentWord = 0;
+      _initializeWord(initialWord);
+      return;
+    }
 
     // Candidate initial word (based on current chance)
     final initialWord = pool.first;
@@ -618,16 +626,18 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _hintsUsedForCurrentWord = 0;
 
       final key = _resumeKey;
-      if (key != null) {
-        final repo = ref.read(resumeRepositoryProvider(key));
+      final repo = (key != null)
+          ? ref.read(resumeRepositoryProvider(key))
+          : null;
+      if (repo != null) {
         await repo.setCurrentWord(nextWord.id);
         await repo.upsertInitial(currentWordId: nextWord.id);
+        final ach = ref.read(achievementsServiceProvider);
+        await ach.awardIfNotEarned('used_skip_powerup_first_time');
       }
 
       _initializeWord(nextWord);
     } finally {
-      final ach = ref.read(achievementsServiceProvider);
-      await ach.awardIfNotEarned('used_skip_powerup_first_time');
       state = state.copyWith(isLoading: false);
     }
   }

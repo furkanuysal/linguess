@@ -48,7 +48,7 @@ Future<void> handleDailyButton(BuildContext context, WidgetRef ref) async {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(l10n.dailyWordLoginRequired),
+        content: Text(l10n.dailyWordSignInRequired),
         backgroundColor: Colors.red,
       ),
     );

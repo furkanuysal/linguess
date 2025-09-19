@@ -63,7 +63,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get close => 'Cerrar';
 
   @override
-  String get login => 'Iniciar sesión';
+  String get signIn => 'Iniciar sesión';
 
   @override
   String get logout => 'Cerrar sesión';
@@ -78,7 +78,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get correctText => 'Correcto';
 
   @override
-  String get registerButtonText => '¿No tienes cuenta? Regístrate';
+  String get signUpButtonText => '¿No tienes cuenta? Regístrate';
 
   @override
   String get email => 'Correo electrónico';
@@ -87,10 +87,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get password => 'Contraseña';
 
   @override
-  String get register => 'Registrarse';
+  String get signUp => 'Registrarse';
 
   @override
-  String get registerSuccess => '¡Registro exitoso! Ya puedes iniciar sesión.';
+  String get signUpSuccess => '¡Registro exitoso! Ya puedes iniciar sesión.';
 
   @override
   String get invalidEmail => 'Correo electrónico no válido';
@@ -187,7 +187,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get successSignIn => '¡Inicio de sesión exitoso!';
 
   @override
-  String get successRegister => '¡Registro exitoso!';
+  String get successSignUp => '¡Registro exitoso!';
 
   @override
   String get errorInvalidCredential =>
@@ -225,7 +225,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get comingSoon => 'Próximamente';
 
   @override
-  String get dailyWordLoginRequired =>
+  String get dailyWordSignInRequired =>
       'Se requiere iniciar sesión para resolver la palabra diaria.';
 
   @override
@@ -485,4 +485,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get wordMeaningText => 'Significado de la palabra';
+
+  @override
+  String get signInWithGoogle => 'Iniciar sesión con Google';
+
+  @override
+  String get orText => 'o';
+
+  @override
+  String get showText => 'Mostrar';
+
+  @override
+  String get hideText => 'Ocultar';
 }

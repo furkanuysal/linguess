@@ -72,8 +72,8 @@
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "login": "Anmelden",
-  "@login": {
+  "signIn": "Anmelden",
+  "@signIn": {
     "description": "Button text for logging in"
   },
   "logout": "Abmelden",
@@ -92,8 +92,8 @@
   "@correctText": {
     "description": "Word that means 'correct' in the game context"
   },
-  "registerButtonText": "Kein Konto? Registrieren",
-  "@registerButtonText": {
+  "signUpButtonText": "Kein Konto? Registrieren",
+  "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
   "email": "E-Mail",
@@ -104,12 +104,12 @@
   "@password": {
     "description": "Label for the password input field"
   },
-  "register": "Registrieren",
-  "@register": {
+  "signUp": "Registrieren",
+  "@signUp": {
     "description": "Button text for registering a new user"
   },
-  "registerSuccess": "Registrierung erfolgreich! Sie können sich jetzt anmelden.",
-  "@registerSuccess": {
+  "signUpSuccess": "Registrierung erfolgreich! Sie können sich jetzt anmelden.",
+  "@signUpSuccess": {
     "description": "Message shown after successful registration"
   },
   "invalidEmail": "Ungültige E-Mail-Adresse",
@@ -228,8 +228,8 @@
   "@successSignIn": {
     "description": "Message shown when sign-in is successful"
   },
-  "successRegister": "Registrierung erfolgreich!",
-  "@successRegister": {
+  "successSignUp": "Registrierung erfolgreich!",
+  "@successSignUp": {
     "description": "Message shown when registration is successful"
   },
   "errorInvalidCredential": "Ungültige E-Mail-Adresse oder Passwort.",
@@ -276,8 +276,8 @@
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordLoginRequired": "Für die Lösung des täglichen Wortes ist eine Anmeldung erforderlich.",
-  "@dailyWordLoginRequired": {
+  "dailyWordSignInRequired": "Für die Lösung des täglichen Wortes ist eine Anmeldung erforderlich.",
+  "@dailyWordSignInRequired": {
     "description": "Message shown when the user needs to log in to solve the daily word"
   },
   "achievement_solve_firstword_title": "Erstes Wort lösen",
@@ -615,5 +615,21 @@
   "wordMeaningText": "Wortbedeutung",
   "@wordMeaningText": {
     "description": "Label for the meaning of the word"
+  },
+  "signInWithGoogle": "Mit Google anmelden",
+  "@signInWithGoogle": {
+    "description": "Button text for signing in with Google"
+  },
+  "orText": "oder",
+  "@orText": {
+    "description": "Text to separate different sign-in options"
+  },
+  "showText": "Anzeigen",
+  "@showText": {
+    "description": "Label for the button to show the password"
+  },
+  "hideText": "Verbergen",
+  "@hideText": {
+    "description": "Label for the button to hide the password"
   }
 }

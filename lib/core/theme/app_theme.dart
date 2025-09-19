@@ -10,6 +10,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: scheme,
       textTheme: textTheme,
+      scaffoldBackgroundColor: scheme.surface,
 
       // AppBar
       appBarTheme: AppBarTheme(

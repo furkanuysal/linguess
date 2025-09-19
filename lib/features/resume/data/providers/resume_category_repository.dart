@@ -1,14 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/resume_state.dart';
+import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
+import 'package:linguess/features/resume/data/models/resume_state.dart';
 
 final _firestoreProvider = Provider<FirebaseFirestore>(
   (ref) => FirebaseFirestore.instance,
 );
-final _authProvider = Provider<FirebaseAuth>((ref) => FirebaseAuth.instance);
+
 final _uidProvider = Provider<String?>((ref) {
-  return ref.watch(_authProvider).currentUser?.uid;
+  final userAsync = ref.watch(firebaseUserProvider);
+  return userAsync.maybeWhen(data: (u) => u?.uid, orElse: () => null);
 });
 
 // Key: target language + category
@@ -154,12 +155,10 @@ class ResumeRepository {
 }
 
 // Providers
-final resumeRepositoryProvider = Provider.family
-    .autoDispose<ResumeRepository, ResumeKey>((ref, key) {
+final resumeRepositoryProvider = Provider.autoDispose
+    .family<ResumeRepository?, ResumeKey>((ref, key) {
       final uid = ref.watch(_uidProvider);
-      if (uid == null) {
-        throw StateError('Not signed in');
-      }
+      if (uid == null) return null;
       return ResumeRepository(
         db: ref.watch(_firestoreProvider),
         uid: uid,
@@ -168,7 +167,11 @@ final resumeRepositoryProvider = Provider.family
       );
     });
 
-final resumeStreamProvider = StreamProvider.family
-    .autoDispose<ResumeState?, ResumeKey>((ref, key) {
-      return ref.watch(resumeRepositoryProvider(key)).watch();
+final resumeStreamProvider = StreamProvider.autoDispose
+    .family<ResumeState?, ResumeKey>((ref, key) {
+      final repo = ref.watch(resumeRepositoryProvider(key));
+      if (repo == null) {
+        return const Stream<ResumeState?>.empty();
+      }
+      return repo.watch();
     });

@@ -29,7 +29,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
             builder: (context, snapshot) {
               final user = snapshot.data;
               return IconButton(
-                tooltip: user == null ? l10n.login : l10n.profile,
+                tooltip: user == null ? l10n.signIn : l10n.profile,
                 icon: Icon(user == null ? Icons.login : Icons.account_circle),
                 onPressed: () {
                   if (user == null) {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
+import 'package:linguess/features/auth/presentation/widgets/google_login_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -111,105 +113,231 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.login)),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              // Email
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: l10n.email,
-                  suffixIcon: _emailController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _emailController.clear();
-                            setState(() {});
-                          },
-                        )
-                      : null,
-                ),
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (_) => setState(() {}),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return l10n.emailRequired;
-                  }
-                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                  if (!emailRegex.hasMatch(value)) {
-                    return l10n.invalidEmail;
-                  }
-                  return null;
-                },
-              ),
-
-              // Şifre
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: l10n.password,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscure ? Icons.visibility : Icons.visibility_off,
-                    ),
-                    onPressed: () => setState(() => _obscure = !_obscure),
-                    tooltip: _obscure ? 'Show' : 'Hide',
+      body: SafeArea(
+        child: Stack(
+          children: [
+            AuthHeaderGradient(height: 300),
+            // Content
+            SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Back button
+                  IconButton(
+                    onPressed: () => context.canPop() ? context.pop() : null,
+                    icon: const Icon(Icons.arrow_back_ios_new),
                   ),
-                ),
-                obscureText: _obscure,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return l10n.passwordRequired;
-                  }
-                  if (value.length < 6) {
-                    return l10n.passwordTooShort;
-                  }
-                  return null;
-                },
+                  const SizedBox(height: 8),
+
+                  // Header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      l10n.signIn,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Form
+                  Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // Email
+                          TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              labelText: l10n.email,
+                              filled: true,
+                              fillColor: const Color(0xFFF3F4F6),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
+                              ),
+                              suffixIcon: _emailController.text.isNotEmpty
+                                  ? IconButton(
+                                      icon: const Icon(Icons.clear),
+                                      onPressed: () {
+                                        _emailController.clear();
+                                        setState(() {});
+                                      },
+                                    )
+                                  : null,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            onChanged: (_) => setState(() {}),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return l10n.emailRequired;
+                              }
+                              final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                              if (!emailRegex.hasMatch(value)) {
+                                return l10n.invalidEmail;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          // Password
+                          TextFormField(
+                            controller: _passwordController,
+                            decoration: InputDecoration(
+                              labelText: l10n.password,
+                              filled: true,
+                              fillColor: const Color(0xFFF3F4F6),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 16,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(14),
+                                borderSide: BorderSide.none,
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscure
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                ),
+                                onPressed: () =>
+                                    setState(() => _obscure = !_obscure),
+                                tooltip: _obscure
+                                    ? l10n.showText
+                                    : l10n.hideText,
+                              ),
+                            ),
+                            obscureText: _obscure,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return l10n.passwordRequired;
+                              }
+                              if (value.length < 6) {
+                                return l10n.passwordTooShort;
+                              }
+                              return null;
+                            },
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          // Forgot password
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton(
+                              onPressed: _isLoading
+                                  ? null
+                                  : _showResetPasswordSheet,
+                              child: Text(l10n.forgotPassword),
+                            ),
+                          ),
+
+                          const SizedBox(height: 8),
+
+                          // Primary Login
+                          SizedBox(
+                            width: double.infinity,
+                            height: 52,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _signIn,
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28),
+                                ),
+                                backgroundColor: Colors.black87,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      height: 22,
+                                      width: 22,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : Text(l10n.signIn),
+                            ),
+                          ),
+
+                          const SizedBox(height: 18),
+
+                          // Divider
+                          Row(
+                            children: [
+                              const Expanded(child: Divider()),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: Text(
+                                  l10n.orText,
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ),
+                              const Expanded(child: Divider()),
+                            ],
+                          ),
+
+                          const SizedBox(height: 14),
+
+                          // Social login buttons
+                          SizedBox(
+                            height: 48,
+                            width: double.infinity,
+                            child: GoogleLoginButton(
+                              text: l10n.signInWithGoogle,
+                              onPressed: _isLoading
+                                  ? null
+                                  : () async {
+                                      // TODO: Google sign-in
+                                    },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  // Register link
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: _isLoading
+                            ? null
+                            : () => context.push('/register'),
+                        child: Text(l10n.signUpButtonText),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-
-              // Forgot password
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: _isLoading ? null : _showResetPasswordSheet,
-                  child: Text(l10n.forgotPassword),
-                ),
-              ),
-
-              const SizedBox(height: 8),
-
-              // Login button
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isLoading ? null : _signIn,
-                  child: _isLoading
-                      ? const SizedBox(
-                          height: 18,
-                          width: 18,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Text(l10n.login),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Register link
-              TextButton(
-                onPressed: _isLoading ? null : () => context.push('/register'),
-                child: Text(l10n.registerButtonText),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
