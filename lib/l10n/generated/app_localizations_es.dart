@@ -490,6 +490,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signInWithGoogle => 'Iniciar sesión con Google';
 
   @override
+  String get signUpWithGoogle => 'Registrarse con Google';
+
+  @override
   String get orText => 'o';
 
   @override

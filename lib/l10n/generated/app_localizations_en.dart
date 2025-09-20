@@ -484,6 +484,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInWithGoogle => 'Sign in with Google';
 
   @override
+  String get signUpWithGoogle => 'Sign up with Google';
+
+  @override
   String get orText => 'or';
 
   @override

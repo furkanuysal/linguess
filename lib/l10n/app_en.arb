@@ -620,7 +620,11 @@
   "@signInWithGoogle": {
     "description": "Button text for signing in with Google"
   },
-  "orText" : "or",
+  "signUpWithGoogle": "Sign up with Google",
+  "@signUpWithGoogle": {
+    "description": "Button text for signing up with Google"
+  },
+  "orText": "or",
   "@orText": {
     "description": "Text to separate different sign-in options"
   },

@@ -485,6 +485,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signInWithGoogle => 'Google ile Giriş Yap';
 
   @override
+  String get signUpWithGoogle => 'Google ile Kayıt Ol';
+
+  @override
   String get orText => 'veya';
 
   @override
