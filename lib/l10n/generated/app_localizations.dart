@@ -996,6 +996,12 @@ abstract class AppLocalizations {
   /// **'Google ile Giriş Yap'**
   String get signInWithGoogle;
 
+  /// Button text for signing up with Google
+  ///
+  /// In tr, this message translates to:
+  /// **'Google ile Kayıt Ol'**
+  String get signUpWithGoogle;
+
   /// Text to separate different sign-in options
   ///
   /// In tr, this message translates to:

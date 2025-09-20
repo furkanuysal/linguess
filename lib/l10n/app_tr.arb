@@ -620,6 +620,10 @@
   "@signInWithGoogle": {
     "description": "Button text for signing in with Google"
   },
+  "signUpWithGoogle": "Google ile Kayıt Ol",
+  "@signUpWithGoogle": {
+    "description": "Button text for signing up with Google"
+  },
   "orText": "veya",
   "@orText": {
     "description": "Text to separate different sign-in options"

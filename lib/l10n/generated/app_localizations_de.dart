@@ -494,6 +494,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signInWithGoogle => 'Mit Google anmelden';
 
   @override
+  String get signUpWithGoogle => 'Mit Google registrieren';
+
+  @override
   String get orText => 'oder';
 
   @override
