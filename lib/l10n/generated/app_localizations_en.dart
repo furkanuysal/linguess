@@ -494,4 +494,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hideText => 'Hide';
+
+  @override
+  String get signInCanceled => 'Sign-in canceled';
+
+  @override
+  String get signUpCanceled => 'Sign-up canceled';
+
+  @override
+  String signedInAs(String email) {
+    return 'Signed in as $email';
+  }
+
+  @override
+  String signedUpAs(String email) {
+    return 'Signed up as $email';
+  }
+
+  @override
+  String get errorResetPasswordFailed => 'Password reset failed';
 }

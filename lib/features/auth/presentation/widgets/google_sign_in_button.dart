@@ -3,8 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
-class GoogleLoginButton extends StatelessWidget {
-  const GoogleLoginButton({
+class GoogleSignInButton extends StatelessWidget {
+  const GoogleSignInButton({
     super.key,
     required this.onPressed,
     this.text = 'Sign in with Google',

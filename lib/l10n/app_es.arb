@@ -635,5 +635,37 @@
   "hideText": "Ocultar",
   "@hideText": {
     "description": "Label for the button to hide the password"
+  },
+  "signInCanceled": "Inicio de sesión cancelado",
+  "@signInCanceled": {
+    "description": "Message shown when the sign-in process is canceled by the user"
+  },
+  "signUpCanceled": "Registro cancelado",
+  "@signUpCanceled": {
+    "description": "Message shown when the sign-up process is canceled by the user"
+  },
+  "signedInAs": "Conectado como {email}",
+  "@signedInAs": {
+    "description": "Message showing the email of the signed-in user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "signedUpAs": "Registrado como {email}",
+  "@signedUpAs": {
+    "description": "Message showing the email of the signed-up user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "errorResetPasswordFailed": "Error al restablecer la contraseña",
+  "@errorResetPasswordFailed": {
+    "description": "Error message shown when the password reset process fails"
   }
 }

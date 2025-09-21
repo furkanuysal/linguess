@@ -635,5 +635,37 @@
   "hideText": "Gizle",
   "@hideText": {
     "description": "Label for the button to hide the password"
+  },
+  "signInCanceled": "Giriş iptal edildi",
+  "@signInCanceled": {
+    "description": "Message shown when the sign-in process is canceled by the user"
+  },
+  "signUpCanceled": "Kayıt iptal edildi",
+  "@signUpCanceled": {
+    "description": "Message shown when the sign-up process is canceled by the user"
+  },
+  "signedInAs": "{email} olarak giriş yapıldı",
+  "@signedInAs": {
+    "description": "Message showing the email of the signed-in user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "signedUpAs": "{email} olarak kayıt olundu",
+  "@signedUpAs": {
+    "description": "Message showing the email of the signed-up user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "errorResetPasswordFailed": "Şifre sıfırlama başarısız",
+  "@errorResetPasswordFailed": {
+    "description": "Error message shown when the password reset process fails"
   }
 }

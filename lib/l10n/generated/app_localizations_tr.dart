@@ -495,4 +495,23 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get hideText => 'Gizle';
+
+  @override
+  String get signInCanceled => 'Giriş iptal edildi';
+
+  @override
+  String get signUpCanceled => 'Kayıt iptal edildi';
+
+  @override
+  String signedInAs(String email) {
+    return '$email olarak giriş yapıldı';
+  }
+
+  @override
+  String signedUpAs(String email) {
+    return '$email olarak kayıt olundu';
+  }
+
+  @override
+  String get errorResetPasswordFailed => 'Şifre sıfırlama başarısız';
 }

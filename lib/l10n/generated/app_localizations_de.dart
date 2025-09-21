@@ -504,4 +504,24 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get hideText => 'Verbergen';
+
+  @override
+  String get signInCanceled => 'Anmeldung abgebrochen';
+
+  @override
+  String get signUpCanceled => 'Anmeldung abgebrochen';
+
+  @override
+  String signedInAs(String email) {
+    return 'Angemeldet als $email';
+  }
+
+  @override
+  String signedUpAs(String email) {
+    return 'Registriert als $email';
+  }
+
+  @override
+  String get errorResetPasswordFailed =>
+      'Fehler beim Zurücksetzen des Passworts';
 }

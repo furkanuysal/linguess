@@ -2,19 +2,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:linguess/features/auth/presentation/widgets/google_login_button.dart';
+import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
+import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
+import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
+import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
 
-class RegisterPage extends ConsumerStatefulWidget {
-  const RegisterPage({super.key});
+class SignUpPage extends ConsumerStatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  ConsumerState<RegisterPage> createState() => _RegisterPageState();
+  ConsumerState<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _RegisterPageState extends ConsumerState<RegisterPage> {
+class _SignUpPageState extends ConsumerState<SignUpPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -29,7 +32,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.dispose();
   }
 
-  Future<void> _submit() async {
+  Future<void> _signUp() async {
     if (!_formKey.currentState!.validate()) return;
 
     FocusScope.of(context).unfocus();
@@ -37,42 +40,49 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
+    final l10n = AppLocalizations.of(context)!;
 
     try {
-      await ref.read(userRegisterProvider.notifier).register(email, password);
+      await ref.read(userSignUpProvider.notifier).signUp(email, password);
 
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.successSignUp),
-          backgroundColor: Colors.green,
-        ),
-      );
+      showSnack(context, l10n.successSignUp, bg: Colors.green);
       context.go('/');
     } on FirebaseAuthException catch (e) {
       if (!mounted) return;
-      final l10n = AppLocalizations.of(context)!;
-
-      final String message = switch (e.code) {
-        'email-already-in-use' => l10n.errorEmailAlreadyInUse,
-        'invalid-email' => l10n.errorInvalidEmail,
-        'weak-password' => l10n.errorWeakPassword,
-        'too-many-requests' => l10n.errorTooManyRequests,
-        'network-request-failed' => l10n.errorNetwork,
-        _ => l10n.errorSignUpFailed,
-      };
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(message), backgroundColor: Colors.red),
-      );
+      final message = AuthErrorMapper.signUp(e, l10n);
+      showSnack(context, message, bg: Colors.red);
     } catch (_) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(AppLocalizations.of(context)!.errorSignUpFailed),
-          backgroundColor: Colors.red,
-        ),
-      );
+      showSnack(context, l10n.errorSignUpFailed, bg: Colors.red);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _signUpWithGoogle() async {
+    if (_isLoading) return;
+
+    final l10n = AppLocalizations.of(context)!;
+    final auth = ref.read(authServiceProvider);
+
+    setState(() => _isLoading = true);
+    try {
+      final user = await auth.signInWithGoogle();
+
+      if (!mounted) return;
+      showSnack(context, l10n.signedUpAs(user?.email ?? ''));
+      context.go('/');
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      if (e.code == 'canceled' || e.code == 'popup-closed-by-user') {
+        showSnack(context, l10n.signUpCanceled, bg: Colors.red);
+      } else {
+        showSnack(context, l10n.errorSignUpFailed, bg: Colors.red);
+      }
+    } catch (_) {
+      if (!mounted) return;
+      showSnack(context, l10n.errorSignUpFailed, bg: Colors.red);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -122,10 +132,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           // Email
                           TextFormField(
                             controller: _emailController,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            autofillHints: const [AutofillHints.email],
                             decoration: InputDecoration(
                               labelText: l10n.email,
                               filled: true,
-                              fillColor: const Color(0xFFF3F4F6),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
@@ -151,10 +163,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           // Password
                           TextFormField(
                             controller: _passwordController,
+                            textInputAction: TextInputAction.done,
+                            autofillHints: const [AutofillHints.password],
                             decoration: InputDecoration(
                               labelText: l10n.password,
                               filled: true,
-                              fillColor: const Color(0xFFF3F4F6),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
@@ -189,7 +202,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             width: double.infinity,
                             height: 52,
                             child: ElevatedButton(
-                              onPressed: _isLoading ? null : _submit,
+                              onPressed: _isLoading ? null : _signUp,
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(28),
@@ -212,7 +225,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
                           const SizedBox(height: 18),
 
-                          // Divider (login ile aynı)
+                          // Divider
                           Row(
                             children: [
                               const Expanded(child: Divider()),
@@ -237,13 +250,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           SizedBox(
                             height: 48,
                             width: double.infinity,
-                            child: GoogleLoginButton(
+                            child: GoogleSignInButton(
                               text: l10n.signUpWithGoogle,
-                              onPressed: _isLoading
-                                  ? null
-                                  : () async {
-                                      // TODO: Google sign-up logic
-                                    },
+                              onPressed: _isLoading ? null : _signUpWithGoogle,
                               isLoading: _isLoading,
                             ),
                           ),

@@ -500,4 +500,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get hideText => 'Ocultar';
+
+  @override
+  String get signInCanceled => 'Inicio de sesión cancelado';
+
+  @override
+  String get signUpCanceled => 'Registro cancelado';
+
+  @override
+  String signedInAs(String email) {
+    return 'Conectado como $email';
+  }
+
+  @override
+  String signedUpAs(String email) {
+    return 'Registrado como $email';
+  }
+
+  @override
+  String get errorResetPasswordFailed => 'Error al restablecer la contraseña';
 }

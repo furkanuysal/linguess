@@ -16,11 +16,14 @@ class AchievementsService {
 
   // Returns a stream of achievement IDs (as a set) earned by the user
   Stream<Set<String>> earnedIdsStream() {
-    final uid = _uid;
-    if (uid == null) return const Stream<Set<String>>.empty();
-    return _userAchCol(
-      uid,
-    ).snapshots().map((qs) => qs.docs.map((d) => d.id).toSet());
+    return _auth.authStateChanges().asyncExpand((user) {
+      if (user == null) {
+        return Stream<Set<String>>.value(<String>{});
+      }
+      return _userAchCol(
+        user.uid,
+      ).snapshots().map((qs) => qs.docs.map((d) => d.id).toSet());
+    });
   }
 
   // Returns true if the achievement is earned (single read)
@@ -31,18 +34,11 @@ class AchievementsService {
     return doc.exists;
   }
 
-  DocumentReference<Map<String, dynamic>> _doc(String id) {
-    final uid = _auth.currentUser!.uid;
-    return _firestore
-        .collection('users')
-        .doc(uid)
-        .collection('achievements')
-        .doc(id);
-  }
-
-  // If not earned, award it; if already earned, do nothing.
   Future<bool> awardIfNotEarned(String id) async {
-    final ref = _doc(id);
+    final user = _auth.currentUser;
+    if (user == null) return false;
+
+    final ref = _userAchCol(user.uid).doc(id);
     var created = false;
 
     await _firestore.runTransaction((tx) async {

@@ -53,3 +53,7 @@ app.*.map.json
 
 # Key properties
 /android/key.properties
+
+# Google Services (e.g. Firebase)
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist

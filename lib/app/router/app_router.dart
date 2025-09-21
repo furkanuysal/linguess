@@ -9,8 +9,8 @@ import 'package:linguess/features/admin/presentation/pages/admin_daily_list_page
 import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
 import 'package:linguess/features/admin/presentation/widgets/admin_guard.dart';
-import 'package:linguess/features/auth/presentation/pages/login_page.dart';
-import 'package:linguess/features/auth/presentation/pages/register_page.dart';
+import 'package:linguess/features/auth/presentation/pages/sign_in_page.dart';
+import 'package:linguess/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:linguess/features/game/presentation/pages/category_page.dart';
 import 'package:linguess/features/game/presentation/pages/level_page.dart';
 import 'package:linguess/features/game/presentation/pages/word_game_page.dart';
@@ -46,11 +46,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
     routes: [
       GoRoute(path: '/', builder: (context, state) => const HomeSelector()),
-      GoRoute(path: '/login', builder: (context, state) => const LoginPage()),
-      GoRoute(
-        path: '/register',
-        builder: (context, state) => const RegisterPage(),
-      ),
+      GoRoute(path: '/signIn', builder: (context, state) => const SignInPage()),
+      GoRoute(path: '/signUp', builder: (context, state) => const SignUpPage()),
       GoRoute(
         path: '/category',
         builder: (context, state) => const CategoryPage(),

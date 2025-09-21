@@ -1019,6 +1019,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Gizle'**
   String get hideText;
+
+  /// Message shown when the sign-in process is canceled by the user
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş iptal edildi'**
+  String get signInCanceled;
+
+  /// Message shown when the sign-up process is canceled by the user
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıt iptal edildi'**
+  String get signUpCanceled;
+
+  /// Message showing the email of the signed-in user
+  ///
+  /// In tr, this message translates to:
+  /// **'{email} olarak giriş yapıldı'**
+  String signedInAs(String email);
+
+  /// Message showing the email of the signed-up user
+  ///
+  /// In tr, this message translates to:
+  /// **'{email} olarak kayıt olundu'**
+  String signedUpAs(String email);
+
+  /// Error message shown when the password reset process fails
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre sıfırlama başarısız'**
+  String get errorResetPasswordFailed;
 }
 
 class _AppLocalizationsDelegate

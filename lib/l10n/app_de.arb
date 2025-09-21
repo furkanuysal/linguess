@@ -635,5 +635,37 @@
   "hideText": "Verbergen",
   "@hideText": {
     "description": "Label for the button to hide the password"
+  },
+  "signInCanceled": "Anmeldung abgebrochen",
+  "@signInCanceled": {
+    "description": "Message shown when the sign-in process is canceled by the user"
+  },
+  "signUpCanceled": "Anmeldung abgebrochen",
+  "@signUpCanceled": {
+    "description": "Message shown when the sign-up process is canceled by the user"
+  },
+  "signedInAs": "Angemeldet als {email}",
+  "@signedInAs": {
+    "description": "Message showing the email of the signed-in user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "signedUpAs": "Registriert als {email}",
+  "@signedUpAs": {
+    "description": "Message showing the email of the signed-up user",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "user@example.com"
+      }
+    }
+  },
+  "errorResetPasswordFailed": "Fehler beim Zurücksetzen des Passworts",
+  "@errorResetPasswordFailed": {
+    "description": "Error message shown when the reset password process fails"
   }
 }

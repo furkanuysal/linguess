@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:linguess/features/auth/presentation/controllers/user_register_controller.dart';
+import 'package:linguess/features/auth/presentation/controllers/user_sign_up_controller.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/auth/data/services/user_service.dart';
 
@@ -37,7 +37,6 @@ final userCorrectCountProvider = StreamProvider.autoDispose<int>((ref) {
       });
 });
 
-final userRegisterProvider =
-    AsyncNotifierProvider<UserRegisterController, void>(
-      UserRegisterController.new,
-    );
+final userSignUpProvider = AsyncNotifierProvider<UserSignUpController, void>(
+  UserSignUpController.new,
+);

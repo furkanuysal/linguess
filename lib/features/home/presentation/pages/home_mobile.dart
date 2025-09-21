@@ -134,7 +134,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                   child: SfxElevatedButton(
                     onPressed: () {
                       if (user == null) {
-                        context.push('/login');
+                        context.push('/signIn');
                       } else {
                         context.push('/profile');
                       }

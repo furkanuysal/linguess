@@ -3,11 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 
-class UserRegisterController extends AsyncNotifier<void> {
+class UserSignUpController extends AsyncNotifier<void> {
   @override
   FutureOr<void> build() {}
 
-  Future<void> register(String email, String password) async {
+  Future<void> signUp(String email, String password) async {
     state = const AsyncLoading();
 
     try {

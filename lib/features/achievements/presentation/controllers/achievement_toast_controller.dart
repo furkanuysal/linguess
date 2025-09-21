@@ -116,7 +116,7 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     });
   }
 
-  // İstersen manuel kapama
+  // Manually hide the toast
   void hideToast() {
     state = null;
     _showing = false;

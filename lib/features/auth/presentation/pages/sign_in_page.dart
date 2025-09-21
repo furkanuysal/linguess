@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
+import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
-import 'package:linguess/features/auth/presentation/widgets/google_login_button.dart';
+import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginPage extends ConsumerStatefulWidget {
-  const LoginPage({super.key});
+class SignInPage extends ConsumerStatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  ConsumerState<LoginPage> createState() => _LoginPageState();
+  ConsumerState<SignInPage> createState() => _SignInPageState();
 }
 
-class _LoginPageState extends ConsumerState<LoginPage> {
+class _SignInPageState extends ConsumerState<SignInPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -33,25 +35,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  String _mapSignInError(FirebaseAuthException e, AppLocalizations l10n) {
-    switch (e.code) {
-      case 'invalid-email':
-        return l10n.errorInvalidEmail;
-      case 'user-not-found':
-        return l10n.errorUserNotFound;
-      case 'wrong-password':
-        return l10n.errorWrongPassword;
-      case 'invalid-credential':
-        return l10n.errorInvalidCredential;
-      case 'too-many-requests':
-        return l10n.errorTooManyRequests;
-      case 'network-request-failed':
-        return l10n.errorNetwork;
-      default:
-        return l10n.errorSignInFailed;
-    }
-  }
-
   Future<void> _signIn() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -60,7 +43,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final l10n = AppLocalizations.of(context)!;
     final authService = ref.read(authServiceProvider);
-    final messenger = ScaffoldMessenger.of(context);
 
     try {
       await authService.signInWithEmailAndPassword(
@@ -70,31 +52,42 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
       if (!mounted) return;
 
-      final c = messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.successSignIn),
-          backgroundColor: Colors.green,
-        ),
-      );
-      await c.closed;
-      if (!mounted) return;
+      showSnack(context, l10n.successSignIn);
       context.go('/');
     } on FirebaseAuthException catch (e) {
-      final msg = _mapSignInError(e, l10n);
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(content: Text(msg), backgroundColor: Colors.red),
-        );
+      final msg = AuthErrorMapper.signIn(e, l10n);
+      showSnack(context, msg, bg: Colors.red);
     } catch (_) {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(l10n.errorSignInFailed),
-            backgroundColor: Colors.red,
-          ),
-        );
+      showSnack(context, l10n.errorSignInFailed, bg: Colors.red);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    if (_isLoading) return;
+
+    final l10n = AppLocalizations.of(context)!;
+    final auth = ref.read(authServiceProvider);
+
+    setState(() => _isLoading = true);
+    try {
+      final user = await auth.signInWithGoogle();
+
+      if (!mounted) return;
+      showSnack(context, l10n.signedInAs(user?.email ?? ''));
+      context.go('/');
+    } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      if (e.code == 'canceled' || e.code == 'popup-closed-by-user') {
+        showSnack(context, l10n.signInCanceled, bg: Colors.red);
+      } else {
+        final msg = AuthErrorMapper.signIn(e, l10n);
+        showSnack(context, msg, bg: Colors.red);
+      }
+    } catch (_) {
+      if (!mounted) return;
+      showSnack(context, l10n.errorSignInFailed, bg: Colors.red);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -161,10 +154,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           // Email
                           TextFormField(
                             controller: _emailController,
+                            textInputAction: TextInputAction.next,
+                            autofillHints: const [AutofillHints.email],
                             decoration: InputDecoration(
                               labelText: l10n.email,
                               filled: true,
-                              fillColor: const Color(0xFFF3F4F6),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
@@ -202,10 +196,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           // Password
                           TextFormField(
                             controller: _passwordController,
+                            textInputAction: TextInputAction.done,
+                            autofillHints: const [AutofillHints.password],
                             decoration: InputDecoration(
                               labelText: l10n.password,
                               filled: true,
-                              fillColor: const Color(0xFFF3F4F6),
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
@@ -254,7 +249,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                           const SizedBox(height: 8),
 
-                          // Primary Login
+                          // Primary sign in
                           SizedBox(
                             width: double.infinity,
                             height: 52,
@@ -302,17 +297,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                           const SizedBox(height: 14),
 
-                          // Social login buttons
+                          // Social sign in buttons
                           SizedBox(
                             height: 48,
                             width: double.infinity,
-                            child: GoogleLoginButton(
+                            child: GoogleSignInButton(
                               text: l10n.signInWithGoogle,
-                              onPressed: _isLoading
-                                  ? null
-                                  : () async {
-                                      // TODO: Google sign-in
-                                    },
+                              onPressed: _isLoading ? null : _signInWithGoogle,
+                              isLoading: _isLoading,
                             ),
                           ),
                         ],
@@ -322,14 +314,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                   const SizedBox(height: 16),
 
-                  // Register link
+                  // sign up link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       TextButton(
                         onPressed: _isLoading
                             ? null
-                            : () => context.push('/register'),
+                            : () => context.push('/signUp'),
                         child: Text(l10n.signUpButtonText),
                       ),
                     ],
@@ -372,72 +364,35 @@ class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
     super.dispose();
   }
 
-  String _mapResetError(FirebaseAuthException e, AppLocalizations l10n) {
-    switch (e.code) {
-      case 'invalid-email':
-        return l10n.errorInvalidEmail;
-      case 'user-not-found':
-        return l10n.errorUserNotFound;
-      case 'too-many-requests':
-        return l10n.errorTooManyRequests;
-      case 'network-request-failed':
-        return l10n.errorNetwork;
-      default:
-        return l10n.errorSignInFailed;
-    }
-  }
-
   Future<void> _sendReset() async {
     if (_sending) return;
 
     final l10n = AppLocalizations.of(context)!;
     final email = _emailCtrl.text.trim();
-    final messenger = ScaffoldMessenger.of(context);
 
     if (email.isEmpty) {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(l10n.emailRequired),
-            backgroundColor: Colors.red,
-          ),
-        );
+      showSnack(context, l10n.emailRequired, bg: Colors.red);
+      return;
+    }
+    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+    if (!emailRegex.hasMatch(email)) {
+      showSnack(context, l10n.invalidEmail, bg: Colors.red);
       return;
     }
 
     setState(() => _sending = true);
-
     final authService = ref.read(authServiceProvider);
 
     try {
       await authService.resetPassword(email);
-
       if (!mounted) return;
       context.pop();
-      final c = messenger.showSnackBar(
-        SnackBar(
-          content: Text(l10n.successResetPasswordEmailSent),
-          backgroundColor: Colors.green,
-        ),
-      );
-      await c.closed;
+      showSnack(context, l10n.successResetPasswordEmailSent);
     } on FirebaseAuthException catch (e) {
-      final msg = _mapResetError(e, l10n);
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(content: Text(msg), backgroundColor: Colors.red),
-        );
+      final msg = AuthErrorMapper.resetPassword(e, l10n);
+      showSnack(context, msg, bg: Colors.red);
     } catch (_) {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(l10n.errorSignInFailed),
-            backgroundColor: Colors.red,
-          ),
-        );
+      showSnack(context, l10n.errorResetPasswordFailed, bg: Colors.red);
     } finally {
       if (mounted) setState(() => _sending = false);
     }

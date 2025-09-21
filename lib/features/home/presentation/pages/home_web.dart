@@ -33,7 +33,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                 icon: Icon(user == null ? Icons.login : Icons.account_circle),
                 onPressed: () {
                   if (user == null) {
-                    context.push('/login');
+                    context.push('/signIn');
                   } else {
                     context.push('/profile');
                   }
@@ -43,7 +43,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
           ),
           const SizedBox(width: 8),
 
-          // 🔑 admin panel button
+          // admin panel button
           Consumer(
             builder: (context, ref, _) {
               final isAdminAsync = ref.watch(isAdminProvider);

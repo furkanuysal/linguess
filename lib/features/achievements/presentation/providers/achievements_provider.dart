@@ -9,9 +9,7 @@ final achievementsServiceProvider = Provider<AchievementsService>((ref) {
 });
 
 // Watches the set of achievement IDs earned by the user as a stream
-final earnedAchievementIdsProvider = StreamProvider.autoDispose<Set<String>>((
-  ref,
-) {
+final earnedAchievementIdsProvider = StreamProvider<Set<String>>((ref) {
   final svc = ref.watch(achievementsServiceProvider);
   return svc.earnedIdsStream();
 });
