@@ -298,6 +298,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'Başarıyla 1000 kelime çözdün!';
 
   @override
+  String get achievement_used_definition_powerup_first_time_title =>
+      'Ansiklopediyi aç';
+
+  @override
+  String get achievement_used_definition_powerup_first_time_description =>
+      'İlk kez tanım güçlendiricisini kullandın.';
+
+  @override
   String get achievement_used_hint_powerup_first_time_title => 'Ufak kopya';
 
   @override
@@ -514,4 +522,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorResetPasswordFailed => 'Şifre sıfırlama başarısız';
+
+  @override
+  String get showDefinition => 'Tanımı Göster';
+
+  @override
+  String get noDefinitionToShow => 'Gösterilecek bir tanım yok';
+
+  @override
+  String get definitionHintTitle => 'Kelime Tanımı';
 }

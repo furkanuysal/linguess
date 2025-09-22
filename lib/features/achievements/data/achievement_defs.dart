@@ -61,6 +61,13 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       icon: '/empty',
     ),
     AchievementModel(
+      id: 'used_definition_powerup_first_time',
+      title: l10n.achievement_used_definition_powerup_first_time_title,
+      description:
+          l10n.achievement_used_definition_powerup_first_time_description,
+      icon: '/empty',
+    ),
+    AchievementModel(
       id: 'used_hint_powerup_first_time',
       title: l10n.achievement_used_hint_powerup_first_time_title,
       description: l10n.achievement_used_hint_powerup_first_time_description,

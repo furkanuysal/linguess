@@ -648,6 +648,18 @@ abstract class AppLocalizations {
   /// **'Başarıyla 1000 kelime çözdün!'**
   String get achievement_solve_thousand_words_description;
 
+  /// Title for the 'used definition powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Ansiklopediyi aç'**
+  String get achievement_used_definition_powerup_first_time_title;
+
+  /// Description for the 'used definition powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez tanım güçlendiricisini kullandın.'**
+  String get achievement_used_definition_powerup_first_time_description;
+
   /// Title for the 'used hint powerup first time' achievement
   ///
   /// In tr, this message translates to:
@@ -1049,6 +1061,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Şifre sıfırlama başarısız'**
   String get errorResetPasswordFailed;
+
+  /// Tooltip for the button to show the word definition
+  ///
+  /// In tr, this message translates to:
+  /// **'Tanımı Göster'**
+  String get showDefinition;
+
+  /// Message shown when there is no definition to display
+  ///
+  /// In tr, this message translates to:
+  /// **'Gösterilecek bir tanım yok'**
+  String get noDefinitionToShow;
+
+  /// Title for the definition hint dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Tanımı'**
+  String get definitionHintTitle;
 }
 
 class _AppLocalizationsDelegate

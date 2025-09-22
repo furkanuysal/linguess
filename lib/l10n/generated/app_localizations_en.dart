@@ -296,6 +296,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'You solved 1000 words successfully!';
 
   @override
+  String get achievement_used_definition_powerup_first_time_title =>
+      'Show me the encyclopedia';
+
+  @override
+  String get achievement_used_definition_powerup_first_time_description =>
+      'You used the definition power-up for the first time.';
+
+  @override
   String get achievement_used_hint_powerup_first_time_title =>
       'Let\'s get a hint';
 
@@ -513,4 +521,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorResetPasswordFailed => 'Password reset failed';
+
+  @override
+  String get showDefinition => 'Show Definition';
+
+  @override
+  String get noDefinitionToShow => 'No Definition to Show';
+
+  @override
+  String get definitionHintTitle => 'Definition Hint';
 }

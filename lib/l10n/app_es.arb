@@ -364,6 +364,14 @@
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
+  "achievement_used_definition_powerup_first_time_title": "Abrir la Enciclopedia",
+  "@achievement_used_definition_powerup_first_time_title": {
+    "description": "Title for the 'used definition powerup first time' achievement"
+  },
+  "achievement_used_definition_powerup_first_time_description": "Has utilizado el potenciador de definición por primera vez.",
+  "@achievement_used_definition_powerup_first_time_description": {
+    "description": "Description for the 'used definition powerup first time' achievement"
+  },
   "achievement_used_hint_powerup_first_time_title": "Pista inicial",
   "@achievement_used_hint_powerup_first_time_title": {
     "description": "Title for the 'used hint powerup first time' achievement"
@@ -667,5 +675,17 @@
   "errorResetPasswordFailed": "Error al restablecer la contraseña",
   "@errorResetPasswordFailed": {
     "description": "Error message shown when the password reset process fails"
+  },
+  "showDefinition": "Mostrar definición",
+  "@showDefinition": {
+    "description": "Tooltip for the button to show the word definition"
+  },
+  "noDefinitionToShow": "No hay definición para mostrar",
+  "@noDefinitionToShow": {
+    "description": "Message shown when there is no definition to display"
+  },
+  "definitionHintTitle": "Título de la definición",
+  "@definitionHintTitle": {
+    "description": "Title for the definition hint dialog"
   }
 }

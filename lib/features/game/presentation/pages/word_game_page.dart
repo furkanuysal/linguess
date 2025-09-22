@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
+import 'package:linguess/features/economy/data/services/economy_service.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
 import 'package:linguess/features/game/presentation/widgets/powerups_bar.dart';
@@ -215,6 +216,16 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           final currentLanguage = Localizations.localeOf(context).languageCode;
           final hint = state.currentWord!.pickDisplayTerm(currentLanguage);
 
+          final bool hasDefinition = (() {
+            final def = state.currentWord!.locales.meaningOf(currentLanguage);
+            return def != null && def.isNotEmpty;
+          })();
+
+          final bool canShowDefinition = hasDefinition && !state.isLoading;
+          final visibleDefinitionCost = state.isDefinitionUsedForCurrentWord
+              ? 0
+              : EconomyService.showDefinitionCost;
+
           // Fixed heights and paddings for the power-ups bar
           const double barHeight = 72;
           const double barVerticalPadding = 12;
@@ -277,17 +288,32 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                           vertical: 6,
                         ),
                         child: PowerUpsBar(
+                          visibleDefinitionCost: visibleDefinitionCost,
                           canRevealLetter:
                               state.hintIndices.length <
                               state.currentTarget.replaceAll(' ', '').length,
                           canSkip: (state.words.value?.isNotEmpty ?? false),
+                          canShowDefinition: canShowDefinition,
                           onRevealLetter: () {
                             _triggerGoldAnimation();
-                            notifier.showHintLetter(context, cost: 5);
+                            notifier.showHintLetter(
+                              context,
+                              cost: EconomyService.revealLetterCost,
+                            );
                           },
                           onSkipToNext: () async {
                             _triggerGoldAnimation();
-                            await notifier.skipToNextWord(context, cost: 15);
+                            await notifier.skipToNextWord(
+                              context,
+                              cost: EconomyService.skipWordCost,
+                            );
+                          },
+                          onShowDefinition: () {
+                            _triggerGoldAnimation();
+                            notifier.showDefinition(
+                              context,
+                              cost: EconomyService.showDefinitionCost,
+                            );
                           },
                         ),
                       ),

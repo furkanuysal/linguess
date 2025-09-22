@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/effects/confetti_particle.dart';
 import 'package:linguess/core/utils/id_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -34,6 +35,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
       false; // to prevent double initialization if build is called again
 
   int _hintsUsedForCurrentWord = 0;
+  bool _isDefinitionUsedForCurrentWord = false;
 
   @override
   WordGameState build() {
@@ -244,6 +246,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _targetWithoutSpaces.length,
       false,
     );
+    _isDefinitionUsedForCurrentWord = false;
 
     state = state.copyWith(
       currentWord: word,
@@ -252,6 +255,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
       focusNodes: _focusNodes,
       correctIndices: correctIndices,
       hintIndices: [],
+      isDefinitionUsedForCurrentWord: _isDefinitionUsedForCurrentWord,
     );
   }
 
@@ -566,6 +570,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
     // Prefill (if the doc holds the same word, apply it)
     if (rs != null && rs.currentWordId == word.id) {
       _applyPrefillFromResume(rs);
+      _isDefinitionUsedForCurrentWord = rs.isDefinitionUsed;
+      state = state.copyWith(
+        isDefinitionUsedForCurrentWord: _isDefinitionUsedForCurrentWord,
+      );
     }
   }
 
@@ -639,6 +647,100 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _initializeWord(nextWord);
     } finally {
       state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> showDefinition(BuildContext context, {required int cost}) async {
+    if (state.isDaily && state.dailyAlreadySolved) return;
+    final word = state.currentWord;
+    if (word == null) return;
+
+    final l10n = AppLocalizations.of(context)!;
+    final settings = ref.read(settingsControllerProvider).value;
+    final appLang =
+        settings?.appLangCode ?? Localizations.localeOf(context).languageCode;
+
+    // Get definition in app language
+    final def = (word.locales as Map).meaningOf(appLang);
+
+    if (def == null || def.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.noDefinitionToShow)));
+      }
+      return;
+    }
+
+    // Resume check
+    bool alreadyUsed = false;
+    final key = _resumeKey;
+    final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
+
+    if (repo != null) {
+      try {
+        final rs = await repo.fetch();
+        if (rs != null && rs.currentWordId == word.id) {
+          alreadyUsed = rs.isDefinitionUsed;
+        }
+      } catch (_) {}
+    }
+
+    // Spend gold if not already used
+    if (!alreadyUsed) {
+      final economy = ref.read(economyServiceProvider);
+      final ok = await economy.trySpendGold(cost);
+      if (!ok) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.insufficientGold)));
+        }
+        return;
+      }
+      if (repo != null) {
+        try {
+          final ach = ref.read(achievementsServiceProvider);
+          await ach.awardIfNotEarned('used_definition_powerup_first_time');
+          await repo.markDefinitionUsed(true);
+        } catch (_) {}
+      }
+
+      _isDefinitionUsedForCurrentWord = true;
+      state = state.copyWith(isDefinitionUsedForCurrentWord: true);
+    }
+
+    // Call the overlay
+    if (context.mounted) {
+      final overlay = Overlay.of(context);
+      final double top =
+          (MediaQuery.of(context).padding.top + kToolbarHeight + 8);
+
+      late OverlayEntry entry;
+      entry = OverlayEntry(
+        builder: (ctx) => Stack(
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => entry.remove(),
+                child: const SizedBox.shrink(),
+              ),
+            ),
+            Positioned(
+              top: top,
+              left: 12,
+              right: 12,
+              child: FloatingHintCard(
+                title: l10n.definitionHintTitle,
+                content: def,
+                onClose: () => entry.remove(),
+              ),
+            ),
+          ],
+        ),
+      );
+      overlay.insert(entry);
     }
   }
 }

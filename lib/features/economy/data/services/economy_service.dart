@@ -5,6 +5,11 @@ class EconomyService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+  // Power-up costs
+  static const int showDefinitionCost = 3;
+  static const int revealLetterCost = 5;
+  static const int skipWordCost = 10;
+
   Future<int> getUserGold() async {
     final user = _auth.currentUser;
     if (user == null) return 0;
@@ -63,10 +68,10 @@ class EconomyService {
     await userDoc.update({'gold': FieldValue.increment(amount)});
   }
 
-  // 0 hint = +3, 1–2 hint = +1, 3+ = +0
+  // 0 hint = +5, 1–2 hint = +2, 3+ = +1
   int _computeSolveReward(int hintsUsed) {
-    if (hintsUsed <= 0) return 3;
-    if (hintsUsed <= 2) return 1;
-    return 0;
+    if (hintsUsed <= 0) return 5;
+    if (hintsUsed <= 2) return 2;
+    return 1;
   }
 }

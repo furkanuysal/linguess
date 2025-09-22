@@ -6,12 +6,14 @@ class ResumeState extends Equatable {
   final Map<int, String> userFilled; // { index : "A" }
   final int hintCountUsed;
   final DateTime? updatedAt;
+  final bool isDefinitionUsed;
 
   const ResumeState({
     required this.currentWordId,
     required this.userFilled,
     required this.hintCountUsed,
     required this.updatedAt,
+    required this.isDefinitionUsed,
   });
 
   factory ResumeState.fromFirestore(
@@ -30,6 +32,7 @@ class ResumeState extends Equatable {
       currentWordId: (d['currentWordId'] as String?) ?? '',
       userFilled: uf,
       hintCountUsed: (d['hintCountUsed'] as num?)?.toInt() ?? 0,
+      isDefinitionUsed: (d['isDefinitionUsed'] as bool?) ?? false,
       updatedAt: (d['updatedAt'] as Timestamp?)?.toDate(),
     );
   }
@@ -42,6 +45,7 @@ class ResumeState extends Equatable {
       'currentWordId': currentWordId,
       'userFilled': ufStr,
       'hintCountUsed': hintCountUsed,
+      'isDefinitionUsed': isDefinitionUsed,
       if (withServerUpdateTs) 'updatedAt': FieldValue.serverTimestamp(),
     };
   }
@@ -50,6 +54,7 @@ class ResumeState extends Equatable {
     String? currentWordId,
     Map<int, String>? userFilled,
     int? hintCountUsed,
+    bool? isDefinitionUsed,
     DateTime? updatedAt,
   }) {
     return ResumeState(
@@ -57,6 +62,7 @@ class ResumeState extends Equatable {
       userFilled: userFilled ?? this.userFilled,
       hintCountUsed: hintCountUsed ?? this.hintCountUsed,
       updatedAt: updatedAt ?? this.updatedAt,
+      isDefinitionUsed: isDefinitionUsed ?? this.isDefinitionUsed,
     );
   }
 
@@ -65,6 +71,7 @@ class ResumeState extends Equatable {
     currentWordId,
     userFilled,
     hintCountUsed,
+    isDefinitionUsed,
     updatedAt,
   ];
 }

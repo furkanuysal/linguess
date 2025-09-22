@@ -364,6 +364,14 @@
   "@achievement_solve_thousand_words_description": {
     "description": "Description for the 'solve thousand words' achievement"
   },
+  "achievement_used_definition_powerup_first_time_title": "Ansiklopediyi aç",
+  "@achievement_used_definition_powerup_first_time_title": {
+    "description": "Title for the 'used definition powerup first time' achievement"
+  },
+  "achievement_used_definition_powerup_first_time_description": "İlk kez tanım güçlendiricisini kullandın.",
+  "@achievement_used_definition_powerup_first_time_description": {
+    "description": "Description for the 'used definition powerup first time' achievement"
+  },
   "achievement_used_hint_powerup_first_time_title": "Ufak kopya",
   "@achievement_used_hint_powerup_first_time_title": {
     "description": "Title for the 'used hint powerup first time' achievement"
@@ -667,5 +675,17 @@
   "errorResetPasswordFailed": "Şifre sıfırlama başarısız",
   "@errorResetPasswordFailed": {
     "description": "Error message shown when the password reset process fails"
+  },
+  "showDefinition": "Tanımı Göster",
+  "@showDefinition": {
+    "description": "Tooltip for the button to show the word definition"
+  },
+  "noDefinitionToShow": "Gösterilecek bir tanım yok",
+  "@noDefinitionToShow": {
+    "description": "Message shown when there is no definition to display"
+  },
+  "definitionHintTitle": "Kelime Tanımı",
+  "@definitionHintTitle": {
+    "description": "Title for the definition hint dialog"
   }
 }

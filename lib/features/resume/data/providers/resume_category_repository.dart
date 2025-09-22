@@ -72,6 +72,7 @@ class ResumeRepository {
       'currentWordId': currentWordId,
       'userFilled': <String, String>{}, // empty
       'hintCountUsed': 0,
+      'isDefinitionUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
@@ -81,6 +82,7 @@ class ResumeRepository {
       'currentWordId': '',
       'userFilled': <String, String>{}, // empty
       'hintCountUsed': 0,
+      'isDefinitionUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: false));
   }
@@ -119,6 +121,14 @@ class ResumeRepository {
   Future<void> incrementHintUsed([int by = 1]) async {
     await _safeUpdate(_doc(), {
       'hintCountUsed': FieldValue.increment(by),
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  // Mark definition as used
+  Future<void> markDefinitionUsed(bool value) async {
+    await _safeUpdate(_doc(), {
+      'isDefinitionUsed': value,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }

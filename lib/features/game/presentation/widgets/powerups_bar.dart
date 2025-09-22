@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linguess/features/economy/data/services/economy_service.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class PowerUpsBar extends StatelessWidget {
@@ -6,14 +7,20 @@ class PowerUpsBar extends StatelessWidget {
     super.key,
     required this.canRevealLetter,
     required this.canSkip,
+    required this.canShowDefinition,
     required this.onRevealLetter,
     required this.onSkipToNext,
+    required this.onShowDefinition,
+    required this.visibleDefinitionCost,
   });
 
   final bool canRevealLetter;
   final bool canSkip;
+  final bool canShowDefinition;
   final VoidCallback onRevealLetter;
   final VoidCallback onSkipToNext;
+  final VoidCallback onShowDefinition;
+  final int visibleDefinitionCost;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +38,18 @@ class PowerUpsBar extends StatelessWidget {
           child: Row(
             children: [
               _PowerUpChip(
+                icon: Icons.menu_book_outlined,
+                cost: visibleDefinitionCost,
+                enabled: canShowDefinition,
+                onTap: onShowDefinition,
+                tooltip: canShowDefinition
+                    ? l10n.showDefinition
+                    : l10n.noDefinitionToShow,
+              ),
+              const SizedBox(width: 8),
+              _PowerUpChip(
                 icon: Icons.lightbulb_outline,
-                cost: 5,
+                cost: EconomyService.revealLetterCost,
                 enabled: canRevealLetter,
                 onTap: onRevealLetter,
                 tooltip: canRevealLetter
@@ -42,7 +59,7 @@ class PowerUpsBar extends StatelessWidget {
               const SizedBox(width: 8),
               _PowerUpChip(
                 icon: Icons.skip_next_outlined,
-                cost: 15,
+                cost: EconomyService.skipWordCost,
                 enabled: canSkip,
                 onTap: onSkipToNext,
                 tooltip: canSkip ? l10n.skipToNext : l10n.nothingToSkip,

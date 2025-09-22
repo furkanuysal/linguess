@@ -8,11 +8,15 @@ class AppColorSchemes {
     seedColor: const Color(0xFF819A91),
     brightness: Brightness.light,
     surface: const Color(0xFFEEEFE0),
+    surfaceContainerHigh: const Color(0xFFD1D8BE),
+    surfaceContainerHighest: const Color(0xFFA7C1A8),
   );
 
   static ColorScheme dark = ColorScheme.fromSeed(
     seedColor: const Color(0xFF77ABB7),
     brightness: Brightness.dark,
     surface: const Color(0xFF1D3E53),
+    surfaceContainerHigh: const Color(0xFF254B62),
+    surfaceContainerHighest: const Color(0xFF476D7C),
   );
 }

@@ -304,6 +304,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast tausend Wörter gelöst.';
 
   @override
+  String get achievement_used_definition_powerup_first_time_title =>
+      'Zeig mir die Enzyklopädie';
+
+  @override
+  String get achievement_used_definition_powerup_first_time_description =>
+      'Du hast den Definition-Power-Up zum ersten Mal verwendet.';
+
+  @override
   String get achievement_used_hint_powerup_first_time_title => 'Schlauer Tipp';
 
   @override
@@ -524,4 +532,13 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get errorResetPasswordFailed =>
       'Fehler beim Zurücksetzen des Passworts';
+
+  @override
+  String get showDefinition => 'Definition Anzeigen';
+
+  @override
+  String get noDefinitionToShow => 'Keine Definition zum Anzeigen';
+
+  @override
+  String get definitionHintTitle => 'Definition Hinweis';
 }

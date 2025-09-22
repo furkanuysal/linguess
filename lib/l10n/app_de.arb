@@ -312,6 +312,14 @@
   "@achievement_solve_firstword_nohint_description": {
     "description": "Description for the 'solve first word without hint' achievement"
   },
+  "achievement_used_definition_powerup_first_time_title": "Zeig mir die Enzyklopädie",
+  "@achievement_used_definition_powerup_first_time_title": {
+    "description": "Title for the 'used definition powerup first time' achievement"
+  },
+  "achievement_used_definition_powerup_first_time_description": "Du hast den Definition-Power-Up zum ersten Mal verwendet.",
+  "@achievement_used_definition_powerup_first_time_description": {
+    "description": "Description for the 'used definition powerup first time' achievement"
+  },
   "achievement_used_hint_powerup_first_time_title": "Schlauer Tipp",
   "@achievement_used_hint_powerup_first_time_title": {
     "description": "Title for the 'used hint powerup first time' achievement"
@@ -667,5 +675,17 @@
   "errorResetPasswordFailed": "Fehler beim Zurücksetzen des Passworts",
   "@errorResetPasswordFailed": {
     "description": "Error message shown when the reset password process fails"
+  },
+  "showDefinition": "Definition Anzeigen",
+  "@showDefinition": {
+    "description": "Tooltip for the button to show the word definition"
+  },
+  "noDefinitionToShow": "Keine Definition zum Anzeigen",
+  "@noDefinitionToShow": {
+    "description": "Message shown when there is no definition to display"
+  },
+  "definitionHintTitle": "Definition Hinweis",
+  "@definitionHintTitle": {
+    "description": "Title for the definition hint dialog"
   }
 }
