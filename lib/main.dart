@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:linguess/app/router/app_router.dart';
+import 'package:linguess/app/update/android_update_gate.dart';
 import 'package:linguess/features/achievements/presentation/widgets/achievement_toast_widget.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/firebase_options.dart';
@@ -50,11 +51,14 @@ class LinguessApp extends ConsumerWidget {
         scaffoldMessengerKey: scaffoldMessengerKey,
         routerConfig: router,
         builder: (context, child) {
-          return Stack(
-            children: [
-              child ?? const SizedBox(),
-              const AchievementToastWidget(),
-            ],
+          return AndroidUpdateGate(
+            mode: UpdateMode.flexible,
+            child: Stack(
+              children: [
+                child ?? const SizedBox(),
+                const AchievementToastWidget(),
+              ],
+            ),
           );
         },
         onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,

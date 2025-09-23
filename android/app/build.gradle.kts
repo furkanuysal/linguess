@@ -22,7 +22,7 @@ keystoreProperties.load(FileInputStream(keystorePropertiesFile))
 
 android {
     namespace = "com.litusware.linguess"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = maxOf(flutter.compileSdkVersion, 36)
     ndkVersion = "27.0.12077973"
 
     compileOptions {
@@ -38,7 +38,7 @@ android {
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
 
-        // pubspec.yaml -> version: 1.0.0+1
+        // pubspec.yaml -> version: 1.0.1+6
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
