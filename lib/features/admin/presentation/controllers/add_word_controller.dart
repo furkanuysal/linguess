@@ -27,47 +27,40 @@ class AddWordController extends AsyncNotifier<void> {
       if (category.trim().isEmpty) throw Exception('Category is required');
 
       final svc = ref.read(wordServiceProvider);
+
+      // Clean locales: remove empty entries
       final cleanedLocales = <String, Map<String, String>>{};
       locales.forEach((lang, m) {
         final term = (m['term'] ?? '').trim();
         final meaning = (m['meaning'] ?? '').trim();
-        if (term.isEmpty && meaning.isEmpty) {
-          return; // skip language if both fields are empty
-        }
+        if (term.isEmpty && meaning.isEmpty) return;
         cleanedLocales[lang] = {
           if (term.isNotEmpty) 'term': term,
           if (meaning.isNotEmpty) 'meaning': meaning,
         };
       });
 
-      // id: in edit mode, use the existing doc id; otherwise, use slugify(en)
       final id = editId ?? slugify(enTerm);
 
-      final Map<String, dynamic> patch = {
+      final Map<String, dynamic> body = {
         'category': category.trim(),
         'level': level.trim(),
+        'locales': cleanedLocales,
       };
-      cleanedLocales.forEach((lang, m) {
-        m.forEach((k, v) {
-          patch['locales.$lang.$k'] = v; // locales.en.term / locales.tr.meaning
-        });
-      });
+
+      final exists = await svc.exists(id);
 
       if (editId != null) {
-        // UPDATE (throw error if document does not exist)
-        final exists = await svc.exists(id);
         if (!exists) throw Exception('Document not found: $id');
-        await svc.update(id, patch);
+        await svc.update(id, body);
       } else {
-        // CREATE/UPSERT behavior based on overwrite
-        final exists = await svc.exists(id);
         if (exists && !overwrite) {
           throw Exception('This word already exists ($id)');
         }
         if (exists) {
-          await svc.update(id, patch);
+          await svc.update(id, body);
         } else {
-          await svc.create(id, patch);
+          await svc.create(id, body);
         }
       }
 
