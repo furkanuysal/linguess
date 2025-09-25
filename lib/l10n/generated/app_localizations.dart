@@ -1079,6 +1079,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelime Tanımı'**
   String get definitionHintTitle;
+
+  /// Label for the example sentence of the word
+  ///
+  /// In tr, this message translates to:
+  /// **'Örnek Cümle'**
+  String get exampleSentenceText;
 }
 
 class _AppLocalizationsDelegate

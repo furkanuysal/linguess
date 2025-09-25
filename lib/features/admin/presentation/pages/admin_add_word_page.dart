@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/admin/presentation/providers/add_word_controller_provider.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
@@ -24,6 +25,7 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
   late List<String> _langs;
   late Map<String, TextEditingController> _termCtrls;
   late Map<String, TextEditingController> _meaningCtrls;
+  late Map<String, TextEditingController> _exampleSentenceCtrls;
 
   String? _selectedCategory;
   String? _selectedLevel;
@@ -37,6 +39,9 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
     _langs = List.of(ref.read(supportedLangsProvider));
     _termCtrls = {for (final l in _langs) l: TextEditingController()};
     _meaningCtrls = {for (final l in _langs) l: TextEditingController()};
+    _exampleSentenceCtrls = {
+      for (final l in _langs) l: TextEditingController(),
+    };
   }
 
   @override
@@ -47,6 +52,9 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
     for (final c in _meaningCtrls.values) {
       c.dispose();
     }
+    for (final c in _exampleSentenceCtrls.values) {
+      c.dispose();
+    }
     super.dispose();
   }
 
@@ -54,6 +62,7 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
     for (final lang in langs) {
       _termCtrls.putIfAbsent(lang, () => TextEditingController());
       _meaningCtrls.putIfAbsent(lang, () => TextEditingController());
+      _exampleSentenceCtrls.putIfAbsent(lang, () => TextEditingController());
     }
   }
 
@@ -62,10 +71,12 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
     for (final lang in _langs) {
       final term = _termCtrls[lang]!.text.trim();
       final meaning = _meaningCtrls[lang]!.text.trim();
-      if (term.isEmpty && meaning.isEmpty) continue;
+      final exampleSentence = _exampleSentenceCtrls[lang]!.text.trim();
+      if (term.isEmpty && meaning.isEmpty && exampleSentence.isEmpty) continue;
       locales[lang] = {
         if (term.isNotEmpty) 'term': term,
         if (meaning.isNotEmpty) 'meaning': meaning,
+        if (exampleSentence.isNotEmpty) 'exampleSentence': exampleSentence,
       };
     }
     return locales;
@@ -106,6 +117,9 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
         for (final c in _meaningCtrls.values) {
           c.clear();
         }
+        for (final c in _exampleSentenceCtrls.values) {
+          c.clear();
+        }
         setState(() => _overwrite = false);
       }
     } catch (e) {
@@ -139,8 +153,10 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
         _langs = docLangs;
 
         for (final lang in _langs) {
-          _termCtrls[lang]!.text = w.locales[lang]?['term'] ?? '';
-          _meaningCtrls[lang]!.text = w.locales[lang]?['meaning'] ?? '';
+          _termCtrls[lang]!.text = (w.locales as Map).termOf(lang);
+          _meaningCtrls[lang]!.text = (w.locales as Map).meaningOf(lang)!;
+          _exampleSentenceCtrls[lang]!.text = (w.locales as Map)
+              .exampleSentenceOf(lang)!;
         }
 
         _selectedCategory = w.category;
@@ -219,6 +235,7 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                 langLabel: labels['en'] ?? 'English',
                 termCtrl: _termCtrls['en']!,
                 meaningCtrl: _meaningCtrls['en']!,
+                exampleSentenceCtrl: _exampleSentenceCtrls['en']!,
                 requiredField: true,
                 readOnly: isEdit,
                 requiredText: l10n.requiredText,
@@ -229,6 +246,7 @@ class _AdminAddWordPageState extends ConsumerState<AdminAddWordPage> {
                   langLabel: labels[lang] ?? lang.toUpperCase(),
                   termCtrl: _termCtrls[lang]!,
                   meaningCtrl: _meaningCtrls[lang]!,
+                  exampleSentenceCtrl: _exampleSentenceCtrls[lang]!,
                   requiredField: false,
                   readOnly: false,
                   requiredText: l10n.requiredText,

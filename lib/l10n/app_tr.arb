@@ -687,5 +687,9 @@
   "definitionHintTitle": "Kelime Tanımı",
   "@definitionHintTitle": {
     "description": "Title for the definition hint dialog"
+  },
+  "exampleSentenceText": "Örnek Cümle",
+  "@exampleSentenceText": {
+    "description": "Label for the example sentence of the word"
   }
 }

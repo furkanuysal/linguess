@@ -214,7 +214,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           }
 
           final currentLanguage = Localizations.localeOf(context).languageCode;
-          final hint = state.currentWord!.pickDisplayTerm(currentLanguage);
+          final hint = state.currentWord!.termOf(currentLanguage);
 
           final bool hasDefinition = (() {
             final def = state.currentWord!.locales.meaningOf(currentLanguage);

@@ -21,12 +21,16 @@ class WordModel {
         if (val is Map) {
           final term = val['term'];
           final meaning = val['meaning'];
+          final exampleSentence = val['exampleSentence'];
 
           if (term is String && term.trim().isNotEmpty) {
             inner['term'] = term.trim();
           }
           if (meaning is String && meaning.trim().isNotEmpty) {
             inner['meaning'] = meaning.trim();
+          }
+          if (exampleSentence is String && exampleSentence.trim().isNotEmpty) {
+            inner['exampleSentence'] = exampleSentence.trim();
           }
         }
         if (inner.isNotEmpty) {
@@ -43,11 +47,7 @@ class WordModel {
     );
   }
 
-  Map<String, dynamic> toCreateJson() {
-    return {'category': category, 'level': level, 'locales': locales};
-  }
-
-  Map<String, dynamic> toUpdateJson() {
+  Map<String, dynamic> toJson() {
     return {'category': category, 'level': level, 'locales': locales};
   }
 }

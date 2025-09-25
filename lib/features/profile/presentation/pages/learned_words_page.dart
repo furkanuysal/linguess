@@ -21,8 +21,8 @@ class LearnedWordsPage extends ConsumerWidget {
     final list = await Future.wait(ids.map(repo.fetchWordById));
     final words = list.whereType<WordModel>().toList();
     words.sort((a, b) {
-      final ta = (a.pickDisplayTerm(sortLang)).toLowerCase();
-      final tb = (b.pickDisplayTerm(sortLang)).toLowerCase();
+      final ta = (a.termOf(sortLang)).toLowerCase();
+      final tb = (b.termOf(sortLang)).toLowerCase();
       return ta.compareTo(tb);
     });
     return words;
@@ -71,8 +71,8 @@ class LearnedWordsPage extends ConsumerWidget {
                 itemBuilder: (context, i) {
                   final w = words[i];
 
-                  final targetText = w.pickDisplayTerm(targetLangCode);
-                  final appText = w.pickDisplayTerm(appLangCode);
+                  final targetText = w.termOf(targetLangCode);
+                  final appText = w.termOf(appLangCode);
 
                   final titleText = _cap(targetText);
                   final subtitleText = appText;

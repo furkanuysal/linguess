@@ -279,7 +279,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
         ref.read(settingsControllerProvider).value?.appLangCode ??
         Localizations.localeOf(context).languageCode;
 
-    final wordToSolve = state.currentWord!.pickDisplayTerm(appLang);
+    final wordToSolve = state.currentWord!.termOf(appLang);
     final correctAnswerFormatted = _capitalize(state.currentTarget);
 
     await economyService.rewardGold(_hintsUsedForCurrentWord);

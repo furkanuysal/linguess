@@ -530,4 +530,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get definitionHintTitle => 'Definition Hint';
+
+  @override
+  String get exampleSentenceText => 'Example Sentence';
 }

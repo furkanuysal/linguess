@@ -33,10 +33,12 @@ class AddWordController extends AsyncNotifier<void> {
       locales.forEach((lang, m) {
         final term = (m['term'] ?? '').trim();
         final meaning = (m['meaning'] ?? '').trim();
-        if (term.isEmpty && meaning.isEmpty) return;
+        final exampleSentence = (m['exampleSentence'] ?? '').trim();
+        if (term.isEmpty && meaning.isEmpty && exampleSentence.isEmpty) return;
         cleanedLocales[lang] = {
           if (term.isNotEmpty) 'term': term,
           if (meaning.isNotEmpty) 'meaning': meaning,
+          if (exampleSentence.isNotEmpty) 'exampleSentence': exampleSentence,
         };
       });
 

@@ -536,4 +536,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get definitionHintTitle => 'Título de la definición';
+
+  @override
+  String get exampleSentenceText => 'Ejemplo de oración';
 }

@@ -541,4 +541,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get definitionHintTitle => 'Definition Hinweis';
+
+  @override
+  String get exampleSentenceText => 'Beispielsatz';
 }

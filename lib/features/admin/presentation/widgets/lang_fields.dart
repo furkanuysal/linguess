@@ -8,6 +8,7 @@ class LangFields extends StatelessWidget {
     required this.langLabel,
     required this.termCtrl,
     required this.meaningCtrl,
+    required this.exampleSentenceCtrl,
     required this.requiredText,
     this.requiredField = false,
     this.readOnly = false,
@@ -17,6 +18,7 @@ class LangFields extends StatelessWidget {
   final String langLabel;
   final TextEditingController termCtrl;
   final TextEditingController meaningCtrl;
+  final TextEditingController exampleSentenceCtrl;
   final String requiredText;
   final bool requiredField;
   final bool readOnly;
@@ -51,7 +53,14 @@ class LangFields extends StatelessWidget {
             labelText: '${l10n!.wordMeaningText} ($lang)',
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 6),
+        TextFormField(
+          controller: exampleSentenceCtrl,
+          decoration: InputDecoration(
+            labelText: '${l10n.exampleSentenceText} ($lang)',
+          ),
+        ),
+        const Divider(height: 12),
       ],
     );
   }

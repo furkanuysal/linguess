@@ -687,5 +687,9 @@
   "definitionHintTitle": "Definition Hint",
   "@definitionHintTitle": {
     "description": "Title for the definition hint dialog"
+  },
+  "exampleSentenceText": "Example Sentence",
+  "@exampleSentenceText": {
+    "description": "Label for the example sentence of the word"
   }
 }

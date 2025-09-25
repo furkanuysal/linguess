@@ -531,4 +531,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get definitionHintTitle => 'Kelime Tanımı';
+
+  @override
+  String get exampleSentenceText => 'Örnek Cümle';
 }

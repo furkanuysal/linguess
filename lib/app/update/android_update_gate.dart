@@ -1,9 +1,12 @@
-// lib/app_update/android_update_gate.dart
-import 'dart:io';
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
 
 enum UpdateMode { flexible, immediate }
+
+bool get _isAndroidNative =>
+    !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
 
 class AndroidUpdateGate extends StatefulWidget {
   final Widget child;
@@ -32,7 +35,7 @@ class _AndroidUpdateGateState extends State<AndroidUpdateGate> {
   }
 
   Future<void> _run() async {
-    if (!mounted || !Platform.isAndroid) return;
+    if (!mounted || !_isAndroidNative) return;
 
     try {
       final info = await InAppUpdate.checkForUpdate();
