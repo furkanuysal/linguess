@@ -1,7 +1,7 @@
 # Linguess
 
 Linguess is a Flutter-based multilingual word puzzle application.  
-Players guess words in a **target language** based on their meaning in another language.  
+Players guess words in a **target language** based on their equivalents in another language.  
 The app includes daily challenges, category-based games, hints, progress tracking, and a gold-based in-app economy.  
 User authentication and data persistence are managed via Firebase.
 
@@ -54,7 +54,7 @@ User authentication and data persistence are managed via Firebase.
 
 ### Prerequisites
 
-* Flutter SDK (>=3.8.1)
+* Flutter SDK (>=3.32.1)
 * Dart SDK (included with Flutter)
 * Android Studio / Xcode / VS Code (depending on platform & IDE preference)
 
