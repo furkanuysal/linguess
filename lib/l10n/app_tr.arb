@@ -388,6 +388,23 @@
   "@achievement_used_skip_powerup_first_time_description": {
     "description": "Description for the 'used skip powerup first time' achievement"
   },
+  "achievement_used_example_sentence_powerup_first_time_title": "Cümlelerle güçlen",
+  "@achievement_used_example_sentence_powerup_first_time_title": {
+    "description": "Title for the 'used example sentence powerup first time' achievement"
+  },
+  "achievement_used_example_sentence_powerup_first_time_description": "İlk kez örnek cümle güçlendiricisini kullandın.",
+  "@achievement_used_example_sentence_powerup_first_time_description": {
+    "description": "Description for the 'used example sentence powerup first time' achievement"
+  },
+  
+  "achievement_used_example_sentence_target_powerup_first_time_title": "Hedef dilde örnekler",
+  "@achievement_used_example_sentence_target_powerup_first_time_title": {
+    "description": "Title for the 'used example sentence target powerup first time' achievement"
+  },
+  "achievement_used_example_sentence_target_powerup_first_time_description": "İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.",
+  "@achievement_used_example_sentence_target_powerup_first_time_description": {
+    "description": "Description for the 'used example sentence target powerup first time' achievement"
+  },
   "adNotReady": "Reklam hazır değil. Biraz sonra tekrar deneyin.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -691,5 +708,25 @@
   "exampleSentenceText": "Örnek Cümle",
   "@exampleSentenceText": {
     "description": "Label for the example sentence of the word"
+  },
+  "exampleSentenceHint": "Örnek cümleyi göster",
+  "@exampleSentenceHint": {
+    "description": "Tooltip for the button to show the example sentence"
+  },
+  "noExampleSentenceToShow": "Gösterilecek bir örnek cümle yok",
+  "@noExampleSentenceToShow": {
+    "description": "Message shown when there is no example sentence to display"
+  },
+  "exampleSentenceTargetHint": "Hedef dilde örnek cümleyi göster",
+  "@exampleSentenceTargetHint": {
+    "description": "Tooltip for the button to show the example sentence"
+  },
+  "noExampleSentenceTargetToShow": "Hedef dilde gösterilecek bir örnek cümle yok",
+  "@noExampleSentenceTargetToShow": {
+    "description": "Message shown when there is no example sentence to display"
+  },
+  "exampleSentenceTargetTitle": "Hedef Dilde Örnek Cümle",
+  "@exampleSentenceTargetTitle": {
+    "description": "Title for the example sentence in the target language dialog"
   }
 }

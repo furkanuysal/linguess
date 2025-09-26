@@ -684,6 +684,31 @@ abstract class AppLocalizations {
   /// **'İlk kez atlama güçlendiricisini kullandın.'**
   String get achievement_used_skip_powerup_first_time_description;
 
+  /// Title for the 'used example sentence powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Cümlelerle güçlen'**
+  String get achievement_used_example_sentence_powerup_first_time_title;
+
+  /// Description for the 'used example sentence powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez örnek cümle güçlendiricisini kullandın.'**
+  String get achievement_used_example_sentence_powerup_first_time_description;
+
+  /// Title for the 'used example sentence target powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef dilde örnekler'**
+  String get achievement_used_example_sentence_target_powerup_first_time_title;
+
+  /// Description for the 'used example sentence target powerup first time' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.'**
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_description;
+
   /// Error message shown when the ad is not ready
   ///
   /// In tr, this message translates to:
@@ -1085,6 +1110,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Örnek Cümle'**
   String get exampleSentenceText;
+
+  /// Tooltip for the button to show the example sentence
+  ///
+  /// In tr, this message translates to:
+  /// **'Örnek cümleyi göster'**
+  String get exampleSentenceHint;
+
+  /// Message shown when there is no example sentence to display
+  ///
+  /// In tr, this message translates to:
+  /// **'Gösterilecek bir örnek cümle yok'**
+  String get noExampleSentenceToShow;
+
+  /// Tooltip for the button to show the example sentence
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef dilde örnek cümleyi göster'**
+  String get exampleSentenceTargetHint;
+
+  /// Message shown when there is no example sentence to display
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef dilde gösterilecek bir örnek cümle yok'**
+  String get noExampleSentenceTargetToShow;
+
+  /// Title for the example sentence in the target language dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Hedef Dilde Örnek Cümle'**
+  String get exampleSentenceTargetTitle;
 }
 
 class _AppLocalizationsDelegate

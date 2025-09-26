@@ -326,6 +326,24 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast den Schnellvorlauf-Power-Up zum ersten Mal verwendet.';
 
   @override
+  String get achievement_used_example_sentence_powerup_first_time_title =>
+      'Satzforscher';
+
+  @override
+  String get achievement_used_example_sentence_powerup_first_time_description =>
+      'Du hast zum ersten Mal den Beispielsatz-Power-Up benutzt.';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_title =>
+      'Beispiele aus einer anderen Dimension';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_description =>
+      'Du hast zum ersten Mal den Zielsprachen-Beispielsatz-Power-Up benutzt.';
+
+  @override
   String get adNotReady =>
       'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
 
@@ -544,4 +562,21 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exampleSentenceText => 'Beispielsatz';
+
+  @override
+  String get exampleSentenceHint => 'Beispielsatz anzeigen';
+
+  @override
+  String get noExampleSentenceToShow => 'Keine Beispielsätze zum Anzeigen';
+
+  @override
+  String get exampleSentenceTargetHint =>
+      'Beispielsatz in Zielsprache anzeigen';
+
+  @override
+  String get noExampleSentenceTargetToShow =>
+      'Keine Beispielsätze in Zielsprache zum Anzeigen';
+
+  @override
+  String get exampleSentenceTargetTitle => 'Beispielsatz in Zielsprache';
 }

@@ -323,6 +323,24 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has utilizado el potenciador de salto por primera vez.';
 
   @override
+  String get achievement_used_example_sentence_powerup_first_time_title =>
+      'Explorador de frases';
+
+  @override
+  String get achievement_used_example_sentence_powerup_first_time_description =>
+      'Has usado el potenciador de frases de ejemplo por primera vez.';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_title =>
+      'Ejemplos de otra dimensión';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_description =>
+      'Has usado por primera vez el potenciador de frases de ejemplo en el idioma objetivo.';
+
+  @override
   String get adNotReady =>
       'Anuncio no disponible. Inténtalo de nuevo más tarde.';
 
@@ -539,4 +557,23 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get exampleSentenceText => 'Ejemplo de oración';
+
+  @override
+  String get exampleSentenceHint => 'Mostrar ejemplo de oración';
+
+  @override
+  String get noExampleSentenceToShow =>
+      'No hay ejemplo de oración para mostrar';
+
+  @override
+  String get exampleSentenceTargetHint =>
+      'Mostrar ejemplo de oración en el idioma de destino';
+
+  @override
+  String get noExampleSentenceTargetToShow =>
+      'No hay ejemplo de oración en el idioma de destino para mostrar';
+
+  @override
+  String get exampleSentenceTargetTitle =>
+      'Ejemplo de oración en el idioma de destino';
 }

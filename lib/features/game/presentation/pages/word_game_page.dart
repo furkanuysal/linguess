@@ -9,6 +9,7 @@ import 'package:linguess/features/game/presentation/controllers/word_game_state.
 import 'package:linguess/core/sfx/sfx_service.dart';
 import 'package:linguess/features/game/presentation/widgets/powerups_bar.dart';
 import 'package:linguess/features/game/presentation/widgets/word_answer_board.dart';
+import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
@@ -213,18 +214,46 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
             return const Center(child: RefreshProgressIndicator());
           }
 
-          final currentLanguage = Localizations.localeOf(context).languageCode;
+          final settings = ref.read(settingsControllerProvider).value;
+          final currentLanguage =
+              settings?.appLangCode ??
+              Localizations.localeOf(context).languageCode;
           final hint = state.currentWord!.termOf(currentLanguage);
+          final currentTargetLanguage = settings?.targetLangCode ?? 'en';
 
           final bool hasDefinition = (() {
             final def = state.currentWord!.locales.meaningOf(currentLanguage);
             return def != null && def.isNotEmpty;
           })();
 
+          final bool hasExampleSentence = (() {
+            final ex = state.currentWord!.exampleSentenceOf(currentLanguage);
+            return ex != null && ex.isNotEmpty;
+          })();
+
+          final bool hasExampleSentenceTarget = (() {
+            final ex = state.currentWord!.exampleSentenceOf(
+              currentTargetLanguage,
+            );
+            return ex != null && ex.isNotEmpty;
+          })();
+
           final bool canShowDefinition = hasDefinition && !state.isLoading;
+          final bool canShowExampleSentence =
+              hasExampleSentence && !state.isLoading;
+          final bool canShowExampleSentenceTarget =
+              hasExampleSentenceTarget && !state.isLoading;
           final visibleDefinitionCost = state.isDefinitionUsedForCurrentWord
               ? 0
               : EconomyService.showDefinitionCost;
+          final visibleExampleSentenceCost =
+              state.isExampleSentenceUsedForCurrentWord
+              ? 0
+              : EconomyService.showExampleSentenceCost;
+          final visibleExampleSentenceTargetCost =
+              state.isExampleSentenceTargetUsedForCurrentWord
+              ? 0
+              : EconomyService.showExampleSentenceTargetCost;
 
           // Fixed heights and paddings for the power-ups bar
           const double barHeight = 72;
@@ -289,11 +318,23 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                         ),
                         child: PowerUpsBar(
                           visibleDefinitionCost: visibleDefinitionCost,
+                          visibleExampleSentenceCost:
+                              visibleExampleSentenceCost,
+                          visibleExampleSentenceTargetCost:
+                              visibleExampleSentenceTargetCost,
                           canRevealLetter:
                               state.hintIndices.length <
-                              state.currentTarget.replaceAll(' ', '').length,
-                          canSkip: (state.words.value?.isNotEmpty ?? false),
+                                  state.currentTarget
+                                      .replaceAll(' ', '')
+                                      .length &&
+                              !state.isLoading,
+                          canSkip:
+                              (state.words.value?.isNotEmpty ?? false) &&
+                              !state.isLoading,
                           canShowDefinition: canShowDefinition,
+                          canShowExampleSentence: canShowExampleSentence,
+                          canShowExampleSentenceTarget:
+                              canShowExampleSentenceTarget,
                           onRevealLetter: () {
                             _triggerGoldAnimation();
                             notifier.showHintLetter(
@@ -313,6 +354,20 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                             notifier.showDefinition(
                               context,
                               cost: EconomyService.showDefinitionCost,
+                            );
+                          },
+                          onShowExampleSentence: () {
+                            _triggerGoldAnimation();
+                            notifier.showExampleSentence(
+                              context,
+                              cost: EconomyService.showExampleSentenceCost,
+                            );
+                          },
+                          onShowExampleSentenceTarget: () {
+                            _triggerGoldAnimation();
+                            notifier.showExampleSentenceTarget(
+                              context,
+                              cost: EconomyService.showExampleSentenceCost,
                             );
                           },
                         ),

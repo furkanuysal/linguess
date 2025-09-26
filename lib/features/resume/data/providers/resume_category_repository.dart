@@ -73,6 +73,8 @@ class ResumeRepository {
       'userFilled': <String, String>{}, // empty
       'hintCountUsed': 0,
       'isDefinitionUsed': false,
+      'isExampleSentenceUsed': false,
+      'isExampleSentenceTargetUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
   }
@@ -83,6 +85,8 @@ class ResumeRepository {
       'userFilled': <String, String>{}, // empty
       'hintCountUsed': 0,
       'isDefinitionUsed': false,
+      'isExampleSentenceUsed': false,
+      'isExampleSentenceTargetUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: false));
   }
@@ -129,6 +133,22 @@ class ResumeRepository {
   Future<void> markDefinitionUsed(bool value) async {
     await _safeUpdate(_doc(), {
       'isDefinitionUsed': value,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  // Mark example sentence as used
+  Future<void> markExampleSentenceUsed(bool value) async {
+    await _safeUpdate(_doc(), {
+      'isExampleSentenceUsed': value,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
+
+  // Mark example sentence target as used
+  Future<void> markExampleSentenceTargetUsed(bool value) async {
+    await _safeUpdate(_doc(), {
+      'isExampleSentenceTargetUsed': value,
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }

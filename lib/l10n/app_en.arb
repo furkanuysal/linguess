@@ -388,6 +388,23 @@
   "@achievement_used_skip_powerup_first_time_description": {
     "description": "Description for the 'used skip powerup first time' achievement"
   },
+  "achievement_used_example_sentence_powerup_first_time_title": "Example Explorer",
+  "@achievement_used_example_sentence_powerup_first_time_title": {
+    "description": "Title for the 'used example sentence powerup first time' achievement"
+  },
+  "achievement_used_example_sentence_powerup_first_time_description": "You used the example sentence power-up for the first time.",
+  "@achievement_used_example_sentence_powerup_first_time_description": {
+    "description": "Description for the 'used example sentence powerup first time' achievement"
+  },
+
+  "achievement_used_example_sentence_target_powerup_first_time_title": "Examples from other dimension",
+  "@achievement_used_example_sentence_target_powerup_first_time_title": {
+    "description": "Title for the 'used example sentence target powerup first time' achievement"
+  },
+  "achievement_used_example_sentence_target_powerup_first_time_description": "You used the target language example sentence power-up for the first time.",
+  "@achievement_used_example_sentence_target_powerup_first_time_description": {
+    "description": "Description for the 'used example sentence target powerup first time' achievement"
+  },
   "adNotReady": "Ad not ready. Please try again later.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -691,5 +708,25 @@
   "exampleSentenceText": "Example Sentence",
   "@exampleSentenceText": {
     "description": "Label for the example sentence of the word"
+  },
+  "exampleSentenceHint": "Show Example Sentence",
+  "@exampleSentenceHint": {
+    "description": "Tooltip for the button to show the example sentence"
+  },
+  "noExampleSentenceToShow": "No Example Sentence to Show",
+  "@noExampleSentenceToShow": {
+    "description": "Message shown when there is no example sentence to display"
+  },
+  "exampleSentenceTargetHint": "Show Example Sentence in Target Language",
+  "@exampleSentenceTargetHint": {
+    "description": "Tooltip for the button to show the example sentence"
+  },
+  "noExampleSentenceTargetToShow": "No Example Sentence in Target Language to Show",
+  "@noExampleSentenceTargetToShow": {
+    "description": "Message shown when there is no example sentence to display"
+  },
+  "exampleSentenceTargetTitle": "Example Sentence in Target Language",
+  "@exampleSentenceTargetTitle": {
+    "description": "Title for the example sentence in the target language dialog"
   }
 }

@@ -8,19 +8,31 @@ class PowerUpsBar extends StatelessWidget {
     required this.canRevealLetter,
     required this.canSkip,
     required this.canShowDefinition,
+    required this.canShowExampleSentence,
+    required this.canShowExampleSentenceTarget,
     required this.onRevealLetter,
     required this.onSkipToNext,
     required this.onShowDefinition,
+    required this.onShowExampleSentence,
+    required this.onShowExampleSentenceTarget,
     required this.visibleDefinitionCost,
+    required this.visibleExampleSentenceCost,
+    required this.visibleExampleSentenceTargetCost,
   });
 
   final bool canRevealLetter;
   final bool canSkip;
   final bool canShowDefinition;
+  final bool canShowExampleSentence;
+  final bool canShowExampleSentenceTarget;
   final VoidCallback onRevealLetter;
   final VoidCallback onSkipToNext;
   final VoidCallback onShowDefinition;
+  final VoidCallback onShowExampleSentence;
+  final VoidCallback onShowExampleSentenceTarget;
   final int visibleDefinitionCost;
+  final int visibleExampleSentenceCost;
+  final int visibleExampleSentenceTargetCost;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +60,16 @@ class PowerUpsBar extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               _PowerUpChip(
+                icon: Icons.article_outlined,
+                cost: visibleExampleSentenceCost,
+                enabled: canShowExampleSentence,
+                onTap: onShowExampleSentence,
+                tooltip: canShowExampleSentence
+                    ? l10n.exampleSentenceHint
+                    : l10n.noExampleSentenceToShow,
+              ),
+              const SizedBox(width: 8),
+              _PowerUpChip(
                 icon: Icons.lightbulb_outline,
                 cost: EconomyService.revealLetterCost,
                 enabled: canRevealLetter,
@@ -55,6 +77,16 @@ class PowerUpsBar extends StatelessWidget {
                 tooltip: canRevealLetter
                     ? l10n.letterHint
                     : l10n.allLettersRevealed,
+              ),
+              const SizedBox(width: 8),
+              _PowerUpChip(
+                icon: Icons.subtitles_outlined,
+                cost: visibleExampleSentenceTargetCost,
+                enabled: canShowExampleSentenceTarget,
+                onTap: onShowExampleSentenceTarget,
+                tooltip: canShowExampleSentenceTarget
+                    ? l10n.exampleSentenceTargetHint
+                    : l10n.noExampleSentenceTargetToShow,
               ),
               const SizedBox(width: 8),
               _PowerUpChip(

@@ -320,6 +320,24 @@ class AppLocalizationsTr extends AppLocalizations {
       'İlk kez atlama güçlendiricisini kullandın.';
 
   @override
+  String get achievement_used_example_sentence_powerup_first_time_title =>
+      'Cümlelerle güçlen';
+
+  @override
+  String get achievement_used_example_sentence_powerup_first_time_description =>
+      'İlk kez örnek cümle güçlendiricisini kullandın.';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_title =>
+      'Hedef dilde örnekler';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_description =>
+      'İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.';
+
+  @override
   String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';
 
   @override
@@ -534,4 +552,20 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exampleSentenceText => 'Örnek Cümle';
+
+  @override
+  String get exampleSentenceHint => 'Örnek cümleyi göster';
+
+  @override
+  String get noExampleSentenceToShow => 'Gösterilecek bir örnek cümle yok';
+
+  @override
+  String get exampleSentenceTargetHint => 'Hedef dilde örnek cümleyi göster';
+
+  @override
+  String get noExampleSentenceTargetToShow =>
+      'Hedef dilde gösterilecek bir örnek cümle yok';
+
+  @override
+  String get exampleSentenceTargetTitle => 'Hedef Dilde Örnek Cümle';
 }

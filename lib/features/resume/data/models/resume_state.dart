@@ -7,6 +7,8 @@ class ResumeState extends Equatable {
   final int hintCountUsed;
   final DateTime? updatedAt;
   final bool isDefinitionUsed;
+  final bool isExampleSentenceUsed;
+  final bool isExampleSentenceTargetUsed;
 
   const ResumeState({
     required this.currentWordId,
@@ -14,6 +16,8 @@ class ResumeState extends Equatable {
     required this.hintCountUsed,
     required this.updatedAt,
     required this.isDefinitionUsed,
+    required this.isExampleSentenceUsed,
+    required this.isExampleSentenceTargetUsed,
   });
 
   factory ResumeState.fromFirestore(
@@ -33,6 +37,9 @@ class ResumeState extends Equatable {
       userFilled: uf,
       hintCountUsed: (d['hintCountUsed'] as num?)?.toInt() ?? 0,
       isDefinitionUsed: (d['isDefinitionUsed'] as bool?) ?? false,
+      isExampleSentenceUsed: (d['isExampleSentenceUsed'] as bool?) ?? false,
+      isExampleSentenceTargetUsed:
+          (d['isExampleSentenceTargetUsed'] as bool?) ?? false,
       updatedAt: (d['updatedAt'] as Timestamp?)?.toDate(),
     );
   }
@@ -46,6 +53,8 @@ class ResumeState extends Equatable {
       'userFilled': ufStr,
       'hintCountUsed': hintCountUsed,
       'isDefinitionUsed': isDefinitionUsed,
+      'isExampleSentenceUsed': isExampleSentenceUsed,
+      'isExampleSentenceTargetUsed': isExampleSentenceTargetUsed,
       if (withServerUpdateTs) 'updatedAt': FieldValue.serverTimestamp(),
     };
   }
@@ -55,6 +64,8 @@ class ResumeState extends Equatable {
     Map<int, String>? userFilled,
     int? hintCountUsed,
     bool? isDefinitionUsed,
+    bool? isExampleSentenceUsed,
+    bool? isExampleSentenceTargetUsed,
     DateTime? updatedAt,
   }) {
     return ResumeState(
@@ -63,6 +74,10 @@ class ResumeState extends Equatable {
       hintCountUsed: hintCountUsed ?? this.hintCountUsed,
       updatedAt: updatedAt ?? this.updatedAt,
       isDefinitionUsed: isDefinitionUsed ?? this.isDefinitionUsed,
+      isExampleSentenceUsed:
+          isExampleSentenceUsed ?? this.isExampleSentenceUsed,
+      isExampleSentenceTargetUsed:
+          isExampleSentenceTargetUsed ?? this.isExampleSentenceTargetUsed,
     );
   }
 
@@ -72,6 +87,8 @@ class ResumeState extends Equatable {
     userFilled,
     hintCountUsed,
     isDefinitionUsed,
+    isExampleSentenceUsed,
+    isExampleSentenceTargetUsed,
     updatedAt,
   ];
 }

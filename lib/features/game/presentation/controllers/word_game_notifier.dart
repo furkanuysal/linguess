@@ -36,6 +36,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
   int _hintsUsedForCurrentWord = 0;
   bool _isDefinitionUsedForCurrentWord = false;
+  bool _isExampleSentenceUsedForCurrentWord = false;
+  bool _isExampleSentenceTargetUsedForCurrentWord = false;
 
   @override
   WordGameState build() {
@@ -247,6 +249,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
       false,
     );
     _isDefinitionUsedForCurrentWord = false;
+    _isExampleSentenceUsedForCurrentWord = false;
+    _isExampleSentenceTargetUsedForCurrentWord = false;
 
     state = state.copyWith(
       currentWord: word,
@@ -256,6 +260,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       correctIndices: correctIndices,
       hintIndices: [],
       isDefinitionUsedForCurrentWord: _isDefinitionUsedForCurrentWord,
+      isExampleSentenceUsedForCurrentWord: _isExampleSentenceUsedForCurrentWord,
+      isExampleSentenceTargetUsedForCurrentWord:
+          _isExampleSentenceTargetUsedForCurrentWord,
     );
   }
 
@@ -571,8 +578,15 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (rs != null && rs.currentWordId == word.id) {
       _applyPrefillFromResume(rs);
       _isDefinitionUsedForCurrentWord = rs.isDefinitionUsed;
+      _isExampleSentenceUsedForCurrentWord = rs.isExampleSentenceUsed;
+      _isExampleSentenceTargetUsedForCurrentWord =
+          rs.isExampleSentenceTargetUsed;
       state = state.copyWith(
         isDefinitionUsedForCurrentWord: _isDefinitionUsedForCurrentWord,
+        isExampleSentenceUsedForCurrentWord:
+            _isExampleSentenceUsedForCurrentWord,
+        isExampleSentenceTargetUsedForCurrentWord:
+            _isExampleSentenceTargetUsedForCurrentWord,
       );
     }
   }
@@ -710,37 +724,188 @@ class WordGameNotifier extends Notifier<WordGameState> {
       state = state.copyWith(isDefinitionUsedForCurrentWord: true);
     }
 
-    // Call the overlay
     if (context.mounted) {
-      final overlay = Overlay.of(context);
-      final double top =
-          (MediaQuery.of(context).padding.top + kToolbarHeight + 8);
-
-      late OverlayEntry entry;
-      entry = OverlayEntry(
-        builder: (ctx) => Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => entry.remove(),
-                child: const SizedBox.shrink(),
-              ),
-            ),
-            Positioned(
-              top: top,
-              left: 12,
-              right: 12,
-              child: FloatingHintCard(
-                title: l10n.definitionHintTitle,
-                content: def,
-                onClose: () => entry.remove(),
-              ),
-            ),
-          ],
-        ),
-      );
-      overlay.insert(entry);
+      callFloatingHintCard(context, l10n.definitionHintTitle, def);
     }
+  }
+
+  Future<void> showExampleSentence(
+    BuildContext context, {
+    required int cost,
+  }) async {
+    if (state.isDaily && state.dailyAlreadySolved) return;
+    final word = state.currentWord;
+    if (word == null) return;
+
+    final l10n = AppLocalizations.of(context)!;
+    final settings = ref.read(settingsControllerProvider).value;
+    final appLang =
+        settings?.appLangCode ?? Localizations.localeOf(context).languageCode;
+
+    // Get example sentence in app language
+    final exSen = (word.locales as Map).exampleSentenceOf(appLang);
+
+    if (exSen == null || exSen.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.noExampleSentenceToShow)));
+      }
+      return;
+    }
+
+    // Resume check
+    bool alreadyUsed = false;
+    final key = _resumeKey;
+    final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
+
+    if (repo != null) {
+      try {
+        final rs = await repo.fetch();
+        if (rs != null && rs.currentWordId == word.id) {
+          alreadyUsed = rs.isExampleSentenceUsed;
+        }
+      } catch (_) {}
+    }
+
+    // Spend gold if not already used
+    if (!alreadyUsed) {
+      final economy = ref.read(economyServiceProvider);
+      final ok = await economy.trySpendGold(cost);
+      if (!ok) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.insufficientGold)));
+        }
+        return;
+      }
+      if (repo != null) {
+        try {
+          final ach = ref.read(achievementsServiceProvider);
+          await ach.awardIfNotEarned(
+            'used_example_sentence_powerup_first_time',
+          );
+          await repo.markExampleSentenceUsed(true);
+        } catch (_) {}
+      }
+
+      _isExampleSentenceUsedForCurrentWord = true;
+      state = state.copyWith(isExampleSentenceUsedForCurrentWord: true);
+    }
+
+    if (context.mounted) {
+      callFloatingHintCard(context, l10n.exampleSentenceText, exSen);
+    }
+  }
+
+  Future<void> showExampleSentenceTarget(
+    BuildContext context, {
+    required int cost,
+  }) async {
+    if (state.isDaily && state.dailyAlreadySolved) return;
+    final word = state.currentWord;
+    if (word == null) return;
+
+    final l10n = AppLocalizations.of(context)!;
+    final settings = ref.read(settingsControllerProvider).value;
+    final targetLang =
+        settings?.targetLangCode ??
+        Localizations.localeOf(context).languageCode;
+
+    // Get example sentence target in app language
+    final exSenTarget = (word.locales as Map).exampleSentenceOf(targetLang);
+
+    if (exSenTarget == null || exSenTarget.isEmpty) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(l10n.noExampleSentenceTargetToShow)),
+        );
+      }
+      return;
+    }
+
+    // Resume check
+    bool alreadyUsed = false;
+    final key = _resumeKey;
+    final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
+
+    if (repo != null) {
+      try {
+        final rs = await repo.fetch();
+        if (rs != null && rs.currentWordId == word.id) {
+          alreadyUsed = rs.isExampleSentenceTargetUsed;
+        }
+      } catch (_) {}
+    }
+
+    // Spend gold if not already used
+    if (!alreadyUsed) {
+      final economy = ref.read(economyServiceProvider);
+      final ok = await economy.trySpendGold(cost);
+      if (!ok) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.insufficientGold)));
+        }
+        return;
+      }
+      if (repo != null) {
+        try {
+          final ach = ref.read(achievementsServiceProvider);
+          await ach.awardIfNotEarned(
+            'used_example_sentence_target_powerup_first_time',
+          );
+          await repo.markExampleSentenceTargetUsed(true);
+        } catch (_) {}
+      }
+
+      _isExampleSentenceTargetUsedForCurrentWord = true;
+      state = state.copyWith(isExampleSentenceTargetUsedForCurrentWord: true);
+    }
+    if (context.mounted) {
+      callFloatingHintCard(
+        context,
+        l10n.exampleSentenceTargetTitle,
+        exSenTarget,
+      );
+    }
+  }
+
+  void callFloatingHintCard(
+    BuildContext context,
+    String title,
+    String content,
+  ) {
+    final overlay = Overlay.of(context);
+    final double top =
+        (MediaQuery.of(context).padding.top + kToolbarHeight + 8);
+
+    late OverlayEntry entry;
+    entry = OverlayEntry(
+      builder: (ctx) => Stack(
+        children: [
+          Positioned.fill(
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () => entry.remove(),
+              child: const SizedBox.shrink(),
+            ),
+          ),
+          Positioned(
+            top: top,
+            left: 12,
+            right: 12,
+            child: FloatingHintCard(
+              title: title,
+              content: content,
+              onClose: () => entry.remove(),
+            ),
+          ),
+        ],
+      ),
+    );
+    overlay.insert(entry);
   }
 }

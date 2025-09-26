@@ -319,6 +319,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'You used the skip power-up for the first time.';
 
   @override
+  String get achievement_used_example_sentence_powerup_first_time_title =>
+      'Example Explorer';
+
+  @override
+  String get achievement_used_example_sentence_powerup_first_time_description =>
+      'You used the example sentence power-up for the first time.';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_title =>
+      'Examples from other dimension';
+
+  @override
+  String
+  get achievement_used_example_sentence_target_powerup_first_time_description =>
+      'You used the target language example sentence power-up for the first time.';
+
+  @override
   String get adNotReady => 'Ad not ready. Please try again later.';
 
   @override
@@ -533,4 +551,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exampleSentenceText => 'Example Sentence';
+
+  @override
+  String get exampleSentenceHint => 'Show Example Sentence';
+
+  @override
+  String get noExampleSentenceToShow => 'No Example Sentence to Show';
+
+  @override
+  String get exampleSentenceTargetHint =>
+      'Show Example Sentence in Target Language';
+
+  @override
+  String get noExampleSentenceTargetToShow =>
+      'No Example Sentence in Target Language to Show';
+
+  @override
+  String get exampleSentenceTargetTitle =>
+      'Example Sentence in Target Language';
 }

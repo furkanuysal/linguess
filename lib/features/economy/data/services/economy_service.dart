@@ -7,7 +7,9 @@ class EconomyService {
 
   // Power-up costs
   static const int showDefinitionCost = 3;
+  static const int showExampleSentenceCost = 3;
   static const int revealLetterCost = 5;
+  static const int showExampleSentenceTargetCost = 7;
   static const int skipWordCost = 10;
 
   Future<int> getUserGold() async {

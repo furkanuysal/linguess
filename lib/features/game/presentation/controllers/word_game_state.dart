@@ -15,6 +15,8 @@ class WordGameState {
   final bool dailyAlreadySolved;
   final bool isLoading;
   final bool isDefinitionUsedForCurrentWord;
+  final bool isExampleSentenceUsedForCurrentWord;
+  final bool isExampleSentenceTargetUsedForCurrentWord;
 
   const WordGameState({
     this.words = const AsyncValue.loading(),
@@ -29,6 +31,8 @@ class WordGameState {
     this.dailyAlreadySolved = false,
     this.isLoading = false,
     this.isDefinitionUsedForCurrentWord = false,
+    this.isExampleSentenceUsedForCurrentWord = false,
+    this.isExampleSentenceTargetUsedForCurrentWord = false,
   });
 
   WordGameState copyWith({
@@ -44,6 +48,8 @@ class WordGameState {
     bool? dailyAlreadySolved,
     bool? isLoading,
     bool? isDefinitionUsedForCurrentWord,
+    bool? isExampleSentenceUsedForCurrentWord,
+    bool? isExampleSentenceTargetUsedForCurrentWord,
   }) {
     return WordGameState(
       words: words ?? this.words,
@@ -59,6 +65,12 @@ class WordGameState {
       isLoading: isLoading ?? this.isLoading,
       isDefinitionUsedForCurrentWord:
           isDefinitionUsedForCurrentWord ?? this.isDefinitionUsedForCurrentWord,
+      isExampleSentenceUsedForCurrentWord:
+          isExampleSentenceUsedForCurrentWord ??
+          this.isExampleSentenceUsedForCurrentWord,
+      isExampleSentenceTargetUsedForCurrentWord:
+          isExampleSentenceTargetUsedForCurrentWord ??
+          this.isExampleSentenceTargetUsedForCurrentWord,
     );
   }
 }
