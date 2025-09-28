@@ -26,6 +26,16 @@ class AchievementsService {
     });
   }
 
+  Stream<Set<String>> unnotifiedIdsStream() {
+    return _auth.authStateChanges().asyncExpand((user) {
+      if (user == null) return Stream.value(<String>{});
+      return _userAchCol(user.uid)
+          .where('notified', isEqualTo: false)
+          .snapshots()
+          .map((qs) => qs.docs.map((d) => d.id).toSet());
+    });
+  }
+
   // Returns true if the achievement is earned (single read)
   Future<bool> isEarned(String id) async {
     final uid = _uid;
@@ -47,10 +57,20 @@ class AchievementsService {
         created = true;
         tx.set(ref, {
           'earnedAt': FieldValue.serverTimestamp(),
+          'notified': false,
         }, SetOptions(merge: false));
       }
     });
 
     return created;
+  }
+
+  Future<void> markNotified(String id) async {
+    final uid = _uid;
+    if (uid == null) return;
+    await _userAchCol(uid).doc(id).update({
+      'notified': true,
+      'notifiedAt': FieldValue.serverTimestamp(),
+    });
   }
 }

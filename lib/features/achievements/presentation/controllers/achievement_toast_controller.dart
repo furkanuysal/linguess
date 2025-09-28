@@ -15,33 +15,26 @@ class AchievementToastController extends Notifier<AchievementModel?> {
   // ---- toast queue ----
   final List<String> _queue = [];
   bool _showing = false;
-  bool _initialized = false; // Skip the first snapshot
 
   @override
   AchievementModel? build() {
     // Listen to earned achievement IDs
-    ref.listen<AsyncValue<Set<String>>>(earnedAchievementIdsProvider, (
-      previous,
+    ref.listen<AsyncValue<Set<String>>>(unnotifiedAchievementIdsProvider, (
+      prev,
       next,
     ) {
-      // Skip the first emission (existing documents at startup)
-      if (!_initialized) {
-        _initialized = true;
-        return;
-      }
-
-      final prev = previous?.value ?? <String>{};
-      next.whenData((curr) {
-        final newlyAdded = curr.difference(prev);
-        if (newlyAdded.isNotEmpty) {
-          for (final id in newlyAdded) {
-            _enqueueToast(id);
-          }
+      final previous = prev?.value ?? <String>{};
+      next.whenData((current) {
+        // newlyAdded: query tarafında notified=false oldukça doküman akışta kalır.
+        // Bu yüzden diff ile sadece yeni görünenleri kuyruğa alalım.
+        final newlyAdded = current.difference(previous);
+        for (final id in newlyAdded) {
+          _enqueueToast(id);
         }
       });
     });
 
-    // Listen to the correct count (may trigger awardIfNotEarned)
+    // Mevcut correct count mantığın aynı kalsın (ödül verdirir)
     ref.listen<AsyncValue<int>>(userCorrectCountProvider, (previous, next) {
       next.whenData((correctCount) async {
         await _checkWordCountAchievements(correctCount);
@@ -107,9 +100,12 @@ class AchievementToastController extends Notifier<AchievementModel?> {
 
     state = achievement;
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () async {
       if (!ref.mounted) return;
       // Clear the state and show the next toast when closing the current one
+      try {
+        await ref.read(achievementsServiceProvider).markNotified(achievementId);
+      } catch (_) {}
       state = null;
       _showing = false;
       _dequeueAndShowNext();

@@ -14,6 +14,12 @@ final earnedAchievementIdsProvider = StreamProvider<Set<String>>((ref) {
   return svc.earnedIdsStream();
 });
 
+// Watches the set of achievement IDs not yet notified to the user as a stream
+final unnotifiedAchievementIdsProvider = StreamProvider<Set<String>>((ref) {
+  final svc = ref.watch(achievementsServiceProvider);
+  return svc.unnotifiedIdsStream();
+});
+
 // For UI: definitions + earned status
 final achievementsViewProvider = Provider.autoDispose
     .family<List<({AchievementModel def, bool earned})>, BuildContext>((
