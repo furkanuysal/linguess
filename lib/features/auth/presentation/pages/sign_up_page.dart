@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
@@ -135,16 +136,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             autofillHints: const [AutofillHints.email],
-                            decoration: InputDecoration(
+                            decoration: authInputDecoration(context).copyWith(
                               labelText: l10n.email,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
                               ),
                             ),
                             validator: (value) {
@@ -165,16 +162,12 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             controller: _passwordController,
                             textInputAction: TextInputAction.done,
                             autofillHints: const [AutofillHints.password],
-                            decoration: InputDecoration(
+                            decoration: authInputDecoration(context).copyWith(
                               labelText: l10n.password,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(

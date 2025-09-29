@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/features/achievements/presentation/providers/ach_user_daily_solved_count_provider.dart';
+import 'package:linguess/features/achievements/presentation/providers/ach_user_learned_count_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/achievements/data/models/achievement_model.dart';
 import 'package:linguess/features/achievements/presentation/providers/achievements_provider.dart';
@@ -25,41 +27,73 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     ) {
       final previous = prev?.value ?? <String>{};
       next.whenData((current) {
-        // newlyAdded: query tarafında notified=false oldukça doküman akışta kalır.
-        // Bu yüzden diff ile sadece yeni görünenleri kuyruğa alalım.
         final newlyAdded = current.difference(previous);
         for (final id in newlyAdded) {
           _enqueueToast(id);
         }
       });
     });
+    // solved words achievements
+    ref.listen<AsyncValue<int>>(userCorrectCountProvider, (_, next) {
+      next.whenData((solved) async {
+        await _checkProgressAchievements(solvedCount: solved);
+      });
+    });
 
-    // Mevcut correct count mantığın aynı kalsın (ödül verdirir)
-    ref.listen<AsyncValue<int>>(userCorrectCountProvider, (previous, next) {
-      next.whenData((correctCount) async {
-        await _checkWordCountAchievements(correctCount);
+    // learned words achievements
+    ref.listen<AsyncValue<int>>(achUserLearnedCountProvider, (_, next) {
+      next.whenData((learned) async {
+        await _checkProgressAchievements(learnedCount: learned);
+      });
+    });
+
+    // daily solved achievements
+    ref.listen<AsyncValue<int>>(achUserDailySolvedCountProvider, (_, next) {
+      next.whenData((daily) async {
+        await _checkProgressAchievements(dailySolvedCount: daily);
       });
     });
 
     return null;
   }
 
-  // Count-based achievements
-  Future<void> _checkWordCountAchievements(int correctCount) async {
-    final achievementService = ref.read(achievementsServiceProvider);
+  // ---- Progress based achievement checking ----
+  Future<void> _checkProgressAchievements({
+    int? solvedCount,
+    int? learnedCount,
+    int? dailySolvedCount,
+  }) async {
+    final context = ref.read(navigatorKeyProvider).currentContext;
+    if (context == null) return;
 
-    final wordCountAchievements = {
-      1: 'solve_firstword',
-      10: 'solve_ten_words',
-      50: 'solve_fifty_words',
-      100: 'solve_hundred_words',
-      500: 'solve_fivehundred_words',
-      1000: 'solve_thousand_words',
-    };
+    final defs = buildAchievements(context);
+    final service = ref.read(achievementsServiceProvider);
 
-    for (final entry in wordCountAchievements.entries) {
-      if (correctCount >= entry.key) {
-        await achievementService.awardIfNotEarned(entry.value);
+    // Complete missing values from current provider values
+    final solved = solvedCount ?? ref.read(userCorrectCountProvider).value ?? 0;
+    final learned =
+        learnedCount ?? ref.read(achUserLearnedCountProvider).value ?? 0;
+    final daily =
+        dailySolvedCount ??
+        ref.read(achUserDailySolvedCountProvider).value ??
+        0;
+
+    for (final def in defs) {
+      if (!(def.hasProgress) ||
+          def.progressType == null ||
+          def.progressTarget == null) {
+        continue;
+      }
+
+      final target = def.progressTarget!;
+      final current = switch (def.progressType!) {
+        AchievementProgressType.solvedWordsTotal => solved,
+        AchievementProgressType.learnedWordsTotal => learned,
+        AchievementProgressType.dailySolvedTotal => daily,
+      };
+
+      if (current >= target) {
+        await service.awardIfNotEarned(def.id);
       }
     }
   }
@@ -95,6 +129,7 @@ class AchievementToastController extends Notifier<AchievementModel?> {
         title: l10n.unknownAchievementTitleText,
         description: l10n.unknownAchievementDescriptionText,
         icon: '/empty',
+        hasProgress: false,
       ),
     );
 

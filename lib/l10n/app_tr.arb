@@ -44,6 +44,22 @@
   "@category_vehicle": {
     "description": "Category label for vehicles"
   },
+  "category_building": "Yapılar",
+  "@category_building": {
+    "description": "Category label for buildings"
+  },
+  "category_hobby": "Hobiler",
+  "@category_hobby": {
+    "description": "Category label for hobbies"
+  },
+  "category_space": "Uzay",
+  "@category_space": {
+    "description": "Category label for space"
+  },
+  "category_time": "Zaman",
+  "@category_time": {
+    "description": "Category label for time"
+  },
   "nextWord": "Sonraki Kelime",
   "@nextWord": {
     "description": "Button text to load the next word in the game"
@@ -296,13 +312,45 @@
   "@achievement_learn_firstword_description": {
     "description": "Description for the 'learn first word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_title": "Günlük Başlangıç",
-  "@achievement_solve_dailyword_firsttime_title": {
+  "achievement_learn_ten_words_title": "Onda On!",
+  "@achievement_learn_ten_words_title": {
+    "description": "Title for the 'learn ten words' achievement"
+  },
+  "achievement_learn_ten_words_description": "10 kelimeyi öğrendin.",
+  "@achievement_learn_ten_words_description": {
+    "description": "Description for the 'learn ten words' achievement"
+  },
+  "achievement_learn_twenty_words_title": "Yirmi Kelime!",
+  "@achievement_learn_twenty_words_title": {
+    "description": "Title for the 'learn twenty words' achievement"
+  },
+  "achievement_learn_twenty_words_description": "20 kelimeyi öğrendin.",
+  "@achievement_learn_twenty_words_description": {
+    "description": "Description for the 'learn twenty words' achievement"
+  },
+  "achievement_solve_dailyword_first_time_title": "Günlük Başlangıç",
+  "@achievement_solve_dailyword_first_time_title": {
     "description": "Title for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_description": "İlk kez günlük kelimeyi çözdün.",
-  "@achievement_solve_dailyword_firsttime_description": {
+  "achievement_solve_dailyword_first_time_description": "İlk kez günlük kelimeyi çözdün.",
+  "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
+  },
+  "achievement_solve_dailyword_ten_times_title": "On Günlük",
+  "@achievement_solve_dailyword_ten_times_title": {
+    "description": "Title for the 'solve daily word ten times' achievement"
+  },
+  "achievement_solve_dailyword_ten_times_description": "10 kez günlük kelimeyi çözdün.",
+  "@achievement_solve_dailyword_ten_times_description": {
+    "description": "Description for the 'solve daily word ten times' achievement"
+  },
+  "achievement_solve_dailyword_thirty_times_title": "Bir ay!",
+  "@achievement_solve_dailyword_thirty_times_title": {
+    "description": "Title for the 'solve daily word thirty times' achievement"
+  },
+  "achievement_solve_dailyword_thirty_times_description": "30 kez günlük kelimeyi çözdün.",
+  "@achievement_solve_dailyword_thirty_times_description": {
+    "description": "Description for the 'solve daily word thirty times' achievement"
   },
   "achievement_solve_firstword_nohint_title": "Kopya çekmeden!",
   "@achievement_solve_firstword_nohint_title": {
@@ -728,5 +776,9 @@
   "exampleSentenceTargetTitle": "Hedef Dilde Örnek Cümle",
   "@exampleSentenceTargetTitle": {
     "description": "Title for the example sentence in the target language dialog"
+  },
+  "errorLoadingProgress": "İlerleme yüklenirken hata oluştu",
+  "@errorLoadingProgress": {
+    "description": "Error message shown when there is an error loading progress"
   }
 }

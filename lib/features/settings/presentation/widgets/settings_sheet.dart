@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 
@@ -77,6 +78,10 @@ class SettingsSheet extends ConsumerWidget {
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       labelText: l10n.appLanguage,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: settingsContentBorderSide(context),
+                      ),
                       border: const OutlineInputBorder(),
                     ),
                     value: settings.appLangCode,
@@ -102,6 +107,7 @@ class SettingsSheet extends ConsumerWidget {
                     style: OutlinedButton.styleFrom(
                       padding: EdgeInsets.zero,
                       shape: const CircleBorder(),
+                      side: settingsContentBorderSide(context),
                     ),
                     onPressed: () async {
                       final app = settings.appLangCode;
@@ -128,6 +134,10 @@ class SettingsSheet extends ConsumerWidget {
                   child: DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       labelText: l10n.targetLanguage,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: settingsContentBorderSide(context),
+                      ),
                       border: const OutlineInputBorder(),
                     ),
                     value: settings.targetLangCode,

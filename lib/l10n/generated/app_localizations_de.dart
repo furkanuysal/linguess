@@ -42,6 +42,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get category_vehicle => 'Fahrzeuge';
 
   @override
+  String get category_building => 'Bauwerke';
+
+  @override
+  String get category_hobby => 'Hobbys';
+
+  @override
+  String get category_space => 'Weltraum';
+
+  @override
+  String get category_time => 'Zeit';
+
+  @override
   String get nextWord => 'Nächstes Wort';
 
   @override
@@ -242,12 +254,40 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast zum ersten Mal ein Wort gelernt.';
 
   @override
-  String get achievement_solve_dailyword_firsttime_title =>
+  String get achievement_learn_ten_words_title => 'Zehn Wörter!';
+
+  @override
+  String get achievement_learn_ten_words_description =>
+      'Du hast 10 Wörter gelernt.';
+
+  @override
+  String get achievement_learn_twenty_words_title => 'Zwanzig Wörter!';
+
+  @override
+  String get achievement_learn_twenty_words_description =>
+      'Du hast 20 Wörter gelernt.';
+
+  @override
+  String get achievement_solve_dailyword_first_time_title =>
       'Tägliches Wort lösen';
 
   @override
-  String get achievement_solve_dailyword_firsttime_description =>
+  String get achievement_solve_dailyword_first_time_description =>
       'Du hast das tägliche Wort zum ersten Mal gelöst.';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_title => 'Zehn Tage!';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_description =>
+      'Du hast 10 Mal das tägliche Wort gelöst.';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_title => 'Ein Monat!';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_description =>
+      'Du hast 30 Mal das tägliche Wort gelöst.';
 
   @override
   String get achievement_solve_firstword_nohint_title => 'Ohne Hilfe gelöst!';
@@ -579,4 +619,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get exampleSentenceTargetTitle => 'Beispielsatz in Zielsprache';
+
+  @override
+  String get errorLoadingProgress => 'Fehler beim Laden des Fortschritts';
 }

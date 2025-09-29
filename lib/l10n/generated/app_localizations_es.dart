@@ -42,6 +42,18 @@ class AppLocalizationsEs extends AppLocalizations {
   String get category_vehicle => 'Vehículos';
 
   @override
+  String get category_building => 'Construcciones';
+
+  @override
+  String get category_hobby => 'Pasatiempos';
+
+  @override
+  String get category_space => 'Espacio';
+
+  @override
+  String get category_time => 'Tiempo';
+
+  @override
   String get nextWord => 'Siguiente palabra';
 
   @override
@@ -243,11 +255,40 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has aprendido una palabra por primera vez.';
 
   @override
-  String get achievement_solve_dailyword_firsttime_title => 'Inicio diario';
+  String get achievement_learn_ten_words_title => '¡Diez en total!';
 
   @override
-  String get achievement_solve_dailyword_firsttime_description =>
+  String get achievement_learn_ten_words_description =>
+      'Has aprendido diez palabras.';
+
+  @override
+  String get achievement_learn_twenty_words_title => '¡Veinte en total!';
+
+  @override
+  String get achievement_learn_twenty_words_description =>
+      'Has aprendido veinte palabras.';
+
+  @override
+  String get achievement_solve_dailyword_first_time_title => 'Inicio diario';
+
+  @override
+  String get achievement_solve_dailyword_first_time_description =>
       'Has resuelto la palabra diaria por primera vez.';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_title => '¡Diez resueltas!';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_description =>
+      'Has resuelto la palabra diaria diez veces.';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_title =>
+      '¡Treinta resueltas!';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_description =>
+      'Has resuelto la palabra diaria treinta veces.';
 
   @override
   String get achievement_solve_firstword_nohint_title => '¡Sin pistas!';
@@ -576,4 +617,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get exampleSentenceTargetTitle =>
       'Ejemplo de oración en el idioma de destino';
+
+  @override
+  String get errorLoadingProgress => 'Error al cargar el progreso';
 }

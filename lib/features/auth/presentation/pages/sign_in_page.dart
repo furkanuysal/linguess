@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
@@ -156,16 +157,12 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                             controller: _emailController,
                             textInputAction: TextInputAction.next,
                             autofillHints: const [AutofillHints.email],
-                            decoration: InputDecoration(
+                            decoration: authInputDecoration(context).copyWith(
                               labelText: l10n.email,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
                               ),
                               suffixIcon: _emailController.text.isNotEmpty
                                   ? IconButton(
@@ -198,16 +195,12 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                             controller: _passwordController,
                             textInputAction: TextInputAction.done,
                             autofillHints: const [AutofillHints.password],
-                            decoration: InputDecoration(
+                            decoration: authInputDecoration(context).copyWith(
                               labelText: l10n.password,
                               filled: true,
                               contentPadding: const EdgeInsets.symmetric(
                                 horizontal: 16,
                                 vertical: 16,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
                               ),
                               suffixIcon: IconButton(
                                 icon: Icon(
@@ -349,6 +342,7 @@ class _ResetPasswordSheet extends ConsumerStatefulWidget {
 class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
   late final TextEditingController _emailCtrl;
   bool _sending = false;
+  String? _errorText;
 
   @override
   void initState() {
@@ -371,12 +365,12 @@ class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
     final email = _emailCtrl.text.trim();
 
     if (email.isEmpty) {
-      showSnack(context, l10n.emailRequired, bg: Colors.red);
+      setState(() => _errorText = l10n.emailRequired);
       return;
     }
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
     if (!emailRegex.hasMatch(email)) {
-      showSnack(context, l10n.invalidEmail, bg: Colors.red);
+      setState(() => _errorText = l10n.invalidEmail);
       return;
     }
 
@@ -390,8 +384,10 @@ class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
       showSnack(context, l10n.successResetPasswordEmailSent);
     } on FirebaseAuthException catch (e) {
       final msg = AuthErrorMapper.resetPassword(e, l10n);
+      context.pop();
       showSnack(context, msg, bg: Colors.red);
     } catch (_) {
+      context.pop();
       showSnack(context, l10n.errorResetPasswordFailed, bg: Colors.red);
     } finally {
       if (mounted) setState(() => _sending = false);
@@ -421,10 +417,14 @@ class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
+              errorText: _errorText,
               labelText: l10n.email,
-              border: const OutlineInputBorder(),
+              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
             ),
             onSubmitted: (_) => _sendReset(),
+            onChanged: (_) {
+              if (_errorText != null) setState(() => _errorText = null);
+            },
           ),
           const SizedBox(height: 12),
           SizedBox(

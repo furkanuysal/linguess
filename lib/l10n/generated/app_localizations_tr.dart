@@ -42,6 +42,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get category_vehicle => 'Araçlar';
 
   @override
+  String get category_building => 'Yapılar';
+
+  @override
+  String get category_hobby => 'Hobiler';
+
+  @override
+  String get category_space => 'Uzay';
+
+  @override
+  String get category_time => 'Zaman';
+
+  @override
   String get nextWord => 'Sonraki Kelime';
 
   @override
@@ -239,11 +251,38 @@ class AppLocalizationsTr extends AppLocalizations {
       'İlk kez bir kelimeyi öğrendin.';
 
   @override
-  String get achievement_solve_dailyword_firsttime_title => 'Günlük Başlangıç';
+  String get achievement_learn_ten_words_title => 'Onda On!';
 
   @override
-  String get achievement_solve_dailyword_firsttime_description =>
+  String get achievement_learn_ten_words_description => '10 kelimeyi öğrendin.';
+
+  @override
+  String get achievement_learn_twenty_words_title => 'Yirmi Kelime!';
+
+  @override
+  String get achievement_learn_twenty_words_description =>
+      '20 kelimeyi öğrendin.';
+
+  @override
+  String get achievement_solve_dailyword_first_time_title => 'Günlük Başlangıç';
+
+  @override
+  String get achievement_solve_dailyword_first_time_description =>
       'İlk kez günlük kelimeyi çözdün.';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_title => 'On Günlük';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_description =>
+      '10 kez günlük kelimeyi çözdün.';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_title => 'Bir ay!';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_description =>
+      '30 kez günlük kelimeyi çözdün.';
 
   @override
   String get achievement_solve_firstword_nohint_title => 'Kopya çekmeden!';
@@ -568,4 +607,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get exampleSentenceTargetTitle => 'Hedef Dilde Örnek Cümle';
+
+  @override
+  String get errorLoadingProgress => 'İlerleme yüklenirken hata oluştu';
 }

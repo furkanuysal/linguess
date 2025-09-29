@@ -44,6 +44,22 @@
   "@category_vehicle": {
     "description": "Category label for vehicles"
   },
+  "category_building": "Construcciones",
+  "@category_building": {
+    "description": "Category label for buildings"
+  },
+  "category_hobby": "Pasatiempos",
+  "@category_hobby": {
+    "description": "Category label for hobbies"
+  },
+  "category_space": "Espacio",
+  "@category_space": {
+    "description": "Category label for space"
+  },
+  "category_time": "Tiempo",
+  "@category_time": {
+    "description": "Category label for time"
+  },
   "nextWord": "Siguiente palabra",
   "@nextWord": {
     "description": "Button text to load the next word in the game"
@@ -292,17 +308,49 @@
   "@achievement_learn_firstword_title": {
     "description": "Title for the 'learn first word' achievement"
   },
+  "achievement_learn_ten_words_title": "¡Diez en total!",
+  "@achievement_learn_ten_words_title": {
+    "description": "Title for the 'learn ten words' achievement"
+  },
+  "achievement_learn_ten_words_description": "Has aprendido diez palabras.",
+  "@achievement_learn_ten_words_description": {
+    "description": "Description for the 'learn ten words' achievement"
+  },
+  "achievement_learn_twenty_words_title": "¡Veinte en total!",
+  "@achievement_learn_twenty_words_title": {
+    "description": "Title for the 'learn twenty words' achievement"
+  },
+  "achievement_learn_twenty_words_description": "Has aprendido veinte palabras.",
+  "@achievement_learn_twenty_words_description": {
+    "description": "Description for the 'learn twenty words' achievement"
+  },
   "achievement_learn_firstword_description": "Has aprendido una palabra por primera vez.",
   "@achievement_learn_firstword_description": {
     "description": "Description for the 'learn first word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_title": "Inicio diario",
-  "@achievement_solve_dailyword_firsttime_title": {
+  "achievement_solve_dailyword_first_time_title": "Inicio diario",
+  "@achievement_solve_dailyword_first_time_title": {
     "description": "Title for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_firsttime_description": "Has resuelto la palabra diaria por primera vez.",
-  "@achievement_solve_dailyword_firsttime_description": {
+  "achievement_solve_dailyword_first_time_description": "Has resuelto la palabra diaria por primera vez.",
+  "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
+  },
+  "achievement_solve_dailyword_ten_times_title": "¡Diez resueltas!",
+  "@achievement_solve_dailyword_ten_times_title": {
+    "description": "Title for the 'solve daily word ten times' achievement"
+  },
+  "achievement_solve_dailyword_ten_times_description": "Has resuelto la palabra diaria diez veces.",
+  "@achievement_solve_dailyword_ten_times_description": {
+    "description": "Description for the 'solve daily word ten times' achievement"
+  },
+  "achievement_solve_dailyword_thirty_times_title": "¡Treinta resueltas!",
+  "@achievement_solve_dailyword_thirty_times_title": {
+    "description": "Title for the 'solve daily word thirty times' achievement"
+  },
+  "achievement_solve_dailyword_thirty_times_description": "Has resuelto la palabra diaria treinta veces.",
+  "@achievement_solve_dailyword_thirty_times_description": {
+    "description": "Description for the 'solve daily word thirty times' achievement"
   },
   "achievement_solve_firstword_nohint_title": "¡Sin pistas!",
   "@achievement_solve_firstword_nohint_title": {
@@ -727,5 +775,9 @@
   "exampleSentenceTargetTitle": "Ejemplo de oración en el idioma de destino",
   "@exampleSentenceTargetTitle": {
     "description": "Title for the example sentence in the target language dialog"
+  },
+  "errorLoadingProgress": "Error al cargar el progreso",
+  "@errorLoadingProgress": {
+    "description": "Error message shown when there is an error loading progress"
   }
 }

@@ -13,6 +13,14 @@ extension CategoryLocalizations on AppLocalizations {
         return category_electronic;
       case 'vehicle':
         return category_vehicle;
+      case 'building':
+        return category_building;
+      case 'hobby':
+        return category_hobby;
+      case 'space':
+        return category_space;
+      case 'time':
+        return category_time;
       default:
         return categoryId;
     }

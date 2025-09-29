@@ -103,7 +103,27 @@ class WordAnswerBoard extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLength: 1,
             onChanged: (val) => onChanged(li, val),
-            decoration: const InputDecoration(counterText: ''),
+            decoration: InputDecoration(
+              isCollapsed: true,
+              contentPadding: EdgeInsets.zero,
+              counterText: '',
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: scheme.surfaceContainerHighest,
+                  width: 2,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: scheme.surfaceContainerHigh,
+                  width: 1.5,
+                ),
+              ),
+              errorBorder: InputBorder.none,
+              focusedErrorBorder: InputBorder.none,
+              filled: true,
+              fillColor: Colors.transparent,
+            ),
             style: TextStyle(
               fontSize: 22,
               color: correct[li] ? Colors.green : scheme.onSurface,

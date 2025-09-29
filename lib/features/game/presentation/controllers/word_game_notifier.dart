@@ -304,7 +304,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
         await ach.awardIfNotEarned('solve_firstword_nohint');
       }
       if (state.isDaily) {
-        await ach.awardIfNotEarned('solve_dailyword_firsttime');
+        await ach.awardIfNotEarned('solve_dailyword_first_time');
       }
     } catch (_) {}
 

@@ -42,6 +42,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get category_vehicle => 'Vehicles';
 
   @override
+  String get category_building => 'Buildings';
+
+  @override
+  String get category_hobby => 'Hobbies';
+
+  @override
+  String get category_space => 'Space';
+
+  @override
+  String get category_time => 'Time';
+
+  @override
   String get nextWord => 'Next Word';
 
   @override
@@ -237,11 +249,38 @@ class AppLocalizationsEn extends AppLocalizations {
       'You learned a word for the first time.';
 
   @override
-  String get achievement_solve_dailyword_firsttime_title => 'Daily Start';
+  String get achievement_learn_ten_words_title => '10/10 Perfect!';
 
   @override
-  String get achievement_solve_dailyword_firsttime_description =>
+  String get achievement_learn_ten_words_description => 'You learned 10 words.';
+
+  @override
+  String get achievement_learn_twenty_words_title => 'Twenty Words!';
+
+  @override
+  String get achievement_learn_twenty_words_description =>
+      'You learned 20 words.';
+
+  @override
+  String get achievement_solve_dailyword_first_time_title => 'Daily Start';
+
+  @override
+  String get achievement_solve_dailyword_first_time_description =>
       'You solved the daily word for the first time.';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_title => 'Ten days!';
+
+  @override
+  String get achievement_solve_dailyword_ten_times_description =>
+      'You solved the daily word 10 times.';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_title => 'A month!';
+
+  @override
+  String get achievement_solve_dailyword_thirty_times_description =>
+      'You solved the daily word 30 times.';
 
   @override
   String get achievement_solve_firstword_nohint_title => 'No hint!';
@@ -569,4 +608,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exampleSentenceTargetTitle =>
       'Example Sentence in Target Language';
+
+  @override
+  String get errorLoadingProgress => 'Error loading progress';
 }

@@ -168,6 +168,30 @@ abstract class AppLocalizations {
   /// **'Araçlar'**
   String get category_vehicle;
 
+  /// Category label for buildings
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapılar'**
+  String get category_building;
+
+  /// Category label for hobbies
+  ///
+  /// In tr, this message translates to:
+  /// **'Hobiler'**
+  String get category_hobby;
+
+  /// Category label for space
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzay'**
+  String get category_space;
+
+  /// Category label for time
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman'**
+  String get category_time;
+
   /// Button text to load the next word in the game
   ///
   /// In tr, this message translates to:
@@ -546,17 +570,65 @@ abstract class AppLocalizations {
   /// **'İlk kez bir kelimeyi öğrendin.'**
   String get achievement_learn_firstword_description;
 
+  /// Title for the 'learn ten words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Onda On!'**
+  String get achievement_learn_ten_words_title;
+
+  /// Description for the 'learn ten words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'10 kelimeyi öğrendin.'**
+  String get achievement_learn_ten_words_description;
+
+  /// Title for the 'learn twenty words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yirmi Kelime!'**
+  String get achievement_learn_twenty_words_title;
+
+  /// Description for the 'learn twenty words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'20 kelimeyi öğrendin.'**
+  String get achievement_learn_twenty_words_description;
+
   /// Title for the 'solve daily word' achievement
   ///
   /// In tr, this message translates to:
   /// **'Günlük Başlangıç'**
-  String get achievement_solve_dailyword_firsttime_title;
+  String get achievement_solve_dailyword_first_time_title;
 
   /// Description for the 'solve daily word' achievement
   ///
   /// In tr, this message translates to:
   /// **'İlk kez günlük kelimeyi çözdün.'**
-  String get achievement_solve_dailyword_firsttime_description;
+  String get achievement_solve_dailyword_first_time_description;
+
+  /// Title for the 'solve daily word ten times' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'On Günlük'**
+  String get achievement_solve_dailyword_ten_times_title;
+
+  /// Description for the 'solve daily word ten times' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'10 kez günlük kelimeyi çözdün.'**
+  String get achievement_solve_dailyword_ten_times_description;
+
+  /// Title for the 'solve daily word thirty times' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Bir ay!'**
+  String get achievement_solve_dailyword_thirty_times_title;
+
+  /// Description for the 'solve daily word thirty times' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'30 kez günlük kelimeyi çözdün.'**
+  String get achievement_solve_dailyword_thirty_times_description;
 
   /// Title for the 'solve first word without hint' achievement
   ///
@@ -1140,6 +1212,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hedef Dilde Örnek Cümle'**
   String get exampleSentenceTargetTitle;
+
+  /// Error message shown when there is an error loading progress
+  ///
+  /// In tr, this message translates to:
+  /// **'İlerleme yüklenirken hata oluştu'**
+  String get errorLoadingProgress;
 }
 
 class _AppLocalizationsDelegate
