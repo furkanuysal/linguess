@@ -88,13 +88,21 @@
   "@close": {
     "description": "'Close' button text for dialogs or pop-ups"
   },
-  "signIn": "Log In",
+  "signIn": "Sign In",
   "@signIn": {
-    "description": "Button text for logging in"
+    "description": "Button text for signing in"
   },
-  "logout": "Log Out",
-  "@logout": {
-    "description": "Button text for logging out"
+  "signOut": "Sign Out",
+  "@signOut": {
+    "description": "Button text for signing out"
+  },
+  "signInSubtitle": "Enter your email and password to sign in",
+  "@signInSubtitle": {
+    "description": "Subtitle text for the sign-in page"
+  },
+  "signUpSubtitle": "Create an account by entering your email and password",
+  "@signUpSubtitle": {
+    "description": "Subtitle text for the sign-up page"
   },
   "profile": "Profile",
   "@profile": {
@@ -124,7 +132,7 @@
   "@signUp": {
     "description": "Button text for registering a new user"
   },
-  "signUpSuccess": "Registration successful! You can log in now.",
+  "signUpSuccess": "Registration successful! You can sign in now.",
   "@signUpSuccess": {
     "description": "Message shown after successful registration"
   },
@@ -292,9 +300,9 @@
   "@comingSoon": {
     "description": "Label for the 'coming soon' message"
   },
-  "dailyWordSignInRequired": "You must be logged in to solve the daily word.",
+  "dailyWordSignInRequired": "You must be signed in to solve the daily word.",
   "@dailyWordSignInRequired": {
-    "description": "Message shown when the user needs to log in to solve the daily word"
+    "description": "Message shown when the user needs to sign in to solve the daily word"
   },
   "achievement_solve_firstword_title": "First of many!",
   "@achievement_solve_firstword_title": {
@@ -695,6 +703,14 @@
   "signUpWithGoogle": "Sign up with Google",
   "@signUpWithGoogle": {
     "description": "Button text for signing up with Google"
+  },
+  "signInWithGitHub": "Sign in with GitHub",
+  "@signInWithGitHub": {
+    "description": "Button text for signing in with GitHub"
+  },
+  "signUpWithGitHub": "Sign up with GitHub",
+  "@signUpWithGitHub": {
+    "description": "Button text for signing up with GitHub"
   },
   "orText": "or",
   "@orText": {

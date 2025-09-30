@@ -78,7 +78,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signIn => 'Anmelden';
 
   @override
-  String get logout => 'Abmelden';
+  String get signOut => 'Abmelden';
+
+  @override
+  String get signInSubtitle =>
+      'Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden';
+
+  @override
+  String get signUpSubtitle =>
+      'Erstellen Sie ein Konto, indem Sie Ihre E-Mail und Ihr Passwort eingeben';
 
   @override
   String get profile => 'Profil';
@@ -561,6 +569,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Mit Google registrieren';
+
+  @override
+  String get signInWithGitHub => 'Mit GitHub anmelden';
+
+  @override
+  String get signUpWithGitHub => 'Mit GitHub registrieren';
 
   @override
   String get orText => 'oder';

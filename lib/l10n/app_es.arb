@@ -90,11 +90,19 @@
   },
   "signIn": "Iniciar sesión",
   "@signIn": {
-    "description": "Button text for logging in"
+    "description": "Button text for signing in"
   },
-  "logout": "Cerrar sesión",
-  "@logout": {
-    "description": "Button text for logging out"
+  "signOut": "Cerrar sesión",
+  "@signOut": {
+    "description": "Button text for signing out"
+  },
+  "signInSubtitle": "Introduce tu correo electrónico y contraseña para iniciar sesión",
+  "@signInSubtitle": {
+    "description": "Subtitle text for the sign-in page"
+  },
+  "signUpSubtitle": "Crea una cuenta introduciendo tu correo electrónico y contraseña",
+  "@signUpSubtitle": {
+    "description": "Subtitle text for the sign-up page"
   },
   "profile": "Perfil",
   "@profile": {
@@ -294,7 +302,7 @@
   },
   "dailyWordSignInRequired": "Se requiere iniciar sesión para resolver la palabra diaria.",
   "@dailyWordSignInRequired": {
-    "description": "Message shown when the user needs to log in to solve the daily word"
+    "description": "Message shown when the user needs to sign in to solve the daily word"
   },
   "achievement_solve_firstword_title": "¡Primera de muchas!",
   "@achievement_solve_firstword_title": {
@@ -695,6 +703,14 @@
   "signUpWithGoogle": "Registrarse con Google",
   "@signUpWithGoogle": {
     "description": "Button text for signing up with Google"
+  },
+  "signInWithGitHub": "Iniciar sesión con GitHub",
+  "@signInWithGitHub": {
+    "description": "Button text for signing in with GitHub"
+  },
+  "signUpWithGitHub": "Registrarse con GitHub",
+  "@signUpWithGitHub": {
+    "description": "Button text for signing up with GitHub"
   },
   "orText": "o",
   "@orText": {

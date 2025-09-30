@@ -90,11 +90,19 @@
   },
   "signIn": "Giriş Yap",
   "@signIn": {
-    "description": "Button text for logging in"
+    "description": "Button text for signing in"
   },
-  "logout": "Çıkış Yap",
-  "@logout": {
-    "description": "Button text for logging out"
+  "signOut": "Çıkış Yap",
+  "@signOut": {
+    "description": "Button text for signing out"
+  },
+  "signInSubtitle": "E-posta ve şifrenizle hesabınıza giriş yapın",
+  "@signInSubtitle": {
+    "description": "Subtitle text prompting user to sign in to their account"
+  },
+  "signUpSubtitle": "E-posta ve şifrenizle yeni bir hesap oluşturun",
+  "@signUpSubtitle": {
+    "description": "Subtitle text prompting user to sign up for a new account"
   },
   "profile": "Profil",
   "@profile": {
@@ -696,6 +704,14 @@
   "signUpWithGoogle": "Google ile Kayıt Ol",
   "@signUpWithGoogle": {
     "description": "Button text for signing up with Google"
+  },
+  "signInWithGitHub": "GitHub ile Giriş Yap",
+  "@signInWithGitHub": {
+    "description": "Button text for signing in with GitHub"
+  },
+  "signUpWithGitHub": "GitHub ile Kayıt Ol",
+  "@signUpWithGitHub": {
+    "description": "Button text for signing up with GitHub"
   },
   "orText": "veya",
   "@orText": {

@@ -90,11 +90,19 @@
   },
   "signIn": "Anmelden",
   "@signIn": {
-    "description": "Button text for logging in"
+    "description": "Button text for signing in"
   },
-  "logout": "Abmelden",
-  "@logout": {
-    "description": "Button text for logging out"
+  "signOut": "Abmelden",
+  "@signOut": {
+    "description": "Button text for signing out"
+  },
+  "signInSubtitle": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
+  "@signInSubtitle": {
+    "description": "Subtitle text for the sign-in page"
+  },
+  "signUpSubtitle": "Erstellen Sie ein Konto, indem Sie Ihre E-Mail und Ihr Passwort eingeben",
+  "@signUpSubtitle": {
+    "description": "Subtitle text for the sign-up page"
   },
   "profile": "Profil",
   "@profile": {
@@ -695,6 +703,14 @@
   "signUpWithGoogle": "Mit Google registrieren",
   "@signUpWithGoogle": {
     "description": "Button text for signing up with Google"
+  },
+  "signInWithGitHub": "Mit GitHub anmelden",
+  "@signInWithGitHub": {
+    "description": "Button text for signing in with GitHub"
+  },
+  "signUpWithGitHub": "Mit GitHub registrieren",
+  "@signUpWithGitHub": {
+    "description": "Button text for signing up with GitHub"
   },
   "orText": "oder",
   "@orText": {

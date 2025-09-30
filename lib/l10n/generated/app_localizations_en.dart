@@ -75,10 +75,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get close => 'Close';
 
   @override
-  String get signIn => 'Log In';
+  String get signIn => 'Sign In';
 
   @override
-  String get logout => 'Log Out';
+  String get signOut => 'Sign Out';
+
+  @override
+  String get signInSubtitle => 'Enter your email and password to sign in';
+
+  @override
+  String get signUpSubtitle =>
+      'Create an account by entering your email and password';
 
   @override
   String get profile => 'Profile';
@@ -102,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUp => 'Sign Up';
 
   @override
-  String get signUpSuccess => 'Registration successful! You can log in now.';
+  String get signUpSuccess => 'Registration successful! You can sign in now.';
 
   @override
   String get invalidEmail => 'Invalid email address';
@@ -232,7 +239,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyWordSignInRequired =>
-      'You must be logged in to solve the daily word.';
+      'You must be signed in to solve the daily word.';
 
   @override
   String get achievement_solve_firstword_title => 'First of many!';
@@ -550,6 +557,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Sign up with Google';
+
+  @override
+  String get signInWithGitHub => 'Sign in with GitHub';
+
+  @override
+  String get signUpWithGitHub => 'Sign up with GitHub';
 
   @override
   String get orText => 'or';

@@ -78,7 +78,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signIn => 'Iniciar sesión';
 
   @override
-  String get logout => 'Cerrar sesión';
+  String get signOut => 'Cerrar sesión';
+
+  @override
+  String get signInSubtitle =>
+      'Introduce tu correo electrónico y contraseña para iniciar sesión';
+
+  @override
+  String get signUpSubtitle =>
+      'Crea una cuenta introduciendo tu correo electrónico y contraseña';
 
   @override
   String get profile => 'Perfil';
@@ -558,6 +566,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Registrarse con Google';
+
+  @override
+  String get signInWithGitHub => 'Iniciar sesión con GitHub';
+
+  @override
+  String get signUpWithGitHub => 'Registrarse con GitHub';
 
   @override
   String get orText => 'o';

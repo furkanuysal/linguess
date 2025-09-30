@@ -234,17 +234,29 @@ abstract class AppLocalizations {
   /// **'Kapat'**
   String get close;
 
-  /// Button text for logging in
+  /// Button text for signing in
   ///
   /// In tr, this message translates to:
   /// **'Giriş Yap'**
   String get signIn;
 
-  /// Button text for logging out
+  /// Button text for signing out
   ///
   /// In tr, this message translates to:
   /// **'Çıkış Yap'**
-  String get logout;
+  String get signOut;
+
+  /// Subtitle text prompting user to sign in to their account
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta ve şifrenizle hesabınıza giriş yapın'**
+  String get signInSubtitle;
+
+  /// Subtitle text prompting user to sign up for a new account
+  ///
+  /// In tr, this message translates to:
+  /// **'E-posta ve şifrenizle yeni bir hesap oluşturun'**
+  String get signUpSubtitle;
 
   /// Label for the user profile section
   ///
@@ -1110,6 +1122,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Google ile Kayıt Ol'**
   String get signUpWithGoogle;
+
+  /// Button text for signing in with GitHub
+  ///
+  /// In tr, this message translates to:
+  /// **'GitHub ile Giriş Yap'**
+  String get signInWithGitHub;
+
+  /// Button text for signing up with GitHub
+  ///
+  /// In tr, this message translates to:
+  /// **'GitHub ile Kayıt Ol'**
+  String get signUpWithGitHub;
 
   /// Text to separate different sign-in options
   ///

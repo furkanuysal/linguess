@@ -6,6 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
+import 'package:linguess/features/auth/presentation/widgets/github_sign_in_button.dart';
 import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
@@ -61,15 +62,14 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     }
   }
 
-  Future<void> _signUpWithGoogle() async {
+  Future<void> _handleOAuthSignUp(Future<User?> Function() signInMethod) async {
     if (_isLoading) return;
 
     final l10n = AppLocalizations.of(context)!;
-    final auth = ref.read(authServiceProvider);
 
     setState(() => _isLoading = true);
     try {
-      final user = await auth.signInWithGoogle();
+      final user = await signInMethod();
 
       if (!mounted) return;
       showSnack(context, l10n.signedUpAs(user?.email ?? ''));
@@ -87,6 +87,16 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  Future<void> _signUpWithGoogle() async {
+    final auth = ref.read(authServiceProvider);
+    return _handleOAuthSignUp(auth.signInWithGoogle);
+  }
+
+  Future<void> _signUpWithGitHub() async {
+    final auth = ref.read(authServiceProvider);
+    return _handleOAuthSignUp(auth.signInWithGitHub);
   }
 
   @override
@@ -116,6 +126,15 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                       style: theme.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      l10n.signUpSubtitle,
+                      style: theme.textTheme.bodySmall,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -237,15 +256,25 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 12),
 
-                          // Google signup button
+                          // Social sign up buttons
                           SizedBox(
                             height: 48,
                             width: double.infinity,
                             child: GoogleSignInButton(
-                              text: l10n.signUpWithGoogle,
+                              text: l10n.signInWithGoogle,
                               onPressed: _isLoading ? null : _signUpWithGoogle,
+                              isLoading: _isLoading,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            height: 48,
+                            width: double.infinity,
+                            child: GitHubSignInButton(
+                              text: l10n.signInWithGitHub,
+                              onPressed: _isLoading ? null : _signUpWithGitHub,
                               isLoading: _isLoading,
                             ),
                           ),

@@ -77,7 +77,7 @@ class ProfilePage extends ConsumerWidget {
                   if (context.mounted) context.go('/');
                 },
                 icon: const Icon(Icons.logout),
-                label: Text(l10n.logout),
+                label: Text(l10n.signOut),
               ),
             ],
           );

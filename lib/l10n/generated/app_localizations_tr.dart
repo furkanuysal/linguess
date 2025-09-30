@@ -78,7 +78,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signIn => 'Giriş Yap';
 
   @override
-  String get logout => 'Çıkış Yap';
+  String get signOut => 'Çıkış Yap';
+
+  @override
+  String get signInSubtitle => 'E-posta ve şifrenizle hesabınıza giriş yapın';
+
+  @override
+  String get signUpSubtitle => 'E-posta ve şifrenizle yeni bir hesap oluşturun';
 
   @override
   String get profile => 'Profil';
@@ -551,6 +557,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get signUpWithGoogle => 'Google ile Kayıt Ol';
+
+  @override
+  String get signInWithGitHub => 'GitHub ile Giriş Yap';
+
+  @override
+  String get signUpWithGitHub => 'GitHub ile Kayıt Ol';
 
   @override
   String get orText => 'veya';

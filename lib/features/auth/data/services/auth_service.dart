@@ -130,4 +130,31 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<User?> signInWithGitHub() async {
+    try {
+      final provider = GithubAuthProvider();
+      provider.addScope('read:user');
+      provider.addScope('user:email');
+
+      final userCred = await _auth.signInWithProvider(provider);
+      final user = userCred.user;
+
+      // If new user, create user document
+      if (user != null && (userCred.additionalUserInfo?.isNewUser ?? false)) {
+        try {
+          await ref.read(userServiceProvider).createUserDocument(user);
+        } catch (e) {
+          log("createUserDocument (GitHub) failed: $e");
+        }
+      }
+      return user;
+    } on FirebaseAuthException catch (e, st) {
+      log("Auth githubSignIn error: [${e.code}] ${e.message}", stackTrace: st);
+      rethrow;
+    } catch (e, st) {
+      log("Auth githubSignIn unexpected error: $e", stackTrace: st);
+      rethrow;
+    }
+  }
 }

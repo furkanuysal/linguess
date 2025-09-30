@@ -4,6 +4,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
+import 'package:linguess/features/auth/presentation/widgets/github_sign_in_button.dart';
 import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
@@ -65,15 +66,14 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     }
   }
 
-  Future<void> _signInWithGoogle() async {
+  Future<void> _handleOAuthSignIn(Future<User?> Function() signInMethod) async {
     if (_isLoading) return;
 
     final l10n = AppLocalizations.of(context)!;
-    final auth = ref.read(authServiceProvider);
 
     setState(() => _isLoading = true);
     try {
-      final user = await auth.signInWithGoogle();
+      final user = await signInMethod();
 
       if (!mounted) return;
       showSnack(context, l10n.signedInAs(user?.email ?? ''));
@@ -92,6 +92,16 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  Future<void> _signInWithGoogle() async {
+    final auth = ref.read(authServiceProvider);
+    return _handleOAuthSignIn(auth.signInWithGoogle);
+  }
+
+  Future<void> _signInWithGitHub() async {
+    final auth = ref.read(authServiceProvider);
+    return _handleOAuthSignIn(auth.signInWithGitHub);
   }
 
   Future<void> _showResetPasswordSheet() async {
@@ -137,7 +147,15 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 8),
 
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Text(
+                      l10n.signInSubtitle,
+                      style: theme.textTheme.bodySmall,
+                    ),
+                  ),
                   const SizedBox(height: 16),
 
                   // Form
@@ -288,7 +306,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                             ],
                           ),
 
-                          const SizedBox(height: 14),
+                          const SizedBox(height: 12),
 
                           // Social sign in buttons
                           SizedBox(
@@ -297,6 +315,16 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                             child: GoogleSignInButton(
                               text: l10n.signInWithGoogle,
                               onPressed: _isLoading ? null : _signInWithGoogle,
+                              isLoading: _isLoading,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            height: 48,
+                            width: double.infinity,
+                            child: GitHubSignInButton(
+                              text: l10n.signInWithGitHub,
+                              onPressed: _isLoading ? null : _signInWithGitHub,
                               isLoading: _isLoading,
                             ),
                           ),
@@ -416,10 +444,11 @@ class _ResetPasswordSheetState extends ConsumerState<_ResetPasswordSheet> {
           TextField(
             controller: _emailCtrl,
             keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
+            decoration: authInputDecoration(context).copyWith(
               errorText: _errorText,
               labelText: l10n.email,
               fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
+              filled: true,
             ),
             onSubmitted: (_) => _sendReset(),
             onChanged: (_) {

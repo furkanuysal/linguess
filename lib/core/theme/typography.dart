@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// Typography (Crimson Pro, w700 default).
+/// Typography (Crimson Pro, w600 default).
 class AppTypography {
   // Title, subtitle, body, label sizes
   static const double bodyLg = 18;
@@ -21,9 +21,9 @@ class AppTypography {
   static const double labelSm = 12;
 
   static TextTheme textTheme(ColorScheme scheme) {
-    // Default styles w700 (bold), Crimson Pro.
+    // Default styles w600 (semi-bold), Crimson Pro.
     TextStyle base(double size) =>
-        GoogleFonts.crimsonPro(fontWeight: FontWeight.w700, fontSize: size);
+        GoogleFonts.crimsonPro(fontWeight: FontWeight.w600, fontSize: size);
 
     return TextTheme(
       // Body
