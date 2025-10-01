@@ -1242,6 +1242,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'İlerleme yüklenirken hata oluştu'**
   String get errorLoadingProgress;
+
+  /// Label for the learned word in the success dialog
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğrenilmiş Kelime'**
+  String get learnedWordText;
+
+  /// Message shown when the user learns a new word
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime öğrenildi!'**
+  String get theWordIsLearnedText;
 }
 
 class _AppLocalizationsDelegate

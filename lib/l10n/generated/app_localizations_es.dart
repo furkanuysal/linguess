@@ -634,4 +634,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorLoadingProgress => 'Error al cargar el progreso';
+
+  @override
+  String get learnedWordText => 'Palabra aprendida';
+
+  @override
+  String get theWordIsLearnedText => 'La palabra ha sido aprendida.';
 }

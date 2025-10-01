@@ -622,4 +622,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorLoadingProgress => 'İlerleme yüklenirken hata oluştu';
+
+  @override
+  String get learnedWordText => 'Öğrenilmiş Kelime';
+
+  @override
+  String get theWordIsLearnedText => 'Kelime öğrenildi!';
 }

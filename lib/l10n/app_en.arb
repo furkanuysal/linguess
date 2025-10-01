@@ -795,5 +795,13 @@
   "errorLoadingProgress": "Error loading progress",
   "@errorLoadingProgress": {
     "description": "Error message shown when there is an error loading progress"
+  },
+  "learnedWordText": "Learned Word",
+  "@learnedWordText": {
+    "description": "Label for the learned word in the success dialog"
+  },
+  "theWordIsLearnedText": "The word is learned!",
+  "@theWordIsLearnedText": {
+    "description": "Message shown when the user learns a new word"
   }
 }

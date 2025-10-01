@@ -367,7 +367,8 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                             _triggerGoldAnimation();
                             notifier.showExampleSentenceTarget(
                               context,
-                              cost: EconomyService.showExampleSentenceCost,
+                              cost:
+                                  EconomyService.showExampleSentenceTargetCost,
                             );
                           },
                         ),

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:linguess/core/effects/confetti_particle.dart';
 import 'package:linguess/core/utils/id_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
+import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -286,8 +286,18 @@ class WordGameNotifier extends Notifier<WordGameState> {
         ref.read(settingsControllerProvider).value?.appLangCode ??
         Localizations.localeOf(context).languageCode;
 
+    final targetLang =
+        ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+
     final wordToSolve = state.currentWord!.termOf(appLang);
     final correctAnswerFormatted = _capitalize(state.currentTarget);
+
+    final correctTimes = await ref.read(
+      userWordProgressCountProvider((
+        targetLang: targetLang,
+        wordId: state.currentWord!.id,
+      )).future,
+    );
 
     await economyService.rewardGold(_hintsUsedForCurrentWord);
 
@@ -309,51 +319,21 @@ class WordGameNotifier extends Notifier<WordGameState> {
     } catch (_) {}
 
     if (!context.mounted) return;
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Stack(
-        children: [
-          const Positioned.fill(
-            child: IgnorePointer(
-              child: ConfettiWidget(child: SizedBox.expand()),
-            ),
-          ),
-          Center(
-            child: AlertDialog(
-              title: Text('🎉 ${AppLocalizations.of(context)!.correctText}!'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '${AppLocalizations.of(context)!.yourWord}: $wordToSolve',
-                  ),
-                  Text(
-                    '${AppLocalizations.of(context)!.correctAnswer}: $correctAnswerFormatted',
-                  ),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    context.pop();
-                    if (params.mode == 'daily') {
-                      context.pop();
-                    } else {
-                      _loadRandomWord();
-                    }
-                  },
-                  child: Text(
-                    params.mode == 'daily'
-                        ? AppLocalizations.of(context)!.close
-                        : AppLocalizations.of(context)!.nextWord,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+    await SuccessDialog.show(
+      context,
+      goldEarned: economyService.computeSolveReward(_hintsUsedForCurrentWord),
+      askedWordInAppLang: wordToSolve,
+      correctAnswer: correctAnswerFormatted,
+      correctTimes: correctTimes,
+      requiredTimes: 5,
+      isDaily: params.mode == 'daily',
+      onPrimaryPressed: () {
+        if (params.mode == 'daily') {
+          context.pop();
+        } else {
+          _loadRandomWord();
+        }
+      },
     );
   }
 
@@ -391,12 +371,12 @@ class WordGameNotifier extends Notifier<WordGameState> {
       final userService = ref.read(userServiceProvider);
       final targetLang =
           ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
-      if (!context.mounted) return;
-      await _showSuccessDialog(context);
       await userService.onCorrectAnswer(
         word: state.currentWord!,
         targetLang: targetLang,
       );
+      if (!context.mounted) return;
+      await _showSuccessDialog(context);
     } else {
       state = state.copyWith(isShaking: true);
     }

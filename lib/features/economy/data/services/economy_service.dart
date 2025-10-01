@@ -50,7 +50,7 @@ class EconomyService {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return;
 
-    final int goldToAdd = _computeSolveReward(hintCountUsed);
+    final int goldToAdd = computeSolveReward(hintCountUsed);
 
     final userDoc = _firestore.collection('users').doc(uid);
     final updates = <String, dynamic>{'correctCount': FieldValue.increment(1)};
@@ -71,7 +71,7 @@ class EconomyService {
   }
 
   // 0 hint = +5, 1–2 hint = +2, 3+ = +1
-  int _computeSolveReward(int hintsUsed) {
+  int computeSolveReward(int hintsUsed) {
     if (hintsUsed <= 0) return 5;
     if (hintsUsed <= 2) return 2;
     return 1;

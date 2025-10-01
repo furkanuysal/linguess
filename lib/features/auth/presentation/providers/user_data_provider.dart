@@ -37,6 +37,16 @@ final userCorrectCountProvider = StreamProvider.autoDispose<int>((ref) {
       });
 });
 
+// Word progress counter (count) - targetLang & wordId
+final userWordProgressCountProvider = FutureProvider.autoDispose
+    .family<int, ({String targetLang, String wordId})>((ref, args) async {
+      final user = ref.watch(firebaseUserProvider).value;
+      if (user == null) return 0;
+
+      final userService = ref.read(userServiceProvider);
+      return userService.getProgressCount(args.wordId, args.targetLang);
+    });
+
 final userSignUpProvider = AsyncNotifierProvider<UserSignUpController, void>(
   UserSignUpController.new,
 );

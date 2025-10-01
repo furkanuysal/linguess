@@ -452,7 +452,6 @@
   "@achievement_used_example_sentence_powerup_first_time_description": {
     "description": "Description for the 'used example sentence powerup first time' achievement"
   },
-  
   "achievement_used_example_sentence_target_powerup_first_time_title": "Hedef dilde örnekler",
   "@achievement_used_example_sentence_target_powerup_first_time_title": {
     "description": "Title for the 'used example sentence target powerup first time' achievement"
@@ -796,5 +795,13 @@
   "errorLoadingProgress": "İlerleme yüklenirken hata oluştu",
   "@errorLoadingProgress": {
     "description": "Error message shown when there is an error loading progress"
+  },
+  "learnedWordText": "Öğrenilmiş Kelime",
+  "@learnedWordText": {
+    "description": "Label for the learned word in the success dialog"
+  },
+  "theWordIsLearnedText": "Kelime öğrenildi!",
+  "@theWordIsLearnedText": {
+    "description": "Message shown when the user learns a new word"
   }
 }
