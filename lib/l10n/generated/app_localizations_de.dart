@@ -642,4 +642,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get theWordIsLearnedText => 'Das Wort ist gelernt!';
+
+  @override
+  String get mainMenuLearnNewWordsToday => 'Lerne heute neue Wörter!';
+
+  @override
+  String get todayText => 'Heute';
 }

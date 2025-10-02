@@ -803,5 +803,13 @@
   "theWordIsLearnedText": "Kelime öğrenildi!",
   "@theWordIsLearnedText": {
     "description": "Message shown when the user learns a new word"
+  },
+  "mainMenuLearnNewWordsToday": "Bugün yeni kelimeler öğren!",
+  "@mainMenuLearnNewWordsToday": {
+    "description": "Encouraging message in the main menu to learn new words today"
+  },
+  "todayText": "Bugün",
+  "@todayText": {
+    "description": "Label for 'today' in the main menu"
   }
 }

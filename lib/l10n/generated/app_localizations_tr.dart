@@ -628,4 +628,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get theWordIsLearnedText => 'Kelime öğrenildi!';
+
+  @override
+  String get mainMenuLearnNewWordsToday => 'Bugün yeni kelimeler öğren!';
+
+  @override
+  String get todayText => 'Bugün';
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog.dart';
+import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/core/sfx/sfx_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -12,7 +13,6 @@ import 'package:linguess/features/ads/presentation/providers/ads_provider.dart';
 
 class HomeMobile extends ConsumerStatefulWidget {
   const HomeMobile({super.key});
-
   @override
   ConsumerState<HomeMobile> createState() => _HomeMobileState();
 }
@@ -21,14 +21,44 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text(l10n.appTitle),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: scheme.primary,
+          // small shadow
+          shadows: [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(0, 1),
+              color: Color(0x33000000),
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          // thin gradient at the top of the AppBar
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                scheme.surface.withValues(alpha: 0.10),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
+        title: Text(l10n.appTitle),
         actions: [
+          // Rewarded Ad button
           Semantics(
-            // Indicate that this is an ad for accessibility
             label: '${l10n.adRewardTooltip} — Ad',
             button: true,
             child: SfxIconButton(
@@ -36,9 +66,12 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
               icon: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  const Icon(Icons.ondemand_video),
+                  Icon(
+                    Icons.ondemand_video,
+                    color: scheme.primary.withValues(alpha: 0.80),
+                  ),
+                  // Small "Ad" badge
                   Positioned(
-                    // small "Ad" label at the top right corner
                     right: -2,
                     top: -2,
                     child: Container(
@@ -92,60 +125,114 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
               },
             ),
           ),
+          // Profile / Sign-in AppBar action
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snap) {
+              final user = snap.data;
+              return Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: SfxIconButton(
+                  tooltip: user == null ? l10n.signIn : l10n.profile,
+                  icon: CircleAvatar(
+                    radius: 14,
+                    backgroundColor: scheme.primary.withValues(alpha: 0.20),
+                    child: Icon(
+                      user == null ? Icons.person_outline : Icons.person,
+                      size: 18,
+                      color: scheme.primary,
+                    ),
+                  ),
+                  onPressed: () {
+                    if (user == null) {
+                      context.push('/signIn');
+                    } else {
+                      context.push('/profile');
+                    }
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              l10n.mainMenuPlayModeSelection,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            SfxElevatedButton(
-              onPressed: () => context.push('/category'),
-              child: Text(l10n.selectCategory),
-            ),
-            const SizedBox(height: 12),
-            SfxElevatedButton(
-              onPressed: () => context.push('/level'),
-              child: Text(l10n.selectLevel),
-            ),
-            const SizedBox(height: 12),
-            SfxElevatedButton(
-              onPressed: () => handleDailyButton(context, ref),
-              child: Text(l10n.dailyWord),
-            ),
-            const SizedBox(height: 12),
-            SfxElevatedButton(
-              onPressed: () => showSettingsSheet(context),
-              child: Text(l10n.settings),
-            ),
-            const Spacer(),
-            StreamBuilder<User?>(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                final user = snapshot.data;
-                return Align(
-                  alignment: Alignment.bottomRight,
-                  child: SfxElevatedButton(
-                    onPressed: () {
-                      if (user == null) {
-                        context.push('/signIn');
-                      } else {
-                        context.push('/profile');
-                      }
-                    },
-                    child: Text(user == null ? l10n.signIn : l10n.profile),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.0, 0.55, 1.0],
+                  colors: [
+                    scheme.surfaceContainerHigh,
+                    scheme.surface,
+                    scheme.surfaceContainerHighest,
+                  ],
+                ),
+              ),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      // Header
+                      HeaderSubtitle(
+                        title: l10n.mainMenuPlayModeSelection,
+                        subtitle: l10n.mainMenuLearnNewWordsToday,
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Adaptive grid menu
+                      LayoutBuilder(
+                        builder: (context, c) {
+                          final w = c.maxWidth;
+                          final spacing = 16.0;
+                          final cols = w >= 720 ? 3 : (w >= 420 ? 2 : 1);
+                          final itemWidth = (w - spacing * (cols - 1)) / cols;
+
+                          return Wrap(
+                            spacing: spacing,
+                            runSpacing: spacing,
+                            children: [
+                              MenuCardButton(
+                                width: itemWidth,
+                                icon: Icons.category,
+                                label: l10n.selectCategory,
+                                onTap: () => context.push('/category'),
+                              ),
+                              MenuCardButton(
+                                width: itemWidth,
+                                icon: Icons.flag_rounded,
+                                label: l10n.selectLevel,
+                                onTap: () => context.push('/level'),
+                              ),
+                              MenuCardButton(
+                                width: itemWidth,
+                                icon: Icons.calendar_today_rounded,
+                                label: l10n.dailyWord,
+                                badge: l10n.todayText,
+                                onTap: () => handleDailyButton(context, ref),
+                              ),
+                              MenuCardButton(
+                                width: itemWidth,
+                                icon: Icons.settings,
+                                label: l10n.settings,
+                                onTap: () => showSettingsSheet(context),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

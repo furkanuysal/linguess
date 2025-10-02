@@ -630,4 +630,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get theWordIsLearnedText => 'The word is learned!';
+
+  @override
+  String get mainMenuLearnNewWordsToday => 'Learn new words today!';
+
+  @override
+  String get todayText => 'Today';
 }

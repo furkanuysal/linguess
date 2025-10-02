@@ -1254,6 +1254,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelime öğrenildi!'**
   String get theWordIsLearnedText;
+
+  /// Encouraging message in the main menu to learn new words today
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün yeni kelimeler öğren!'**
+  String get mainMenuLearnNewWordsToday;
+
+  /// Label for 'today' in the main menu
+  ///
+  /// In tr, this message translates to:
+  /// **'Bugün'**
+  String get todayText;
 }
 
 class _AppLocalizationsDelegate
