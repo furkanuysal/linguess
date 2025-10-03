@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog.dart';
 import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
@@ -157,78 +158,61 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
         ],
       ),
       body: Stack(
+        fit: StackFit.expand,
         children: [
-          Positioned.fill(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.0, 0.55, 1.0],
-                  colors: [
-                    scheme.surfaceContainerHigh,
-                    scheme.surface,
-                    scheme.surfaceContainerHighest,
-                  ],
-                ),
-              ),
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // Header
-                      HeaderSubtitle(
-                        title: l10n.mainMenuPlayModeSelection,
-                        subtitle: l10n.mainMenuLearnNewWordsToday,
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Adaptive grid menu
-                      LayoutBuilder(
-                        builder: (context, c) {
-                          final w = c.maxWidth;
-                          final spacing = 16.0;
-                          final cols = w >= 720 ? 3 : (w >= 420 ? 2 : 1);
-                          final itemWidth = (w - spacing * (cols - 1)) / cols;
-
-                          return Wrap(
-                            spacing: spacing,
-                            runSpacing: spacing,
-                            children: [
-                              MenuCardButton(
-                                width: itemWidth,
-                                icon: Icons.category,
-                                label: l10n.selectCategory,
-                                onTap: () => context.push('/category'),
-                              ),
-                              MenuCardButton(
-                                width: itemWidth,
-                                icon: Icons.flag_rounded,
-                                label: l10n.selectLevel,
-                                onTap: () => context.push('/level'),
-                              ),
-                              MenuCardButton(
-                                width: itemWidth,
-                                icon: Icons.calendar_today_rounded,
-                                label: l10n.dailyWord,
-                                badge: l10n.todayText,
-                                onTap: () => handleDailyButton(context, ref),
-                              ),
-                              MenuCardButton(
-                                width: itemWidth,
-                                icon: Icons.settings,
-                                label: l10n.settings,
-                                onTap: () => showSettingsSheet(context),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ],
+          const GradientBackground(),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  HeaderSubtitle(
+                    title: l10n.mainMenuPlayModeSelection,
+                    subtitle: l10n.mainMenuLearnNewWordsToday,
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  LayoutBuilder(
+                    builder: (context, c) {
+                      final w = c.maxWidth;
+                      final spacing = 16.0;
+                      final cols = w >= 720 ? 3 : (w >= 420 ? 2 : 1);
+                      final itemWidth = (w - spacing * (cols - 1)) / cols;
+
+                      return Wrap(
+                        spacing: spacing,
+                        runSpacing: spacing,
+                        children: [
+                          MenuCardButton(
+                            width: itemWidth,
+                            icon: Icons.category,
+                            label: l10n.selectCategory,
+                            onTap: () => context.push('/category'),
+                          ),
+                          MenuCardButton(
+                            width: itemWidth,
+                            icon: Icons.flag_rounded,
+                            label: l10n.selectLevel,
+                            onTap: () => context.push('/level'),
+                          ),
+                          MenuCardButton(
+                            width: itemWidth,
+                            icon: Icons.calendar_today_rounded,
+                            label: l10n.dailyWord,
+                            badge: l10n.todayText,
+                            onTap: () => handleDailyButton(context, ref),
+                          ),
+                          MenuCardButton(
+                            width: itemWidth,
+                            icon: Icons.settings,
+                            label: l10n.settings,
+                            onTap: () => showSettingsSheet(context),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
               ),
             ),
           ),

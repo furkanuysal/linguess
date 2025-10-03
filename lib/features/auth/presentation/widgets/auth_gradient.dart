@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AuthHeaderGradient extends StatelessWidget {
-  const AuthHeaderGradient({super.key, this.height = 320});
+class AuthGradient extends StatelessWidget {
+  const AuthGradient({super.key, this.height = 320});
   final double height;
 
   @override

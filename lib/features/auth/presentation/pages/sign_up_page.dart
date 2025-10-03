@@ -10,7 +10,7 @@ import 'package:linguess/features/auth/presentation/widgets/github_sign_in_butto
 import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
-import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
+import 'package:linguess/features/auth/presentation/widgets/auth_gradient.dart';
 
 class SignUpPage extends ConsumerStatefulWidget {
   const SignUpPage({super.key});
@@ -107,8 +107,9 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
     return Scaffold(
       body: SafeArea(
         child: Stack(
+          fit: StackFit.expand,
           children: [
-            const AuthHeaderGradient(height: 300),
+            const AuthGradient(),
             SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
               child: Column(

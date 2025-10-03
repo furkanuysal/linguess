@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/features/game/presentation/providers/learned_count_provider.dart';
 import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
@@ -21,89 +22,140 @@ class _LevelPageState extends ConsumerState<LevelPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
     final levelsAsync = ref.watch(levelsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
-      body: levelsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
-        data: (levels) {
-          // Invalidate relevant progress providers when levels are loaded
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            for (final level in levels) {
-              ref.invalidate(
-                progressProvider(ProgressParams(mode: 'level', id: level.id)),
-              );
-            }
-          });
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => context.canPop() ? context.pop() : null,
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
 
-          if (levels.isEmpty) {
-            // Use ListView + physics to allow pull-to-refresh even when empty
-            return RefreshIndicator(
-              onRefresh: () async {
-                ref.invalidate(levelsProvider);
-                await ref.read(levelsProvider.future);
-              },
-              child: ListView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(24),
-                      child: Text(l10n.noDataToShow),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              ref.invalidate(levelsProvider);
-              await ref.read(levelsProvider.future);
-            },
-            child: GridView.builder(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
-              physics: const AlwaysScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 220,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 1.15,
-              ),
-              itemCount: levels.length,
-              itemBuilder: (context, index) {
-                final level = levels[index];
-                return _LevelCard(
-                  id: level.id,
-                  titleBuilder: (id) => id,
-                  onTap: () async {
-                    await context.push(
-                      '/game/level/${level.id}',
-                      extra: WordGameParams(
-                        mode: 'level',
-                        selectedValue: level.id,
-                      ),
-                    );
-                    // invalidate progress and word game state for this level
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: scheme.primary,
+          shadows: const [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(0, 1),
+              color: Color(0x33000000),
+            ),
+          ],
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                scheme.surface.withValues(alpha: 0.10),
+                Colors.transparent,
+              ],
+            ),
+          ),
+        ),
+        title: Text(l10n.appTitle),
+      ),
+      body: Stack(
+        children: [
+          Positioned.fill(child: GradientBackground()),
+          SafeArea(
+            child: levelsAsync.when(
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
+              data: (levels) {
+                // invalidate progress providers
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  for (final level in levels) {
                     ref.invalidate(
                       progressProvider(
                         ProgressParams(mode: 'level', id: level.id),
                       ),
                     );
-                    ref.invalidate(
-                      wordGameProvider(
-                        WordGameParams(mode: 'level', selectedValue: level.id),
-                      ),
-                    );
+                  }
+                });
+
+                if (levels.isEmpty) {
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      ref.invalidate(levelsProvider);
+                      await ref.read(levelsProvider.future);
+                    },
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(24),
+                            child: Text(l10n.noDataToShow),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    ref.invalidate(levelsProvider);
+                    await ref.read(levelsProvider.future);
                   },
+                  child: GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 220,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          childAspectRatio: 1.15,
+                        ),
+                    itemCount: levels.length,
+                    itemBuilder: (context, index) {
+                      final level = levels[index];
+                      return _LevelCard(
+                        id: level.id,
+                        titleBuilder: (id) => id,
+                        onTap: () async {
+                          await context.push(
+                            '/game/level/${level.id}',
+                            extra: WordGameParams(
+                              mode: 'level',
+                              selectedValue: level.id,
+                            ),
+                          );
+                          // invalidate providers
+                          ref.invalidate(
+                            progressProvider(
+                              ProgressParams(mode: 'level', id: level.id),
+                            ),
+                          );
+                          ref.invalidate(
+                            wordGameProvider(
+                              WordGameParams(
+                                mode: 'level',
+                                selectedValue: level.id,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
@@ -123,69 +175,79 @@ class _LevelCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
+
     final progressAsync = ref.watch(
       progressProvider(ProgressParams(mode: 'level', id: id)),
     );
 
     return Material(
-      color: Theme.of(context).colorScheme.surface,
       elevation: 2,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(20),
       clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: progressAsync.when(
-            loading: () => CardSkeleton(title: titleBuilder(id)),
-            error: (_, _) => CardSkeleton(title: titleBuilder(id)),
-            data: (p) {
-              final learned = p.hasUser ? p.learnedCount : 0;
-              final total = math.max(p.totalCount, 1);
-              final percent = (learned / total).clamp(0.0, 1.0);
+      child: Ink(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [scheme.surface, scheme.surfaceContainerHigh],
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: progressAsync.when(
+              loading: () => CardSkeleton(title: titleBuilder(id)),
+              error: (_, _) => CardSkeleton(title: titleBuilder(id)),
+              data: (p) {
+                final learned = p.hasUser ? p.learnedCount : 0;
+                final total = math.max(p.totalCount, 1);
+                final percent = (learned / total).clamp(0.0, 1.0);
 
-              return Stack(
-                children: [
-                  // top left: title
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8),
+                return Stack(
+                  children: [
+                    // top left: title
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: Text(
+                          titleBuilder(id),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 24,
+                              ),
+                        ),
+                      ),
+                    ),
+                    // top right: percentage
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: ProgressBadge(percent: percent),
+                    ),
+                    // bottom right: learned/total
+                    Align(
+                      alignment: Alignment.bottomRight,
                       child: Text(
-                        titleBuilder(id),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 24,
-                            ),
+                        p.hasUser
+                            ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
+                            : '${p.totalCount} ${l10n.totalWordText}',
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: Theme.of(context).textTheme.labelLarge?.color
+                              ?.withValues(alpha: 0.75),
+                        ),
                       ),
                     ),
-                  ),
-
-                  // top right: percentage
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: ProgressBadge(percent: percent),
-                  ),
-                  // bottom right: learned/total
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Text(
-                      p.hasUser
-                          ? '${p.learnedCount}/${p.totalCount} ${l10n.learnedCountText}'
-                          : '${p.totalCount} ${l10n.totalWordText}',
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).textTheme.labelLarge?.color?.withValues(alpha: 0.75),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),

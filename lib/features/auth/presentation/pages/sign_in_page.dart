@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
-import 'package:linguess/features/auth/presentation/widgets/auth_header_gradient.dart';
+import 'package:linguess/features/auth/presentation/widgets/auth_gradient.dart';
 import 'package:linguess/features/auth/presentation/widgets/github_sign_in_button.dart';
 import 'package:linguess/features/auth/presentation/widgets/google_sign_in_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -122,8 +122,9 @@ class _SignInPageState extends ConsumerState<SignInPage> {
     return Scaffold(
       body: SafeArea(
         child: Stack(
+          fit: StackFit.expand,
           children: [
-            AuthHeaderGradient(height: 300),
+            const AuthGradient(),
             // Content
             SingleChildScrollView(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),

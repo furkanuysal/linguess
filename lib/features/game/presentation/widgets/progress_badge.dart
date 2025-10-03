@@ -21,7 +21,7 @@ class ProgressBadge extends StatelessWidget {
               strokeWidth: 5,
               backgroundColor: Theme.of(
                 context,
-              ).colorScheme.surfaceContainerHigh,
+              ).colorScheme.surfaceContainerHighest,
               color: Theme.of(context).colorScheme.primary,
             ),
           ),
