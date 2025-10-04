@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog.dart';
 import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
@@ -26,37 +27,8 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: scheme.primary,
-          // small shadow
-          shadows: [
-            Shadow(
-              blurRadius: 2,
-              offset: Offset(0, 1),
-              color: Color(0x33000000),
-            ),
-          ],
-        ),
-        flexibleSpace: Container(
-          // thin gradient at the top of the AppBar
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                scheme.surface.withValues(alpha: 0.10),
-                Colors.transparent,
-              ],
-            ),
-          ),
-        ),
-        title: Text(l10n.appTitle),
+      appBar: CustomAppBar(
+        title: l10n.appTitle,
         actions: [
           // Rewarded Ad button
           Semantics(
@@ -131,18 +103,74 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snap) {
               final user = snap.data;
+              final scheme = Theme.of(context).colorScheme;
+              final isDark = Theme.of(context).brightness == Brightness.dark;
+
+              final hasPhoto =
+                  (user?.photoURL != null && user!.photoURL!.isNotEmpty);
+
+              // Avatar ring color
+              final ringColor = user == null
+                  ? scheme.surfaceContainerHighest
+                  : scheme.primary;
+
+              // Bottom right status dot
+              Color statusDot = user == null
+                  ? scheme.outline
+                  : Colors.greenAccent;
+              String statusLabel = user == null ? l10n.signIn : l10n.profile;
+
               return Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: SfxIconButton(
-                  tooltip: user == null ? l10n.signIn : l10n.profile,
-                  icon: CircleAvatar(
-                    radius: 14,
-                    backgroundColor: scheme.primary.withValues(alpha: 0.20),
-                    child: Icon(
-                      user == null ? Icons.person_outline : Icons.person,
-                      size: 18,
-                      color: scheme.primary,
-                    ),
+                  tooltip: statusLabel,
+                  icon: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // Outer ring + avatar
+                      Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: ringColor, width: 2),
+                        ),
+                        child: CircleAvatar(
+                          radius: 14,
+                          backgroundColor: scheme.surfaceContainerHigh,
+                          // If no photo, show icon
+                          foregroundImage: hasPhoto
+                              ? NetworkImage(user.photoURL!)
+                              : null,
+                          child: hasPhoto
+                              ? null
+                              : Icon(
+                                  user == null
+                                      ? Icons.person_add_alt
+                                      : Icons.person,
+                                  size: 18,
+                                  color: scheme.primary,
+                                ),
+                        ),
+                      ),
+
+                      // Bottom right status dot
+                      Positioned(
+                        right: -2,
+                        bottom: -2,
+                        child: Container(
+                          width: 10,
+                          height: 10,
+                          decoration: BoxDecoration(
+                            color: statusDot,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isDark ? scheme.surface : scheme.primary,
+                              width: 1.5,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   onPressed: () {
                     if (user == null) {

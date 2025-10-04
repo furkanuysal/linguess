@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
@@ -22,12 +23,11 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final scheme = Theme.of(context).colorScheme;
     final categoriesAsync = ref.watch(categoriesProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
+      appBar: CustomAppBar(
         leading: IconButton(
           onPressed: () => context.canPop() ? context.pop() : null,
           icon: Icon(
@@ -35,35 +35,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        titleTextStyle: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: scheme.primary,
-          shadows: const [
-            Shadow(
-              blurRadius: 2,
-              offset: Offset(0, 1),
-              color: Color(0x33000000),
-            ),
-          ],
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                scheme.surface.withValues(alpha: 0.10),
-                Colors.transparent,
-              ],
-            ),
-          ),
-        ),
-        title: Text(l10n.appTitle),
+        title: l10n.appTitle,
       ),
       body: Stack(
         children: [

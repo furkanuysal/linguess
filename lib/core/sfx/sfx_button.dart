@@ -31,11 +31,13 @@ class SfxIconButton extends ConsumerWidget {
     required this.onPressed,
     required this.icon,
     this.tooltip,
+    this.onLongPress,
   });
 
   final VoidCallback onPressed;
   final Widget icon;
   final String? tooltip;
+  final VoidCallback? onLongPress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,6 +48,7 @@ class SfxIconButton extends ConsumerWidget {
         sfx.select();
         onPressed();
       },
+      onLongPress: onLongPress,
       icon: icon,
     );
   }

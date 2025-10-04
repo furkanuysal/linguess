@@ -32,3 +32,61 @@ InputDecoration authInputDecoration(BuildContext context) {
     ),
   );
 }
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.centerTitle = true,
+    this.leading,
+    this.actions,
+  });
+
+  final String title;
+  final bool centerTitle;
+  final Widget? leading;
+  final List<Widget>? actions;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      centerTitle: centerTitle,
+      leading: leading,
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: scheme.primary,
+          shadows: const [
+            Shadow(
+              blurRadius: 2,
+              offset: Offset(0, 1),
+              color: Color(0x33000000),
+            ),
+          ],
+        ),
+      ),
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              scheme.surface.withValues(alpha: 0.10),
+              Colors.transparent,
+            ],
+          ),
+        ),
+      ),
+      actions: actions,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}

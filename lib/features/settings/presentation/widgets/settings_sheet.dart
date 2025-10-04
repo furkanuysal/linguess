@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
+import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 
@@ -194,9 +195,9 @@ void showSettingsSheet(BuildContext context) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+    backgroundColor: Colors.transparent,
+    builder: (context) => const SheetBackground(
+      child: SafeArea(top: false, child: SettingsSheet()),
     ),
-    builder: (context) => const SettingsSheet(),
   );
 }
