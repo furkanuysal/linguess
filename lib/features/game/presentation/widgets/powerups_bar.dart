@@ -50,6 +50,16 @@ class PowerUpsBar extends StatelessWidget {
           child: Row(
             children: [
               _PowerUpChip(
+                icon: Icons.lightbulb_outline,
+                cost: EconomyService.revealLetterCost,
+                enabled: canRevealLetter,
+                onTap: onRevealLetter,
+                tooltip: canRevealLetter
+                    ? l10n.letterHint
+                    : l10n.allLettersRevealed,
+              ),
+              const SizedBox(width: 8),
+              _PowerUpChip(
                 icon: Icons.menu_book_outlined,
                 cost: visibleDefinitionCost,
                 enabled: canShowDefinition,
@@ -67,16 +77,6 @@ class PowerUpsBar extends StatelessWidget {
                 tooltip: canShowExampleSentence
                     ? l10n.exampleSentenceHint
                     : l10n.noExampleSentenceToShow,
-              ),
-              const SizedBox(width: 8),
-              _PowerUpChip(
-                icon: Icons.lightbulb_outline,
-                cost: EconomyService.revealLetterCost,
-                enabled: canRevealLetter,
-                onTap: onRevealLetter,
-                tooltip: canRevealLetter
-                    ? l10n.letterHint
-                    : l10n.allLettersRevealed,
               ),
               const SizedBox(width: 8),
               _PowerUpChip(

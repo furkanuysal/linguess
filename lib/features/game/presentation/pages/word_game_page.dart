@@ -1,8 +1,12 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
+import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/core/utils/localized_date_format.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/economy/data/services/economy_service.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
@@ -32,34 +36,28 @@ class WordGamePage extends ConsumerStatefulWidget {
 class _WordGamePageState extends ConsumerState<WordGamePage>
     with TickerProviderStateMixin {
   late final AnimationController _shakeController;
-  late final Animation<double> _shakeAnimation;
   late final AnimationController _goldAnimationController;
   late final Animation<double> _goldScaleAnimation;
   late final Animation<Color?> _goldColorAnimation;
-  late final WordGameParams params;
+  bool get isDailyMode => widget.mode == 'daily';
+
+  WordGameParams get _params =>
+      WordGameParams(mode: widget.mode, selectedValue: widget.selectedValue);
 
   @override
   void initState() {
     super.initState();
-    params = WordGameParams(
-      mode: widget.mode,
-      selectedValue: widget.selectedValue,
-    );
     _shakeController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 320),
     );
 
     _shakeController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         _shakeController.reset();
-        ref.read(wordGameProvider(params).notifier).onShakeAnimationComplete();
+        ref.read(wordGameProvider(_params).notifier).onShakeAnimationComplete();
       }
     });
-
-    _shakeAnimation = Tween<double>(begin: 0, end: 24).animate(
-      CurvedAnimation(parent: _shakeController, curve: Curves.elasticIn),
-    );
 
     _goldAnimationController = AnimationController(
       vsync: this,
@@ -100,15 +98,16 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
 
   @override
   Widget build(BuildContext context) {
-    final params = WordGameParams(
-      mode: widget.mode,
-      selectedValue: widget.selectedValue,
-    );
-    final state = ref.watch(wordGameProvider(params));
-    final notifier = ref.read(wordGameProvider(params).notifier);
+    final gameProv = wordGameProvider(_params);
+    final state = ref.watch(gameProv);
+    final notifier = ref.read(gameProv.notifier);
     final userDataAsync = ref.watch(userDataProvider);
     final userAsync = ref.watch(firebaseUserProvider);
     final user = userAsync.value; // User? (null = not signed in)
+    final settings = ref.read(settingsControllerProvider).value;
+    final appLang =
+        settings?.appLangCode ?? Localizations.localeOf(context).languageCode;
+    final targetLang = settings?.targetLangCode ?? 'en';
 
     final sfx = ref.watch(sfxProvider);
 
@@ -119,48 +118,58 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
       }
     }
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.mode == "daily"
-              ? l10n.dailyWord
-              : l10n.categoryTitle(widget.selectedValue),
+      extendBodyBehindAppBar: true,
+      appBar: CustomAppBar(
+        title: isDailyMode
+            ? l10n.dailyWord
+            : l10n.categoryTitle(widget.selectedValue),
+        subtitle: isDailyMode ? localizedDate(context, ref) : null,
+        leading: IconButton(
+          onPressed: () => context.canPop() ? context.pop() : null,
+          icon: Icon(Icons.arrow_back_ios_new, color: scheme.primary),
         ),
         actions: [
           AnimatedBuilder(
             animation: _goldAnimationController,
             builder: (context, child) {
+              final chipColor =
+                  _goldColorAnimation.value ?? Colors.amber.shade800;
               return Transform.scale(
                 scale: _goldScaleAnimation.value,
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 8,
-                    vertical: 4,
+                    horizontal: 10,
+                    vertical: 6,
                   ),
                   margin: const EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
-                    color: Colors.amber.shade50,
+                    color: scheme.surface.withValues(alpha: 0.85),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.amber.shade400),
+                    border: Border.all(color: scheme.secondary),
+                    boxShadow: [
+                      if (_goldAnimationController.isAnimating)
+                        BoxShadow(
+                          color: (_goldColorAnimation.value ?? Colors.amber)
+                              .withValues(alpha: 0.35),
+                          blurRadius: 14,
+                          spreadRadius: 1,
+                        ),
+                    ],
                   ),
+
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.monetization_on,
-                        color:
-                            _goldColorAnimation.value ?? Colors.amber.shade800,
-                        size: 18,
-                      ),
+                      Icon(Icons.monetization_on, color: chipColor, size: 18),
                       const SizedBox(width: 4),
                       if (user == null)
                         Text(
                           '0',
                           style: TextStyle(
-                            color:
-                                _goldColorAnimation.value ??
-                                Colors.amber.shade800,
+                            color: chipColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -176,9 +185,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                             return Text(
                               gold,
                               style: TextStyle(
-                                color:
-                                    _goldColorAnimation.value ??
-                                    Colors.amber.shade800,
+                                color: chipColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),
@@ -192,9 +199,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                           error: (_, _) => Text(
                             '?',
                             style: TextStyle(
-                              color:
-                                  _goldColorAnimation.value ??
-                                  Colors.amber.shade800,
+                              color: chipColor,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
@@ -208,195 +213,236 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           ),
         ],
       ),
-      body: state.words.when(
-        data: (words) {
-          if (state.currentWord == null) {
-            return const Center(child: RefreshProgressIndicator());
-          }
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const GradientBackground(),
+          SafeArea(
+            child: state.words.when(
+              data: (words) {
+                if (state.currentWord == null) {
+                  return const Center(child: RefreshProgressIndicator());
+                }
+                final hint = state.currentWord!.termOf(appLang);
+                bool enabled(bool cond) => cond && !state.isLoading;
 
-          final settings = ref.read(settingsControllerProvider).value;
-          final currentLanguage =
-              settings?.appLangCode ??
-              Localizations.localeOf(context).languageCode;
-          final hint = state.currentWord!.termOf(currentLanguage);
-          final currentTargetLanguage = settings?.targetLangCode ?? 'en';
+                bool hasText(String? s) => s != null && s.isNotEmpty;
 
-          final bool hasDefinition = (() {
-            final def = state.currentWord!.locales.meaningOf(currentLanguage);
-            return def != null && def.isNotEmpty;
-          })();
+                final hasDefinition = hasText(
+                  state.currentWord!.locales.meaningOf(appLang),
+                );
+                final hasExampleSentence = hasText(
+                  state.currentWord!.exampleSentenceOf(appLang),
+                );
+                final hasExampleSentenceTarget = hasText(
+                  state.currentWord!.exampleSentenceOf(targetLang),
+                );
 
-          final bool hasExampleSentence = (() {
-            final ex = state.currentWord!.exampleSentenceOf(currentLanguage);
-            return ex != null && ex.isNotEmpty;
-          })();
+                final canShowDefinition = enabled(hasDefinition);
+                final canShowExampleSentence = enabled(hasExampleSentence);
+                final canShowExampleSentenceTarget = enabled(
+                  hasExampleSentenceTarget,
+                );
+                final canSkip = enabled(
+                  !isDailyMode && (state.words.value?.isNotEmpty ?? false),
+                );
 
-          final bool hasExampleSentenceTarget = (() {
-            final ex = state.currentWord!.exampleSentenceOf(
-              currentTargetLanguage,
-            );
-            return ex != null && ex.isNotEmpty;
-          })();
+                int visibleCost(bool alreadyUsed, int baseCost) =>
+                    alreadyUsed ? 0 : baseCost;
 
-          final bool canShowDefinition = hasDefinition && !state.isLoading;
-          final bool canShowExampleSentence =
-              hasExampleSentence && !state.isLoading;
-          final bool canShowExampleSentenceTarget =
-              hasExampleSentenceTarget && !state.isLoading;
-          final visibleDefinitionCost = state.isDefinitionUsedForCurrentWord
-              ? 0
-              : EconomyService.showDefinitionCost;
-          final visibleExampleSentenceCost =
-              state.isExampleSentenceUsedForCurrentWord
-              ? 0
-              : EconomyService.showExampleSentenceCost;
-          final visibleExampleSentenceTargetCost =
-              state.isExampleSentenceTargetUsedForCurrentWord
-              ? 0
-              : EconomyService.showExampleSentenceTargetCost;
+                final visibleDefinitionCost = visibleCost(
+                  state.isDefinitionUsedForCurrentWord,
+                  EconomyService.showDefinitionCost,
+                );
+                final visibleExampleSentenceCost = visibleCost(
+                  state.isExampleSentenceUsedForCurrentWord,
+                  EconomyService.showExampleSentenceCost,
+                );
+                final visibleExampleSentenceTargetCost = visibleCost(
+                  state.isExampleSentenceTargetUsedForCurrentWord,
+                  EconomyService.showExampleSentenceTargetCost,
+                );
 
-          // Fixed heights and paddings for the power-ups bar
-          const double barHeight = 72;
-          const double barVerticalPadding = 12;
+                // Fixed height for the power-ups bar
+                const double barHeight = 72;
 
-          return Stack(
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        '${l10n.yourWord}: $hint',
-                        style: const TextStyle(fontSize: 20),
-                      ),
-                      const SizedBox(height: 24),
-                      AnimatedBuilder(
-                        animation: _shakeController,
-                        builder: (context, child) => Transform.translate(
-                          offset: Offset(
-                            _shakeAnimation.value *
-                                sin(
-                                  2 *
-                                      pi *
-                                      DateTime.now().millisecondsSinceEpoch /
-                                      100,
+                return Stack(
+                  children: [
+                    Column(
+                      children: [
+                        // Top: PowerUps bar (with SafeArea)
+                        SafeArea(
+                          bottom: false,
+                          child: Container(
+                            height: barHeight,
+                            margin: EdgeInsets.zero,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 4,
+                            ),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .secondaryContainer
+                                    .withValues(alpha: 0.45),
+                                borderRadius: BorderRadius.circular(14),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.08),
+                                    blurRadius: 10,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 8,
+                                  vertical: 4,
                                 ),
-                            0,
+                                child: PowerUpsBar(
+                                  visibleDefinitionCost: visibleDefinitionCost,
+                                  visibleExampleSentenceCost:
+                                      visibleExampleSentenceCost,
+                                  visibleExampleSentenceTargetCost:
+                                      visibleExampleSentenceTargetCost,
+                                  canRevealLetter:
+                                      state.hintIndices.length <
+                                          state.currentTarget
+                                              .replaceAll(' ', '')
+                                              .length &&
+                                      !state.isLoading,
+                                  canSkip: canSkip,
+                                  canShowDefinition: canShowDefinition,
+                                  canShowExampleSentence:
+                                      canShowExampleSentence,
+                                  canShowExampleSentenceTarget:
+                                      canShowExampleSentenceTarget,
+                                  onRevealLetter: () {
+                                    _triggerGoldAnimation();
+                                    notifier.showHintLetter(
+                                      context,
+                                      cost: EconomyService.revealLetterCost,
+                                    );
+                                  },
+                                  onSkipToNext: () async {
+                                    _triggerGoldAnimation();
+                                    await notifier.skipToNextWord(
+                                      context,
+                                      cost: EconomyService.skipWordCost,
+                                    );
+                                  },
+                                  onShowDefinition: () {
+                                    _triggerGoldAnimation();
+                                    notifier.showDefinition(
+                                      context,
+                                      cost: EconomyService.showDefinitionCost,
+                                    );
+                                  },
+                                  onShowExampleSentence: () {
+                                    _triggerGoldAnimation();
+                                    notifier.showExampleSentence(
+                                      context,
+                                      cost: EconomyService
+                                          .showExampleSentenceCost,
+                                    );
+                                  },
+                                  onShowExampleSentenceTarget: () {
+                                    _triggerGoldAnimation();
+                                    notifier.showExampleSentenceTarget(
+                                      context,
+                                      cost: EconomyService
+                                          .showExampleSentenceTargetCost,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                           ),
-                          child: child,
                         ),
-                        child: WordAnswerBoard(
-                          text: state.currentTarget,
-                          controllers: state.controllers,
-                          focusNodes: state.focusNodes,
-                          correct: state.correctIndices,
-                          onKeyEvent: (i, e) => notifier.onKeyEvent(i, e),
-                          onChanged: (i, v) =>
-                              notifier.onTextChanged(context, i, v),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 6),
+                                const Spacer(flex: 2),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${l10n.yourWord}: $hint',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            letterSpacing: 0.3,
+                                            color: scheme.primary,
+                                          ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    const SizedBox(height: 12),
+                                    AnimatedBuilder(
+                                      animation: _shakeController,
+                                      builder: (context, child) {
+                                        final t = _shakeController.value;
+                                        final dx =
+                                            12 * math.sin(t * 2 * math.pi * 2);
+                                        return Transform.translate(
+                                          offset: Offset(dx, 0),
+                                          child: child,
+                                        );
+                                      },
+                                      child: WordAnswerBoard(
+                                        text: state.currentTarget,
+                                        controllers: state.controllers,
+                                        focusNodes: state.focusNodes,
+                                        correct: state.correctIndices,
+                                        onKeyEvent: (i, e) =>
+                                            notifier.onKeyEvent(i, e),
+                                        onChanged: (i, v) => notifier
+                                            .onTextChanged(context, i, v),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(flex: 3),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    // LOADING overlay
+                    if (state.isLoading) ...[
+                      const Positioned.fill(
+                        child: IgnorePointer(
+                          child: ColoredBox(color: Colors.transparent),
+                        ),
+                      ),
+                      Positioned.fill(
+                        child: AbsorbPointer(
+                          child: Container(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surface.withValues(alpha: 0.25),
+                            child: const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
                         ),
                       ),
                     ],
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                top: 0,
-                child: SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: barVerticalPadding),
-                    child: Center(
-                      child: Container(
-                        height: barHeight,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 6,
-                        ),
-                        child: PowerUpsBar(
-                          visibleDefinitionCost: visibleDefinitionCost,
-                          visibleExampleSentenceCost:
-                              visibleExampleSentenceCost,
-                          visibleExampleSentenceTargetCost:
-                              visibleExampleSentenceTargetCost,
-                          canRevealLetter:
-                              state.hintIndices.length <
-                                  state.currentTarget
-                                      .replaceAll(' ', '')
-                                      .length &&
-                              !state.isLoading,
-                          canSkip:
-                              (state.words.value?.isNotEmpty ?? false) &&
-                              !state.isLoading,
-                          canShowDefinition: canShowDefinition,
-                          canShowExampleSentence: canShowExampleSentence,
-                          canShowExampleSentenceTarget:
-                              canShowExampleSentenceTarget,
-                          onRevealLetter: () {
-                            _triggerGoldAnimation();
-                            notifier.showHintLetter(
-                              context,
-                              cost: EconomyService.revealLetterCost,
-                            );
-                          },
-                          onSkipToNext: () async {
-                            _triggerGoldAnimation();
-                            await notifier.skipToNextWord(
-                              context,
-                              cost: EconomyService.skipWordCost,
-                            );
-                          },
-                          onShowDefinition: () {
-                            _triggerGoldAnimation();
-                            notifier.showDefinition(
-                              context,
-                              cost: EconomyService.showDefinitionCost,
-                            );
-                          },
-                          onShowExampleSentence: () {
-                            _triggerGoldAnimation();
-                            notifier.showExampleSentence(
-                              context,
-                              cost: EconomyService.showExampleSentenceCost,
-                            );
-                          },
-                          onShowExampleSentenceTarget: () {
-                            _triggerGoldAnimation();
-                            notifier.showExampleSentenceTarget(
-                              context,
-                              cost:
-                                  EconomyService.showExampleSentenceTargetCost,
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              if (state.isLoading) ...[
-                const Positioned.fill(
-                  child: IgnorePointer(
-                    child: ColoredBox(color: Colors.transparent),
-                  ),
-                ),
-                Positioned.fill(
-                  child: AbsorbPointer(
-                    child: Container(
-                      color: Colors.black.withValues(alpha: 0.12),
-                      child: const Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          );
-        },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (e, _) => Center(child: Text('${l10n.errorOccurred}: $e')),
+            ),
+          ),
+        ],
       ),
     );
   }

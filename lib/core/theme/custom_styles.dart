@@ -37,12 +37,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     required this.title,
+    this.subtitle,
     this.centerTitle = true,
     this.leading,
     this.actions,
   });
 
   final String title;
+  final String? subtitle;
   final bool centerTitle;
   final Widget? leading;
   final List<Widget>? actions;
@@ -56,20 +58,35 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.transparent,
       centerTitle: centerTitle,
       leading: leading,
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: scheme.primary,
-          shadows: const [
-            Shadow(
-              blurRadius: 2,
-              offset: Offset(0, 1),
-              color: Color(0x33000000),
+      title: Column(
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: scheme.primary,
+              shadows: const [
+                Shadow(
+                  blurRadius: 2,
+                  offset: Offset(0, 1),
+                  color: Color(0x33000000),
+                ),
+              ],
+            ),
+          ),
+          if (subtitle != null) ...[
+            const SizedBox(height: 2),
+            Text(
+              subtitle!,
+              style: TextStyle(
+                fontSize: 12,
+                color: scheme.onSurfaceVariant.withValues(alpha: 0.8),
+                fontStyle: FontStyle.italic,
+              ),
             ),
           ],
-        ),
+        ],
       ),
       flexibleSpace: Container(
         decoration: BoxDecoration(

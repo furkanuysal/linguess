@@ -6,11 +6,12 @@ class EconomyService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Power-up costs
+  static const int revealLetterCost = 2;
   static const int showDefinitionCost = 3;
   static const int showExampleSentenceCost = 3;
-  static const int revealLetterCost = 5;
+
   static const int showExampleSentenceTargetCost = 7;
-  static const int skipWordCost = 10;
+  static const int skipWordCost = 8;
 
   Future<int> getUserGold() async {
     final user = _auth.currentUser;
