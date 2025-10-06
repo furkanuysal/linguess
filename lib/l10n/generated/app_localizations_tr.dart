@@ -27,33 +27,6 @@ class AppLocalizationsTr extends AppLocalizations {
   String get category => 'Kategori';
 
   @override
-  String get category_food => 'Yiyecekler';
-
-  @override
-  String get category_animal => 'Hayvanlar';
-
-  @override
-  String get category_job => 'Meslekler';
-
-  @override
-  String get category_electronic => 'Elektronik';
-
-  @override
-  String get category_vehicle => 'Araçlar';
-
-  @override
-  String get category_building => 'Yapılar';
-
-  @override
-  String get category_hobby => 'Hobiler';
-
-  @override
-  String get category_space => 'Uzay';
-
-  @override
-  String get category_time => 'Zaman';
-
-  @override
   String get nextWord => 'Sonraki Kelime';
 
   @override
@@ -634,4 +607,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get todayText => 'Bugün';
+
+  @override
+  String get translationsText => 'Çeviriler';
+
+  @override
+  String get categoryEditSubtitle =>
+      'Kategori adını her dil için gir. Boş bıraktıkların korunur.';
+
+  @override
+  String get categoryAddSubtitle =>
+      'Kategori ID\'si benzersiz olmalıdır. *zorunlu alan';
 }

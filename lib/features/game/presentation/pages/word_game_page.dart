@@ -9,13 +9,13 @@ import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/core/utils/localized_date_format.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/economy/data/services/economy_service.dart';
+import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/core/sfx/sfx_service.dart';
 import 'package:linguess/features/game/presentation/widgets/powerups_bar.dart';
 import 'package:linguess/features/game/presentation/widgets/word_answer_board.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
 
@@ -108,6 +108,8 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     final appLang =
         settings?.appLangCode ?? Localizations.localeOf(context).languageCode;
     final targetLang = settings?.targetLangCode ?? 'en';
+    final category = ref.watch(categoryByIdProvider(widget.selectedValue));
+    final titleText = category?.titleFor(appLang) ?? widget.selectedValue;
 
     final sfx = ref.watch(sfxProvider);
 
@@ -123,9 +125,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
-        title: isDailyMode
-            ? l10n.dailyWord
-            : l10n.categoryTitle(widget.selectedValue),
+        title: isDailyMode ? l10n.dailyWord : titleText,
         subtitle: isDailyMode ? localizedDate(context, ref) : null,
         leading: IconButton(
           onPressed: () => context.canPop() ? context.pop() : null,

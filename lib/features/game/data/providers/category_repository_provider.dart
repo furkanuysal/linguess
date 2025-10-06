@@ -8,3 +8,16 @@ final categoriesProvider = FutureProvider<List<CategoryModel>>((ref) async {
   final repo = ref.read(categoryRepositoryProvider);
   return repo.fetchCategories();
 });
+
+final categoryByIdProvider = Provider.family<CategoryModel?, String>((ref, id) {
+  final catsAsync = ref.watch(categoriesProvider);
+  return catsAsync.maybeWhen(
+    data: (cats) {
+      for (final c in cats) {
+        if (c.id == id) return c;
+      }
+      return null;
+    },
+    orElse: () => null,
+  );
+});

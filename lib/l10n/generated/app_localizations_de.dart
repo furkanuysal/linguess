@@ -27,33 +27,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get category => 'Kategorie';
 
   @override
-  String get category_food => 'Lebensmittel';
-
-  @override
-  String get category_animal => 'Tiere';
-
-  @override
-  String get category_job => 'Berufe';
-
-  @override
-  String get category_electronic => 'Elektronik';
-
-  @override
-  String get category_vehicle => 'Fahrzeuge';
-
-  @override
-  String get category_building => 'Bauwerke';
-
-  @override
-  String get category_hobby => 'Hobbys';
-
-  @override
-  String get category_space => 'Weltraum';
-
-  @override
-  String get category_time => 'Zeit';
-
-  @override
   String get nextWord => 'Nächstes Wort';
 
   @override
@@ -648,4 +621,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get todayText => 'Heute';
+
+  @override
+  String get translationsText => 'Übersetzungen';
+
+  @override
+  String get categoryEditSubtitle =>
+      'Kategorie Name für jede Sprache eingeben. Leere Felder werden beibehalten.';
+
+  @override
+  String get categoryAddSubtitle =>
+      'Kategorie ID muss einzigartig sein. *Pflichtfeld';
 }

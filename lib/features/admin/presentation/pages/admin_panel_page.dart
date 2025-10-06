@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/theme/custom_styles.dart';
+import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdminPanelPage extends ConsumerStatefulWidget {
@@ -15,56 +17,73 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.adminPanelTitle), centerTitle: true),
-      body: Padding(
-        padding: const EdgeInsets.all(48.0),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 800),
-            child: GridView.count(
-              crossAxisCount: 2,
-              crossAxisSpacing: 24,
-              mainAxisSpacing: 24,
-              shrinkWrap: true,
-              children: [
-                _buildAdminCard(
-                  context,
-                  title: l10n.addWordTitle,
-                  description: l10n.addWordDesc,
-                  icon: Icons.add_circle_outline,
-                  color: Colors.teal,
-                  onTap: () => context.push('/admin/words/add'),
+      extendBodyBehindAppBar: true,
+      appBar: CustomAppBar(
+        title: l10n.adminPanelTitle,
+        leading: IconButton(
+          onPressed: () => context.canPop() ? context.pop() : null,
+          icon: Icon(Icons.arrow_back_ios_new, color: scheme.primary),
+        ),
+        centerTitle: true,
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          const GradientBackground(),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(48.0),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 800),
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 24,
+                    mainAxisSpacing: 24,
+                    shrinkWrap: true,
+                    children: [
+                      _buildAdminCard(
+                        context,
+                        title: l10n.addWordTitle,
+                        description: l10n.addWordDesc,
+                        icon: Icons.add_circle_outline,
+                        color: Colors.teal,
+                        onTap: () => context.push('/admin/words/add'),
+                      ),
+                      _buildAdminCard(
+                        context,
+                        title: l10n.wordsListText,
+                        description: l10n.wordsListDesc,
+                        icon: Icons.list_alt,
+                        color: Colors.indigo,
+                        onTap: () => context.push('/admin/words'),
+                      ),
+                      _buildAdminCard(
+                        context,
+                        title: l10n.dailyListText,
+                        description: l10n.dailyListDesc,
+                        icon: Icons.today,
+                        color: Colors.orange,
+                        onTap: () => context.push('/admin/daily'),
+                      ),
+                      _buildAdminCard(
+                        context,
+                        title: l10n.categoriesText,
+                        description: l10n.categoryListDesc,
+                        icon: Icons.category,
+                        color: Colors.purple,
+                        onTap: () => context.push('/admin/categories'),
+                      ),
+                    ],
+                  ),
                 ),
-                _buildAdminCard(
-                  context,
-                  title: l10n.wordsListText,
-                  description: l10n.wordsListDesc,
-                  icon: Icons.list_alt,
-                  color: Colors.indigo,
-                  onTap: () => context.push('/admin/words'),
-                ),
-                _buildAdminCard(
-                  context,
-                  title: l10n.dailyListText,
-                  description: l10n.dailyListDesc,
-                  icon: Icons.today,
-                  color: Colors.orange,
-                  onTap: () => context.push('/admin/daily'),
-                ),
-                _buildAdminCard(
-                  context,
-                  title: l10n.categoriesText,
-                  description: l10n.categoryListDesc,
-                  icon: Icons.category,
-                  color: Colors.purple,
-                  onTap: () => context.push('/admin/categories'),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -24,42 +24,6 @@
   "@category": {
     "description": "Label for the category selection"
   },
-  "category_food": "Yiyecekler",
-  "@category_food": {
-    "description": "Category label for food"
-  },
-  "category_animal": "Hayvanlar",
-  "@category_animal": {
-    "description": "Category label for animals"
-  },
-  "category_job": "Meslekler",
-  "@category_job": {
-    "description": "Category label for jobs"
-  },
-  "category_electronic": "Elektronik",
-  "@category_electronic": {
-    "description": "Category label for electronics"
-  },
-  "category_vehicle": "Araçlar",
-  "@category_vehicle": {
-    "description": "Category label for vehicles"
-  },
-  "category_building": "Yapılar",
-  "@category_building": {
-    "description": "Category label for buildings"
-  },
-  "category_hobby": "Hobiler",
-  "@category_hobby": {
-    "description": "Category label for hobbies"
-  },
-  "category_space": "Uzay",
-  "@category_space": {
-    "description": "Category label for space"
-  },
-  "category_time": "Zaman",
-  "@category_time": {
-    "description": "Category label for time"
-  },
   "nextWord": "Sonraki Kelime",
   "@nextWord": {
     "description": "Button text to load the next word in the game"
@@ -811,5 +775,17 @@
   "todayText": "Bugün",
   "@todayText": {
     "description": "Label for 'today' in the main menu"
+  },
+  "translationsText": "Çeviriler",
+  "@translationsText": {
+    "description": "Label for the translations section"
+  },
+  "categoryEditSubtitle": "Kategori adını her dil için gir. Boş bıraktıkların korunur.",
+  "@categoryEditSubtitle": {
+    "description": "Subtitle for the category edit page"
+  },
+  "categoryAddSubtitle": "Kategori ID'si benzersiz olmalıdır. *zorunlu alan",
+  "@categoryAddSubtitle": {
+    "description": "Subtitle for the category add page"
   }
 }

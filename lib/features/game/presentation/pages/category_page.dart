@@ -9,8 +9,8 @@ import 'package:linguess/features/game/data/providers/category_repository_provid
 import 'package:linguess/features/game/presentation/providers/learned_count_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/card_skeleton.dart';
 import 'package:linguess/features/game/presentation/widgets/progress_badge.dart';
+import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 
 class CategoryPage extends ConsumerStatefulWidget {
   const CategoryPage({super.key});
@@ -24,6 +24,7 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final categoriesAsync = ref.watch(categoriesProvider);
+    final appLang = ref.watch(settingsControllerProvider).value!.appLangCode;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -95,9 +96,10 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                     itemCount: categories.length,
                     itemBuilder: (context, index) {
                       final category = categories[index];
+                      final title = category.titleFor(appLang);
                       return _CategoryCard(
                         id: category.id,
-                        titleBuilder: (id) => l10n.categoryTitle(id),
+                        title: title,
                         iconCodePoint:
                             category.icon, // Material icon code point
                         onTap: () async {
@@ -130,13 +132,13 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
 class _CategoryCard extends ConsumerWidget {
   const _CategoryCard({
     required this.id,
-    required this.titleBuilder,
+    required this.title,
     required this.onTap,
     this.iconCodePoint,
   });
 
   final String id;
-  final String Function(String id) titleBuilder;
+  final String title;
   final String? iconCodePoint;
   final VoidCallback onTap;
 
@@ -166,8 +168,8 @@ class _CategoryCard extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.all(14),
             child: progressAsync.when(
-              loading: () => CardSkeleton(title: titleBuilder(id)),
-              error: (_, _) => CardSkeleton(title: titleBuilder(id)),
+              loading: () => CardSkeleton(title: title),
+              error: (_, _) => CardSkeleton(title: title),
               data: (p) {
                 final learned = p.hasUser ? p.learnedCount : 0;
                 final total = math.max(p.totalCount, 1);
@@ -193,7 +195,7 @@ class _CategoryCard extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: Text(
-                          titleBuilder(id),
+                          title,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleMedium

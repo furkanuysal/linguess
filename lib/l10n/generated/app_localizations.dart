@@ -138,60 +138,6 @@ abstract class AppLocalizations {
   /// **'Kategori'**
   String get category;
 
-  /// Category label for food
-  ///
-  /// In tr, this message translates to:
-  /// **'Yiyecekler'**
-  String get category_food;
-
-  /// Category label for animals
-  ///
-  /// In tr, this message translates to:
-  /// **'Hayvanlar'**
-  String get category_animal;
-
-  /// Category label for jobs
-  ///
-  /// In tr, this message translates to:
-  /// **'Meslekler'**
-  String get category_job;
-
-  /// Category label for electronics
-  ///
-  /// In tr, this message translates to:
-  /// **'Elektronik'**
-  String get category_electronic;
-
-  /// Category label for vehicles
-  ///
-  /// In tr, this message translates to:
-  /// **'Araçlar'**
-  String get category_vehicle;
-
-  /// Category label for buildings
-  ///
-  /// In tr, this message translates to:
-  /// **'Yapılar'**
-  String get category_building;
-
-  /// Category label for hobbies
-  ///
-  /// In tr, this message translates to:
-  /// **'Hobiler'**
-  String get category_hobby;
-
-  /// Category label for space
-  ///
-  /// In tr, this message translates to:
-  /// **'Uzay'**
-  String get category_space;
-
-  /// Category label for time
-  ///
-  /// In tr, this message translates to:
-  /// **'Zaman'**
-  String get category_time;
-
   /// Button text to load the next word in the game
   ///
   /// In tr, this message translates to:
@@ -1266,6 +1212,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bugün'**
   String get todayText;
+
+  /// Label for the translations section
+  ///
+  /// In tr, this message translates to:
+  /// **'Çeviriler'**
+  String get translationsText;
+
+  /// Subtitle for the category edit page
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori adını her dil için gir. Boş bıraktıkların korunur.'**
+  String get categoryEditSubtitle;
+
+  /// Subtitle for the category add page
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori ID\'si benzersiz olmalıdır. *zorunlu alan'**
+  String get categoryAddSubtitle;
 }
 
 class _AppLocalizationsDelegate

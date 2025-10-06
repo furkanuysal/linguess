@@ -24,42 +24,6 @@
   "@category": {
     "description": "Label for the category selection"
   },
-  "category_food": "Lebensmittel",
-  "@category_food": {
-    "description": "Category label for food"
-  },
-  "category_animal": "Tiere",
-  "@category_animal": {
-    "description": "Category label for animals"
-  },
-  "category_job": "Berufe",
-  "@category_job": {
-    "description": "Category label for jobs"
-  },
-  "category_electronic": "Elektronik",
-  "@category_electronic": {
-    "description": "Category label for electronics"
-  },
-  "category_vehicle": "Fahrzeuge",
-  "@category_vehicle": {
-    "description": "Category label for vehicles"
-  },
-  "category_building": "Bauwerke",
-  "@category_building": {
-    "description": "Category label for buildings"
-  },
-  "category_hobby": "Hobbys",
-  "@category_hobby": {
-    "description": "Category label for hobbies"
-  },
-  "category_space": "Weltraum",
-  "@category_space": {
-    "description": "Category label for space"
-  },
-  "category_time": "Zeit",
-  "@category_time": {
-    "description": "Category label for time"
-  },
   "nextWord": "Nächstes Wort",
   "@nextWord": {
     "description": "Button text to load the next word in the game"
@@ -811,5 +775,17 @@
   "todayText": "Heute",
   "@todayText": {
     "description": "Label for 'today' in the main menu"
+  },
+  "translationsText": "Übersetzungen",
+  "@translationsText": {
+    "description": "Label for the translations section"
+  },
+  "categoryEditSubtitle": "Kategorie Name für jede Sprache eingeben. Leere Felder werden beibehalten.",
+  "@categoryEditSubtitle": {
+    "description": "Subtitle for the category edit page"
+  },
+  "categoryAddSubtitle": "Kategorie ID muss einzigartig sein. *Pflichtfeld",
+  "@categoryAddSubtitle": {
+    "description": "Subtitle for the category add page"
   }
 }

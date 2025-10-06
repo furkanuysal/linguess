@@ -15,14 +15,14 @@ class CategoryRepository {
           .collection('categories')
           .orderBy('index')
           .get();
+
       log('Category count: ${snapshot.docs.length}');
-      return snapshot.docs.map((doc) {
-        final data = doc.data();
-        data['id'] = doc.id;
-        return CategoryModel.fromJson(data);
-      }).toList();
-    } catch (e) {
-      log('Error fetching categories: $e');
+
+      return snapshot.docs
+          .map((doc) => CategoryModel.fromJson(doc.id, doc.data()))
+          .toList();
+    } catch (e, st) {
+      log('Error fetching categories: $e\n$st');
       return [];
     }
   }
@@ -31,11 +31,9 @@ class CategoryRepository {
   Stream<List<CategoryModel>> streamCategories() {
     return _firestore.collection('categories').orderBy('index').snapshots().map(
       (snapshot) {
-        return snapshot.docs.map((doc) {
-          final data = doc.data();
-          data['id'] = doc.id;
-          return CategoryModel.fromJson(data);
-        }).toList();
+        return snapshot.docs
+            .map((doc) => CategoryModel.fromJson(doc.id, doc.data()))
+            .toList();
       },
     );
   }

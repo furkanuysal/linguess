@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/l10n/generated/app_localizations_extensions.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
 import 'package:linguess/features/game/data/providers/word_repository_provider.dart';
 import 'package:linguess/features/game/data/repositories/word_repository.dart';
@@ -88,7 +88,9 @@ class LearnedWordsPage extends ConsumerWidget {
                         final appText = w.termOf(appLangCode);
                         final titleText = _cap(targetText);
                         final subtitleText = appText;
-
+                        final cat = ref.watch(categoryByIdProvider(w.category));
+                        final categoryTitle =
+                            cat?.titleFor(appLangCode) ?? w.category;
                         return _GradientListItem(
                           leadingIcon: Icons.menu_book_outlined,
                           title: titleText,
@@ -103,7 +105,7 @@ class LearnedWordsPage extends ConsumerWidget {
                                 targetText: targetText,
                                 appText: appText,
                                 level: w.level,
-                                category: l10n.categoryTitle(w.category),
+                                category: categoryTitle,
                               ),
                             );
                           },
