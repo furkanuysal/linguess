@@ -5,6 +5,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/admin/presentation/providers/admin_categories_provider.dart';
 import 'package:linguess/features/admin/presentation/providers/supported_langs_provider.dart';
+import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/game/data/models/category_model.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/repositories/category_repository.dart';
@@ -49,67 +50,88 @@ class AdminCategoriesPage extends ConsumerWidget {
                   return Center(child: Text(l10n.noDataToShow));
                 }
                 return ListView.separated(
+                  padding: const EdgeInsets.all(12),
                   itemCount: items.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, i) {
                     final c = items[i];
-                    return ListTile(
-                      leading: c.icon != null
-                          ? Icon(
-                              IconData(
-                                int.parse(c.icon!),
-                                fontFamily: 'MaterialIcons',
+
+                    final leadingIcon = c.icon != null
+                        ? Icon(
+                            IconData(
+                              int.parse(c.icon!),
+                              fontFamily: 'MaterialIcons',
+                            ),
+                          )
+                        : const Icon(Icons.category);
+
+                    return GradientCard(
+                      onTap: () => _openEditDialog(context, ref, repo, c),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 6,
+                        ),
+                        child: ListTile(
+                          onTap: null,
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                          ),
+                          leading: leadingIcon,
+                          title: Text(
+                            c.id,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: Text('index: ${c.index}'),
+                          trailing: Wrap(
+                            spacing: 8,
+                            children: [
+                              IconButton(
+                                tooltip: l10n.moveUpText,
+                                icon: const Icon(Icons.arrow_upward),
+                                onPressed: i == 0
+                                    ? null
+                                    : () async {
+                                        final prev = items[i - 1];
+                                        await repo.swapIndices(
+                                          idA: c.id,
+                                          indexA: c.index,
+                                          idB: prev.id,
+                                          indexB: prev.index,
+                                        );
+                                      },
                               ),
-                            )
-                          : const Icon(Icons.category),
-                      title: Text(c.id),
-                      subtitle: Text('index: ${c.index}'),
-                      trailing: Wrap(
-                        spacing: 8,
-                        children: [
-                          IconButton(
-                            tooltip: l10n.moveUpText,
-                            icon: const Icon(Icons.arrow_upward),
-                            onPressed: i == 0
-                                ? null
-                                : () async {
-                                    final prev = items[i - 1];
-                                    await repo.swapIndices(
-                                      idA: c.id,
-                                      indexA: c.index,
-                                      idB: prev.id,
-                                      indexB: prev.index,
-                                    );
-                                  },
+                              IconButton(
+                                tooltip: l10n.moveDownText,
+                                icon: const Icon(Icons.arrow_downward),
+                                onPressed: i == items.length - 1
+                                    ? null
+                                    : () async {
+                                        final next = items[i + 1];
+                                        await repo.swapIndices(
+                                          idA: c.id,
+                                          indexA: c.index,
+                                          idB: next.id,
+                                          indexB: next.index,
+                                        );
+                                      },
+                              ),
+                              IconButton(
+                                tooltip: l10n.updateCategoryText,
+                                icon: const Icon(Icons.edit),
+                                onPressed: () =>
+                                    _openEditDialog(context, ref, repo, c),
+                              ),
+                              IconButton(
+                                tooltip: l10n.deleteCategoryText,
+                                icon: const Icon(Icons.delete_forever),
+                                onPressed: () =>
+                                    _confirmDelete(context, repo, c.id),
+                              ),
+                            ],
                           ),
-                          IconButton(
-                            tooltip: l10n.moveDownText,
-                            icon: const Icon(Icons.arrow_downward),
-                            onPressed: i == items.length - 1
-                                ? null
-                                : () async {
-                                    final next = items[i + 1];
-                                    await repo.swapIndices(
-                                      idA: c.id,
-                                      indexA: c.index,
-                                      idB: next.id,
-                                      indexB: next.index,
-                                    );
-                                  },
-                          ),
-                          IconButton(
-                            tooltip: l10n.updateCategoryText,
-                            icon: const Icon(Icons.edit),
-                            onPressed: () =>
-                                _openEditDialog(context, ref, repo, c),
-                          ),
-                          IconButton(
-                            tooltip: l10n.deleteCategoryText,
-                            icon: const Icon(Icons.delete_forever),
-                            onPressed: () =>
-                                _confirmDelete(context, repo, c.id),
-                          ),
-                        ],
+                        ),
                       ),
                     );
                   },

@@ -6,6 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/admin/presentation/providers/word_list_provider.dart';
+import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -217,42 +218,148 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                         : ListView.separated(
                             itemCount: words.length,
                             separatorBuilder: (_, _) =>
-                                const Divider(height: 1),
+                                const SizedBox(height: 10),
+                            padding: const EdgeInsets.only(bottom: 12),
                             itemBuilder: (context, i) {
                               final w = Map<String, dynamic>.from(words[i]);
                               final id = w['__id'] as String;
                               final category = (w['category'] ?? '').toString();
                               final level = (w['level'] ?? '').toString();
-
-                              // Read from locales safely
                               final en = w.termOf('en');
                               final tr = w.termOf('tr');
 
-                              return ListTile(
-                                title: Text(en.isNotEmpty ? en : '—'),
-                                subtitle: Text(
-                                  '$category • $level'
-                                  '${tr.isNotEmpty ? ' • tr: $tr' : ''}',
+                              return Dismissible(
+                                key: ValueKey(id),
+                                direction: DismissDirection.horizontal,
+                                confirmDismiss: (direction) async {
+                                  if (direction ==
+                                      DismissDirection.startToEnd) {
+                                    // Sağ → düzenle
+                                    context.push(
+                                      '/admin/words/add',
+                                      extra: {'editId': id},
+                                    );
+                                    return false; // item'ı listeden silme
+                                  } else if (direction ==
+                                      DismissDirection.endToStart) {
+                                    // Sol → silme onayı
+                                    await _confirmDelete(id);
+                                    return false; // Silme işlemi zaten dialog içinde
+                                  }
+                                  return false;
+                                },
+
+                                // Sağ swipe arka plan (edit)
+                                background: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: const Row(
+                                    children: [
+                                      Icon(
+                                        Icons.edit,
+                                        color: Colors.green,
+                                        size: 28,
+                                      ),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'Edit',
+                                        style: TextStyle(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                trailing: Wrap(
-                                  spacing: 8,
-                                  children: [
-                                    IconButton(
-                                      tooltip: l10n.updateWordText,
-                                      icon: const Icon(Icons.edit),
-                                      onPressed: () {
-                                        context.push(
-                                          '/admin/words/add',
-                                          extra: {'editId': id},
-                                        );
-                                      },
+
+                                // Sol swipe arka plan (delete)
+                                secondaryBackground: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.withValues(alpha: 0.15),
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  alignment: Alignment.centerRight,
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: const Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        'Delete',
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(width: 8),
+                                      Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.red,
+                                        size: 28,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                child: GradientCard(
+                                  onTap: () => context.push(
+                                    '/admin/words/add',
+                                    extra: {'editId': id},
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
                                     ),
-                                    IconButton(
-                                      tooltip: l10n.deleteWordText,
-                                      icon: const Icon(Icons.delete_forever),
-                                      onPressed: () => _confirmDelete(id),
+                                    child: ListTile(
+                                      onTap: null,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                          ),
+                                      title: Text(
+                                        en.isNotEmpty ? en : '—',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w700,
+                                            ),
+                                      ),
+                                      subtitle: Text(
+                                        '$category • $level${tr.isNotEmpty ? ' • tr: $tr' : ''}',
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      trailing: Wrap(
+                                        spacing: 8,
+                                        children: [
+                                          IconButton(
+                                            tooltip: l10n.updateWordText,
+                                            icon: const Icon(Icons.edit),
+                                            onPressed: () => context.push(
+                                              '/admin/words/add',
+                                              extra: {'editId': id},
+                                            ),
+                                          ),
+                                          IconButton(
+                                            tooltip: l10n.deleteWordText,
+                                            icon: const Icon(
+                                              Icons.delete_forever,
+                                            ),
+                                            onPressed: () => _confirmDelete(id),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ],
+                                  ),
                                 ),
                               );
                             },

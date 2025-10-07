@@ -96,6 +96,7 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
     required Color color,
     required VoidCallback onTap,
   }) {
+    final scheme = Theme.of(context).colorScheme;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -104,6 +105,21 @@ class _AdminPanelPageState extends ConsumerState<AdminPanelPage> {
         borderRadius: BorderRadius.circular(16),
         child: Container(
           padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            gradient: LinearGradient(
+              colors: [scheme.surface, scheme.surfaceContainerHigh],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

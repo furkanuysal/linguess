@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/admin/presentation/providers/daily_provider.dart';
+import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdminDailyListPage extends ConsumerWidget {
@@ -43,7 +44,7 @@ class AdminDailyListPage extends ConsumerWidget {
                 return ListView.separated(
                   padding: const EdgeInsets.all(12),
                   itemCount: items.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
+                  separatorBuilder: (_, _) => const SizedBox(height: 10),
                   itemBuilder: (context, i) {
                     final d = items[i];
                     final dateStr = dfDate.format(d.date);
@@ -52,19 +53,41 @@ class AdminDailyListPage extends ConsumerWidget {
                         : '—';
                     final enAsync = ref.watch(wordEnByIdProvider(d.wordId));
 
-                    return ListTile(
-                      leading: const Icon(Icons.calendar_today),
-                      title: Text('$dateStr  (${d.id})'),
-                      subtitle: enAsync.when(
-                        loading: () => Text('wordId: ${d.wordId} • ...'),
-                        error: (_, _) => Text('wordId: ${d.wordId}'),
-                        data: (en) => Text(
-                          en == null || en.isEmpty
-                              ? 'wordId: ${d.wordId}'
-                              : 'wordId: ${d.wordId} • "$en"',
+                    return GradientCard(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 6,
+                        ),
+                        child: ListTile(
+                          leading: const Icon(Icons.calendar_today),
+                          title: Text(
+                            '$dateStr  (${d.id})',
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          subtitle: enAsync.when(
+                            loading: () => Text('wordId: ${d.wordId} • ...'),
+                            error: (_, _) => Text('wordId: ${d.wordId}'),
+                            data: (en) => Text(
+                              en == null || en.isEmpty
+                                  ? 'wordId: ${d.wordId}'
+                                  : 'wordId: ${d.wordId} • "$en"',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          trailing: Text(
+                            createdStr,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                          ),
                         ),
                       ),
-                      trailing: Text(createdStr),
                     );
                   },
                 );
