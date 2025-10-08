@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:linguess/core/effects/confetti_particle.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog_sections.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -14,6 +15,8 @@ class SuccessDialog extends StatefulWidget {
         5, // Number of repetitions required to be considered learned
     required this.isDaily, // Is it in daily mode?
     this.onPrimaryPressed, // Callback to run when CTA is pressed (e.g. load new word / close)
+    this.isSignedIn = true, // Is the user signed in?
+    this.onSignInPressed, // Callback to run when sign in button is pressed
   });
 
   final int goldEarned;
@@ -23,6 +26,8 @@ class SuccessDialog extends StatefulWidget {
   final int requiredTimes;
   final bool isDaily;
   final VoidCallback? onPrimaryPressed;
+  final bool isSignedIn;
+  final VoidCallback? onSignInPressed;
 
   static Future<void> show(
     BuildContext context, {
@@ -34,6 +39,8 @@ class SuccessDialog extends StatefulWidget {
     required bool isDaily,
     VoidCallback? onPrimaryPressed,
     bool showConfetti = true,
+    bool isSignedIn = true,
+    VoidCallback? onSignInPressed,
   }) async {
     return showDialog(
       context: context,
@@ -62,6 +69,8 @@ class SuccessDialog extends StatefulWidget {
               requiredTimes: requiredTimes,
               isDaily: isDaily,
               onPrimaryPressed: onPrimaryPressed,
+              isSignedIn: isSignedIn,
+              onSignInPressed: onSignInPressed,
             ),
           ),
         ],
@@ -139,20 +148,21 @@ class _SuccessDialogState extends State<SuccessDialog>
               const SizedBox(height: 12),
 
               // Gold Earned + Coin Burst
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  if (widget.goldEarned > 0)
-                    CoinBurst(
-                      key: ValueKey('coin-burst-${widget.goldEarned}'),
-                      coinCount: (8 + (widget.goldEarned / 10).clamp(0, 10))
-                          .toInt(),
-                      duration: const Duration(milliseconds: 1500),
-                    ),
-                  // Gold Earned
-                  GoldEarned(amount: widget.goldEarned),
-                ],
-              ),
+              if (widget.isSignedIn)
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    if (widget.goldEarned > 0)
+                      CoinBurst(
+                        key: ValueKey('coin-burst-${widget.goldEarned}'),
+                        coinCount: (8 + (widget.goldEarned / 10).clamp(0, 10))
+                            .toInt(),
+                        duration: const Duration(milliseconds: 1500),
+                      ),
+                    // Gold Earned
+                    GoldEarned(amount: widget.goldEarned),
+                  ],
+                ),
 
               const SizedBox(height: 12),
               Divider(height: 1),
@@ -166,19 +176,82 @@ class _SuccessDialogState extends State<SuccessDialog>
 
               const SizedBox(height: 14),
 
-              WordProgressSection(count: count, requiredTimes: req),
+              if (widget.isSignedIn)
+                WordProgressSection(count: count, requiredTimes: req)
+              else
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    l10n.progressNotSaved,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
 
               const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    widget.onPrimaryPressed?.call();
-                  },
-                  child: Text(primaryLabel),
+
+              // CTA field
+              if (widget.isSignedIn)
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () {
+                      context.pop();
+                      widget.onPrimaryPressed?.call();
+                    },
+                    child: Text(primaryLabel),
+                  ),
+                )
+              else
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // Upsell card
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.lock_outline),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              l10n.signInUpsellText,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FilledButton.icon(
+                      onPressed: () {
+                        widget.onSignInPressed?.call();
+                      },
+                      icon: const Icon(Icons.login),
+                      label: Text(l10n.signIn),
+                    ),
+                    const SizedBox(height: 8),
+                    OutlinedButton(
+                      onPressed: () {
+                        context.pop();
+                        widget.onPrimaryPressed?.call();
+                      },
+                      child: Text(
+                        widget.isDaily
+                            ? l10n.close
+                            : l10n.continueToPlayAsGuest,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
             ],
           ),
         ),

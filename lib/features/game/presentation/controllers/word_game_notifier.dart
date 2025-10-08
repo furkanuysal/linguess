@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/utils/id_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
@@ -291,6 +292,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     final wordToSolve = state.currentWord!.termOf(appLang);
     final correctAnswerFormatted = _capitalize(state.currentTarget);
+    final isSignedIn = ref
+        .watch(firebaseUserProvider)
+        .maybeWhen(data: (u) => u != null, orElse: () => false);
 
     final correctTimes = await ref.read(
       userWordProgressCountProvider((
@@ -327,6 +331,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
       correctTimes: correctTimes,
       requiredTimes: 5,
       isDaily: params.mode == 'daily',
+      isSignedIn: isSignedIn,
+      onSignInPressed: () async {
+        context.push('/signIn');
+      },
       onPrimaryPressed: () {
         if (params.mode == 'daily') {
           context.pop();

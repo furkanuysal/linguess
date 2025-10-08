@@ -1230,6 +1230,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kategori ID\'si benzersiz olmalıdır. *zorunlu alan'**
   String get categoryAddSubtitle;
+
+  /// Message shown when the user is in guest mode and progress is not saved
+  ///
+  /// In tr, this message translates to:
+  /// **'Misafir olarak oynuyorsun, ilerlemen kaydedilmeyecek.'**
+  String get progressNotSaved;
+
+  /// Encouraging message to sign in or sign up to save progress
+  ///
+  /// In tr, this message translates to:
+  /// **'Giriş yaparak altınlarını, ilerlemeni ve başarımlarını kaydet.'**
+  String get signInUpsellText;
+
+  /// Button text to continue as a guest user
+  ///
+  /// In tr, this message translates to:
+  /// **'Misafir olarak oynamaya devam et'**
+  String get continueToPlayAsGuest;
+
+  /// Message shown when the ad is being prepared
+  ///
+  /// In tr, this message translates to:
+  /// **'Reklam hazırlanıyor...'**
+  String get preparingAd;
 }
 
 class _AppLocalizationsDelegate

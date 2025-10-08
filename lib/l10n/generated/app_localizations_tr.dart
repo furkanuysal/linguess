@@ -618,4 +618,18 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get categoryAddSubtitle =>
       'Kategori ID\'si benzersiz olmalıdır. *zorunlu alan';
+
+  @override
+  String get progressNotSaved =>
+      'Misafir olarak oynuyorsun, ilerlemen kaydedilmeyecek.';
+
+  @override
+  String get signInUpsellText =>
+      'Giriş yaparak altınlarını, ilerlemeni ve başarımlarını kaydet.';
+
+  @override
+  String get continueToPlayAsGuest => 'Misafir olarak oynamaya devam et';
+
+  @override
+  String get preparingAd => 'Reklam hazırlanıyor...';
 }

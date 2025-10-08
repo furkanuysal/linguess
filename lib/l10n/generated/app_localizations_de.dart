@@ -632,4 +632,18 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get categoryAddSubtitle =>
       'Kategorie ID muss einzigartig sein. *Pflichtfeld';
+
+  @override
+  String get progressNotSaved =>
+      'Du spielst als Gast, dein Fortschritt wird nicht gespeichert.';
+
+  @override
+  String get signInUpsellText =>
+      'Melde dich an, um dein Gold, deinen Fortschritt und deine Erfolge zu speichern.';
+
+  @override
+  String get continueToPlayAsGuest => 'Als Gast weiterspielen';
+
+  @override
+  String get preparingAd => 'Anzeige wird vorbereitet...';
 }

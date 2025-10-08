@@ -630,4 +630,18 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get categoryAddSubtitle =>
       'El ID de la categoría debe ser único. *campo obligatorio';
+
+  @override
+  String get progressNotSaved =>
+      'Estás jugando como invitado, tu progreso no se guardará.';
+
+  @override
+  String get signInUpsellText =>
+      'Inicia sesión para guardar tu oro, progreso y logros.';
+
+  @override
+  String get continueToPlayAsGuest => 'Continuar jugando como invitado';
+
+  @override
+  String get preparingAd => 'Preparando anuncio...';
 }

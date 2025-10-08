@@ -787,5 +787,21 @@
   "categoryAddSubtitle": "El ID de la categoría debe ser único. *campo obligatorio",
   "@categoryAddSubtitle": {
     "description": "Subtitle for the category add page"
+  },
+  "progressNotSaved": "Estás jugando como invitado, tu progreso no se guardará.",
+  "@progressNotSaved": {
+    "description": "Message shown when the user is in guest mode and progress is not saved"
+  },
+  "signInUpsellText": "Inicia sesión para guardar tu oro, progreso y logros.",
+  "@signInUpsellText": {
+    "description": "Encouraging message to sign in or sign up to save progress"
+  },
+  "continueToPlayAsGuest": "Continuar jugando como invitado",
+  "@continueToPlayAsGuest": {
+    "description": "Button text to continue as a guest user"
+  },
+  "preparingAd": "Preparando anuncio...",
+  "@preparingAd": {
+    "description": "Message shown when the ad is being prepared"
   }
 }

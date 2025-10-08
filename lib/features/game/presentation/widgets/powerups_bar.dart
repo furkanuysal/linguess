@@ -121,57 +121,55 @@ class _PowerUpChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+
     final chipCore = Semantics(
-      label: 'Power-up — $cost gold',
+      label: 'Power-up, costs $cost gold',
       button: true,
       enabled: enabled,
       child: InkWell(
         onTap: enabled ? onTap : null,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
         child: AnimatedOpacity(
           duration: const Duration(milliseconds: 180),
-          opacity: enabled ? 1 : 0.5,
+          opacity: enabled ? 1 : 0.55,
           child: Container(
-            width: 40,
-            height: 40,
+            width: 44,
+            height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.amber.shade400,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.amber.shade300, Colors.amber.shade500],
+              ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: 6,
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
+                // icon
                 Center(
                   child: Icon(icon, size: 24, color: Colors.brown.shade800),
                 ),
+                // Cost pill
                 Positioned(
-                  right: -3,
-                  top: -3,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 4,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      cost.toString(),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        height: 1,
-                      ),
-                    ),
+                  right: -8,
+                  bottom: -6,
+                  child: _CostPill(
+                    cost: cost,
+                    enabled: enabled,
+                    foreground: enabled
+                        ? scheme.primary
+                        : scheme.onSurfaceVariant,
+                    background: scheme.surface,
+                    outline: scheme.outlineVariant,
                   ),
                 ),
               ],
@@ -184,5 +182,60 @@ class _PowerUpChip extends StatelessWidget {
     return tooltip == null
         ? chipCore
         : Tooltip(message: tooltip!, child: chipCore);
+  }
+}
+
+class _CostPill extends StatelessWidget {
+  const _CostPill({
+    required this.cost,
+    required this.enabled,
+    required this.foreground,
+    required this.background,
+    required this.outline,
+  });
+
+  final int cost;
+  final bool enabled;
+  final Color foreground;
+  final Color background;
+  final Color outline;
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: -0.12,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+        decoration: BoxDecoration(
+          color: background.withValues(alpha: enabled ? 0.95 : 0.80),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: outline.withValues(alpha: 0.7)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.06),
+              blurRadius: 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.monetization_on, size: 12, color: foreground),
+            const SizedBox(width: 3),
+            Text(
+              '$cost',
+              style: TextStyle(
+                fontSize: 12,
+                height: 1,
+                fontWeight: FontWeight.w800,
+                color: foreground,
+                letterSpacing: 0.2,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

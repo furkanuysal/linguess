@@ -787,5 +787,21 @@
   "categoryAddSubtitle": "Kategori ID'si benzersiz olmalıdır. *zorunlu alan",
   "@categoryAddSubtitle": {
     "description": "Subtitle for the category add page"
+  },
+  "progressNotSaved": "Misafir olarak oynuyorsun, ilerlemen kaydedilmeyecek.",
+  "@progressNotSaved": {
+    "description": "Message shown when the user is in guest mode and progress is not saved"
+  },
+  "signInUpsellText": "Giriş yaparak altınlarını, ilerlemeni ve başarımlarını kaydet.",
+  "@signInUpsellText": {
+    "description": "Encouraging message to sign in or sign up to save progress"
+  },
+  "continueToPlayAsGuest": "Misafir olarak oynamaya devam et",
+  "@continueToPlayAsGuest": {
+    "description": "Button text to continue as a guest user"
+  },
+  "preparingAd": "Reklam hazırlanıyor...",
+  "@preparingAd": {
+    "description": "Message shown when the ad is being prepared"
   }
 }
