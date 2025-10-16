@@ -98,13 +98,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                         id: level.id,
                         titleBuilder: (id) => id,
                         onTap: () async {
-                          await context.push(
-                            '/game/level/${level.id}',
-                            extra: WordGameParams(
-                              modes: {GameModeType.level},
-                              filters: {'level': level.id},
-                            ),
-                          );
+                          await context.push('/game/level/${level.id}');
                           // invalidate providers
                           ref.invalidate(
                             progressProvider(

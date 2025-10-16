@@ -225,6 +225,12 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                           ),
                           MenuCardButton(
                             width: itemWidth,
+                            icon: Icons.auto_awesome_mosaic,
+                            label: l10n.customGame,
+                            onTap: () => context.push('/combined-mode-setup'),
+                          ),
+                          MenuCardButton(
+                            width: itemWidth,
                             icon: Icons.calendar_today_rounded,
                             label: l10n.dailyWord,
                             badge: l10n.todayText,

@@ -803,5 +803,21 @@
   "preparingAd": "Reklam hazırlanıyor...",
   "@preparingAd": {
     "description": "Message shown when the ad is being prepared"
+  },
+  "customGame": "Özel Oyun",
+  "@customGame": {
+    "description": "Label for the custom game mode"
+  },
+  "startCustomGame": "Özel Oyunu Başlat",
+  "@startCustomGame": {
+    "description": "Button text to start a custom game"
+  },
+  "noneSelected": "Hiçbiri seçilmedi",
+  "@noneSelected": {
+    "description": "Label indicating that no options are selected"
+  },
+  "clearSelection": "Seçimi Temizle",
+  "@clearSelection": {
+    "description": "Button text to clear the selection"
   }
 }

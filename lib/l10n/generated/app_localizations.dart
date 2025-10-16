@@ -1254,6 +1254,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Reklam hazırlanıyor...'**
   String get preparingAd;
+
+  /// Label for the custom game mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Özel Oyun'**
+  String get customGame;
+
+  /// Button text to start a custom game
+  ///
+  /// In tr, this message translates to:
+  /// **'Özel Oyunu Başlat'**
+  String get startCustomGame;
+
+  /// Label indicating that no options are selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Hiçbiri seçilmedi'**
+  String get noneSelected;
+
+  /// Button text to clear the selection
+  ///
+  /// In tr, this message translates to:
+  /// **'Seçimi Temizle'**
+  String get clearSelection;
 }
 
 class _AppLocalizationsDelegate

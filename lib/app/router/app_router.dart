@@ -11,7 +11,9 @@ import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.
 import 'package:linguess/features/admin/presentation/widgets/admin_guard.dart';
 import 'package:linguess/features/auth/presentation/pages/sign_in_page.dart';
 import 'package:linguess/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/features/game/presentation/pages/category_page.dart';
+import 'package:linguess/features/game/presentation/pages/combined_mode_setup_page.dart';
 import 'package:linguess/features/game/presentation/pages/level_page.dart';
 import 'package:linguess/features/game/presentation/pages/word_game_page.dart';
 import 'package:linguess/features/home/presentation/widgets/home_selector.dart';
@@ -54,11 +56,54 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/level', builder: (context, state) => const LevelPage()),
       GoRoute(
+        path: '/combined-mode-setup',
+        builder: (context, state) => const CombinedModeSetupPage(),
+      ),
+      GoRoute(
         path: '/game/:mode/:value',
         builder: (context, state) {
           final mode = state.pathParameters['mode']!;
           final value = state.pathParameters['value']!;
-          return WordGamePage(mode: mode, selectedValue: value);
+          final query =
+              state.uri.queryParameters; // örn. ?category=food&level=A1
+
+          final modes = <GameModeType>{};
+          final filters = <String, String>{};
+
+          switch (mode) {
+            case 'daily':
+              modes.add(GameModeType.daily);
+              break;
+
+            case 'category':
+              modes.add(GameModeType.category);
+              filters['category'] = value;
+              break;
+
+            case 'level':
+              modes.add(GameModeType.level);
+              filters['level'] = value;
+              break;
+
+            case 'combined':
+              // 🔹 combined modda query param'lardan al
+              if (query.containsKey('category')) {
+                modes.add(GameModeType.category);
+                filters['category'] = query['category']!;
+              }
+              if (query.containsKey('level')) {
+                modes.add(GameModeType.level);
+                filters['level'] = query['level']!;
+              }
+              if (modes.isEmpty) modes.add(GameModeType.category);
+              break;
+
+            default:
+              modes.add(GameModeType.category);
+              filters['category'] = value;
+          }
+
+          return WordGamePage(modes: modes, filters: filters);
         },
       ),
       GoRoute(

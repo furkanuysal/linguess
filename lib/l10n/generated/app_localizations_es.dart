@@ -644,4 +644,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get preparingAd => 'Preparando anuncio...';
+
+  @override
+  String get customGame => 'Juego Personalizado';
+
+  @override
+  String get startCustomGame => 'Iniciar Juego Personalizado';
+
+  @override
+  String get noneSelected => 'Ninguno seleccionado';
+
+  @override
+  String get clearSelection => 'Borrar selección';
 }

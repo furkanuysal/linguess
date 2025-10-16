@@ -20,14 +20,10 @@ import 'package:linguess/features/auth/presentation/providers/user_data_provider
 import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
 
 class WordGamePage extends ConsumerStatefulWidget {
-  final String mode;
-  final String selectedValue;
+  final Set<GameModeType> modes;
+  final Map<String, String> filters;
 
-  const WordGamePage({
-    super.key,
-    required this.selectedValue,
-    required this.mode,
-  });
+  const WordGamePage({super.key, required this.modes, this.filters = const {}});
 
   @override
   ConsumerState<WordGamePage> createState() => _WordGamePageState();
@@ -39,29 +35,10 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   late final AnimationController _goldAnimationController;
   late final Animation<double> _goldScaleAnimation;
   late final Animation<Color?> _goldColorAnimation;
-  bool get isDailyMode => widget.mode == 'daily';
+  bool get isDailyMode => widget.modes.contains(GameModeType.daily);
 
-  WordGameParams get _params {
-    final mode = widget.mode.toLowerCase();
-    switch (mode) {
-      case 'daily':
-        return const WordGameParams(modes: {GameModeType.daily});
-      case 'category':
-        assert(widget.selectedValue.isNotEmpty, 'category id required');
-        return WordGameParams(
-          modes: {GameModeType.category},
-          filters: {'category': widget.selectedValue},
-        );
-      case 'level':
-        assert(widget.selectedValue.isNotEmpty, 'level id required');
-        return WordGameParams(
-          modes: {GameModeType.level},
-          filters: {'level': widget.selectedValue},
-        );
-      default:
-        throw ArgumentError('Unknown game mode: $mode');
-    }
-  }
+  WordGameParams get _params =>
+      WordGameParams(modes: widget.modes, filters: widget.filters);
 
   @override
   void initState() {
@@ -127,8 +104,19 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
     final appLang =
         settings?.appLangCode ?? Localizations.localeOf(context).languageCode;
     final targetLang = settings?.targetLangCode ?? 'en';
-    final category = ref.watch(categoryByIdProvider(widget.selectedValue));
-    final titleText = category?.titleFor(appLang) ?? widget.selectedValue;
+
+    String titleText = '';
+
+    if (widget.filters.containsKey('category')) {
+      final catId = widget.filters['category']!;
+      final category = ref.watch(categoryByIdProvider(catId));
+      titleText = category?.titleFor(appLang) ?? catId;
+    }
+
+    if (widget.filters.containsKey('level')) {
+      final levelId = widget.filters['level']!;
+      titleText = titleText.isEmpty ? levelId : '$titleText – $levelId';
+    }
 
     final sfx = ref.watch(sfxProvider);
 

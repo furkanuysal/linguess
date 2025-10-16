@@ -646,4 +646,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get preparingAd => 'Anzeige wird vorbereitet...';
+
+  @override
+  String get customGame => 'Benutzerdefiniertes Spiel';
+
+  @override
+  String get startCustomGame => 'Benutzerdefiniertes Spiel starten';
+
+  @override
+  String get noneSelected => 'Keine ausgewählt';
+
+  @override
+  String get clearSelection => 'Auswahl löschen';
 }

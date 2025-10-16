@@ -632,4 +632,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get preparingAd => 'Reklam hazırlanıyor...';
+
+  @override
+  String get customGame => 'Özel Oyun';
+
+  @override
+  String get startCustomGame => 'Özel Oyunu Başlat';
+
+  @override
+  String get noneSelected => 'Hiçbiri seçilmedi';
+
+  @override
+  String get clearSelection => 'Seçimi Temizle';
 }

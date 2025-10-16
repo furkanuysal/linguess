@@ -803,5 +803,21 @@
   "preparingAd": "Anzeige wird vorbereitet...",
   "@preparingAd": {
     "description": "Message shown when the ad is being prepared"
+  },
+  "customGame": "Benutzerdefiniertes Spiel",
+  "@customGame": {
+    "description": "Label for the custom game mode"
+  },
+  "startCustomGame": "Benutzerdefiniertes Spiel starten",
+  "@startCustomGame": {
+    "description": "Button text to start a custom game"
+  },
+  "noneSelected": "Keine ausgewählt",
+  "@noneSelected": {
+    "description": "Label indicating that no options are selected"
+  },
+  "clearSelection": "Auswahl löschen",
+  "@clearSelection": {
+    "description": "Button text to clear the selection"
   }
 }

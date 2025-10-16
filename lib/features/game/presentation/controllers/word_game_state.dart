@@ -80,6 +80,7 @@ enum GameModeType {
   category,
   level,
   daily,
+  combined,
   // future modes
 }
 

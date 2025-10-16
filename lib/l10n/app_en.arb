@@ -803,5 +803,22 @@
   "preparingAd": "Preparing Ad...",
   "@preparingAd": {
     "description": "Message shown when the ad is being prepared"
+  },
+  
+  "customGame": "Custom Game",
+  "@customGame": {
+    "description": "Label for the custom game mode"
+  },
+  "startCustomGame": "Start Custom Game",
+  "@startCustomGame": {
+    "description": "Button text to start a custom game"
+  },
+  "noneSelected": "None Selected",
+  "@noneSelected": {
+    "description": "Label indicating that no options are selected"
+  },
+  "clearSelection": "Clear Selection",
+  "@clearSelection": {
+    "description": "Button text to clear the selection"
   }
 }
