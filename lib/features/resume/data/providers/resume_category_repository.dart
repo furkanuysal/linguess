@@ -67,8 +67,11 @@ class ResumeRepository {
   }
 
   // Initial setup (when a new word is assigned)
-  Future<void> upsertInitial({required String currentWordId}) async {
-    await _doc().set({
+  Future<void> upsertInitial({
+    required String currentWordId,
+    Map<String, dynamic>? extraFields, // Optional extra fields
+  }) async {
+    final baseData = {
       'currentWordId': currentWordId,
       'userFilled': <String, String>{}, // empty
       'hintCountUsed': 0,
@@ -76,7 +79,14 @@ class ResumeRepository {
       'isExampleSentenceUsed': false,
       'isExampleSentenceTargetUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    };
+
+    // If extra fields are provided, merge them
+    final mergedData = extraFields != null
+        ? {...baseData, ...extraFields}
+        : baseData;
+
+    await _doc().set(mergedData, SetOptions(merge: true));
   }
 
   Future<void> clearAll() async {
@@ -88,6 +98,7 @@ class ResumeRepository {
       'isExampleSentenceUsed': false,
       'isExampleSentenceTargetUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
+      'dailyDateId': '',
     }, SetOptions(merge: false));
   }
 

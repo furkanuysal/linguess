@@ -33,6 +33,7 @@ class AdsService {
 
   String get unitId {
     if (kIsWeb) return '';
+    if (Platform.isWindows) return '';
     if (Platform.isAndroid) {
       return _unitIdEnv.isNotEmpty ? _unitIdEnv : _androidTest;
     }

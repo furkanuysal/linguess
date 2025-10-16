@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 
@@ -85,7 +85,7 @@ class SettingsSheet extends ConsumerWidget {
                       ),
                       border: const OutlineInputBorder(),
                     ),
-                    value: settings.appLangCode,
+                    initialValue: settings.appLangCode,
                     items: _buildLangItems(
                       appLangs,
                       disabledCode: settings.targetLangCode,
@@ -141,7 +141,7 @@ class SettingsSheet extends ConsumerWidget {
                       ),
                       border: const OutlineInputBorder(),
                     ),
-                    value: settings.targetLangCode,
+                    initialValue: settings.targetLangCode,
                     items: _buildLangItems(
                       targetLangs,
                       disabledCode: settings.appLangCode,
@@ -167,7 +167,7 @@ class SettingsSheet extends ConsumerWidget {
                     .setRepeatLearnedWords(val);
               },
             ),
-            if (!kIsWeb)
+            if (isMobile)
               SwitchListTile(
                 title: Text(l10n.settingsSoundEffects),
                 value: settings.soundEffects,

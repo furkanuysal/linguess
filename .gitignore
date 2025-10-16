@@ -57,3 +57,6 @@ app.*.map.json
 # Google Services (e.g. Firebase)
 /android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
+
+# Backup files
+.backup/

@@ -1,5 +1,3 @@
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,6 +5,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:linguess/app/router/app_router.dart';
 import 'package:linguess/app/update/android_update_gate.dart';
+import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/features/achievements/presentation/widgets/achievement_toast_widget.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/firebase_options.dart';
@@ -19,7 +18,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  final adsSupported = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  final adsSupported = isMobile;
   if (adsSupported) {
     await MobileAds.instance.updateRequestConfiguration(
       RequestConfiguration(

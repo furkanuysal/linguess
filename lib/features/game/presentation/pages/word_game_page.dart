@@ -1,5 +1,4 @@
 import 'dart:math' as math;
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/core/utils/localized_date_format.dart';
+import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/economy/data/services/economy_service.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
@@ -41,8 +41,27 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   late final Animation<Color?> _goldColorAnimation;
   bool get isDailyMode => widget.mode == 'daily';
 
-  WordGameParams get _params =>
-      WordGameParams(mode: widget.mode, selectedValue: widget.selectedValue);
+  WordGameParams get _params {
+    final mode = widget.mode.toLowerCase();
+    switch (mode) {
+      case 'daily':
+        return const WordGameParams(modes: {GameModeType.daily});
+      case 'category':
+        assert(widget.selectedValue.isNotEmpty, 'category id required');
+        return WordGameParams(
+          modes: {GameModeType.category},
+          filters: {'category': widget.selectedValue},
+        );
+      case 'level':
+        assert(widget.selectedValue.isNotEmpty, 'level id required');
+        return WordGameParams(
+          modes: {GameModeType.level},
+          filters: {'level': widget.selectedValue},
+        );
+      default:
+        throw ArgumentError('Unknown game mode: $mode');
+    }
+  }
 
   @override
   void initState() {
@@ -115,7 +134,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
 
     if (state.isShaking && !_shakeController.isAnimating) {
       _shakeController.forward(from: 0);
-      if (!kIsWeb) {
+      if (isMobile) {
         sfx.wrong();
       }
     }

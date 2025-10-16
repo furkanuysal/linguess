@@ -7,6 +7,7 @@ import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/presentation/providers/learned_count_provider.dart';
+import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/card_skeleton.dart';
 import 'package:linguess/features/game/presentation/widgets/progress_badge.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -106,13 +107,21 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                           await context.push(
                             '/game/category/${category.id}',
                             extra: WordGameParams(
-                              mode: 'category',
-                              selectedValue: category.id,
+                              modes: {GameModeType.category},
+                              filters: {'category': category.id},
                             ),
                           );
                           ref.invalidate(
                             progressProvider(
                               ProgressParams(mode: 'category', id: category.id),
+                            ),
+                          );
+                          ref.invalidate(
+                            wordGameProvider(
+                              WordGameParams(
+                                modes: {GameModeType.category},
+                                filters: {'category': category.id},
+                              ),
                             ),
                           );
                         },

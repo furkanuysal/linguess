@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
 
@@ -75,19 +76,34 @@ class WordGameState {
   }
 }
 
+enum GameModeType {
+  category,
+  level,
+  daily,
+  // future modes
+}
+
 class WordGameParams {
-  final String mode; // 'category' | 'level' | 'daily'
-  final String selectedValue; // categoryId | levelId | (daily’de ignore)
+  final Set<GameModeType> modes;
+  final Map<String, String> filters;
 
-  const WordGameParams({required this.mode, required this.selectedValue});
+  const WordGameParams({required this.modes, this.filters = const {}});
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is WordGameParams &&
-          other.mode == mode &&
-          other.selectedValue == selectedValue;
+  bool get isDaily => modes.contains(GameModeType.daily);
 
   @override
-  int get hashCode => mode.hashCode ^ selectedValue.hashCode;
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is WordGameParams &&
+        const SetEquality<GameModeType>().equals(modes, other.modes) &&
+        const MapEquality<String, String>().equals(filters, other.filters);
+  }
+
+  @override
+  int get hashCode =>
+      const SetEquality<GameModeType>().hash(modes) ^
+      const MapEquality<String, String>().hash(filters);
+
+  @override
+  String toString() => 'WordGameParams(modes: $modes, filters: $filters)';
 }

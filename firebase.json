@@ -4,7 +4,7 @@
       "android": {
         "default": {
           "projectId": "linguess-c28bf",
-          "appId": "1:641877804440:android:803f64f9cb381bb3ac17ed",
+          "appId": "1:641877804440:android:28c54386b63466d2ac17ed",
           "fileOutput": "android/app/google-services.json"
         }
       },
@@ -12,8 +12,11 @@
         "lib/firebase_options.dart": {
           "projectId": "linguess-c28bf",
           "configurations": {
-            "android": "1:641877804440:android:803f64f9cb381bb3ac17ed",
-            "web": "1:641877804440:web:290ad344f8fe6a13ac17ed"
+            "android": "1:641877804440:android:28c54386b63466d2ac17ed",
+            "ios": "1:641877804440:ios:da119cac6539b034ac17ed",
+            "macos": "1:641877804440:ios:180896f9f415a0daac17ed",
+            "web": "1:641877804440:web:e88c1f7941aee30cac17ed",
+            "windows": "1:641877804440:web:52075a4eb2601882ac17ed"
           }
         }
       }

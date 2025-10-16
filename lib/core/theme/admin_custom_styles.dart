@@ -67,7 +67,7 @@ Widget appDropdownFormField<T>({
 }) {
   final t = Theme.of(context);
   return DropdownButtonFormField<T>(
-    value: value,
+    initialValue: value,
     isExpanded: true,
     items: items,
     onChanged: onChanged,

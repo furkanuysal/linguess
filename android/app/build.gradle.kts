@@ -35,7 +35,7 @@ android {
 
     defaultConfig {
         applicationId = "com.litusware.linguess"
-        minSdk = 23
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
 
         // pubspec.yaml -> version: 1.0.1+6

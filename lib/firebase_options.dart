@@ -23,20 +23,11 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -67,4 +58,35 @@ class DefaultFirebaseOptions {
     storageBucket: 'linguess-c28bf.firebasestorage.app',
   );
 
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyA6AY-3shKqsaBFmkk9NzD9SbDFDyxM1QI',
+    appId: '1:641877804440:ios:da119cac6539b034ac17ed',
+    messagingSenderId: '641877804440',
+    projectId: 'linguess-c28bf',
+    storageBucket: 'linguess-c28bf.firebasestorage.app',
+    androidClientId: '641877804440-2vvgqqr63o4ndnvhjvhc4inuar1011p4.apps.googleusercontent.com',
+    iosClientId: '641877804440-3q4c4gfq7qb5j311qa34ns1liq4kv77q.apps.googleusercontent.com',
+    iosBundleId: 'com.litusware.linguess',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyA6AY-3shKqsaBFmkk9NzD9SbDFDyxM1QI',
+    appId: '1:641877804440:ios:180896f9f415a0daac17ed',
+    messagingSenderId: '641877804440',
+    projectId: 'linguess-c28bf',
+    storageBucket: 'linguess-c28bf.firebasestorage.app',
+    androidClientId: '641877804440-2vvgqqr63o4ndnvhjvhc4inuar1011p4.apps.googleusercontent.com',
+    iosClientId: '641877804440-c9ipqg0h9q5atr4qg28jjfrgle16gpjm.apps.googleusercontent.com',
+    iosBundleId: 'com.example.linguess',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCpOZKH48xXaXczlbz3ILTTJ4YhlS41Pxw',
+    appId: '1:641877804440:web:52075a4eb2601882ac17ed',
+    messagingSenderId: '641877804440',
+    projectId: 'linguess-c28bf',
+    authDomain: 'linguess-c28bf.firebaseapp.com',
+    storageBucket: 'linguess-c28bf.firebasestorage.app',
+    measurementId: 'G-YCGCNMVT6C',
+  );
 }

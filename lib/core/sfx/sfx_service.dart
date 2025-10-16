@@ -1,13 +1,13 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 
 final sfxProvider = Provider<SfxService>((ref) => SfxService(ref));
 
 class SfxService {
   SfxService(this._ref) {
-    if (!kIsWeb) {
+    if (isMobile) {
       _player = AudioPlayer();
       _preload(); // preload at start
     }
@@ -17,7 +17,7 @@ class SfxService {
   AudioPlayer? _player;
 
   bool get _enabled =>
-      !kIsWeb &&
+      isMobile &&
       (_ref.read(settingsControllerProvider).value?.soundEffects ?? false);
 
   // Asset map
@@ -32,7 +32,7 @@ class SfxService {
   final Duration _minGap = const Duration(milliseconds: 80);
 
   Future<void> _preload() async {
-    if (kIsWeb || _player == null) return;
+    if (!isMobile || _player == null) return;
     try {
       // Preload the most used asset
       await _player!.setAsset(_assets['select']!);
@@ -41,7 +41,7 @@ class SfxService {
   }
 
   Future<void> _playKey(String key, {double volume = 1.0}) async {
-    if (!_enabled || kIsWeb || _player == null) return;
+    if (!_enabled || !isMobile || _player == null) return;
     final asset = _assets[key];
     if (asset == null) return;
 
@@ -76,7 +76,7 @@ class SfxService {
   Future<void> wrong() => _playKey('wrong');
 
   Future<void> dispose() async {
-    if (!kIsWeb && _player != null) {
+    if (isMobile && _player != null) {
       await _player!.dispose();
     }
   }

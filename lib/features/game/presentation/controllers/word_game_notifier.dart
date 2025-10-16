@@ -45,7 +45,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (!_didInit) {
       _didInit = true;
 
-      if (params.mode != 'daily') {
+      if (!params.isDaily) {
         ref.listen(settingsControllerProvider, (prev, next) {
           _reapplyFilters();
         });
@@ -53,8 +53,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
           _reapplyFilters();
         });
       }
-
-      _fetchWords(params.mode, params.selectedValue);
+      _fetchWords(params);
       ref.onDispose(_cleanUpResources);
 
       return const WordGameState(); // initial setup
@@ -95,6 +94,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
   Future<void> _markDailySolved(String dateId, String wordId) async {
     final uid = FirebaseAuth.instance.currentUser?.uid;
     if (uid == null) return;
+    // Save to dailySolved collection
     final refDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(uid)
@@ -104,16 +104,37 @@ class WordGameNotifier extends Notifier<WordGameState> {
       'wordId': wordId,
       'solvedAt': FieldValue.serverTimestamp(),
     }, SetOptions(merge: true));
+
+    // Clear daily resume for next day
+    try {
+      final settings = ref.read(settingsControllerProvider).value;
+      final targetLang = settings?.targetLangCode ?? 'en';
+      // Daily resume docId
+      final resumeDocId = makeResumeDocIdFromFilters(
+        modes: {GameModeType.daily},
+        filters: {},
+      );
+      final resumeKey = ResumeKey(targetLang, resumeDocId);
+      final resumeRepo = ref.read(resumeRepositoryProvider(resumeKey));
+
+      // Clear all fields in the daily resume document for next day
+      await resumeRepo!.clearAll();
+    } catch (e) {
+      debugPrint('Failed to clear daily resume after solve: $e');
+    }
   }
 
-  Future<void> _fetchWords(String mode, String selectedValue) async {
+  // New filter-based system with daily-resume support
+  Future<void> _fetchWords(WordGameParams params) async {
     final wordRepository = ref.read(wordRepositoryProvider);
 
     try {
-      if (mode == 'daily') {
+      // Daily mode
+      if (params.isDaily) {
         final dailyRepo = ref.read(dailyPuzzleRepositoryProvider);
         final todaysWordId = await dailyRepo.getOrCreateTodayDailyWordId();
         final word = await wordRepository.fetchWordById(todaysWordId);
+
         if (word == null) {
           state = state.copyWith(
             words: AsyncValue.error('Daily word not found', StackTrace.current),
@@ -121,8 +142,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
           return;
         }
 
-        final dateId = _todayIdLocal();
-        final already = await _hasUserSolvedDaily(dateId);
+        final todayId = _todayIdLocal();
+        final already = await _hasUserSolvedDaily(todayId);
 
         _rawWords = [word];
         state = state.copyWith(
@@ -131,41 +152,86 @@ class WordGameNotifier extends Notifier<WordGameState> {
           dailyAlreadySolved: already,
         );
 
-        _initializeWord(word);
+        // Daily-resume control
+        final resumeDocId = makeResumeDocIdFromFilters(
+          modes: {GameModeType.daily},
+          filters: {},
+        );
+        final targetLang =
+            ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
+        _resumeKey = ResumeKey(targetLang, resumeDocId);
+        final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
 
-        if (already) {
-          for (int i = 0; i < _targetWithoutSpaces.length; i++) {
-            state.controllers[i].text = _targetWithoutSpaces[i];
+        try {
+          final rs = await resumeRepo!.fetch();
+          // If resume wordId same with today's wordId continue with existing resume
+          if (rs != null && rs.dailyDateId == todayId) {
+            _hintsUsedForCurrentWord = rs.hintCountUsed;
+            _initializeWord(word);
+            _applyPrefillFromResume(rs);
+
+            state = state.copyWith(
+              isDefinitionUsedForCurrentWord: rs.isDefinitionUsed,
+              isExampleSentenceUsedForCurrentWord: rs.isExampleSentenceUsed,
+              isExampleSentenceTargetUsedForCurrentWord:
+                  rs.isExampleSentenceTargetUsed,
+            );
           }
-          state = state.copyWith(
-            correctIndices: List<bool>.filled(
-              _targetWithoutSpaces.length,
-              true,
-            ),
-            hintIndices: List<int>.generate(
-              _targetWithoutSpaces.length,
-              (i) => i,
-            ),
-          );
+          // If no resume exists, create a new one
+          else {
+            await resumeRepo.upsertInitial(
+              currentWordId: word.id,
+              extraFields: {'dailyDateId': todayId},
+            );
+            _initializeWord(word);
+          }
+        } catch (e) {
+          debugPrint('Daily-resume skipped: $e');
+          _initializeWord(word);
         }
+
         return;
       }
 
-      // category/level
-      final words = mode == 'category'
-          ? await wordRepository.fetchWordsByCategory(selectedValue)
-          : await wordRepository.fetchWordsByLevel(selectedValue);
+      // Category/level/combined modes
+      List<WordModel> words = [];
+      final hasCategory = params.filters.containsKey('category');
+      final hasLevel = params.filters.containsKey('level');
+
+      if (hasCategory && hasLevel) {
+        final base = await wordRepository.fetchWordsByCategory(
+          params.filters['category']!,
+        );
+        final wantLevel = params.filters['level']!;
+        words = base.where((w) => w.level == wantLevel).toList();
+      } else if (hasCategory) {
+        words = await wordRepository.fetchWordsByCategory(
+          params.filters['category']!,
+        );
+      } else if (hasLevel) {
+        words = await wordRepository.fetchWordsByLevel(
+          params.filters['level']!,
+        );
+      } else {
+        state = state.copyWith(
+          words: AsyncValue.error(
+            'No filters provided for non-daily mode',
+            StackTrace.current,
+          ),
+        );
+        return;
+      }
 
       _rawWords = words;
       await _reapplyFilters(initial: true);
     } catch (e, st) {
-      state = state.copyWith(words: AsyncValue.error(e, st));
+      if (ref.mounted) {
+        state = state.copyWith(words: AsyncValue.error(e, st));
+      }
     }
   }
 
   Future<void> _reapplyFilters({bool initial = false}) async {
-    if (params.mode == 'daily') return;
-
     final settings = ref.read(settingsControllerProvider).value;
     final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
     final targetLang =
@@ -330,13 +396,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
       correctAnswer: correctAnswerFormatted,
       correctTimes: correctTimes,
       requiredTimes: 5,
-      isDaily: params.mode == 'daily',
+      isDaily: params.isDaily,
       isSignedIn: isSignedIn,
       onSignInPressed: () async {
         context.push('/signIn');
       },
       onPrimaryPressed: () {
-        if (params.mode == 'daily') {
+        if (params.isDaily) {
           context.pop();
         } else {
           _loadRandomWord();
@@ -520,9 +586,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
   Future<void> _resumeHandshake(List<WordModel> pool, String targetLang) async {
     if (pool.isEmpty) return;
 
-    final docId = makeResumeDocId(
-      mode: params.mode,
-      selectedValue: params.selectedValue,
+    final docId = makeResumeDocIdFromFilters(
+      modes: params.modes,
+      filters: params.filters,
     );
 
     _resumeKey = ResumeKey(targetLang, docId);

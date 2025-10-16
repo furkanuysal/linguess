@@ -101,8 +101,8 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                           await context.push(
                             '/game/level/${level.id}',
                             extra: WordGameParams(
-                              mode: 'level',
-                              selectedValue: level.id,
+                              modes: {GameModeType.level},
+                              filters: {'level': level.id},
                             ),
                           );
                           // invalidate providers
@@ -114,8 +114,8 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                           ref.invalidate(
                             wordGameProvider(
                               WordGameParams(
-                                mode: 'level',
-                                selectedValue: level.id,
+                                modes: {GameModeType.level},
+                                filters: {'level': level.id},
                               ),
                             ),
                           );

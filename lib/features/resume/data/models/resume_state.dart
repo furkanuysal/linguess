@@ -9,6 +9,7 @@ class ResumeState extends Equatable {
   final bool isDefinitionUsed;
   final bool isExampleSentenceUsed;
   final bool isExampleSentenceTargetUsed;
+  final String? dailyDateId; // null for non-daily modes
 
   const ResumeState({
     required this.currentWordId,
@@ -18,6 +19,7 @@ class ResumeState extends Equatable {
     required this.isDefinitionUsed,
     required this.isExampleSentenceUsed,
     required this.isExampleSentenceTargetUsed,
+    this.dailyDateId,
   });
 
   factory ResumeState.fromFirestore(
@@ -41,6 +43,7 @@ class ResumeState extends Equatable {
       isExampleSentenceTargetUsed:
           (d['isExampleSentenceTargetUsed'] as bool?) ?? false,
       updatedAt: (d['updatedAt'] as Timestamp?)?.toDate(),
+      dailyDateId: (d['dailyDateId'] as String?),
     );
   }
 
@@ -55,6 +58,7 @@ class ResumeState extends Equatable {
       'isDefinitionUsed': isDefinitionUsed,
       'isExampleSentenceUsed': isExampleSentenceUsed,
       'isExampleSentenceTargetUsed': isExampleSentenceTargetUsed,
+      if (dailyDateId != null) 'dailyDateId': dailyDateId,
       if (withServerUpdateTs) 'updatedAt': FieldValue.serverTimestamp(),
     };
   }
@@ -67,6 +71,7 @@ class ResumeState extends Equatable {
     bool? isExampleSentenceUsed,
     bool? isExampleSentenceTargetUsed,
     DateTime? updatedAt,
+    String? dailyDateId,
   }) {
     return ResumeState(
       currentWordId: currentWordId ?? this.currentWordId,
@@ -78,6 +83,7 @@ class ResumeState extends Equatable {
           isExampleSentenceUsed ?? this.isExampleSentenceUsed,
       isExampleSentenceTargetUsed:
           isExampleSentenceTargetUsed ?? this.isExampleSentenceTargetUsed,
+      dailyDateId: dailyDateId ?? this.dailyDateId,
     );
   }
 
@@ -90,5 +96,6 @@ class ResumeState extends Equatable {
     isExampleSentenceUsed,
     isExampleSentenceTargetUsed,
     updatedAt,
+    dailyDateId,
   ];
 }

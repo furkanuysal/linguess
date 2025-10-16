@@ -122,7 +122,7 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                           return SizedBox(
                             width: 180,
                             child: DropdownButtonFormField<String>(
-                              value: filter.category.isEmpty
+                              initialValue: filter.category.isEmpty
                                   ? null
                                   : filter.category,
                               hint: Text(l10n.category),
@@ -163,7 +163,9 @@ class _AdminWordsListPageState extends ConsumerState<AdminWordsListPage> {
                           return SizedBox(
                             width: 140,
                             child: DropdownButtonFormField<String>(
-                              value: filter.level.isEmpty ? null : filter.level,
+                              initialValue: filter.level.isEmpty
+                                  ? null
+                                  : filter.level,
                               hint: Text(l10n.level),
                               items: [
                                 DropdownMenuItem(
