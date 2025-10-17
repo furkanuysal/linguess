@@ -827,5 +827,17 @@
   "meaningMode": "Anlam Modu",
   "@meaningMode": {
     "description": "Label for the meaning mode in the game"
+  },
+  "fallbackInfoTitle": "Bilgi",
+  "@fallbackInfoTitle": {
+    "description": "The title shown when the app falls back to learned words."
+  },
+  "fallbackInfoMessage": "Bu kategoride veya seviyede öğrenilmemiş kelime kalmadı. Öğrenilmiş kelimelerden devam ediliyor.",
+  "@fallbackInfoMessage": {
+    "description": "Message shown when no unlearned words remain in the selected category/level."
+  },
+  "noWordsFoundMessage": "Bu kategoride veya seviyede hiç kelime bulunamadı.",
+  "@noWordsFoundMessage": {
+    "description": "Message shown when absolutely no words exist in the selected category/level."
   }
 }

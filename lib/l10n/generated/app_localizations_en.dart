@@ -652,4 +652,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meaningMode => 'Meaning Mode';
+
+  @override
+  String get fallbackInfoTitle => 'Info';
+
+  @override
+  String get fallbackInfoMessage =>
+      'No unlearned words left in this category or level. Continuing with learned words.';
+
+  @override
+  String get noWordsFoundMessage => 'No words found in this category or level.';
 }

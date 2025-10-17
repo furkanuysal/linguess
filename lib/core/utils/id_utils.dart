@@ -22,13 +22,19 @@ String makeResumeDocIdFromFilters({
     return 'daily:general';
   }
 
+  final updatedFilters = Map<String, String>.from(filters);
+  if (modes.contains(GameModeType.meaning) &&
+      !updatedFilters.containsKey('meaning')) {
+    updatedFilters['meaning'] = 'general';
+  }
+
   // If there are no filters, use a safe fallback
-  if (filters.isEmpty) {
+  if (updatedFilters.isEmpty) {
     return 'general';
   }
 
   // Sort filters alphabetically and sanitize
-  final entries = filters.entries.toList()
+  final entries = updatedFilters.entries.toList()
     ..sort((a, b) => a.key.compareTo(b.key));
 
   final parts = entries.map((e) {

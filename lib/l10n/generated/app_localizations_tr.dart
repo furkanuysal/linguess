@@ -650,4 +650,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get meaningMode => 'Anlam Modu';
+
+  @override
+  String get fallbackInfoTitle => 'Bilgi';
+
+  @override
+  String get fallbackInfoMessage =>
+      'Bu kategoride veya seviyede öğrenilmemiş kelime kalmadı. Öğrenilmiş kelimelerden devam ediliyor.';
+
+  @override
+  String get noWordsFoundMessage =>
+      'Bu kategoride veya seviyede hiç kelime bulunamadı.';
 }

@@ -89,17 +89,22 @@ class ResumeRepository {
     await _doc().set(mergedData, SetOptions(merge: true));
   }
 
-  Future<void> clearAll() async {
-    await _doc().set({
+  Future<void> clearAll({bool includeDailyId = false}) async {
+    final data = {
       'currentWordId': '',
-      'userFilled': <String, String>{}, // empty
+      'userFilled': <String, String>{},
       'hintCountUsed': 0,
       'isDefinitionUsed': false,
       'isExampleSentenceUsed': false,
       'isExampleSentenceTargetUsed': false,
       'updatedAt': FieldValue.serverTimestamp(),
-      'dailyDateId': '',
-    }, SetOptions(merge: false));
+    };
+
+    if (includeDailyId) {
+      data['dailyDateId'] = '';
+    }
+
+    await _doc().set(data, SetOptions(merge: false));
   }
 
   Future<void> setCurrentWord(String wordId) async {

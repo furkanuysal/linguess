@@ -1290,6 +1290,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Anlam Modu'**
   String get meaningMode;
+
+  /// The title shown when the app falls back to learned words.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bilgi'**
+  String get fallbackInfoTitle;
+
+  /// Message shown when no unlearned words remain in the selected category/level.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kategoride veya seviyede öğrenilmemiş kelime kalmadı. Öğrenilmiş kelimelerden devam ediliyor.'**
+  String get fallbackInfoMessage;
+
+  /// Message shown when absolutely no words exist in the selected category/level.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu kategoride veya seviyede hiç kelime bulunamadı.'**
+  String get noWordsFoundMessage;
 }
 
 class _AppLocalizationsDelegate

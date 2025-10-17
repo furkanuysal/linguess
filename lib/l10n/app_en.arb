@@ -827,5 +827,17 @@
   "meaningMode": "Meaning Mode",
   "@meaningMode": {
     "description": "Label for the meaning mode game option"
+  },
+  "fallbackInfoTitle": "Info",
+  "@fallbackInfoTitle": {
+    "description": "The title shown when the app falls back to learned words."
+  },
+  "fallbackInfoMessage": "No unlearned words left in this category or level. Continuing with learned words.",
+  "@fallbackInfoMessage": {
+    "description": "Message shown when no unlearned words remain in the selected category/level."
+  },
+  "noWordsFoundMessage": "No words found in this category or level.",
+  "@noWordsFoundMessage": {
+    "description": "Message shown when absolutely no words exist in the selected category/level."
   }
 }

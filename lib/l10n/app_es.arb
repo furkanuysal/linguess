@@ -827,5 +827,17 @@
   "meaningMode": "Modo de Significado",
   "@meaningMode": {
     "description": "Label for the meaning mode game option"
+  },
+  "fallbackInfoTitle": "Información",
+  "@fallbackInfoTitle": {
+    "description": "Title for the fallback information dialog"
+  },
+  "fallbackInfoMessage": "No quedan palabras no aprendidas en esta categoría o nivel. Continuando con palabras aprendidas.",
+  "@fallbackInfoMessage": {
+    "description": "Message shown when there are no unlearned words left in the selected category or level"
+  },
+  "noWordsFoundMessage": "No se encontraron palabras en esta categoría o nivel.",
+  "@noWordsFoundMessage": {
+    "description": "Message shown when no words are found in the selected category or level"
   }
 }

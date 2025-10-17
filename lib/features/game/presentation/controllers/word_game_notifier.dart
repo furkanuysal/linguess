@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/utils/id_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
+import 'package:linguess/features/game/data/repositories/word_repository.dart';
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
@@ -39,6 +40,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
   bool _isDefinitionUsedForCurrentWord = false;
   bool _isExampleSentenceUsedForCurrentWord = false;
   bool _isExampleSentenceTargetUsedForCurrentWord = false;
+  bool _fallbackNotified = false;
 
   @override
   WordGameState build() {
@@ -72,6 +74,55 @@ class WordGameNotifier extends Notifier<WordGameState> {
     }
     _controllers = [];
     _focusNodes = [];
+  }
+
+  Future<List<String>> _fetchLearnedIds(
+    bool repeatLearnedWords,
+    String targetLang,
+  ) async {
+    if (repeatLearnedWords) return const [];
+
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null) return const [];
+
+    final snap = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .collection('targets')
+        .doc(targetLang)
+        .collection('learnedWords')
+        .get();
+
+    return snap.docs.map((d) => d.id).toList();
+  }
+
+  // Centralizes repeated-word fetching and fallback handling
+  Future<(WordModel?, bool)> _fetchWordWithFallback({
+    required WordRepository repo,
+    required Map<String, String?> filters,
+    required bool repeatLearnedWords,
+    required List<String> learnedIds,
+  }) async {
+    WordModel? word = await repo.fetchRandomWordWithSettings(
+      category: filters['category'],
+      level: filters['level'],
+      repeatLearnedWords: repeatLearnedWords,
+      learnedIds: learnedIds,
+    );
+
+    bool fallbackUsed = false;
+
+    if (word == null && !repeatLearnedWords && learnedIds.isNotEmpty) {
+      word = await repo.fetchRandomWordWithSettings(
+        category: filters['category'],
+        level: filters['level'],
+        repeatLearnedWords: true,
+        learnedIds: const [],
+      );
+      fallbackUsed = true;
+    }
+
+    return (word, fallbackUsed);
   }
 
   String _todayIdLocal() {
@@ -118,24 +169,75 @@ class WordGameNotifier extends Notifier<WordGameState> {
       final resumeRepo = ref.read(resumeRepositoryProvider(resumeKey));
 
       // Clear all fields in the daily resume document for next day
-      await resumeRepo!.clearAll();
+      await resumeRepo!.clearAll(includeDailyId: true);
     } catch (e) {
       debugPrint('Failed to clear daily resume after solve: $e');
     }
   }
 
-  // New filter-based system with daily-resume support
   Future<void> _fetchWords(WordGameParams params) async {
     final wordRepository = ref.read(wordRepositoryProvider);
+    final settings = ref.read(settingsControllerProvider).value;
+    final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
+    final targetLang = settings?.targetLangCode ?? 'en';
+    final learnedIds = await _fetchLearnedIds(repeatLearnedWords, targetLang);
+    _fallbackNotified = false;
 
-    // Meaning Mode: fetch a single random word
+    // Meaning mode (one word, random)
     if (params.modes.contains(GameModeType.meaning)) {
       try {
-        final randomWord = await ref
-            .read(wordRepositoryProvider)
-            .fetchRandomWord();
+        var randomWord = await wordRepository.fetchRandomWordWithSettings(
+          repeatLearnedWords: repeatLearnedWords,
+          learnedIds: learnedIds,
+        );
+
+        if (randomWord == null) {
+          // If repeatLearnedWords is off and no word was found, try fallback
+          if (!repeatLearnedWords && learnedIds.isNotEmpty) {
+            debugPrint(
+              'No unlearned words left for this filter. Falling back to learned words.',
+            );
+            randomWord = await wordRepository.fetchRandomWordWithSettings(
+              category: params.filters['category'],
+              level: params.filters['level'],
+              repeatLearnedWords: true,
+              learnedIds: const [],
+            );
+          }
+
+          // If no word is found, it means completely empty
+          if (randomWord == null) {
+            state = state.copyWith(
+              words: AsyncValue.data([]), // not an error, just an empty list
+            );
+            return;
+          }
+        }
+
         _rawWords = [randomWord];
         _hintsUsedForCurrentWord = 0;
+
+        // Create the resume key
+        final docId = makeResumeDocIdFromFilters(
+          modes: params.modes,
+          filters: params.filters,
+        );
+        _resumeKey = ResumeKey(targetLang, docId);
+        final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
+
+        final rs = await resumeRepo?.fetch();
+        if (rs != null && rs.currentWordId.isNotEmpty) {
+          final word = await wordRepository.fetchWordById(rs.currentWordId);
+          if (word != null) {
+            _initializeWord(word);
+            _applyPrefillFromResume(rs);
+            _hintsUsedForCurrentWord = rs.hintCountUsed;
+            state = state.copyWith(words: AsyncValue.data([word]));
+            return;
+          }
+        }
+
+        await resumeRepo?.upsertInitial(currentWordId: randomWord.id);
         _initializeWord(randomWord);
         state = state.copyWith(words: AsyncValue.data([randomWord]));
       } catch (e, st) {
@@ -144,9 +246,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       return;
     }
 
-    try {
-      // Daily mode
-      if (params.isDaily) {
+    // Daily mode
+    if (params.isDaily) {
+      try {
         final dailyRepo = ref.read(dailyPuzzleRepositoryProvider);
         final todaysWordId = await dailyRepo.getOrCreateTodayDailyWordId();
         final word = await wordRepository.fetchWordById(todaysWordId);
@@ -160,73 +262,69 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
         final todayId = _todayIdLocal();
         final already = await _hasUserSolvedDaily(todayId);
-
         _rawWords = [word];
+
         state = state.copyWith(
           words: AsyncValue.data([word]),
           isDaily: true,
           dailyAlreadySolved: already,
         );
 
-        // Daily-resume control
         final resumeDocId = makeResumeDocIdFromFilters(
           modes: {GameModeType.daily},
           filters: {},
         );
-        final targetLang =
-            ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
         _resumeKey = ResumeKey(targetLang, resumeDocId);
         final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
 
-        try {
-          final rs = await resumeRepo!.fetch();
-          // If resume wordId same with today's wordId continue with existing resume
-          if (rs != null && rs.dailyDateId == todayId) {
-            _hintsUsedForCurrentWord = rs.hintCountUsed;
-            _initializeWord(word);
-            _applyPrefillFromResume(rs);
-
-            state = state.copyWith(
-              isDefinitionUsedForCurrentWord: rs.isDefinitionUsed,
-              isExampleSentenceUsedForCurrentWord: rs.isExampleSentenceUsed,
-              isExampleSentenceTargetUsedForCurrentWord:
-                  rs.isExampleSentenceTargetUsed,
-            );
-          }
-          // If no resume exists, create a new one
-          else {
-            await resumeRepo.upsertInitial(
-              currentWordId: word.id,
-              extraFields: {'dailyDateId': todayId},
-            );
-            _initializeWord(word);
-          }
-        } catch (e) {
-          debugPrint('Daily-resume skipped: $e');
+        final rs = await resumeRepo?.fetch();
+        if (rs != null && rs.dailyDateId == todayId) {
+          _hintsUsedForCurrentWord = rs.hintCountUsed;
+          _initializeWord(word);
+          _applyPrefillFromResume(rs);
+          state = state.copyWith(
+            isDefinitionUsedForCurrentWord: rs.isDefinitionUsed,
+            isExampleSentenceUsedForCurrentWord: rs.isExampleSentenceUsed,
+            isExampleSentenceTargetUsedForCurrentWord:
+                rs.isExampleSentenceTargetUsed,
+          );
+        } else {
+          await resumeRepo?.upsertInitial(
+            currentWordId: word.id,
+            extraFields: {'dailyDateId': todayId},
+          );
           _initializeWord(word);
         }
-
-        return;
+      } catch (e, st) {
+        state = state.copyWith(words: AsyncValue.error(e, st));
       }
+      return;
+    }
 
-      // Category/level/combined modes
-      List<WordModel> words = [];
+    // Category / Level / Both
+    try {
       final hasCategory = params.filters.containsKey('category');
       final hasLevel = params.filters.containsKey('level');
+      WordModel? randomWord;
 
       if (hasCategory && hasLevel) {
-        final base = await wordRepository.fetchWordsByCategory(
-          params.filters['category']!,
+        randomWord = await wordRepository.fetchRandomWordWithSettings(
+          category: params.filters['category']!,
+          level: params.filters['level']!,
+          repeatLearnedWords: repeatLearnedWords,
+          learnedIds: learnedIds,
         );
-        final wantLevel = params.filters['level']!;
-        words = base.where((w) => w.level == wantLevel).toList();
       } else if (hasCategory) {
-        words = await wordRepository.fetchWordsByCategory(
-          params.filters['category']!,
+        randomWord = await wordRepository.fetchRandomWordWithSettings(
+          category: params.filters['category']!,
+          repeatLearnedWords: repeatLearnedWords,
+          learnedIds: learnedIds,
         );
       } else if (hasLevel) {
-        words = await wordRepository.fetchWordsByLevel(
-          params.filters['level']!,
+        randomWord = await wordRepository.fetchRandomWordWithSettings(
+          level: params.filters['level']!,
+          repeatLearnedWords: repeatLearnedWords,
+          learnedIds: learnedIds,
         );
       } else {
         state = state.copyWith(
@@ -238,12 +336,33 @@ class WordGameNotifier extends Notifier<WordGameState> {
         return;
       }
 
-      _rawWords = words;
+      if (randomWord == null) {
+        // If repeatLearnedWords is off and no word was found, try fallback
+        if (!repeatLearnedWords && learnedIds.isNotEmpty) {
+          debugPrint(
+            'No unlearned words left for this filter. Falling back to learned words.',
+          );
+          randomWord = await wordRepository.fetchRandomWordWithSettings(
+            category: params.filters['category'],
+            level: params.filters['level'],
+            repeatLearnedWords: true,
+            learnedIds: const [],
+          );
+        }
+
+        // If no word is found, it means completely empty
+        if (randomWord == null) {
+          state = state.copyWith(
+            words: AsyncValue.data([]), // Not an error, just an empty list
+          );
+          return;
+        }
+      }
+
+      _rawWords = [randomWord];
       await _reapplyFilters(initial: true);
     } catch (e, st) {
-      if (ref.mounted) {
-        state = state.copyWith(words: AsyncValue.error(e, st));
-      }
+      state = state.copyWith(words: AsyncValue.error(e, st));
     }
   }
 
@@ -253,19 +372,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     final targetLang =
         ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
-    List<String> learnedIds = const [];
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-
-    if (!repeatLearnedWords && uid != null) {
-      final snap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('targets')
-          .doc(targetLang)
-          .collection('learnedWords')
-          .get();
-      learnedIds = snap.docs.map((d) => d.id).toList();
-    }
+    final learnedIds = await _fetchLearnedIds(repeatLearnedWords, targetLang);
 
     List<WordModel> filtered = _rawWords;
     if (!repeatLearnedWords) {
@@ -273,7 +380,6 @@ class WordGameNotifier extends Notifier<WordGameState> {
       if (filtered.isEmpty) filtered = _rawWords;
     }
 
-    filtered = (filtered.toList()..shuffle());
     state = state.copyWith(words: AsyncValue.data(filtered));
 
     if (initial || state.currentWord == null) {
@@ -281,19 +387,55 @@ class WordGameNotifier extends Notifier<WordGameState> {
     }
   }
 
-  void _loadRandomWord() async {
-    state.words.whenData((words) async {
-      if (words.isNotEmpty) {
-        final randomWord = (words.toList()..shuffle()).first;
-        final key = _resumeKey;
-        final repo = (key != null)
-            ? ref.read(resumeRepositoryProvider(key))
-            : null;
-        await repo?.setCurrentWord(randomWord.id);
-        _hintsUsedForCurrentWord = 0;
-        _initializeWord(randomWord);
-      }
-    });
+  Future<void> _loadRandomWord(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final repo = ref.read(wordRepositoryProvider);
+    final settings = ref.read(settingsControllerProvider).value;
+    final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
+    final targetLang = settings?.targetLangCode ?? 'en';
+
+    final learnedIds = await _fetchLearnedIds(repeatLearnedWords, targetLang);
+    final (newWord, fallbackUsed) = await _fetchWordWithFallback(
+      repo: repo,
+      filters: params.filters,
+      repeatLearnedWords: repeatLearnedWords,
+      learnedIds: learnedIds,
+    );
+
+    if (!context.mounted) return;
+
+    // If fallback is used, show only the first time
+    if (fallbackUsed && !_fallbackNotified) {
+      _fallbackNotified = true;
+      callFloatingHintCard(
+        context,
+        l10n.fallbackInfoTitle,
+        l10n.fallbackInfoMessage,
+      );
+    }
+
+    if (newWord == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.noWordsFoundMessage),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    _rawWords = [newWord];
+    final docId = makeResumeDocIdFromFilters(
+      modes: params.modes,
+      filters: params.filters,
+    );
+    _resumeKey ??= ResumeKey(targetLang, docId);
+    final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
+    await resumeRepo?.upsertInitial(currentWordId: newWord.id);
+
+    _hintsUsedForCurrentWord = 0;
+    _initializeWord(newWord);
+    state = state.copyWith(words: AsyncValue.data([newWord]));
   }
 
   void _initializeWord(WordModel word) {
@@ -421,7 +563,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
         if (params.isDaily) {
           context.pop();
         } else {
-          _loadRandomWord();
+          _loadRandomWord(context);
         }
       },
     );
@@ -706,29 +848,69 @@ class WordGameNotifier extends Notifier<WordGameState> {
         return;
       }
 
-      final words = state.words.value ?? const <WordModel>[];
-      if (words.isEmpty) return;
+      final repo = ref.read(wordRepositoryProvider);
+      final settings = ref.read(settingsControllerProvider).value;
+      final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
+      final targetLang = settings?.targetLangCode ?? 'en';
+      final learnedIds = await _fetchLearnedIds(repeatLearnedWords, targetLang);
 
       final currentId = state.currentWord?.id;
-      final pool = words.where((w) => w.id != currentId).toList();
-      final candidates = pool.isNotEmpty ? pool : words
-        ..shuffle();
-      final nextWord = candidates.first;
+      WordModel? newWord;
+      int attempt = 0;
 
+      while (attempt < 4) {
+        final (candidate, usedFallback) = await _fetchWordWithFallback(
+          repo: repo,
+          filters: params.filters,
+          repeatLearnedWords: repeatLearnedWords,
+          learnedIds: learnedIds,
+        );
+
+        if (!context.mounted) return; // safe context check
+
+        if (usedFallback && !_fallbackNotified) {
+          _fallbackNotified = true;
+          callFloatingHintCard(
+            context,
+            l10n.fallbackInfoTitle,
+            l10n.fallbackInfoMessage,
+          );
+        }
+
+        if (candidate == null || candidate.id != currentId) {
+          newWord = candidate;
+          break;
+        }
+        attempt++;
+      }
+
+      if (newWord == null) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.noWordsFound)));
+        }
+        return;
+      }
+
+      _rawWords = [newWord];
       _hintsUsedForCurrentWord = 0;
 
-      final key = _resumeKey;
-      final repo = (key != null)
-          ? ref.read(resumeRepositoryProvider(key))
-          : null;
-      if (repo != null) {
-        await repo.setCurrentWord(nextWord.id);
-        await repo.upsertInitial(currentWordId: nextWord.id);
+      final docId = makeResumeDocIdFromFilters(
+        modes: params.modes,
+        filters: params.filters,
+      );
+      _resumeKey ??= ResumeKey(targetLang, docId);
+      final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
+
+      if (resumeRepo != null) {
+        await resumeRepo.upsertInitial(currentWordId: newWord.id);
         final ach = ref.read(achievementsServiceProvider);
         await ach.awardIfNotEarned('used_skip_powerup_first_time');
       }
 
-      _initializeWord(nextWord);
+      _initializeWord(newWord);
+      state = state.copyWith(words: AsyncValue.data([newWord]));
     } finally {
       state = state.copyWith(isLoading: false);
     }
