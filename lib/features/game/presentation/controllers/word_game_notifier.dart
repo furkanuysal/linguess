@@ -128,6 +128,22 @@ class WordGameNotifier extends Notifier<WordGameState> {
   Future<void> _fetchWords(WordGameParams params) async {
     final wordRepository = ref.read(wordRepositoryProvider);
 
+    // Meaning Mode: fetch a single random word
+    if (params.modes.contains(GameModeType.meaning)) {
+      try {
+        final randomWord = await ref
+            .read(wordRepositoryProvider)
+            .fetchRandomWord();
+        _rawWords = [randomWord];
+        _hintsUsedForCurrentWord = 0;
+        _initializeWord(randomWord);
+        state = state.copyWith(words: AsyncValue.data([randomWord]));
+      } catch (e, st) {
+        state = state.copyWith(words: AsyncValue.error(e, st));
+      }
+      return;
+    }
+
     try {
       // Daily mode
       if (params.isDaily) {

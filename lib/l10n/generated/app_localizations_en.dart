@@ -646,4 +646,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clearSelection => 'Clear Selection';
+
+  @override
+  String get meaningOfYourWord => 'The meaning of your word';
+
+  @override
+  String get meaningMode => 'Meaning Mode';
 }

@@ -656,4 +656,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get clearSelection => 'Borrar selección';
+
+  @override
+  String get meaningOfYourWord => 'El significado de tu palabra';
+
+  @override
+  String get meaningMode => 'Modo de Significado';
 }

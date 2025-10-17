@@ -81,6 +81,7 @@ enum GameModeType {
   level,
   daily,
   combined,
+  meaning,
   // future modes
 }
 
@@ -91,6 +92,7 @@ class WordGameParams {
   const WordGameParams({required this.modes, this.filters = const {}});
 
   bool get isDaily => modes.contains(GameModeType.daily);
+  bool get isMeaningMode => modes.contains(GameModeType.meaning);
 
   @override
   bool operator ==(Object other) {

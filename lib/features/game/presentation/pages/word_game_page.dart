@@ -230,7 +230,10 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                 if (state.currentWord == null) {
                   return const Center(child: RefreshProgressIndicator());
                 }
-                final hint = state.currentWord!.termOf(appLang);
+                final hint = _params.isMeaningMode
+                    ? state.currentWord!.locales.meaningOf(appLang)
+                    : state.currentWord!.termOf(appLang);
+
                 bool enabled(bool cond) => cond && !state.isLoading;
 
                 bool hasText(String? s) => s != null && s.isNotEmpty;
@@ -245,7 +248,8 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                   state.currentWord!.exampleSentenceOf(targetLang),
                 );
 
-                final canShowDefinition = enabled(hasDefinition);
+                final canShowDefinition =
+                    !_params.isMeaningMode && enabled(hasDefinition);
                 final canShowExampleSentence = enabled(hasExampleSentence);
                 final canShowExampleSentenceTarget = enabled(
                   hasExampleSentenceTarget,
@@ -378,7 +382,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${l10n.yourWord}: $hint',
+                                      _params.isMeaningMode
+                                          ? '${l10n.meaningOfYourWord}: $hint'
+                                          : '${l10n.yourWord}: $hint',
                                       style: Theme.of(context)
                                           .textTheme
                                           .titleMedium!

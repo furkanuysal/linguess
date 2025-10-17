@@ -819,5 +819,13 @@
   "clearSelection": "Borrar selección",
   "@clearSelection": {
     "description": "Button text to clear the selection"
+  },
+  "meaningOfYourWord": "El significado de tu palabra",
+  "@meaningOfYourWord": {
+    "description": "Label showing the meaning of the word presented to the user"
+  },
+  "meaningMode": "Modo de Significado",
+  "@meaningMode": {
+    "description": "Label for the meaning mode game option"
   }
 }

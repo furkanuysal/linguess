@@ -644,4 +644,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get clearSelection => 'Seçimi Temizle';
+
+  @override
+  String get meaningOfYourWord => 'Kelimenizin Anlamı';
+
+  @override
+  String get meaningMode => 'Anlam Modu';
 }

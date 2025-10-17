@@ -1278,6 +1278,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Seçimi Temizle'**
   String get clearSelection;
+
+  /// Label showing the meaning of the word presented to the user
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelimenizin Anlamı'**
+  String get meaningOfYourWord;
+
+  /// Label for the meaning mode in the game
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlam Modu'**
+  String get meaningMode;
 }
 
 class _AppLocalizationsDelegate

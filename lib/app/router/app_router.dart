@@ -65,7 +65,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           final mode = state.pathParameters['mode']!;
           final value = state.pathParameters['value']!;
           final query =
-              state.uri.queryParameters; // örn. ?category=food&level=A1
+              state.uri.queryParameters; // example: ?category=food&level=A1
 
           final modes = <GameModeType>{};
           final filters = <String, String>{};
@@ -86,7 +86,6 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               break;
 
             case 'combined':
-              // 🔹 combined modda query param'lardan al
               if (query.containsKey('category')) {
                 modes.add(GameModeType.category);
                 filters['category'] = query['category']!;
@@ -96,6 +95,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 filters['level'] = query['level']!;
               }
               if (modes.isEmpty) modes.add(GameModeType.category);
+              break;
+
+            case 'meaning':
+              modes.add(GameModeType.meaning);
               break;
 
             default:

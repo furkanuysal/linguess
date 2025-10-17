@@ -804,7 +804,6 @@
   "@preparingAd": {
     "description": "Message shown when the ad is being prepared"
   },
-  
   "customGame": "Custom Game",
   "@customGame": {
     "description": "Label for the custom game mode"
@@ -820,5 +819,13 @@
   "clearSelection": "Clear Selection",
   "@clearSelection": {
     "description": "Button text to clear the selection"
+  },
+  "meaningOfYourWord": "The meaning of your word",
+  "@meaningOfYourWord": {
+    "description": "Label showing the meaning of the word presented to the user"
+  },
+  "meaningMode": "Meaning Mode",
+  "@meaningMode": {
+    "description": "Label for the meaning mode game option"
   }
 }

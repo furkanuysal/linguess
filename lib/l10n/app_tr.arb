@@ -819,5 +819,13 @@
   "clearSelection": "Seçimi Temizle",
   "@clearSelection": {
     "description": "Button text to clear the selection"
+  },
+  "meaningOfYourWord": "Kelimenizin Anlamı",
+  "@meaningOfYourWord": {
+    "description": "Label showing the meaning of the word presented to the user"
+  },
+  "meaningMode": "Anlam Modu",
+  "@meaningMode": {
+    "description": "Label for the meaning mode in the game"
   }
 }
