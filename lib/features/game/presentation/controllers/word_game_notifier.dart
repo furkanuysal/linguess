@@ -187,6 +187,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (params.modes.contains(GameModeType.meaning)) {
       try {
         var randomWord = await wordRepository.fetchRandomWordWithSettings(
+          category: params.filters['category'],
+          level: params.filters['level'],
           repeatLearnedWords: repeatLearnedWords,
           learnedIds: learnedIds,
         );
@@ -194,9 +196,6 @@ class WordGameNotifier extends Notifier<WordGameState> {
         if (randomWord == null) {
           // If repeatLearnedWords is off and no word was found, try fallback
           if (!repeatLearnedWords && learnedIds.isNotEmpty) {
-            debugPrint(
-              'No unlearned words left for this filter. Falling back to learned words.',
-            );
             randomWord = await wordRepository.fetchRandomWordWithSettings(
               category: params.filters['category'],
               level: params.filters['level'],
@@ -207,9 +206,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
           // If no word is found, it means completely empty
           if (randomWord == null) {
-            state = state.copyWith(
-              words: AsyncValue.data([]), // not an error, just an empty list
-            );
+            state = state.copyWith(words: AsyncValue.data([]));
             return;
           }
         }
@@ -217,11 +214,17 @@ class WordGameNotifier extends Notifier<WordGameState> {
         _rawWords = [randomWord];
         _hintsUsedForCurrentWord = 0;
 
-        // Create the resume key
+        // meaning + category + level combination for resume docId
         final docId = makeResumeDocIdFromFilters(
           modes: params.modes,
-          filters: params.filters,
+          filters: {
+            if (params.filters['category'] != null)
+              'category': params.filters['category']!,
+            if (params.filters['level'] != null)
+              'level': params.filters['level']!,
+          },
         );
+
         _resumeKey = ResumeKey(targetLang, docId);
         final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
 

@@ -86,6 +86,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               break;
 
             case 'combined':
+              // meaning + (category | level)
+              if (value == 'meaning') {
+                modes.add(GameModeType.meaning);
+              }
+
               if (query.containsKey('category')) {
                 modes.add(GameModeType.category);
                 filters['category'] = query['category']!;
@@ -94,6 +99,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 modes.add(GameModeType.level);
                 filters['level'] = query['level']!;
               }
+
               if (modes.isEmpty) modes.add(GameModeType.category);
               break;
 
@@ -109,6 +115,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return WordGamePage(modes: modes, filters: filters);
         },
       ),
+
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),

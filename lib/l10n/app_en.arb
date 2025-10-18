@@ -839,5 +839,29 @@
   "noWordsFoundMessage": "No words found in this category or level.",
   "@noWordsFoundMessage": {
     "description": "Message shown when absolutely no words exist in the selected category/level."
+  },
+  "wordText": "Word",
+  "@wordText": {
+    "description": "Label for the word"
+  },
+  "meaningText": "Meaning",
+  "@meaningText": {
+    "description": "Label for the meaning"
+  },
+  "selectPlayMode": "Select Play Mode",
+  "@selectPlayMode": {
+    "description": "Prompt to select a game mode"
+  },
+  "modeNotSelected": "Mode not selected",
+  "@modeNotSelected": {
+    "description": "Error message shown when no game mode is selected"
+  },
+  "categoryNotSelected": "Category not selected",
+  "@categoryNotSelected": {
+    "description": "Error message shown when no category is selected"
+  },
+  "levelNotSelected": "Level not selected",
+  "@levelNotSelected": {
+    "description": "Error message shown when no level is selected"
   }
 }

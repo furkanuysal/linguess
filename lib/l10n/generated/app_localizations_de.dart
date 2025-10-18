@@ -675,4 +675,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get noWordsFoundMessage =>
       'Keine Wörter in dieser Kategorie oder diesem Niveau gefunden.';
+
+  @override
+  String get wordText => 'Wort';
+
+  @override
+  String get meaningText => 'Bedeutung';
+
+  @override
+  String get selectPlayMode => 'Spielmodus auswählen';
+
+  @override
+  String get modeNotSelected => 'Modus nicht ausgewählt';
+
+  @override
+  String get categoryNotSelected => 'Kategorie nicht ausgewählt';
+
+  @override
+  String get levelNotSelected => 'Level nicht ausgewählt';
 }

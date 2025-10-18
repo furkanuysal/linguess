@@ -1308,6 +1308,42 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu kategoride veya seviyede hiç kelime bulunamadı.'**
   String get noWordsFoundMessage;
+
+  /// Label for the word
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime'**
+  String get wordText;
+
+  /// Label for the meaning
+  ///
+  /// In tr, this message translates to:
+  /// **'Anlam'**
+  String get meaningText;
+
+  /// Prompt to select a game mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Oyun Modu Seçin'**
+  String get selectPlayMode;
+
+  /// Error message shown when no game mode is selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Oyun modu seçilmedi'**
+  String get modeNotSelected;
+
+  /// Error message shown when no category is selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori seçilmedi'**
+  String get categoryNotSelected;
+
+  /// Error message shown when no level is selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye seçilmedi'**
+  String get levelNotSelected;
 }
 
 class _AppLocalizationsDelegate

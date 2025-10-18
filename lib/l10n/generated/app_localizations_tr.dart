@@ -661,4 +661,22 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get noWordsFoundMessage =>
       'Bu kategoride veya seviyede hiç kelime bulunamadı.';
+
+  @override
+  String get wordText => 'Kelime';
+
+  @override
+  String get meaningText => 'Anlam';
+
+  @override
+  String get selectPlayMode => 'Oyun Modu Seçin';
+
+  @override
+  String get modeNotSelected => 'Oyun modu seçilmedi';
+
+  @override
+  String get categoryNotSelected => 'Kategori seçilmedi';
+
+  @override
+  String get levelNotSelected => 'Seviye seçilmedi';
 }

@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,7 +6,8 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
-import 'package:linguess/features/game/presentation/widgets/category_card.dart';
+import 'package:linguess/features/game/presentation/widgets/category_list_tile.dart';
+import 'package:linguess/features/game/presentation/widgets/gradient_choice_chip.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
@@ -22,6 +22,7 @@ class CombinedModeSetupPage extends ConsumerStatefulWidget {
 class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
   String? selectedCategoryId;
   String? selectedLevelId;
+  String? selectedMode;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +61,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                   ),
                   const SizedBox(height: 8),
 
-                  // Category grid
+                  // Category list
                   Expanded(
                     flex: 4,
                     child: categoriesAsync.when(
@@ -69,32 +70,19 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                       error: (e, _) =>
                           Center(child: Text('${l10n.errorOccurred}: $e')),
                       data: (categories) {
-                        return GridView.builder(
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                                maxCrossAxisExtent: 220,
-                                mainAxisSpacing: 16,
-                                crossAxisSpacing: 16,
-                                childAspectRatio: 1.1,
-                              ),
+                        return ListView.builder(
+                          padding: const EdgeInsets.only(top: 8),
                           itemCount: categories.length,
                           itemBuilder: (context, index) {
                             final category = categories[index];
-                            return GestureDetector(
+                            return CategoryListTile(
+                              id: category.id,
+                              title: category.titleFor(appLang),
+                              iconCodePoint: category.icon,
+                              isSelected: category.id == selectedCategoryId,
                               onTap: () => setState(() {
                                 selectedCategoryId = category.id;
                               }),
-                              child: CategoryCard(
-                                id: category.id,
-                                title: category.titleFor(appLang),
-                                iconCodePoint: category.icon,
-                                onTap: () => setState(() {
-                                  selectedCategoryId = category.id;
-                                }),
-                                isSelected: category.id == selectedCategoryId,
-                                showProgress: true,
-                              ),
                             );
                           },
                         );
@@ -125,22 +113,10 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                         alignment: WrapAlignment.center,
                         children: levels.map((lvl) {
                           final isSelected = lvl.id == selectedLevelId;
-                          return ChoiceChip(
-                            label: Text(
-                              lvl.id,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: isSelected
-                                    ? scheme.onPrimary
-                                    : scheme.onSurface,
-                              ),
-                            ),
-                            checkmarkColor: scheme.onPrimary,
-                            selected: isSelected,
-                            selectedColor: scheme.primary,
-                            backgroundColor: scheme.surfaceContainerHigh
-                                .withValues(alpha: 0.8),
-                            onSelected: (_) {
+                          return GradientChoiceChip(
+                            label: lvl.id,
+                            isSelected: isSelected,
+                            onTap: () {
                               setState(() => selectedLevelId = lvl.id);
                             },
                           );
@@ -149,8 +125,40 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                     },
                   ),
 
+                  const SizedBox(height: 12),
+
+                  // Mode selection (term / meaning)
+                  Text(
+                    l10n.selectPlayMode,
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: scheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      GradientChoiceChip(
+                        label: l10n.wordText,
+                        isSelected: selectedMode == 'term',
+                        onTap: () => setState(() => selectedMode = 'term'),
+                      ),
+                      GradientChoiceChip(
+                        label: l10n.meaningText,
+                        isSelected: selectedMode == 'meaning',
+                        onTap: () => setState(() => selectedMode = 'meaning'),
+                      ),
+                    ],
+                  ),
+
                   // Selected filters display + clear button
-                  if (selectedCategoryId != null || selectedLevelId != null)
+                  if (selectedCategoryId != null ||
+                      selectedLevelId != null ||
+                      selectedMode != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 12, bottom: 16),
                       child: ClipRRect(
@@ -159,8 +167,8 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                           filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                           child: Container(
                             padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 14,
+                              vertical: 12,
+                              horizontal: 16,
                             ),
                             decoration: BoxDecoration(
                               color: scheme.surfaceContainerHigh.withValues(
@@ -176,49 +184,93 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                             ),
                             child: Row(
                               children: [
+                                // Sliding selected filters text
                                 Expanded(
-                                  child: categoriesAsync.when(
-                                    data: (categories) {
-                                      final selectedCategory = categories
-                                          .where(
-                                            (cat) =>
-                                                cat.id == selectedCategoryId,
-                                          )
-                                          .firstOrNull;
-                                      final selectedCategoryName =
-                                          selectedCategory?.titleFor(appLang);
-
-                                      return Text(
-                                        selectedCategoryName ??
-                                            l10n.noneSelected,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium
-                                            ?.copyWith(
-                                              color: scheme.onSurfaceVariant,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                        overflow: TextOverflow.ellipsis,
-                                      );
-                                    },
-                                    loading: () => Text(
-                                      '...',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium,
+                                  child: SizedBox(
+                                    height:
+                                        22, // fixed height to prevent overflow
+                                    child: SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: const BouncingScrollPhysics(),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Builder(
+                                            builder: (context) {
+                                              final categoryText = categoriesAsync.when(
+                                                data: (categories) {
+                                                  final selectedCategory =
+                                                      categories
+                                                          .where(
+                                                            (cat) =>
+                                                                cat.id ==
+                                                                selectedCategoryId,
+                                                          )
+                                                          .firstOrNull;
+                                                  final selectedCategoryName =
+                                                      selectedCategory
+                                                          ?.titleFor(appLang) ??
+                                                      l10n.categoryNotSelected;
+                                                  return selectedCategoryName;
+                                                },
+                                                loading: () => '...',
+                                                error: (_, _) => '',
+                                              );
+                                              return Text(
+                                                categoryText,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      color: scheme
+                                                          .onSurfaceVariant,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                              );
+                                            },
+                                          ),
+                                          const SizedBox(width: 8),
+                                          const Text('•'),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            selectedLevelId ??
+                                                l10n.levelNotSelected,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      scheme.onSurfaceVariant,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          const Text('•'),
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            selectedMode == null
+                                                ? l10n.modeNotSelected
+                                                : selectedMode == 'term'
+                                                ? l10n.wordText
+                                                : l10n.meaningText,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.copyWith(
+                                                  color:
+                                                      scheme.onSurfaceVariant,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    error: (_, _) => const SizedBox.shrink(),
                                   ),
                                 ),
-                                const SizedBox(width: 12),
-                                Text(
-                                  selectedLevelId ?? l10n.noneSelected,
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(
-                                        color: scheme.onSurfaceVariant,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                ),
+
+                                // Clear selection button
                                 IconButton(
                                   tooltip: l10n.clearSelection,
                                   icon: Icon(
@@ -231,6 +283,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                                     setState(() {
                                       selectedCategoryId = null;
                                       selectedLevelId = null;
+                                      selectedMode = null;
                                     });
                                   },
                                 ),
@@ -243,7 +296,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
 
                   const SizedBox(height: 24),
 
-                  // Start game button
+                  // Start button
                   ElevatedButton.icon(
                     icon: const Icon(Icons.play_arrow_rounded, size: 26),
                     label: Text(
@@ -263,12 +316,16 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                       elevation: 6,
                     ),
                     onPressed:
-                        (selectedCategoryId != null && selectedLevelId != null)
+                        (selectedCategoryId != null &&
+                            selectedLevelId != null &&
+                            selectedMode != null)
                         ? () {
-                            context.push(
-                              '/game/combined/general'
-                              '?category=${selectedCategoryId!}&level=${selectedLevelId!}',
-                            );
+                            final query =
+                                '?category=${selectedCategoryId!}&level=${selectedLevelId!}';
+                            final modeSegment = selectedMode == 'meaning'
+                                ? 'meaning'
+                                : 'general';
+                            context.push('/game/combined/$modeSegment$query');
                           }
                         : null,
                   ),

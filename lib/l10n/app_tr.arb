@@ -839,5 +839,29 @@
   "noWordsFoundMessage": "Bu kategoride veya seviyede hiç kelime bulunamadı.",
   "@noWordsFoundMessage": {
     "description": "Message shown when absolutely no words exist in the selected category/level."
+  },
+  "wordText": "Kelime",
+  "@wordText": {
+    "description": "Label for the word"
+  },
+  "meaningText": "Anlam",
+  "@meaningText": {
+    "description": "Label for the meaning"
+  },
+  "selectPlayMode": "Oyun Modu Seçin",
+  "@selectPlayMode": {
+    "description": "Prompt to select a game mode"
+  },
+  "modeNotSelected": "Oyun modu seçilmedi",
+  "@modeNotSelected": {
+    "description": "Error message shown when no game mode is selected"
+  },
+  "categoryNotSelected": "Kategori seçilmedi",
+  "@categoryNotSelected": {
+    "description": "Error message shown when no category is selected"
+  },
+  "levelNotSelected": "Seviye seçilmedi",
+  "@levelNotSelected": {
+    "description": "Error message shown when no level is selected"
   }
 }
