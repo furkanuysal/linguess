@@ -863,5 +863,13 @@
   "levelNotSelected": "Level nicht ausgewählt",
   "@levelNotSelected": {
     "description": "Error message shown when no level is selected"
+  },
+  "listViewTooltip": "Listenansicht",
+  "@listViewTooltip": {
+    "description": "Tooltip for the button to switch to list view"
+  },
+  "gridViewTooltip": "Karoansicht",
+  "@gridViewTooltip": {
+    "description": "Tooltip for the button to switch to grid view"
   }
 }

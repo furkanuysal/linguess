@@ -691,4 +691,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get levelNotSelected => 'Nivel no seleccionado';
+
+  @override
+  String get listViewTooltip => 'Vista de Lista';
+
+  @override
+  String get gridViewTooltip => 'Vista de Cuadrícula';
 }

@@ -693,4 +693,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get levelNotSelected => 'Level nicht ausgewählt';
+
+  @override
+  String get listViewTooltip => 'Listenansicht';
+
+  @override
+  String get gridViewTooltip => 'Karoansicht';
 }

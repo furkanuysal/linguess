@@ -1344,6 +1344,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Seviye seçilmedi'**
   String get levelNotSelected;
+
+  /// Tooltip for the button to switch to list view
+  ///
+  /// In tr, this message translates to:
+  /// **'Liste Görünümü'**
+  String get listViewTooltip;
+
+  /// Tooltip for the button to switch to grid view
+  ///
+  /// In tr, this message translates to:
+  /// **'Karo Görünümü'**
+  String get gridViewTooltip;
 }
 
 class _AppLocalizationsDelegate

@@ -679,4 +679,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get levelNotSelected => 'Seviye seçilmedi';
+
+  @override
+  String get listViewTooltip => 'Liste Görünümü';
+
+  @override
+  String get gridViewTooltip => 'Karo Görünümü';
 }
