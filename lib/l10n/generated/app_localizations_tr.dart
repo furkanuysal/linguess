@@ -685,4 +685,18 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get gridViewTooltip => 'Karo Görünümü';
+
+  @override
+  String get categoryOrLevelNotSelected => 'Kategori veya seviye seçilmedi';
+
+  @override
+  String get timeAttackText => 'Zamana Karşı';
+
+  @override
+  String get optionalLevelCanBeSelected =>
+      'İsteğe bağlı, yeterli sayıda kelime bulunan seviyelerden seçim yapılabilir.';
+
+  @override
+  String get optionalCategoryCanBeSelected =>
+      'İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.';
 }

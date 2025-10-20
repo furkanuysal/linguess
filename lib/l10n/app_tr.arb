@@ -871,5 +871,21 @@
   "gridViewTooltip": "Karo Görünümü",
   "@gridViewTooltip": {
     "description": "Tooltip for the button to switch to grid view"
+  },
+  "categoryOrLevelNotSelected": "Kategori veya seviye seçilmedi",
+  "@categoryOrLevelNotSelected": {
+    "description": "Error message shown when neither category nor level is selected"
+  },
+  "timeAttackText": "Zamana Karşı",
+  "@timeAttackText": {
+    "description": "Label for the time attack game mode"
+  },
+  "optionalLevelCanBeSelected": "İsteğe bağlı, yeterli sayıda kelime bulunan seviyelerden seçim yapılabilir.",
+  "@optionalLevelCanBeSelected": {
+    "description": "Message indicating that level selection is optional"
+  },
+  "optionalCategoryCanBeSelected": "İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.",
+  "@optionalCategoryCanBeSelected": {
+    "description": "Message indicating that category selection is optional"
   }
 }

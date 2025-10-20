@@ -82,6 +82,7 @@ enum GameModeType {
   daily,
   combined,
   meaning,
+  timeAttack,
   // future modes
 }
 
@@ -93,6 +94,7 @@ class WordGameParams {
 
   bool get isDaily => modes.contains(GameModeType.daily);
   bool get isMeaningMode => modes.contains(GameModeType.meaning);
+  bool get isTimeAttackMode => modes.contains(GameModeType.timeAttack);
 
   @override
   bool operator ==(Object other) {

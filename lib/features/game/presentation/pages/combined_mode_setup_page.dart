@@ -7,6 +7,7 @@ import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/game/data/providers/availability_provider.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
+import 'package:linguess/features/game/data/providers/sufficiency_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/category_card.dart';
 import 'package:linguess/features/game/presentation/widgets/category_list_tile.dart';
 import 'package:linguess/features/game/presentation/widgets/gradient_choice_chip.dart';
@@ -48,6 +49,26 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
   Future<void> _saveViewPreference(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_prefKey, value);
+  }
+
+  bool isCombinationEnabled({
+    required WidgetRef ref,
+    required String? categoryId,
+    required String? levelId,
+    required String? selectedMode,
+  }) {
+    final availabilityAsync = ref.watch(
+      wordAvailabilityProvider((categoryId, levelId)),
+    );
+    final sufficiencyAsync = ref.watch(
+      wordSufficiencyProvider((categoryId, levelId)),
+    );
+
+    final available = availabilityAsync.value ?? true;
+    final sufficient = sufficiencyAsync.value ?? true;
+
+    // Time Attack requires 12+, others only need 1+
+    return selectedMode == 'timeAttack' ? sufficient : available;
   }
 
   @override
@@ -156,17 +177,16 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                         alignment: WrapAlignment.center,
                         children: levels.map((lvl) {
                           final isSelected = lvl.id == selectedLevelId;
-                          final availableAsync = ref.watch(
-                            wordAvailabilityProvider((
-                              selectedCategoryId,
-                              lvl.id,
-                            )),
+                          final enabled = isCombinationEnabled(
+                            ref: ref,
+                            categoryId: selectedCategoryId,
+                            levelId: lvl.id,
+                            selectedMode: selectedMode,
                           );
-                          final available = availableAsync.value ?? true;
                           return Opacity(
-                            opacity: available ? 1 : 0.45,
+                            opacity: enabled ? 1 : 0.45,
                             child: IgnorePointer(
-                              ignoring: !available,
+                              ignoring: !enabled,
                               child: GradientChoiceChip(
                                 label: lvl.id,
                                 isSelected: isSelected,
@@ -192,22 +212,53 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                   ),
                   const SizedBox(height: 8),
 
-                  Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    alignment: WrapAlignment.center,
-                    children: [
-                      GradientChoiceChip(
-                        label: l10n.wordText,
-                        isSelected: selectedMode == 'term',
-                        onTap: () => setState(() => selectedMode = 'term'),
-                      ),
-                      GradientChoiceChip(
-                        label: l10n.meaningText,
-                        isSelected: selectedMode == 'meaning',
-                        onTap: () => setState(() => selectedMode = 'meaning'),
-                      ),
-                    ],
+                  Builder(
+                    builder: (context) {
+                      final timeAttackSufficiencyAsync = ref.watch(
+                        wordSufficiencyProvider((
+                          selectedCategoryId,
+                          selectedLevelId,
+                        )),
+                      );
+
+                      // If no selection is made => active
+                      // If a selection is made => active if word is sufficient, otherwise inactive
+                      final timeAttackEnabled =
+                          (selectedCategoryId == null &&
+                              selectedLevelId == null) ||
+                          (timeAttackSufficiencyAsync.value ?? false);
+
+                      return Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        alignment: WrapAlignment.center,
+                        children: [
+                          GradientChoiceChip(
+                            label: l10n.wordText,
+                            isSelected: selectedMode == 'term',
+                            onTap: () => setState(() => selectedMode = 'term'),
+                          ),
+                          GradientChoiceChip(
+                            label: l10n.meaningText,
+                            isSelected: selectedMode == 'meaning',
+                            onTap: () =>
+                                setState(() => selectedMode = 'meaning'),
+                          ),
+                          Opacity(
+                            opacity: timeAttackEnabled ? 1 : 0.45,
+                            child: IgnorePointer(
+                              ignoring: !timeAttackEnabled,
+                              child: GradientChoiceChip(
+                                label: l10n.timeAttackText,
+                                isSelected: selectedMode == 'timeAttack',
+                                onTap: () =>
+                                    setState(() => selectedMode = 'timeAttack'),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
 
                   // Selected filters display + clear button
@@ -241,87 +292,194 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                               children: [
                                 // Sliding selected filters text
                                 Expanded(
-                                  child: SizedBox(
-                                    height:
-                                        22, // fixed height to prevent overflow
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: const BouncingScrollPhysics(),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Builder(
-                                            builder: (context) {
-                                              final categoryText = categoriesAsync.when(
-                                                data: (categories) {
-                                                  final selectedCategory =
-                                                      categories
-                                                          .where(
-                                                            (cat) =>
-                                                                cat.id ==
-                                                                selectedCategoryId,
-                                                          )
-                                                          .firstOrNull;
-                                                  final selectedCategoryName =
-                                                      selectedCategory
-                                                          ?.titleFor(appLang) ??
-                                                      l10n.categoryNotSelected;
-                                                  return selectedCategoryName;
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height:
+                                            22, // fixed height to prevent overflow
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Builder(
+                                                builder: (context) {
+                                                  final categoryText = categoriesAsync.when(
+                                                    data: (categories) {
+                                                      final selectedCategory =
+                                                          categories
+                                                              .where(
+                                                                (cat) =>
+                                                                    cat.id ==
+                                                                    selectedCategoryId,
+                                                              )
+                                                              .firstOrNull;
+                                                      return selectedCategory
+                                                              ?.titleFor(
+                                                                appLang,
+                                                              ) ??
+                                                          l10n.categoryNotSelected;
+                                                    },
+                                                    loading: () => '...',
+                                                    error: (_, _) => l10n
+                                                        .categoryNotSelected,
+                                                  );
+
+                                                  final levelText =
+                                                      selectedLevelId ??
+                                                      l10n.levelNotSelected;
+
+                                                  final modeText =
+                                                      selectedMode == null
+                                                      ? l10n.modeNotSelected
+                                                      : (selectedMode == 'term'
+                                                            ? l10n.wordText
+                                                            : selectedMode ==
+                                                                  'meaning'
+                                                            ? l10n.meaningText
+                                                            : l10n.timeAttackText);
+
+                                                  final isTA =
+                                                      selectedMode ==
+                                                      'timeAttack';
+                                                  final hasCat =
+                                                      selectedCategoryId !=
+                                                      null;
+                                                  final hasLvl =
+                                                      selectedLevelId != null;
+
+                                                  // Helper to add dot separator
+                                                  List<Widget> withDot(
+                                                    Widget w,
+                                                  ) => [
+                                                    w,
+                                                    const SizedBox(width: 8),
+                                                    const Text('•'),
+                                                    const SizedBox(width: 8),
+                                                  ];
+
+                                                  final textStyle =
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.copyWith(
+                                                            color: scheme
+                                                                .onSurfaceVariant,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          );
+
+                                                  final items = <Widget>[];
+
+                                                  if (isTA &&
+                                                      (hasCat ^ hasLvl)) {
+                                                    // Only category + TA or only level + TA
+                                                    if (hasCat) {
+                                                      items.addAll(
+                                                        withDot(
+                                                          Text(
+                                                            categoryText,
+                                                            style: textStyle,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      items.addAll(
+                                                        withDot(
+                                                          Text(
+                                                            levelText,
+                                                            style: textStyle,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    }
+                                                    items.add(
+                                                      Text(
+                                                        modeText,
+                                                        style: textStyle,
+                                                      ),
+                                                    );
+                                                  } else if (isTA &&
+                                                      !hasCat &&
+                                                      !hasLvl) {
+                                                    // Only TA selected → "Category or level not selected • Time Attack"
+                                                    items.addAll(
+                                                      withDot(
+                                                        Text(
+                                                          l10n.categoryOrLevelNotSelected,
+                                                          style: textStyle,
+                                                        ),
+                                                      ),
+                                                    );
+                                                    items.add(
+                                                      Text(
+                                                        modeText,
+                                                        style: textStyle,
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    // Other scenarios (including normal modes)
+                                                    items.addAll(
+                                                      withDot(
+                                                        Text(
+                                                          categoryText,
+                                                          style: textStyle,
+                                                        ),
+                                                      ),
+                                                    );
+                                                    items.addAll(
+                                                      withDot(
+                                                        Text(
+                                                          levelText,
+                                                          style: textStyle,
+                                                        ),
+                                                      ),
+                                                    );
+                                                    items.add(
+                                                      Text(
+                                                        modeText,
+                                                        style: textStyle,
+                                                      ),
+                                                    );
+                                                  }
+
+                                                  return Row(children: items);
                                                 },
-                                                loading: () => '...',
-                                                error: (_, _) => '',
-                                              );
-                                              return Text(
-                                                categoryText,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(
-                                                      color: scheme
-                                                          .onSurfaceVariant,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                              );
-                                            },
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(width: 8),
-                                          const Text('•'),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            selectedLevelId ??
-                                                l10n.levelNotSelected,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color:
-                                                      scheme.onSurfaceVariant,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                          const SizedBox(width: 8),
-                                          const Text('•'),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            selectedMode == null
-                                                ? l10n.modeNotSelected
-                                                : selectedMode == 'term'
-                                                ? l10n.wordText
-                                                : l10n.meaningText,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium
-                                                ?.copyWith(
-                                                  color:
-                                                      scheme.onSurfaceVariant,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    ),
+                                      if (selectedMode == 'timeAttack' &&
+                                          ((selectedCategoryId != null &&
+                                                  selectedLevelId == null) ||
+                                              (selectedCategoryId == null &&
+                                                  selectedLevelId != null)))
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 6,
+                                          ),
+                                          child: Text(
+                                            selectedCategoryId != null
+                                                ? l10n
+                                                      .optionalLevelCanBeSelected // Optional level selection can be made
+                                                : l10n.optionalCategoryCanBeSelected, // Optional category selection can be made
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall
+                                                ?.copyWith(
+                                                  color:
+                                                      scheme.onSurfaceVariant,
+                                                  fontStyle: FontStyle.italic,
+                                                ),
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                 ),
 
@@ -371,15 +529,21 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
                       elevation: 6,
                     ),
                     onPressed:
-                        (selectedCategoryId != null &&
-                            selectedLevelId != null &&
-                            selectedMode != null)
+                        (selectedMode == 'timeAttack'
+                                ? (selectedCategoryId != null ||
+                                      selectedLevelId != null)
+                                : (selectedCategoryId != null &&
+                                      selectedLevelId != null)) &&
+                            selectedMode != null
                         ? () {
                             final query =
-                                '?category=${selectedCategoryId!}&level=${selectedLevelId!}';
-                            final modeSegment = selectedMode == 'meaning'
-                                ? 'meaning'
-                                : 'general';
+                                '?category=${selectedCategoryId ?? ''}&level=${selectedLevelId ?? ''}';
+                            final modeSegment = switch (selectedMode) {
+                              'meaning' => 'meaning',
+                              'term' => 'general',
+                              'timeAttack' => 'timeAttack',
+                              _ => 'general',
+                            };
                             context.push('/game/combined/$modeSegment$query');
                           }
                         : null,
@@ -409,15 +573,17 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
         final category = categories[index];
         final isSelected = category.id == selectedCategoryId;
 
-        final availableAsync = refLocal.watch(
-          wordAvailabilityProvider((category.id, selectedLevelId)),
+        final enabled = isCombinationEnabled(
+          ref: refLocal,
+          categoryId: category.id,
+          levelId: selectedLevelId,
+          selectedMode: selectedMode,
         );
-        final available = availableAsync.value ?? true;
 
         return Opacity(
-          opacity: available ? 1 : 0.45,
+          opacity: enabled ? 1 : 0.45,
           child: IgnorePointer(
-            ignoring: !available,
+            ignoring: !enabled,
             child: CategoryCard(
               id: category.id,
               title: category.titleFor(appLang),
@@ -444,15 +610,17 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
         final category = categories[index];
         final isSelected = category.id == selectedCategoryId;
 
-        final availableAsync = refLocal.watch(
-          wordAvailabilityProvider((category.id, selectedLevelId)),
+        final enabled = isCombinationEnabled(
+          ref: refLocal,
+          categoryId: category.id,
+          levelId: selectedLevelId,
+          selectedMode: selectedMode,
         );
-        final available = availableAsync.value ?? true;
 
         return Opacity(
-          opacity: available ? 1 : 0.45,
+          opacity: enabled ? 1 : 0.45,
           child: IgnorePointer(
-            ignoring: !available,
+            ignoring: !enabled,
             child: CategoryListTile(
               id: category.id,
               title: category.titleFor(appLang),

@@ -1356,6 +1356,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Karo Görünümü'**
   String get gridViewTooltip;
+
+  /// Error message shown when neither category nor level is selected
+  ///
+  /// In tr, this message translates to:
+  /// **'Kategori veya seviye seçilmedi'**
+  String get categoryOrLevelNotSelected;
+
+  /// Label for the time attack game mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamana Karşı'**
+  String get timeAttackText;
+
+  /// Message indicating that level selection is optional
+  ///
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı, yeterli sayıda kelime bulunan seviyelerden seçim yapılabilir.'**
+  String get optionalLevelCanBeSelected;
+
+  /// Message indicating that category selection is optional
+  ///
+  /// In tr, this message translates to:
+  /// **'İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.'**
+  String get optionalCategoryCanBeSelected;
 }
 
 class _AppLocalizationsDelegate

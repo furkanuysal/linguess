@@ -699,4 +699,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get gridViewTooltip => 'Karoansicht';
+
+  @override
+  String get categoryOrLevelNotSelected =>
+      'Kategorie oder Level nicht ausgewählt';
+
+  @override
+  String get timeAttackText => 'Zeitduell';
+
+  @override
+  String get optionalLevelCanBeSelected =>
+      'Optional kannst du Level auswählen, die genügend Wörter enthalten.';
+
+  @override
+  String get optionalCategoryCanBeSelected =>
+      'Optional kannst du Kategorien auswählen, die genügend Wörter enthalten.';
 }

@@ -871,5 +871,21 @@
   "gridViewTooltip": "Vista de Cuadrícula",
   "@gridViewTooltip": {
     "description": "Tooltip for the button to switch to grid view"
+  },
+  "categoryOrLevelNotSelected": "Categoría o nivel no seleccionado",
+  "@categoryOrLevelNotSelected": {
+    "description": "Error message shown when neither category nor level is selected"
+  },
+  "timeAttackText": "Contra Reloj",
+  "@timeAttackText": {
+    "description": "Label for the time attack game mode"
+  },
+  "optionalLevelCanBeSelected": "Opcionalmente, puedes seleccionar los niveles que contengan suficientes palabras.",
+  "@optionalLevelCanBeSelected": {
+    "description": "Mensaje que indica que la selección de nivel es opcional"
+  },
+  "optionalCategoryCanBeSelected": "Opcionalmente, puedes seleccionar las categorías que contengan suficientes palabras.",
+  "@optionalCategoryCanBeSelected": {
+    "description": "Mensaje que indica que la selección de categoría es opcional"
   }
 }

@@ -871,5 +871,21 @@
   "gridViewTooltip": "Karoansicht",
   "@gridViewTooltip": {
     "description": "Tooltip for the button to switch to grid view"
+  },
+  "categoryOrLevelNotSelected": "Kategorie oder Level nicht ausgewählt",
+  "@categoryOrLevelNotSelected": {
+    "description": "Error message shown when neither category nor level is selected"
+  },
+  "timeAttackText": "Zeitduell",
+  "@timeAttackText": {
+    "description": "Label for the time attack game mode"
+  },
+  "optionalLevelCanBeSelected": "Optional kannst du Level auswählen, die genügend Wörter enthalten.",
+  "@optionalLevelCanBeSelected": {
+    "description": "Nachricht, die angibt, dass die Levelauswahl optional ist"
+  },
+  "optionalCategoryCanBeSelected": "Optional kannst du Kategorien auswählen, die genügend Wörter enthalten.",
+  "@optionalCategoryCanBeSelected": {
+    "description": "Nachricht, die angibt, dass die Kategorieauswahl optional ist"
   }
 }

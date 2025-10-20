@@ -697,4 +697,18 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get gridViewTooltip => 'Vista de Cuadrícula';
+
+  @override
+  String get categoryOrLevelNotSelected => 'Categoría o nivel no seleccionado';
+
+  @override
+  String get timeAttackText => 'Contra Reloj';
+
+  @override
+  String get optionalLevelCanBeSelected =>
+      'Opcionalmente, puedes seleccionar los niveles que contengan suficientes palabras.';
+
+  @override
+  String get optionalCategoryCanBeSelected =>
+      'Opcionalmente, puedes seleccionar las categorías que contengan suficientes palabras.';
 }

@@ -686,4 +686,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get gridViewTooltip => 'Grid View';
+
+  @override
+  String get categoryOrLevelNotSelected => 'Category or level not selected';
+
+  @override
+  String get timeAttackText => 'Time Attack';
+
+  @override
+  String get optionalLevelCanBeSelected =>
+      'Optionally, you can select levels that contain a sufficient number of words.';
+
+  @override
+  String get optionalCategoryCanBeSelected =>
+      'Optionally, you can select categories that contain a sufficient number of words.';
 }

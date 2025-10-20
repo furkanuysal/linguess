@@ -871,5 +871,21 @@
   "gridViewTooltip": "Grid View",
   "@gridViewTooltip": {
     "description": "Tooltip for the button to switch to grid view"
+  },
+  "categoryOrLevelNotSelected": "Category or level not selected",
+  "@categoryOrLevelNotSelected": {
+    "description": "Error message shown when neither category nor level is selected"
+  },
+  "timeAttackText": "Time Attack",
+  "@timeAttackText": {
+    "description": "Label for the time attack game mode"
+  },
+  "optionalLevelCanBeSelected": "Optionally, you can select levels that contain a sufficient number of words.",
+  "@optionalLevelCanBeSelected": {
+    "description": "Message indicating that level selection is optional"
+  },
+  "optionalCategoryCanBeSelected": "Optionally, you can select categories that contain a sufficient number of words.",
+  "@optionalCategoryCanBeSelected": {
+    "description": "Message indicating that category selection is optional"
   }
 }
