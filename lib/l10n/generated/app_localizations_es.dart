@@ -54,6 +54,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signOut => 'Cerrar sesión';
 
   @override
+  String get signedOut => 'Cierre de sesión';
+
+  @override
   String get signInSubtitle =>
       'Introduce tu correo electrónico y contraseña para iniciar sesión';
 

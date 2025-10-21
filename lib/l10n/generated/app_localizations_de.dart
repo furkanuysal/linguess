@@ -54,6 +54,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get signOut => 'Abmelden';
 
   @override
+  String get signedOut => 'Abgemeldet';
+
+  @override
   String get signInSubtitle =>
       'Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden';
 

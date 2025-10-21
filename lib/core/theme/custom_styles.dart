@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 BorderSide settingsContentBorderSide(BuildContext context) {
   final scheme = Theme.of(context).colorScheme;
@@ -100,6 +102,150 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
+      actions: actions,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+}
+
+class WebAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const WebAppBar({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.actions,
+  });
+
+  final String title;
+  final String? subtitle;
+  final List<Widget>? actions;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textColor = scheme.primary;
+
+    return Container(
+      height: preferredSize.height,
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHigh.withValues(alpha: 0.85),
+        border: Border(
+          bottom: BorderSide(
+            color: scheme.outlineVariant.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: scheme.shadow.withValues(alpha: 0.15),
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Title and subtitle on the left side (clickable on web)
+          Row(
+            children: [
+              GestureDetector(
+                onTap: kIsWeb
+                    ? () {
+                        // Navigate to home page on title click
+                        context.go('/');
+                      }
+                    : null,
+                child: MouseRegion(
+                  cursor: kIsWeb
+                      ? SystemMouseCursors.click
+                      : SystemMouseCursors.basic,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: textColor,
+                          shadows: const [
+                            Shadow(
+                              blurRadius: 2,
+                              offset: Offset(0, 1),
+                              color: Color(0x33000000),
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (subtitle != null)
+                        Text(
+                          subtitle!,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: scheme.onSurfaceVariant.withValues(
+                              alpha: 0.8,
+                            ),
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // Right actions (e.g. sign-in button, profile)
+          Row(mainAxisSize: MainAxisSize.min, children: actions ?? []),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(64);
+}
+
+class ResponsiveAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ResponsiveAppBar({
+    super.key,
+    required this.title,
+    this.subtitle,
+    this.centerTitle = true,
+    this.leading,
+    this.actions,
+  });
+
+  final String title;
+  final String? subtitle;
+  final bool centerTitle;
+  final Widget? leading;
+  final List<Widget>? actions;
+
+  bool _isWide(BuildContext context) {
+    return MediaQuery.of(context).size.width >= 800;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isWide = _isWide(context);
+
+    // Web or wide screens use WebAppBar
+    if (kIsWeb || isWide) {
+      return WebAppBar(title: title, subtitle: subtitle, actions: actions);
+    }
+
+    // Other cases use mobile CustomAppBar
+    return CustomAppBar(
+      title: title,
+      subtitle: subtitle,
+      centerTitle: centerTitle,
+      leading: leading,
       actions: actions,
     );
   }

@@ -60,6 +60,10 @@
   "@signOut": {
     "description": "Button text for signing out"
   },
+  "signedOut": "Abgemeldet",
+  "@signedOut": {
+    "description": "Message shown after successful sign out"
+  },
   "signInSubtitle": "Geben Sie Ihre E-Mail und Ihr Passwort ein, um sich anzumelden",
   "@signInSubtitle": {
     "description": "Subtitle text for the sign-in page"

@@ -54,6 +54,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signOut => 'Çıkış Yap';
 
   @override
+  String get signedOut => 'Oturum kapatıldı';
+
+  @override
   String get signInSubtitle => 'E-posta ve şifrenizle hesabınıza giriş yapın';
 
   @override

@@ -192,6 +192,12 @@ abstract class AppLocalizations {
   /// **'Çıkış Yap'**
   String get signOut;
 
+  /// Message shown after successful sign out
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturum kapatıldı'**
+  String get signedOut;
+
   /// Subtitle text prompting user to sign in to their account
   ///
   /// In tr, this message translates to:

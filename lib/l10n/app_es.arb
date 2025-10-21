@@ -60,6 +60,10 @@
   "@signOut": {
     "description": "Button text for signing out"
   },
+  "signedOut": "Cierre de sesión",
+  "@signedOut": {
+    "description": "Message shown after successful sign out"
+  },
   "signInSubtitle": "Introduce tu correo electrónico y contraseña para iniciar sesión",
   "@signInSubtitle": {
     "description": "Subtitle text for the sign-in page"

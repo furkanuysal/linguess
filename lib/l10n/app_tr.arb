@@ -60,6 +60,10 @@
   "@signOut": {
     "description": "Button text for signing out"
   },
+  "signedOut": "Oturum kapatıldı",
+  "@signedOut": {
+    "description": "Message shown after successful sign out"
+  },
   "signInSubtitle": "E-posta ve şifrenizle hesabınıza giriş yapın",
   "@signInSubtitle": {
     "description": "Subtitle text prompting user to sign in to their account"
