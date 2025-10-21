@@ -89,6 +89,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               // meaning + (category | level)
               if (value == 'meaning') {
                 modes.add(GameModeType.meaning);
+              } else if (value == 'timeAttack') {
+                modes.add(GameModeType.timeAttack);
               }
 
               if (query.containsKey('category')) {

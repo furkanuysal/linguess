@@ -808,6 +808,10 @@
   "@customGame": {
     "description": "Label for the custom game mode"
   },
+  "customGameDescription": "Erstelle dein eigenes Spiel nach deinen eigenen Regeln!",
+  "@customGameDescription": {
+    "description": "Description for the custom game mode"
+  },
   "startCustomGame": "Benutzerdefiniertes Spiel starten",
   "@startCustomGame": {
     "description": "Button text to start a custom game"
@@ -827,6 +831,10 @@
   "meaningMode": "Bedeutungsmodus",
   "@meaningMode": {
     "description": "Label for the meaning mode game option"
+  },
+  "meaningModeDescription": "In diesem Modus musst du das Wort basierend auf seiner Bedeutung erraten.",
+  "@meaningModeDescription": {
+    "description": "Description for the meaning mode game option"
   },
   "fallbackInfoTitle": "Info",
   "@fallbackInfoTitle": {
@@ -887,5 +895,31 @@
   "optionalCategoryCanBeSelected": "Optional kannst du Kategorien auswählen, die genügend Wörter enthalten.",
   "@optionalCategoryCanBeSelected": {
     "description": "Nachricht, die angibt, dass die Kategorieauswahl optional ist"
+  },
+  "correctCountText": "Korrekte Antworten: {correctCount}",
+  "@correctCountText": {
+    "description": "Text showing the count of correct answers",
+    "placeholders": {
+      "correctCount": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "timeAttackEndedTitle": "Zeitduell Beendet",
+  "@timeAttackEndedTitle": {
+    "description": "Title shown when the time attack mode ends"
+  },
+  "tryAgainText": "Versuche es erneut",
+  "@tryAgainText": {
+    "description": "Button text to try the time attack mode again"
+  },
+  "returnToMainMenu": "Zurück zum Hauptmenü",
+  "@returnToMainMenu": {
+    "description": "Button text to return to the main menu"
+  },
+  "insufficientWordsForTimeAttack": "Nicht genügend Wörter für den Zeitangriff-Modus. Bitte wähle eine andere Kategorie oder ein anderes Level.",
+  "@insufficientWordsForTimeAttack": {
+    "description": "Error message shown when there are not enough words for time attack mode"
   }
 }

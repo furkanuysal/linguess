@@ -649,6 +649,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get customGame => 'Juego Personalizado';
 
   @override
+  String get customGameDescription =>
+      '¡Crea tu propio juego con tus propias reglas!';
+
+  @override
   String get startCustomGame => 'Iniciar Juego Personalizado';
 
   @override
@@ -662,6 +666,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get meaningMode => 'Modo de Significado';
+
+  @override
+  String get meaningModeDescription =>
+      '¡Adivina la palabra según su significado!';
 
   @override
   String get fallbackInfoTitle => 'Información';
@@ -711,4 +719,22 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get optionalCategoryCanBeSelected =>
       'Opcionalmente, puedes seleccionar las categorías que contengan suficientes palabras.';
+
+  @override
+  String correctCountText(int correctCount) {
+    return 'Respuestas correctas: $correctCount';
+  }
+
+  @override
+  String get timeAttackEndedTitle => '¡El modo contra reloj ha terminado!';
+
+  @override
+  String get tryAgainText => 'Inténtalo de nuevo';
+
+  @override
+  String get returnToMainMenu => 'Volver al menú principal';
+
+  @override
+  String get insufficientWordsForTimeAttack =>
+      'No hay suficientes palabras para el modo contra reloj. Por favor, selecciona otra categoría o nivel.';
 }

@@ -71,6 +71,10 @@ class EconomyService {
     await userDoc.update({'gold': FieldValue.increment(amount)});
   }
 
+  Future<void> addGold(int amount) async {
+    grantAdRewardGold(amount);
+  }
+
   // 0 hint = +5, 1–2 hint = +2, 3+ = +1
   int computeSolveReward(int hintsUsed) {
     if (hintsUsed <= 0) return 5;

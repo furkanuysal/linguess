@@ -639,6 +639,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get customGame => 'Custom Game';
 
   @override
+  String get customGameDescription => 'Create your own game by your own rules!';
+
+  @override
   String get startCustomGame => 'Start Custom Game';
 
   @override
@@ -652,6 +655,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meaningMode => 'Meaning Mode';
+
+  @override
+  String get meaningModeDescription => 'Guess the word based on its meaning!';
 
   @override
   String get fallbackInfoTitle => 'Info';
@@ -700,4 +706,22 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get optionalCategoryCanBeSelected =>
       'Optionally, you can select categories that contain a sufficient number of words.';
+
+  @override
+  String correctCountText(int correctCount) {
+    return 'Correct Answers: $correctCount';
+  }
+
+  @override
+  String get timeAttackEndedTitle => 'Time Attack Ended!';
+
+  @override
+  String get tryAgainText => 'Try Again';
+
+  @override
+  String get returnToMainMenu => 'Return to Main Menu';
+
+  @override
+  String get insufficientWordsForTimeAttack =>
+      'Not enough words for time attack mode. Please select a different category or level.';
 }

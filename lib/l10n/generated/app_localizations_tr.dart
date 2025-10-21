@@ -637,6 +637,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get customGame => 'Özel Oyun';
 
   @override
+  String get customGameDescription =>
+      'Kendi seçeneklerinle özel bir oyun oluştur.';
+
+  @override
   String get startCustomGame => 'Özel Oyunu Başlat';
 
   @override
@@ -650,6 +654,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get meaningMode => 'Anlam Modu';
+
+  @override
+  String get meaningModeDescription =>
+      'Kelimenin anlamınından kelimeyi tahmin edin.';
 
   @override
   String get fallbackInfoTitle => 'Bilgi';
@@ -699,4 +707,22 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get optionalCategoryCanBeSelected =>
       'İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.';
+
+  @override
+  String correctCountText(int correctCount) {
+    return 'Doğru Sayısı: $correctCount';
+  }
+
+  @override
+  String get timeAttackEndedTitle => 'Zamana Karşı Oyun Bitti!';
+
+  @override
+  String get tryAgainText => 'Tekrar Dene';
+
+  @override
+  String get returnToMainMenu => 'Ana Menüye Dön';
+
+  @override
+  String get insufficientWordsForTimeAttack =>
+      'Zamana karşı mod için yeterli kelime yok. Lütfen başka bir kategori veya seviye seçin.';
 }

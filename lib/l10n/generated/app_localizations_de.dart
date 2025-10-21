@@ -651,6 +651,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get customGame => 'Benutzerdefiniertes Spiel';
 
   @override
+  String get customGameDescription =>
+      'Erstelle dein eigenes Spiel nach deinen eigenen Regeln!';
+
+  @override
   String get startCustomGame => 'Benutzerdefiniertes Spiel starten';
 
   @override
@@ -664,6 +668,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get meaningMode => 'Bedeutungsmodus';
+
+  @override
+  String get meaningModeDescription =>
+      'In diesem Modus musst du das Wort basierend auf seiner Bedeutung erraten.';
 
   @override
   String get fallbackInfoTitle => 'Info';
@@ -714,4 +722,22 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get optionalCategoryCanBeSelected =>
       'Optional kannst du Kategorien auswählen, die genügend Wörter enthalten.';
+
+  @override
+  String correctCountText(int correctCount) {
+    return 'Korrekte Antworten: $correctCount';
+  }
+
+  @override
+  String get timeAttackEndedTitle => 'Zeitduell Beendet';
+
+  @override
+  String get tryAgainText => 'Versuche es erneut';
+
+  @override
+  String get returnToMainMenu => 'Zurück zum Hauptmenü';
+
+  @override
+  String get insufficientWordsForTimeAttack =>
+      'Nicht genügend Wörter für den Zeitangriff-Modus. Bitte wähle eine andere Kategorie oder ein anderes Level.';
 }

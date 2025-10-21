@@ -808,6 +808,10 @@
   "@customGame": {
     "description": "Label for the custom game mode"
   },
+  "customGameDescription": "Kendi seçeneklerinle özel bir oyun oluştur.",
+  "@customGameDescription": {
+    "description": "Description for the custom game mode"
+  },
   "startCustomGame": "Özel Oyunu Başlat",
   "@startCustomGame": {
     "description": "Button text to start a custom game"
@@ -827,6 +831,10 @@
   "meaningMode": "Anlam Modu",
   "@meaningMode": {
     "description": "Label for the meaning mode in the game"
+  },
+  "meaningModeDescription": "Kelimenin anlamınından kelimeyi tahmin edin.",
+  "@meaningModeDescription": {
+    "description": "Description for the meaning mode in the game"
   },
   "fallbackInfoTitle": "Bilgi",
   "@fallbackInfoTitle": {
@@ -887,5 +895,31 @@
   "optionalCategoryCanBeSelected": "İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.",
   "@optionalCategoryCanBeSelected": {
     "description": "Message indicating that category selection is optional"
+  },
+  "correctCountText": "Doğru Sayısı: {correctCount}",
+  "@correctCountText": {
+    "description": "Text showing the count of correct answers",
+    "placeholders": {
+      "correctCount": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "timeAttackEndedTitle": "Zamana Karşı Oyun Bitti!",
+  "@timeAttackEndedTitle": {
+    "description": "Title shown when the time attack mode ends"
+  },
+  "tryAgainText": "Tekrar Dene",
+  "@tryAgainText": {
+    "description": "Button text to try the time attack mode again"
+  },
+  "returnToMainMenu": "Ana Menüye Dön",
+  "@returnToMainMenu": {
+    "description": "Button text to return to the main menu"
+  },
+  "insufficientWordsForTimeAttack": "Zamana karşı mod için yeterli kelime yok. Lütfen başka bir kategori veya seviye seçin.",
+  "@insufficientWordsForTimeAttack": {
+    "description": "Error message shown when there are not enough words for time attack mode"
   }
 }

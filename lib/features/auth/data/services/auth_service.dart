@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
@@ -70,14 +71,13 @@ class AuthService {
   // Sign out
   Future<void> signOut() async {
     try {
-      await GoogleSignIn.instance.signOut(); // v7: singleton signout
+      if (!kIsWeb) {
+        await _ensureGoogleInit();
+        await GoogleSignIn.instance.signOut();
+      }
       await _auth.signOut();
-    } on FirebaseAuthException catch (e, st) {
-      log("Auth signOut error: [${e.code}] ${e.message}", stackTrace: st);
-      rethrow;
     } catch (e, st) {
       log("Auth signOut unexpected error: $e", stackTrace: st);
-      rethrow;
     }
   }
 
@@ -92,36 +92,54 @@ class AuthService {
   // --- Google sign-in-up (Firebase) ---
   Future<User?> signInWithGoogle() async {
     try {
-      await _ensureGoogleInit();
+      if (kIsWeb) {
+        // Web version
+        final provider = GoogleAuthProvider();
+        provider.addScope('email');
+        provider.setCustomParameters({'prompt': 'select_account'});
 
-      // Interactive sign-in
-      final GoogleSignInAccount account = await GoogleSignIn.instance
-          .authenticate(scopeHint: const ['email']);
+        final userCred = await _auth.signInWithPopup(provider);
+        final user = userCred.user;
 
-      // Get idToken
-      final idToken = (account.authentication).idToken;
-      if (idToken == null) {
-        throw FirebaseAuthException(
-          code: 'no-id-token',
-          message:
-              'Could not retrieve idToken from Google. serverClientId (Web OAuth Client ID) may be required.',
-        );
-      }
-
-      // Sign in-up with Firebase credential
-      final cred = GoogleAuthProvider.credential(idToken: idToken);
-      final userCred = await _auth.signInWithCredential(cred);
-      final user = userCred.user;
-      if (user != null && (userCred.additionalUserInfo?.isNewUser ?? false)) {
-        try {
-          await ref.read(userServiceProvider).createUserDocument(user);
-        } catch (e) {
-          // Even if document creation fails, the auth session remains active; just log and continue
-          log("createUserDocument failed: $e");
+        if (user != null && (userCred.additionalUserInfo?.isNewUser ?? false)) {
+          try {
+            await ref.read(userServiceProvider).createUserDocument(user);
+          } catch (e) {
+            log("createUserDocument (Google Web) failed: $e");
+          }
         }
-      }
 
-      return user;
+        return user;
+      } else {
+        //  Mobile version
+        await _ensureGoogleInit();
+
+        final GoogleSignInAccount account = await GoogleSignIn.instance
+            .authenticate(scopeHint: const ['email']);
+
+        final idToken = (account.authentication).idToken;
+        if (idToken == null) {
+          throw FirebaseAuthException(
+            code: 'no-id-token',
+            message:
+                'Could not retrieve idToken from Google. serverClientId (Web OAuth Client ID) may be required.',
+          );
+        }
+
+        final cred = GoogleAuthProvider.credential(idToken: idToken);
+        final userCred = await _auth.signInWithCredential(cred);
+        final user = userCred.user;
+
+        if (user != null && (userCred.additionalUserInfo?.isNewUser ?? false)) {
+          try {
+            await ref.read(userServiceProvider).createUserDocument(user);
+          } catch (e) {
+            log("createUserDocument (Google Mobile) failed: $e");
+          }
+        }
+
+        return user;
+      }
     } on FirebaseAuthException catch (e, st) {
       log("Auth googleSignIn error: [${e.code}] ${e.message}", stackTrace: st);
       rethrow;
@@ -131,16 +149,19 @@ class AuthService {
     }
   }
 
+  // GitHub Sign-In (Web + Mobile)
   Future<User?> signInWithGitHub() async {
     try {
       final provider = GithubAuthProvider();
       provider.addScope('read:user');
       provider.addScope('user:email');
 
-      final userCred = await _auth.signInWithProvider(provider);
+      final userCred = kIsWeb
+          ? await _auth.signInWithPopup(provider)
+          : await _auth.signInWithProvider(provider);
+
       final user = userCred.user;
 
-      // If new user, create user document
       if (user != null && (userCred.additionalUserInfo?.isNewUser ?? false)) {
         try {
           await ref.read(userServiceProvider).createUserDocument(user);
@@ -148,6 +169,7 @@ class AuthService {
           log("createUserDocument (GitHub) failed: $e");
         }
       }
+
       return user;
     } on FirebaseAuthException catch (e, st) {
       log("Auth githubSignIn error: [${e.code}] ${e.message}", stackTrace: st);

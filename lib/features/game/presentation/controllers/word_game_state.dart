@@ -18,6 +18,10 @@ class WordGameState {
   final bool isDefinitionUsedForCurrentWord;
   final bool isExampleSentenceUsedForCurrentWord;
   final bool isExampleSentenceTargetUsedForCurrentWord;
+  final bool isTimeAttack;
+  final bool isTimeAttackFinished;
+  final int remainingSeconds;
+  final int timeAttackCorrectCount;
 
   const WordGameState({
     this.words = const AsyncValue.loading(),
@@ -34,6 +38,10 @@ class WordGameState {
     this.isDefinitionUsedForCurrentWord = false,
     this.isExampleSentenceUsedForCurrentWord = false,
     this.isExampleSentenceTargetUsedForCurrentWord = false,
+    this.isTimeAttack = false,
+    this.isTimeAttackFinished = false,
+    this.remainingSeconds = 0,
+    this.timeAttackCorrectCount = 0,
   });
 
   WordGameState copyWith({
@@ -51,6 +59,10 @@ class WordGameState {
     bool? isDefinitionUsedForCurrentWord,
     bool? isExampleSentenceUsedForCurrentWord,
     bool? isExampleSentenceTargetUsedForCurrentWord,
+    bool? isTimeAttack,
+    bool? isTimeAttackFinished,
+    int? remainingSeconds,
+    int? timeAttackCorrectCount,
   }) {
     return WordGameState(
       words: words ?? this.words,
@@ -72,6 +84,11 @@ class WordGameState {
       isExampleSentenceTargetUsedForCurrentWord:
           isExampleSentenceTargetUsedForCurrentWord ??
           this.isExampleSentenceTargetUsedForCurrentWord,
+      isTimeAttack: isTimeAttack ?? this.isTimeAttack,
+      isTimeAttackFinished: isTimeAttackFinished ?? this.isTimeAttackFinished,
+      remainingSeconds: remainingSeconds ?? this.remainingSeconds,
+      timeAttackCorrectCount:
+          timeAttackCorrectCount ?? this.timeAttackCorrectCount,
     );
   }
 }

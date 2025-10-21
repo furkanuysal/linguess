@@ -133,6 +133,23 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                               color: Colors.orange,
                               onTap: () => handleDailyButton(context, ref),
                             ),
+                            _buildGameModeCard(
+                              context,
+                              title: l10n.meaningMode,
+                              description: l10n.meaningModeDescription,
+                              icon: Icons.psychology_alt_rounded,
+                              color: Colors.purple,
+                              onTap: () =>
+                                  context.push('/game/meaning/general'),
+                            ),
+                            _buildGameModeCard(
+                              context,
+                              title: l10n.customGame,
+                              description: l10n.customGameDescription,
+                              icon: Icons.auto_awesome_mosaic,
+                              color: Colors.red,
+                              onTap: () => context.push('/combined-mode-setup'),
+                            ),
                           ],
                         ),
                       ),

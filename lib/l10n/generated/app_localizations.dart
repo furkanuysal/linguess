@@ -1261,6 +1261,12 @@ abstract class AppLocalizations {
   /// **'Özel Oyun'**
   String get customGame;
 
+  /// Description for the custom game mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Kendi seçeneklerinle özel bir oyun oluştur.'**
+  String get customGameDescription;
+
   /// Button text to start a custom game
   ///
   /// In tr, this message translates to:
@@ -1290,6 +1296,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Anlam Modu'**
   String get meaningMode;
+
+  /// Description for the meaning mode in the game
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelimenin anlamınından kelimeyi tahmin edin.'**
+  String get meaningModeDescription;
 
   /// The title shown when the app falls back to learned words.
   ///
@@ -1380,6 +1392,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'İsteğe bağlı, yeterli sayıda kelime bulunan kategorilerden seçim yapılabilir.'**
   String get optionalCategoryCanBeSelected;
+
+  /// Text showing the count of correct answers
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğru Sayısı: {correctCount}'**
+  String correctCountText(int correctCount);
+
+  /// Title shown when the time attack mode ends
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamana Karşı Oyun Bitti!'**
+  String get timeAttackEndedTitle;
+
+  /// Button text to try the time attack mode again
+  ///
+  /// In tr, this message translates to:
+  /// **'Tekrar Dene'**
+  String get tryAgainText;
+
+  /// Button text to return to the main menu
+  ///
+  /// In tr, this message translates to:
+  /// **'Ana Menüye Dön'**
+  String get returnToMainMenu;
+
+  /// Error message shown when there are not enough words for time attack mode
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamana karşı mod için yeterli kelime yok. Lütfen başka bir kategori veya seviye seçin.'**
+  String get insufficientWordsForTimeAttack;
 }
 
 class _AppLocalizationsDelegate

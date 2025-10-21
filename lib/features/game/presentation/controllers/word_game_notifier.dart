@@ -1,6 +1,8 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,6 +44,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
   bool _isExampleSentenceTargetUsedForCurrentWord = false;
   bool _fallbackNotified = false;
 
+  Timer? _timer;
+  static const int _extraSecondsPerCorrect = 2;
+  static const int _extraGoldPerCorrect = 2;
+
   @override
   WordGameState build() {
     if (!_didInit) {
@@ -56,7 +62,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
         });
       }
       _fetchWords(params);
-      ref.onDispose(_cleanUpResources);
+      ref.onDispose(() {
+        _cleanUpResources();
+        _timer?.cancel();
+      });
 
       return const WordGameState(); // initial setup
     }
@@ -74,6 +83,15 @@ class WordGameNotifier extends Notifier<WordGameState> {
     }
     _controllers = [];
     _focusNodes = [];
+  }
+
+  Future<void> _safeResumeCall(Future<void> Function() action) async {
+    if (params.modes.contains(GameModeType.timeAttack)) return;
+    try {
+      await action();
+    } catch (e) {
+      debugPrint('Resume update skipped or failed: $e');
+    }
   }
 
   Future<List<String>> _fetchLearnedIds(
@@ -175,6 +193,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
     }
   }
 
+  Future<void> fetchWords(WordGameParams params) async {
+    await _fetchWords(params);
+  }
+
   Future<void> _fetchWords(WordGameParams params) async {
     final wordRepository = ref.read(wordRepositoryProvider);
     final settings = ref.read(settingsControllerProvider).value;
@@ -182,6 +204,11 @@ class WordGameNotifier extends Notifier<WordGameState> {
     final targetLang = settings?.targetLangCode ?? 'en';
     final learnedIds = await _fetchLearnedIds(repeatLearnedWords, targetLang);
     _fallbackNotified = false;
+
+    if (params.modes.contains(GameModeType.timeAttack)) {
+      await _startTimeAttack();
+      return;
+    }
 
     // Meaning mode (one word, random)
     if (params.modes.contains(GameModeType.meaning)) {
@@ -492,6 +519,12 @@ class WordGameNotifier extends Notifier<WordGameState> {
       isExampleSentenceTargetUsedForCurrentWord:
           _isExampleSentenceTargetUsedForCurrentWord,
     );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_focusNodes.isNotEmpty) {
+        _focusNodes.first.requestFocus();
+      }
+    });
   }
 
   int logicalIndexFromVisual(int visualIndex) {
@@ -573,6 +606,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
   }
 
   Future<void> checkAnswer(BuildContext context) async {
+    if (kIsWeb) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+
     if (state.isDaily && state.dailyAlreadySolved) return;
 
     bool isAllCorrect = true;
@@ -599,10 +636,17 @@ class WordGameNotifier extends Notifier<WordGameState> {
         final up = state.controllers[i].text.toUpperCase();
         if (up == _targetWithoutSpaces[i]) correctMap[i] = up;
       }
-      await repo.setLettersBulk(correctMap);
+      await _safeResumeCall(() async {
+        await repo.setLettersBulk(correctMap);
+      });
     }
 
     if (isAllCorrect) {
+      if (!context.mounted) return;
+      if (state.isTimeAttack) {
+        await _handleTimeAttackProgress(context);
+        return;
+      }
       final userService = ref.read(userServiceProvider);
       final targetLang =
           ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
@@ -675,14 +719,16 @@ class WordGameNotifier extends Notifier<WordGameState> {
           : null;
       if (repo != null) {
         final ch = _targetWithoutSpaces[index];
-        await repo.setLetter(
-          index: index,
-          ch: ch,
-          wordLen: _targetWithoutSpaces.length,
-        );
+        await _safeResumeCall(() async {
+          await repo.setLetter(
+            index: index,
+            ch: ch,
+            wordLen: _targetWithoutSpaces.length,
+          );
+          await repo.incrementHintUsed(1);
+        });
         final ach = ref.read(achievementsServiceProvider);
         await ach.awardIfNotEarned('used_hint_powerup_first_time');
-        await repo.incrementHintUsed(1);
       }
       _hintsUsedForCurrentWord += 1;
 
@@ -907,7 +953,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       final resumeRepo = ref.read(resumeRepositoryProvider(_resumeKey!));
 
       if (resumeRepo != null) {
-        await resumeRepo.upsertInitial(currentWordId: newWord.id);
+        await _safeResumeCall(() async {
+          await resumeRepo.upsertInitial(currentWordId: newWord!.id);
+        });
         final ach = ref.read(achievementsServiceProvider);
         await ach.awardIfNotEarned('used_skip_powerup_first_time');
       }
@@ -941,8 +989,15 @@ class WordGameNotifier extends Notifier<WordGameState> {
       return;
     }
 
+    if (state.isDefinitionUsedForCurrentWord) {
+      if (context.mounted) {
+        callFloatingHintCard(context, l10n.definitionHintTitle, def);
+      }
+      return;
+    }
+
     // Resume check
-    bool alreadyUsed = false;
+    bool alreadyUsedInResume = false;
     final key = _resumeKey;
     final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
 
@@ -950,13 +1005,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
       try {
         final rs = await repo.fetch();
         if (rs != null && rs.currentWordId == word.id) {
-          alreadyUsed = rs.isDefinitionUsed;
+          alreadyUsedInResume = rs.isDefinitionUsed;
         }
       } catch (_) {}
     }
 
     // Spend gold if not already used
-    if (!alreadyUsed) {
+    if (!alreadyUsedInResume) {
       final economy = ref.read(economyServiceProvider);
       final ok = await economy.trySpendGold(cost);
       if (!ok) {
@@ -971,7 +1026,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
         try {
           final ach = ref.read(achievementsServiceProvider);
           await ach.awardIfNotEarned('used_definition_powerup_first_time');
-          await repo.markDefinitionUsed(true);
+          await _safeResumeCall(() async {
+            await repo.markDefinitionUsed(true);
+          });
         } catch (_) {}
       }
 
@@ -1009,8 +1066,15 @@ class WordGameNotifier extends Notifier<WordGameState> {
       return;
     }
 
+    if (state.isExampleSentenceUsedForCurrentWord) {
+      if (context.mounted) {
+        callFloatingHintCard(context, l10n.exampleSentenceText, exSen);
+      }
+      return;
+    }
+
     // Resume check
-    bool alreadyUsed = false;
+    bool alreadyUsedInResume = false;
     final key = _resumeKey;
     final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
 
@@ -1018,13 +1082,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
       try {
         final rs = await repo.fetch();
         if (rs != null && rs.currentWordId == word.id) {
-          alreadyUsed = rs.isExampleSentenceUsed;
+          alreadyUsedInResume = rs.isExampleSentenceUsed;
         }
       } catch (_) {}
     }
 
     // Spend gold if not already used
-    if (!alreadyUsed) {
+    if (!alreadyUsedInResume) {
       final economy = ref.read(economyServiceProvider);
       final ok = await economy.trySpendGold(cost);
       if (!ok) {
@@ -1041,7 +1105,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
           await ach.awardIfNotEarned(
             'used_example_sentence_powerup_first_time',
           );
-          await repo.markExampleSentenceUsed(true);
+          await _safeResumeCall(() async {
+            await repo.markExampleSentenceUsed(true);
+          });
         } catch (_) {}
       }
 
@@ -1080,8 +1146,19 @@ class WordGameNotifier extends Notifier<WordGameState> {
       return;
     }
 
+    if (state.isExampleSentenceTargetUsedForCurrentWord) {
+      if (context.mounted) {
+        callFloatingHintCard(
+          context,
+          l10n.exampleSentenceTargetTitle,
+          exSenTarget,
+        );
+      }
+      return;
+    }
+
     // Resume check
-    bool alreadyUsed = false;
+    bool alreadyUsedInResume = false;
     final key = _resumeKey;
     final repo = (key != null) ? ref.read(resumeRepositoryProvider(key)) : null;
 
@@ -1089,13 +1166,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
       try {
         final rs = await repo.fetch();
         if (rs != null && rs.currentWordId == word.id) {
-          alreadyUsed = rs.isExampleSentenceTargetUsed;
+          alreadyUsedInResume = rs.isExampleSentenceTargetUsed;
         }
       } catch (_) {}
     }
 
     // Spend gold if not already used
-    if (!alreadyUsed) {
+    if (!alreadyUsedInResume) {
       final economy = ref.read(economyServiceProvider);
       final ok = await economy.trySpendGold(cost);
       if (!ok) {
@@ -1112,7 +1189,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
           await ach.awardIfNotEarned(
             'used_example_sentence_target_powerup_first_time',
           );
-          await repo.markExampleSentenceTargetUsed(true);
+          await _safeResumeCall(() async {
+            await repo.markExampleSentenceTargetUsed(true);
+          });
         } catch (_) {}
       }
 
@@ -1162,5 +1241,176 @@ class WordGameNotifier extends Notifier<WordGameState> {
       ),
     );
     overlay.insert(entry);
+  }
+
+  // Time Attack Mode Starter
+  Future<void> _startTimeAttack([BuildContext? context]) async {
+    final l10n = context != null ? AppLocalizations.of(context) : null;
+    final repo = ref.read(wordRepositoryProvider);
+    _timer?.cancel(); // Cancel any existing timer
+
+    state = state.copyWith(isLoading: true);
+
+    try {
+      final words = await repo.fetchBatchForTimeAttack(
+        category: params.filters['category'],
+        level: params.filters['level'],
+        limit: 25,
+      );
+
+      if (words.isEmpty) {
+        if (context != null && context.mounted) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n!.insufficientWordsForTimeAttack)),
+            );
+          });
+        }
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+
+      _rawWords = words;
+      _initializeWord(_rawWords.first);
+
+      bool isEnded = false;
+
+      state = state.copyWith(
+        isLoading: false,
+        isTimeAttack: true,
+        isTimeAttackFinished: false,
+        remainingSeconds: 60,
+        timeAttackCorrectCount: 0,
+        words: AsyncValue.data(_rawWords),
+      );
+
+      _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+        if (!ref.mounted) {
+          timer.cancel();
+          return;
+        }
+
+        if (isEnded) {
+          timer.cancel();
+          return;
+        }
+
+        // Read current time from state
+        final current = state.remainingSeconds - 1;
+
+        state = state.copyWith(remainingSeconds: current);
+
+        if (current <= 0) {
+          timer.cancel();
+          isEnded = true;
+          await _endTimeAttack(bonusGold: 0, context: context);
+          return;
+        }
+
+        // Refill words if needed
+        if (state.timeAttackCorrectCount > 0 &&
+            state.timeAttackCorrectCount % 15 == 0 &&
+            _rawWords.length - state.timeAttackCorrectCount < 5) {
+          final more = await repo.fetchBatchForTimeAttack(
+            category: params.filters['category'],
+            level: params.filters['level'],
+            limit: 15,
+            excludeIds: _rawWords.map((w) => w.id).toList(),
+          );
+          if (more.isNotEmpty) {
+            _rawWords.addAll(more);
+          }
+        }
+      });
+    } catch (e) {
+      state = state.copyWith(isLoading: false);
+    }
+  }
+
+  Future<void> _endTimeAttack({
+    required int bonusGold,
+    BuildContext? context,
+  }) async {
+    final economy = ref.read(economyServiceProvider);
+
+    // Give bonus gold
+    if (bonusGold > 0) {
+      await economy.addGold(bonusGold);
+    }
+
+    // Stop timer
+    _timer?.cancel();
+    _timer = null;
+
+    // Update state
+    state = state.copyWith(
+      isTimeAttack: false,
+      isTimeAttackFinished: true,
+      remainingSeconds: 0,
+    );
+  }
+
+  // Time Attack Mode Progress Handler
+  Future<void> _handleTimeAttackProgress(BuildContext context) async {
+    if (state.currentWord == null) return;
+
+    final repo = ref.read(wordRepositoryProvider);
+    final economy = ref.read(economyServiceProvider);
+    final ctx = context;
+
+    // Increase correct count and add time
+    final newCorrectCount = state.timeAttackCorrectCount + 1;
+    final newRemaining = state.remainingSeconds + _extraSecondsPerCorrect;
+    await economy.addGold(_extraGoldPerCorrect);
+
+    // Move to next word
+    final currentIndex = _rawWords.indexWhere(
+      (w) => w.id == state.currentWord!.id,
+    );
+    final nextIndex = currentIndex + 1;
+
+    // If nextIndex is out of bounds → refill or end
+    if (nextIndex >= _rawWords.length) {
+      final more = await repo.fetchBatchForTimeAttack(
+        category: params.filters['category'],
+        level: params.filters['level'],
+        limit: 15,
+        excludeIds: _rawWords.map((w) => w.id).toList(),
+      );
+
+      if (more.isNotEmpty) {
+        _rawWords.addAll(more);
+      } else {
+        if (ctx.mounted) {
+          await _endTimeAttack(
+            context: ctx,
+            bonusGold: state.remainingSeconds ~/ 2,
+          );
+        }
+        return;
+      }
+    }
+
+    // Move to next word
+    _initializeWord(_rawWords[nextIndex]);
+    state = state.copyWith(
+      timeAttackCorrectCount: newCorrectCount,
+      remainingSeconds: newRemaining,
+    );
+  }
+
+  void resetTimeAttack() {
+    // Clean up resources and timer
+    _timer?.cancel();
+    _timer = null;
+
+    _cleanUpResources();
+    _rawWords.clear();
+
+    // Allow re-initialization
+    _didInit = false;
+
+    // Reset state
+    state = const WordGameState();
   }
 }

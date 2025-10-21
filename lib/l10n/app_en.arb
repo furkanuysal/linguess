@@ -808,6 +808,10 @@
   "@customGame": {
     "description": "Label for the custom game mode"
   },
+  "customGameDescription": "Create your own game by your own rules!",
+  "@customGameDescription": {
+    "description": "Description text for the custom game mode"
+  },
   "startCustomGame": "Start Custom Game",
   "@startCustomGame": {
     "description": "Button text to start a custom game"
@@ -827,6 +831,10 @@
   "meaningMode": "Meaning Mode",
   "@meaningMode": {
     "description": "Label for the meaning mode game option"
+  },
+  "meaningModeDescription": "Guess the word based on its meaning!",
+  "@meaningModeDescription": {
+    "description": "Description text for the meaning mode game option"
   },
   "fallbackInfoTitle": "Info",
   "@fallbackInfoTitle": {
@@ -887,5 +895,31 @@
   "optionalCategoryCanBeSelected": "Optionally, you can select categories that contain a sufficient number of words.",
   "@optionalCategoryCanBeSelected": {
     "description": "Message indicating that category selection is optional"
+  },
+  "correctCountText": "Correct Answers: {correctCount}",
+  "@correctCountText": {
+    "description": "Text showing the count of correct answers",
+    "placeholders": {
+      "correctCount": {
+        "type": "int",
+        "example": "15"
+      }
+    }
+  },
+  "timeAttackEndedTitle": "Time Attack Ended!",
+  "@timeAttackEndedTitle": {
+    "description": "Title shown when the time attack mode ends"
+  },
+  "tryAgainText": "Try Again",
+  "@tryAgainText": {
+    "description": "Button text to try the time attack mode again"
+  },
+  "returnToMainMenu": "Return to Main Menu",
+  "@returnToMainMenu": {
+    "description": "Button text to return to the main menu"
+  },
+  "insufficientWordsForTimeAttack": "Not enough words for time attack mode. Please select a different category or level.",
+  "@insufficientWordsForTimeAttack": {
+    "description": "Error message shown when there are not enough words for time attack mode"
   }
 }

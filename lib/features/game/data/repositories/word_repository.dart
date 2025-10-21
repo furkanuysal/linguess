@@ -1,5 +1,6 @@
 import 'dart:math';
 import "package:cloud_firestore/cloud_firestore.dart";
+import 'package:flutter/foundation.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
 
 class WordRepository {
@@ -391,6 +392,64 @@ class WordRepository {
       return words;
     } catch (e) {
       throw Exception('Failed to fetch words by level: $e');
+    }
+  }
+
+  // Fetches a batch of random words for Time Attack mode.
+  // - Supports optional category and level filters.
+  // - Excludes already used word IDs (to avoid repeats).
+  // - Returns up to [limit] words (or fewer if not enough available).
+  Future<List<WordModel>> fetchBatchForTimeAttack({
+    String? category,
+    String? level,
+    int limit = 25,
+    List<String> excludeIds = const [],
+  }) async {
+    try {
+      Query<Map<String, dynamic>> query = _firestore.collection('words');
+
+      if (category != null && category.isNotEmpty) {
+        query = query.where('category', isEqualTo: category);
+      }
+      if (level != null && level.isNotEmpty) {
+        query = query.where('level', isEqualTo: level);
+      }
+
+      // Random order
+      query = query.orderBy('random');
+
+      // Getting extra to account for exclusions
+      final snap = await query.limit(limit * 2).get();
+
+      if (snap.docs.isEmpty) {
+        debugPrint(
+          'No words found for TimeAttack (cat=$category, level=$level)',
+        );
+        return [];
+      }
+
+      // Convert to models
+      final all = snap.docs
+          .map((d) => WordModel.fromJson(d.id, d.data()))
+          .toList();
+
+      // Exclude used IDs
+      final filtered = all.where((w) => !excludeIds.contains(w.id)).toList();
+
+      // If there are extra items, shuffle and take up to the limit
+      filtered.shuffle();
+      final result = filtered.take(limit).toList();
+
+      if (result.length < limit) {
+        debugPrint(
+          'TimeAttack batch smaller than limit (${result.length}/$limit)',
+        );
+      }
+
+      return result;
+    } catch (e, st) {
+      debugPrint('fetchBatchForTimeAttack failed: $e\n$st');
+      return [];
     }
   }
 }

@@ -35,6 +35,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   late final AnimationController _goldAnimationController;
   late final Animation<double> _goldScaleAnimation;
   late final Animation<Color?> _goldColorAnimation;
+  late final ProviderSubscription _subscription;
   bool get isDailyMode => widget.modes.contains(GameModeType.daily);
 
   WordGameParams get _params =>
@@ -77,12 +78,22 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
             curve: Curves.easeInOut,
           ),
         );
+
+    _subscription = ref.listenManual<WordGameState>(wordGameProvider(_params), (
+      prev,
+      next,
+    ) {
+      if (next.isTimeAttackFinished && !(prev?.isTimeAttackFinished ?? false)) {
+        _showTimeAttackResultDialog(context, next.timeAttackCorrectCount);
+      }
+    });
   }
 
   @override
   void dispose() {
     _shakeController.dispose();
     _goldAnimationController.dispose();
+    _subscription.close();
     super.dispose();
   }
 
@@ -251,9 +262,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                 final canShowDefinition =
                     !_params.isMeaningMode && enabled(hasDefinition);
                 final canShowExampleSentence = enabled(hasExampleSentence);
-                final canShowExampleSentenceTarget = enabled(
-                  hasExampleSentenceTarget,
-                );
+                final canShowExampleSentenceTarget = state.isTimeAttack
+                    ? false
+                    : enabled(hasExampleSentenceTarget);
                 final canSkip = enabled(
                   !isDailyMode && (state.words.value?.isNotEmpty ?? false),
                 );
@@ -281,6 +292,47 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                   children: [
                     Column(
                       children: [
+                        if (state.isTimeAttack) ...[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, bottom: 4),
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 12,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withValues(alpha: 0.2),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: scheme.primary.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Icon(
+                                    Icons.timer,
+                                    color: Colors.white70,
+                                    size: 18,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    '${state.remainingSeconds}s',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                         // Top: PowerUps bar (with SafeArea)
                         SafeArea(
                           bottom: false,
@@ -456,6 +508,74 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  void _showTimeAttackResultDialog(BuildContext context, int correctCount) {
+    final scheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => Dialog(
+        backgroundColor: scheme.surface.withValues(alpha: 0.9),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.flag_circle, color: Colors.amber, size: 60),
+              const SizedBox(height: 16),
+              Text(
+                l10n.timeAttackEndedTitle,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: scheme.onSurface,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.correctCountText(correctCount),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.replay),
+                label: Text(l10n.tryAgainText),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: scheme.primary,
+                  foregroundColor: scheme.onPrimary,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 22,
+                    vertical: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                onPressed: () {
+                  context.pop();
+                  final notifier = ref.read(wordGameProvider(_params).notifier);
+                  notifier.resetTimeAttack(); // Reset time attack state
+                  notifier.fetchWords(_params); // Restart fetching words
+                },
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: () {
+                  context.pop();
+                },
+                child: Text(l10n.returnToMainMenu),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
