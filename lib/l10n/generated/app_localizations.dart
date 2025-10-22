@@ -1428,6 +1428,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Zamana karşı mod için yeterli kelime yok. Lütfen başka bir kategori veya seviye seçin.'**
   String get insufficientWordsForTimeAttack;
+
+  /// Text showing the total gold earned
+  ///
+  /// In tr, this message translates to:
+  /// **'Toplam Kazanılan Altın: {totalGold}'**
+  String totalGoldEarned(int totalGold);
+
+  /// Text showing the early completion bonus gold
+  ///
+  /// In tr, this message translates to:
+  /// **'Erken Tamamlama Bonusu: {bonusGold}'**
+  String earlyCompletionBonusGold(int bonusGold);
+
+  /// Message shown when no words were solved
+  ///
+  /// In tr, this message translates to:
+  /// **'Maalesef hiçbir kelimeyi bilemediniz.'**
+  String get noWordSolvedText;
+
+  /// Text showing consolation reward gold when player solves 0 words
+  ///
+  /// In tr, this message translates to:
+  /// **'Teselli Ödülü: {bonusGold}'**
+  String consolationRewardGold(int bonusGold);
+
+  /// Text showing gold earned from solved words
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelimelerden Kazanılan Altın: {solvedWordsGold}'**
+  String goldEarnedFromSolvedWords(int solvedWordsGold);
 }
 
 class _AppLocalizationsDelegate

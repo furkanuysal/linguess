@@ -13,6 +13,7 @@ import 'package:linguess/features/auth/presentation/providers/auth_provider.dart
 import 'package:linguess/features/game/data/repositories/word_repository.dart';
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
+import 'package:linguess/features/game/presentation/widgets/time_attack_result_dialog.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -61,7 +62,6 @@ class WordGameNotifier extends Notifier<WordGameState> {
           _reapplyFilters();
         });
       }
-      _fetchWords(params);
       ref.onDispose(() {
         _cleanUpResources();
         _timer?.cancel();
@@ -193,11 +193,17 @@ class WordGameNotifier extends Notifier<WordGameState> {
     }
   }
 
-  Future<void> fetchWords(WordGameParams params) async {
-    await _fetchWords(params);
+  Future<void> fetchWords(
+    WordGameParams params, [
+    BuildContext? context,
+  ]) async {
+    await _fetchWords(params, context);
   }
 
-  Future<void> _fetchWords(WordGameParams params) async {
+  Future<void> _fetchWords(
+    WordGameParams params, [
+    BuildContext? context,
+  ]) async {
     final wordRepository = ref.read(wordRepositoryProvider);
     final settings = ref.read(settingsControllerProvider).value;
     final repeatLearnedWords = settings?.repeatLearnedWords ?? true;
@@ -206,7 +212,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     _fallbackNotified = false;
 
     if (params.modes.contains(GameModeType.timeAttack)) {
-      await _startTimeAttack();
+      if (context!.mounted) await _startTimeAttack(context);
       return;
     }
 
@@ -1245,10 +1251,11 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
   // Time Attack Mode Starter
   Future<void> _startTimeAttack([BuildContext? context]) async {
+    final safeContext = context; // Safe context for dialogs/snackbars
     final l10n = context != null ? AppLocalizations.of(context) : null;
     final repo = ref.read(wordRepositoryProvider);
-    _timer?.cancel(); // Cancel any existing timer
 
+    _timer?.cancel();
     state = state.copyWith(isLoading: true);
 
     try {
@@ -1259,9 +1266,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       );
 
       if (words.isEmpty) {
-        if (context != null && context.mounted) {
+        if (safeContext != null && safeContext.mounted) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
+            ScaffoldMessenger.of(safeContext).showSnackBar(
               SnackBar(content: Text(l10n!.insufficientWordsForTimeAttack)),
             );
           });
@@ -1295,15 +1302,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
           return;
         }
 
-        // Read current time from state
         final current = state.remainingSeconds - 1;
-
         state = state.copyWith(remainingSeconds: current);
 
-        if (current <= 0) {
-          timer.cancel();
+        if (current <= 0 && !isEnded) {
           isEnded = true;
-          await _endTimeAttack(bonusGold: 0, context: context);
+          timer.cancel();
+          await _endTimeAttack(bonusGold: 0, context: safeContext);
           return;
         }
 
@@ -1332,22 +1337,51 @@ class WordGameNotifier extends Notifier<WordGameState> {
     BuildContext? context,
   }) async {
     final economy = ref.read(economyServiceProvider);
+    final correctCount = state.timeAttackCorrectCount;
+    final hasSolved = correctCount > 0;
 
-    // Give bonus gold
-    if (bonusGold > 0) {
-      await economy.addGold(bonusGold);
+    // Calculate rewards
+    final consolationReward = hasSolved ? 0 : 2;
+    final earlyCompletionBonus = bonusGold;
+    final totalBonus = consolationReward + earlyCompletionBonus;
+
+    if (totalBonus > 0) {
+      await economy.addGold(totalBonus);
     }
 
-    // Stop timer
     _timer?.cancel();
     _timer = null;
 
-    // Update state
     state = state.copyWith(
       isTimeAttack: false,
       isTimeAttackFinished: true,
       remainingSeconds: 0,
     );
+
+    if (context != null && context.mounted) {
+      final totalGold = correctCount * _extraGoldPerCorrect;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        if (context.mounted) {
+          await TimeAttackResultDialog.show(
+            context,
+            correctCount: correctCount,
+            totalGoldEarned: totalGold,
+            onRestart: () {
+              resetTimeAttack();
+              fetchWords(params, context); // Safe context for fetching words
+            },
+            earlyCompletionBonus: earlyCompletionBonus,
+            consolationReward: consolationReward,
+            noWordSolved: !hasSolved,
+          );
+        }
+      });
+    } else {
+      debugPrint(
+        "TimeAttackResultDialog could not be shown: context null/unmounted",
+      );
+    }
   }
 
   // Time Attack Mode Progress Handler

@@ -925,5 +925,49 @@
   "insufficientWordsForTimeAttack": "Nicht genügend Wörter für den Zeitangriff-Modus. Bitte wähle eine andere Kategorie oder ein anderes Level.",
   "@insufficientWordsForTimeAttack": {
     "description": "Error message shown when there are not enough words for time attack mode"
+  },
+  "totalGoldEarned": "Insgesamt verdientes Gold: {totalGold}",
+  "@totalGoldEarned": {
+    "description": "Text showing the total gold earned",
+    "placeholders": {
+      "totalGold": {
+        "type": "int",
+        "example": "150"
+      }
+    }
+  },
+  "earlyCompletionBonusGold": "Frühzeitiger Abschlussbonus: {bonusGold}",
+  "@earlyCompletionBonusGold": {
+    "description": "Text showing the early completion bonus gold",
+    "placeholders": {
+      "bonusGold": {
+        "type": "int",
+        "example": "50"
+      }
+    }
+  },
+  "noWordSolvedText": "Leider wurden keine Wörter gelöst.",
+  "@noWordSolvedText": {
+    "description": "Message shown when no words were solved"
+  },
+  "consolationRewardGold": "Trostpreis: {bonusGold}",
+  "@consolationRewardGold": {
+    "description": "Text showing consolation reward gold when player solves 0 words",
+    "placeholders": {
+      "bonusGold": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "goldEarnedFromSolvedWords": "Verdientes Gold aus Wörtern: {solvedWordsGold}",
+  "@goldEarnedFromSolvedWords": {
+    "description": "Text showing gold earned from solved words",
+    "placeholders": {
+      "solvedWordsGold": {
+        "type": "int",
+        "example": "100"
+      }
+    }
   }
 }

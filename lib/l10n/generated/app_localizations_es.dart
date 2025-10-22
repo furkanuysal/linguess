@@ -740,4 +740,28 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get insufficientWordsForTimeAttack =>
       'No hay suficientes palabras para el modo contra reloj. Por favor, selecciona otra categoría o nivel.';
+
+  @override
+  String totalGoldEarned(int totalGold) {
+    return 'Oro total ganado: $totalGold';
+  }
+
+  @override
+  String earlyCompletionBonusGold(int bonusGold) {
+    return 'Bonificación por finalización anticipada: $bonusGold';
+  }
+
+  @override
+  String get noWordSolvedText =>
+      'Por desgracia, no se resolvió ninguna palabra.';
+
+  @override
+  String consolationRewardGold(int bonusGold) {
+    return 'Recompensa de Consolación: $bonusGold';
+  }
+
+  @override
+  String goldEarnedFromSolvedWords(int solvedWordsGold) {
+    return 'Oro ganado por palabras: $solvedWordsGold';
+  }
 }

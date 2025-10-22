@@ -727,4 +727,27 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get insufficientWordsForTimeAttack =>
       'Not enough words for time attack mode. Please select a different category or level.';
+
+  @override
+  String totalGoldEarned(int totalGold) {
+    return 'Total Gold Earned: $totalGold';
+  }
+
+  @override
+  String earlyCompletionBonusGold(int bonusGold) {
+    return 'Early Completion Bonus: $bonusGold';
+  }
+
+  @override
+  String get noWordSolvedText => 'Unfortunately, no words were solved.';
+
+  @override
+  String consolationRewardGold(int bonusGold) {
+    return 'Consolation Reward: $bonusGold';
+  }
+
+  @override
+  String goldEarnedFromSolvedWords(int solvedWordsGold) {
+    return 'Gold Earned from Words: $solvedWordsGold';
+  }
 }

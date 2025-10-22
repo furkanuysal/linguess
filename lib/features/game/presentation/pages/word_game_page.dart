@@ -35,7 +35,6 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   late final AnimationController _goldAnimationController;
   late final Animation<double> _goldScaleAnimation;
   late final Animation<Color?> _goldColorAnimation;
-  late final ProviderSubscription _subscription;
   bool get isDailyMode => widget.modes.contains(GameModeType.daily);
 
   WordGameParams get _params =>
@@ -44,6 +43,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   @override
   void initState() {
     super.initState();
+
     _shakeController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 320),
@@ -79,13 +79,9 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
           ),
         );
 
-    _subscription = ref.listenManual<WordGameState>(wordGameProvider(_params), (
-      prev,
-      next,
-    ) {
-      if (next.isTimeAttackFinished && !(prev?.isTimeAttackFinished ?? false)) {
-        _showTimeAttackResultDialog(context, next.timeAttackCorrectCount);
-      }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Safe context for fetching words
+      ref.read(wordGameProvider(_params).notifier).fetchWords(_params, context);
     });
   }
 
@@ -93,7 +89,6 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
   void dispose() {
     _shakeController.dispose();
     _goldAnimationController.dispose();
-    _subscription.close();
     super.dispose();
   }
 
@@ -508,74 +503,6 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  void _showTimeAttackResultDialog(BuildContext context, int correctCount) {
-    final scheme = Theme.of(context).colorScheme;
-    final l10n = AppLocalizations.of(context)!;
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => Dialog(
-        backgroundColor: scheme.surface.withValues(alpha: 0.9),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.flag_circle, color: Colors.amber, size: 60),
-              const SizedBox(height: 16),
-              Text(
-                l10n.timeAttackEndedTitle,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: scheme.onSurface,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                l10n.correctCountText(correctCount),
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.replay),
-                label: Text(l10n.tryAgainText),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: scheme.primary,
-                  foregroundColor: scheme.onPrimary,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 22,
-                    vertical: 12,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  context.pop();
-                  final notifier = ref.read(wordGameProvider(_params).notifier);
-                  notifier.resetTimeAttack(); // Reset time attack state
-                  notifier.fetchWords(_params); // Restart fetching words
-                },
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
-                  context.pop();
-                },
-                child: Text(l10n.returnToMainMenu),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

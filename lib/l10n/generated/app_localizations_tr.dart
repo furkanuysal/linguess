@@ -728,4 +728,27 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get insufficientWordsForTimeAttack =>
       'Zamana karşı mod için yeterli kelime yok. Lütfen başka bir kategori veya seviye seçin.';
+
+  @override
+  String totalGoldEarned(int totalGold) {
+    return 'Toplam Kazanılan Altın: $totalGold';
+  }
+
+  @override
+  String earlyCompletionBonusGold(int bonusGold) {
+    return 'Erken Tamamlama Bonusu: $bonusGold';
+  }
+
+  @override
+  String get noWordSolvedText => 'Maalesef hiçbir kelimeyi bilemediniz.';
+
+  @override
+  String consolationRewardGold(int bonusGold) {
+    return 'Teselli Ödülü: $bonusGold';
+  }
+
+  @override
+  String goldEarnedFromSolvedWords(int solvedWordsGold) {
+    return 'Kelimelerden Kazanılan Altın: $solvedWordsGold';
+  }
 }
