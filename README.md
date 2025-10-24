@@ -9,21 +9,26 @@ User authentication and data persistence are managed via Firebase.
   <a href="https://play.google.com/store/apps/details?id=com.litusware.linguess">
     <img alt="Get it on Google Play" height="60" src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png"/>
   </a>
+  <br/>
+  <a href="https://furkanuysal.github.io/linguess">
+    <img alt="Play on Web" height="60" src="https://img.shields.io/badge/Play%20on-Web-blue?style=for-the-badge" />
+  </a>
 </p>
 
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=com.litusware.linguess">
     <img alt="Available on Google Play" src="https://img.shields.io/badge/Available%20on-Google%20Play-brightgreen?logo=googleplay" />
   </a>
-  <img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.x-blue" />
-  <img alt="Dart" src="https://img.shields.io/badge/Dart-^3-lightblue" />
-  <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20Core-orange" />
+  <a href="https://furkanuysal.github.io/linguess">
+    <img alt="Available on Web" src="https://img.shields.io/badge/Available%20on-Web-blue" />
+  </a>
+  <img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.x-blue?logo=flutter&logoColor=white" />
+  <img alt="Dart" src="https://img.shields.io/badge/Dart-^3-lightblue?logo=dart&logoColor=white" />
+  <img alt="Firebase" src="https://img.shields.io/badge/Firebase-Auth%20%7C%20Firestore%20%7C%20Core-orange?logo=firebase&logoColor=white" />
   <img alt="State" src="https://img.shields.io/badge/State-Riverpod-6aa84f" />
   <img alt="Router" src="https://img.shields.io/badge/Router-go__router-8e7cc3" />
   <img alt="License" src="https://img.shields.io/badge/License-MIT-green" />
-
 </p>
-
 
 ---
 
@@ -60,19 +65,30 @@ User authentication and data persistence are managed via Firebase.
 
 ### Setup
 
-Install dependencies:
+#### Clone the repository
+
+```bash
+git clone https://github.com/furkanuysal/linguess.git
+cd linguess
+```
+
+#### Install dependencies:
 
 ```bash
 flutter pub get
 ```
 
-Running the App:
+#### Firebase Setup (required):
+This project uses Firebase Authentication and Firestore.
+You must connect your own Firebase project before running locally.
+
+#### Running the App:
 
 ```bash
 flutter run -d android   # or ios / web / macos / windows
 ```
 
-Build for release:
+#### Build for release:
 
 ```bash
 flutter build apk   # or appbundle / ipa / web
@@ -99,3 +115,8 @@ Ads are **non-personalized** (not based on personal interests).
 
 📄 Read the full Privacy Policy here:  
 [Privacy Policy](https://sites.google.com/view/linguess/en-privacy)
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/furkanuysal/linguess?color=blue" />
+  <img src="https://img.shields.io/github/stars/furkanuysal/linguess?style=social" />
+</p>
