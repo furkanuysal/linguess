@@ -604,7 +604,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
     final refLocal = ref;
     return ListView.builder(
       key: const ValueKey('listView'),
-      padding: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       itemCount: categories.length,
       itemBuilder: (context, index) {
         final category = categories[index];

@@ -11,7 +11,9 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       title: l10n.achievement_solve_firstword_title,
       description: l10n.achievement_solve_firstword_description,
       icon: '/empty',
-      hasProgress: false,
+      hasProgress: true,
+      progressType: AchievementProgressType.solvedWordsTotal,
+      progressTarget: 1,
     ),
     AchievementModel(
       id: 'solve_firstword_nohint',
