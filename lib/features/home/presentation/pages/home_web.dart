@@ -7,6 +7,7 @@ import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_overlay.dart';
+import 'package:linguess/features/home/presentation/widgets/home_web_widgets.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/game/presentation/providers/daily_puzzle_provider.dart';
@@ -43,7 +44,6 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                   onPressed: () => AuthOverlay.show(context),
                 );
               }
-
               // Profile icon with menu for authenticated users
               return PopupMenuButton<String>(
                 tooltip: l10n.profile,
@@ -102,10 +102,8 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
               );
             },
           ),
-
           const SizedBox(width: 8),
-
-          // admin panel button
+          // Admin panel button
           Consumer(
             builder: (context, ref, _) {
               final isAdminAsync = ref.watch(isAdminProvider);
@@ -152,23 +150,69 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 48),
-
-                  // Responsive grid
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, constraints) {
-                        final width = constraints.maxWidth;
+                        final screenWidth = MediaQuery.of(context).size.width;
+                        final isMobileLayout = screenWidth < 500;
 
-                        // Show/hide description based on width
-                        bool showDescription = width > 900;
+                        if (isMobileLayout) {
+                          // Mobile Layout
+                          const spacing = 16.0;
 
-                        // Set childAspectRatio based on width
+                          return SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Column(
+                                children: [
+                                  WebMenuCardButton(
+                                    icon: Icons.category,
+                                    label: l10n.selectCategory,
+                                    onTap: () => context.push('/category'),
+                                  ),
+                                  const SizedBox(height: spacing),
+                                  WebMenuCardButton(
+                                    icon: Icons.flag_rounded,
+                                    label: l10n.selectLevel,
+                                    onTap: () => context.push('/level'),
+                                  ),
+                                  const SizedBox(height: spacing),
+                                  WebMenuCardButton(
+                                    icon: Icons.psychology_alt_rounded,
+                                    label: l10n.meaningMode,
+                                    onTap: () =>
+                                        context.push('/game/meaning/general'),
+                                  ),
+                                  const SizedBox(height: spacing),
+                                  WebMenuCardButton(
+                                    icon: Icons.auto_awesome_mosaic,
+                                    label: l10n.customGame,
+                                    onTap: () =>
+                                        context.push('/combined-mode-setup'),
+                                  ),
+                                  const SizedBox(height: spacing),
+                                  WebMenuCardButton(
+                                    icon: Icons.calendar_today_rounded,
+                                    label: l10n.dailyWord,
+                                    badge: l10n.todayText,
+                                    onTap: () =>
+                                        handleDailyButton(context, ref),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+
+                        // Web/Desktop Layout
+                        bool showDescription = screenWidth > 900;
+
                         double aspect = 0.95;
-                        if (width < 700) {
+                        if (screenWidth < 700) {
                           aspect = 1.1;
-                        } else if (width < 1000) {
+                        } else if (screenWidth < 1000) {
                           aspect = 1.0;
-                        } else if (width < 1300) {
+                        } else if (screenWidth < 1300) {
                           aspect = 0.9;
                         } else {
                           aspect = 0.85;
@@ -187,8 +231,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                   ),
                               shrinkWrap: true,
                               children: [
-                                _buildGameModeCard(
-                                  context,
+                                WebGameModeCard(
                                   title: l10n.selectCategory,
                                   description: showDescription
                                       ? l10n.selectCategoryDescription
@@ -197,8 +240,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                   color: Colors.blue,
                                   onTap: () => context.push('/category'),
                                 ),
-                                _buildGameModeCard(
-                                  context,
+                                WebGameModeCard(
                                   title: l10n.selectLevel,
                                   description: showDescription
                                       ? l10n.selectLevelDescription
@@ -207,8 +249,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                   color: Colors.green,
                                   onTap: () => context.push('/level'),
                                 ),
-                                _buildGameModeCard(
-                                  context,
+                                WebGameModeCard(
                                   title: l10n.dailyWord,
                                   description: showDescription
                                       ? l10n.dailyWordDescription
@@ -217,8 +258,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                   color: Colors.orange,
                                   onTap: () => handleDailyButton(context, ref),
                                 ),
-                                _buildGameModeCard(
-                                  context,
+                                WebGameModeCard(
                                   title: l10n.meaningMode,
                                   description: showDescription
                                       ? l10n.meaningModeDescription
@@ -228,8 +268,7 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                   onTap: () =>
                                       context.push('/game/meaning/general'),
                                 ),
-                                _buildGameModeCard(
-                                  context,
+                                WebGameModeCard(
                                   title: l10n.customGame,
                                   description: showDescription
                                       ? l10n.customGameDescription
@@ -251,97 +290,6 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildGameModeCard(
-    BuildContext context, {
-    required String title,
-    required String description,
-    required IconData icon,
-    required Color color,
-    required VoidCallback onTap,
-  }) {
-    final scheme = Theme.of(context).colorScheme;
-    final width = MediaQuery.of(context).size.width;
-
-    // Reduce font sizes on narrow screens
-    final bool isNarrow = width < 600;
-    final double titleFont = isNarrow ? 16 : 18;
-    final double descFont = isNarrow ? 13 : 14;
-
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          constraints: const BoxConstraints(
-            minHeight: 180,
-          ), // Minimum height for better appearance
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: LinearGradient(
-              colors: [scheme.surface, scheme.surfaceContainerHigh],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 70,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: Icon(icon, size: 38, color: color),
-              ),
-              const SizedBox(height: 10),
-              Flexible(
-                child: Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: titleFont,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              if (description.isNotEmpty) ...[
-                const SizedBox(height: 6),
-                Flexible(
-                  child: Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: descFont,
-                      color: Colors.grey[600],
-                    ),
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                    overflow: TextOverflow.fade,
-                    maxLines: isNarrow ? 2 : 3,
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
       ),
     );
   }
