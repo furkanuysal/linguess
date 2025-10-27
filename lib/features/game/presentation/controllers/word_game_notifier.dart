@@ -1361,6 +1361,11 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (context != null && context.mounted) {
       final totalGold = correctCount * _extraGoldPerCorrect;
 
+      // Check sign-in status
+      final isSignedIn = ref
+          .watch(firebaseUserProvider)
+          .maybeWhen(data: (u) => u != null, orElse: () => false);
+
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         if (context.mounted) {
           await TimeAttackResultDialog.show(
@@ -1369,11 +1374,15 @@ class WordGameNotifier extends Notifier<WordGameState> {
             totalGoldEarned: totalGold,
             onRestart: () {
               resetTimeAttack();
-              fetchWords(params, context); // Safe context for fetching words
+              fetchWords(params, context);
             },
             earlyCompletionBonus: earlyCompletionBonus,
             consolationReward: consolationReward,
             noWordSolved: !hasSolved,
+            isSignedIn: isSignedIn,
+            onSignInPressed: () {
+              context.push('/signIn');
+            },
           );
         }
       });

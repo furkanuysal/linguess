@@ -12,32 +12,45 @@ class TimeAttackResultDialog {
     int earlyCompletionBonus = 0,
     int consolationReward = 0,
     bool noWordSolved = false,
+    bool isSignedIn = true,
+    VoidCallback? onSignInPressed,
   }) async {
     final scheme = Theme.of(context).colorScheme;
-
     final effectiveTotal =
         totalGoldEarned + earlyCompletionBonus + consolationReward;
 
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => Dialog(
-        insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-        backgroundColor: scheme.surface.withValues(alpha: 0.96),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 420),
-            child: _AnimatedResultContent(
-              totalGold: totalGoldEarned,
-              earlyBonus: earlyCompletionBonus,
-              consolation: consolationReward,
-              effectiveTotal: effectiveTotal,
-              onRestart: onRestart,
+      builder: (_) => Stack(
+        children: [
+          Dialog(
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 24,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            backgroundColor: scheme.surface.withValues(alpha: 0.96),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 420),
+                child: _AnimatedResultContent(
+                  totalGold: totalGoldEarned,
+                  earlyBonus: earlyCompletionBonus,
+                  consolation: consolationReward,
+                  effectiveTotal: effectiveTotal,
+                  onRestart: onRestart,
+                  correctCount: correctCount,
+                  isSignedIn: isSignedIn,
+                  onSignInPressed: onSignInPressed,
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -48,7 +61,10 @@ class _AnimatedResultContent extends StatefulWidget {
   final int earlyBonus;
   final int consolation;
   final int effectiveTotal;
+  final int correctCount;
   final VoidCallback onRestart;
+  final bool isSignedIn;
+  final VoidCallback? onSignInPressed;
 
   const _AnimatedResultContent({
     required this.totalGold,
@@ -56,6 +72,9 @@ class _AnimatedResultContent extends StatefulWidget {
     required this.consolation,
     required this.effectiveTotal,
     required this.onRestart,
+    required this.correctCount,
+    required this.isSignedIn,
+    this.onSignInPressed,
   });
 
   @override
@@ -78,47 +97,40 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
       duration: const Duration(seconds: 4),
     )..forward();
 
-    _startSequence();
+    if (widget.isSignedIn) _startSequence();
   }
 
   Future<void> _startSequence() async {
-    await _animateCount(
-      target: widget.totalGold,
-      onUpdate: (v) => setState(() => _goldShown = v),
-    );
+    await _animateCount(widget.totalGold, (v) => _goldShown = v);
     if (widget.earlyBonus > 0) {
       await Future.delayed(const Duration(milliseconds: 400));
-      await _animateCount(
-        target: widget.earlyBonus,
-        onUpdate: (v) => setState(() => _bonusShown = v),
-      );
+      await _animateCount(widget.earlyBonus, (v) => _bonusShown = v);
     }
     if (widget.consolation > 0) {
       await Future.delayed(const Duration(milliseconds: 400));
-      await _animateCount(
-        target: widget.consolation,
-        onUpdate: (v) => setState(() => _consolationShown = v),
-      );
+      await _animateCount(widget.consolation, (v) => _consolationShown = v);
     }
     await Future.delayed(const Duration(milliseconds: 500));
     await _animateCount(
-      target: widget.effectiveTotal,
-      onUpdate: (v) => setState(() => _totalShown = v),
+      widget.effectiveTotal,
+      (v) => _totalShown = v,
       stepDuration: 20,
     );
   }
 
-  Future<void> _animateCount({
-    required int target,
-    required Function(int) onUpdate,
+  Future<void> _animateCount(
+    int target,
+    void Function(int) setVal, {
     int stepDuration = 15,
   }) async {
     int current = 0;
-    final int increment = (target / 25).ceil().clamp(1, target);
+    final increment = (target / 25).ceil().clamp(1, target);
     while (current < target) {
       await Future.delayed(Duration(milliseconds: stepDuration));
-      current = (current + increment).clamp(0, target);
-      onUpdate(current);
+      setState(() {
+        current = (current + increment).clamp(0, target);
+        setVal(current);
+      });
     }
   }
 
@@ -130,37 +142,42 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
-
-    final bool hasBonuses = widget.earlyBonus > 0 || widget.consolation > 0;
+    final scheme = Theme.of(context).colorScheme;
+    final hasBonuses = widget.earlyBonus > 0 || widget.consolation > 0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         // Title
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.flag_circle_rounded, color: scheme.primary, size: 38),
+            Icon(Icons.flag_circle_rounded, color: scheme.primary, size: 28),
             const SizedBox(width: 8),
             Text(
               l10n.timeAttackEndedTitle,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: scheme.onSurface,
-              ),
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
             ),
           ],
         ),
+        const SizedBox(height: 12),
 
-        const SizedBox(height: 20),
-        Divider(color: scheme.outlineVariant.withValues(alpha: 0.3)),
-        const SizedBox(height: 20),
+        // Correct count
+        Text(
+          l10n.correctCountText(widget.correctCount),
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(color: scheme.onSurfaceVariant),
+        ),
+        const SizedBox(height: 12),
+        Divider(height: 1),
+        const SizedBox(height: 12),
 
-        // Gold Breakdown
-        Center(
-          child: Column(
+        // Gold information (only if signed in)
+        if (widget.isSignedIn)
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _AnimatedLine(
@@ -180,20 +197,11 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
                   text: l10n.consolationRewardGold(_consolationShown),
                   color: scheme.onSurface,
                 ),
-
               if (hasBonuses) ...[
                 const SizedBox(height: 8),
-                SizedBox(
-                  width: 200,
-                  child: Divider(
-                    color: scheme.outlineVariant.withValues(alpha: 0.4),
-                    thickness: 1,
-                  ),
-                ),
+                Divider(color: scheme.outlineVariant.withValues(alpha: 0.4)),
               ],
-
               const SizedBox(height: 6),
-
               _AnimatedLine(
                 visible: _totalShown > 0,
                 text: l10n.totalGoldEarned(_totalShown),
@@ -202,64 +210,96 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
                 fontSize: 18,
               ),
             ],
+          )
+        else
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Text(
+              l10n.progressNotSaved,
+              textAlign: TextAlign.center,
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
+            ),
           ),
-        ),
+        const SizedBox(height: 16),
 
-        const SizedBox(height: 30),
-
-        // Buttons
-        Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
+        // CTA Field
+        if (widget.isSignedIn)
+          Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    context.pop();
+                    widget.onRestart();
+                  },
+                  child: Text(l10n.tryAgainText),
                 ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton(
+                  onPressed: () {
+                    context.pop();
+                    context.go('/');
+                  },
+                  child: Text(l10n.returnToMainMenu),
+                ),
+              ),
+            ],
+          )
+        else
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Upsell kartı
+              Container(
+                padding: const EdgeInsets.all(12),
+                margin: const EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                  color: scheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.lock_outline),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        l10n.signInUpsellText,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              FilledButton.icon(
+                onPressed: widget.onSignInPressed,
+                icon: const Icon(Icons.login),
+                label: Text(l10n.signIn),
+              ),
+              const SizedBox(height: 8),
+              OutlinedButton(
                 onPressed: () {
                   context.pop();
                   widget.onRestart();
                 },
-                icon: const Icon(Icons.replay_rounded),
-                label: Text(
-                  l10n.tryAgainText,
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
+                child: Text(l10n.continueToPlayAsGuest),
               ),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  side: BorderSide(
-                    color: scheme.primary.withValues(alpha: 0.6),
-                    width: 1.3,
-                  ),
-                ),
+              const SizedBox(height: 8),
+              OutlinedButton.icon(
                 onPressed: () {
                   context.pop();
                   context.go('/');
                 },
-                icon: Icon(Icons.home_rounded, color: scheme.primary),
-                label: Text(
-                  l10n.returnToMainMenu,
-                  style: TextStyle(
-                    color: scheme.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                icon: const Icon(Icons.home_rounded),
+                label: Text(l10n.returnToMainMenu),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
       ],
     );
   }
