@@ -7,20 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/core/utils/id_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/game/data/repositories/word_repository.dart';
+import 'package:linguess/features/game/presentation/providers/daily_puzzle_repository_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
 import 'package:linguess/features/game/presentation/widgets/time_attack_result_dialog.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/features/stats/presentation/providers/user_stats_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
 import 'package:linguess/features/achievements/presentation/providers/achievements_provider.dart';
-import 'package:linguess/features/game/presentation/providers/daily_puzzle_provider.dart';
 import 'package:linguess/features/economy/presentation/providers/economy_provider.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/features/game/data/providers/word_repository_provider.dart';
@@ -143,50 +145,25 @@ class WordGameNotifier extends Notifier<WordGameState> {
     return (word, fallbackUsed);
   }
 
-  String _todayIdLocal() {
-    final now = DateTime.now();
-    return '${now.year.toString().padLeft(4, '0')}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}';
-  }
-
-  Future<bool> _hasUserSolvedDaily(String dateId) async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return false;
-    final doc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('dailySolved')
-        .doc(dateId)
-        .get();
-    return doc.exists;
-  }
-
   Future<void> _markDailySolved(String dateId, String wordId) async {
-    final uid = FirebaseAuth.instance.currentUser?.uid;
-    if (uid == null) return;
-    // Save to dailySolved collection
-    final refDoc = FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .collection('dailySolved')
-        .doc(dateId);
-    await refDoc.set({
-      'wordId': wordId,
-      'solvedAt': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+    final statsRepo = ref.read(statsRepositoryProvider);
 
-    // Clear daily resume for next day
+    // Daily reset check
+    await statsRepo.checkDailyReset();
+
+    // Update statistics (dailySolvedCounter +1, date, etc.)
+    await statsRepo.incrementDailyCounter(wordId, dateId);
+
+    // Clear daily resume (reset for the next day)
     try {
       final settings = ref.read(settingsControllerProvider).value;
       final targetLang = settings?.targetLangCode ?? 'en';
-      // Daily resume docId
       final resumeDocId = makeResumeDocIdFromFilters(
         modes: {GameModeType.daily},
         filters: {},
       );
       final resumeKey = ResumeKey(targetLang, resumeDocId);
       final resumeRepo = ref.read(resumeRepositoryProvider(resumeKey));
-
-      // Clear all fields in the daily resume document for next day
       await resumeRepo!.clearAll(includeDailyId: true);
     } catch (e) {
       debugPrint('Failed to clear daily resume after solve: $e');
@@ -295,9 +272,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
           );
           return;
         }
-
-        final todayId = _todayIdLocal();
-        final already = await _hasUserSolvedDaily(todayId);
+        final todayId = todayIdLocal();
+        final statsRepo = ref.read(statsRepositoryProvider);
+        final already = await statsRepo.hasUserSolvedDaily(todayId);
         _rawWords = [word];
 
         state = state.copyWith(
@@ -574,7 +551,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (state.isDaily &&
         !state.dailyAlreadySolved &&
         state.currentWord != null) {
-      await _markDailySolved(_todayIdLocal(), state.currentWord!.id);
+      await _markDailySolved(todayIdLocal(), state.currentWord!.id);
       state = state.copyWith(dailyAlreadySolved: true);
     }
 
@@ -660,6 +637,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
         word: state.currentWord!,
         targetLang: targetLang,
       );
+      final statsRepo = ref.read(statsRepositoryProvider);
+      await statsRepo.updateLastSolved(state.currentWord!.id);
       if (!context.mounted) return;
       await _showSuccessDialog(context);
     } else {

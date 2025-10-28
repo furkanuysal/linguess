@@ -171,9 +171,9 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
             context,
           ).textTheme.titleMedium?.copyWith(color: scheme.onSurfaceVariant),
         ),
-        const SizedBox(height: 12),
-        Divider(height: 1),
-        const SizedBox(height: 12),
+        const SizedBox(height: 8),
+        Divider(color: scheme.outlineVariant.withValues(alpha: 0.4)),
+        const SizedBox(height: 8),
 
         // Gold information (only if signed in)
         if (widget.isSignedIn)

@@ -6,7 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/features/game/presentation/providers/daily_puzzle_provider.dart';
+import 'package:linguess/features/game/presentation/utils/daily_button_handler.dart';
 import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 
 class HomeWindows extends ConsumerStatefulWidget {

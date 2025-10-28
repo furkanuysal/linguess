@@ -9,7 +9,7 @@ import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/core/sfx/sfx_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/features/game/presentation/providers/daily_puzzle_provider.dart';
+import 'package:linguess/features/game/presentation/utils/daily_button_handler.dart';
 import 'package:linguess/features/economy/presentation/providers/economy_provider.dart';
 import 'package:linguess/features/ads/presentation/providers/ads_provider.dart';
 

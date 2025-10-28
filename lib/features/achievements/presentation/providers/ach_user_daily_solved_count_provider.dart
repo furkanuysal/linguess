@@ -10,10 +10,15 @@ final achUserDailySolvedCountProvider = StreamProvider<int>((ref) {
     return Stream<int>.value(0);
   }
 
-  final col = FirebaseFirestore.instance
+  final doc = FirebaseFirestore.instance
       .collection('users')
       .doc(user.uid)
-      .collection('dailySolved');
+      .collection('stats')
+      .doc('global');
 
-  return col.snapshots().map((q) => q.size);
+  return doc.snapshots().map((snap) {
+    final data = snap.data();
+    if (data == null) return 0;
+    return (data['dailySolvedCounter'] ?? 0) as int;
+  });
 });
