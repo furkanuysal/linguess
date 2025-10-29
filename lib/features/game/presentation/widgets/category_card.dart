@@ -93,7 +93,7 @@ class CategoryCard extends ConsumerWidget {
                             scale: scale,
                             child: CategoryIcon(
                               codePointString: iconCodePoint,
-                              size: 40 * scale,
+                              size: 44 * scale,
                             ),
                           ),
                         ),
@@ -187,7 +187,7 @@ class CategoryIcon extends StatelessWidget {
     final bg = Theme.of(
       context,
     ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.35);
-    final fg = Theme.of(context).colorScheme.onPrimaryContainer;
+    final fg = Theme.of(context).colorScheme.primary;
 
     IconData? data;
     if (codePointString != null) {

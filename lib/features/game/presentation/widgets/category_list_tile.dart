@@ -127,9 +127,7 @@ class CategoryListTile extends ConsumerWidget {
                               Container(
                                 height: 6,
                                 decoration: BoxDecoration(
-                                  color: scheme.outlineVariant.withValues(
-                                    alpha: 0.3,
-                                  ),
+                                  color: scheme.surfaceContainerHighest,
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),

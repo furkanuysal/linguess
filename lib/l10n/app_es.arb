@@ -969,5 +969,51 @@
         "example": "100"
       }
     }
+  },
+  "lastSolvedWord": "Última palabra resuelta: {lastSolvedWord}",
+  "@lastSolvedWord": {
+    "description": "Texto que muestra la última palabra resuelta",
+    "placeholders": {
+      "lastSolvedWord": {
+        "type": "String",
+        "example": "palabra"
+      }
+    }
+  },
+  "lastSolvedAt": "Última resolución: {lastSolvedAt}",
+  "@lastSolvedAt": {
+    "description": "Texto que muestra la fecha y hora de la última palabra resuelta",
+    "placeholders": {
+      "lastSolvedAt": {
+        "type": "String",
+        "example": "2024-06-15 14:30"
+      }
+    }
+  },
+  "dailySolvedCount": "Palabras diarias resueltas: {dailySolvedCount}",
+  "@dailySolvedCount": {
+    "description": "Texto que muestra el número de palabras diarias resueltas",
+    "placeholders": {
+      "dailySolvedCount": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "statistictsTitle": "Estadísticas",
+  "@statistictsTitle": {
+    "description": "Título de la sección de estadísticas"
+  },
+  "loadingStatistics": "Cargando estadísticas...",
+  "@loadingStatistics": {
+    "description": "Mensaje que se muestra mientras se cargan las estadísticas"
+  },
+  "noStatsAvailable": "No hay estadísticas disponibles",
+  "@noStatsAvailable": {
+    "description": "Mensaje que se muestra cuando no hay estadísticas disponibles"
+  },
+  "errorLoadingStats": "Error al cargar las estadísticas",
+  "@errorLoadingStats": {
+    "description": "Mensaje de error que se muestra cuando ocurre un problema al cargar las estadísticas"
   }
 }

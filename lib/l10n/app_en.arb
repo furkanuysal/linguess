@@ -969,5 +969,51 @@
         "example": "100"
       }
     }
+  },
+  "lastSolvedWord": "Last Solved Word: {lastSolvedWord}",
+  "@lastSolvedWord": {
+    "description": "Text showing the last solved word",
+    "placeholders": {
+      "lastSolvedWord": {
+        "type": "String",
+        "example": "word"
+      }
+    }
+  },
+  "lastSolvedAt": "Last Solved At: {lastSolvedAt}",
+  "@lastSolvedAt": {
+    "description": "Text showing the last solved time",
+    "placeholders": {
+      "lastSolvedAt": {
+        "type": "String",
+        "example": "2024-06-15 14:30"
+      }
+    }
+  },
+  "dailySolvedCount": "Daily Words Solved: {dailySolvedCount}",
+  "@dailySolvedCount": {
+    "description": "Text showing the count of daily words solved",
+    "placeholders": {
+      "dailySolvedCount": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "statistictsTitle": "Statistics",
+  "@statistictsTitle": {
+    "description": "Title for the statistics section"
+  },
+  "loadingStatistics": "Loading statistics...",
+  "@loadingStatistics": {
+    "description": "Message shown when statistics are being loaded"
+  },
+  "noStatsAvailable": "No statistics available",
+  "@noStatsAvailable": {
+    "description": "Message shown when there are no statistics available"
+  },
+  "errorLoadingStats": "Error loading statistics",
+  "@errorLoadingStats": {
+    "description": "Error message shown when there is an error loading statistics"
   }
 }

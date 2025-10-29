@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
+import 'package:linguess/core/utils/date_utils.dart';
+import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/features/game/data/providers/word_repository_provider.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/features/stats/presentation/providers/user_stats_provider.dart';
 
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
@@ -120,7 +124,6 @@ class ProfilePage extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
-
                     // Achievements
                     _GradientCard(
                       onTap: () => context.push('/achievements'),
@@ -151,6 +154,93 @@ class ProfilePage extends ConsumerWidget {
                         ),
                         subtitle: Text(l10n.viewAll),
                         trailing: const Icon(Icons.chevron_right),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+
+                    // User Stats
+                    _GradientCard(
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          final statsAsync = ref.watch(userStatsProvider);
+                          final wordRepo = ref.read(wordRepositoryProvider);
+                          final appLang =
+                              ref
+                                  .read(settingsControllerProvider)
+                                  .value
+                                  ?.appLangCode ??
+                              Localizations.localeOf(context).languageCode;
+
+                          return statsAsync.when(
+                            loading: () => ListTile(
+                              leading: CircularProgressIndicator(),
+                              title: Text(l10n.loadingStatistics),
+                            ),
+                            error: (e, _) => ListTile(
+                              title: Text('${l10n.errorLoadingStats}: $e'),
+                            ),
+                            data: (stats) {
+                              if (stats == null) {
+                                return ListTile(
+                                  title: Text(l10n.noStatsAvailable),
+                                );
+                              }
+
+                              final dailyCount = stats.dailySolvedCounter ?? 0;
+                              final lastSolvedAt = stats.lastSolvedAt != null
+                                  ? formatDateTime(stats.lastSolvedAt!)
+                                  : '—';
+
+                              return FutureBuilder(
+                                future:
+                                    (stats.lastSolvedWordId != null &&
+                                        stats.lastSolvedWordId!.isNotEmpty)
+                                    ? wordRepo.fetchWordById(
+                                        stats.lastSolvedWordId!,
+                                      )
+                                    : Future.value(null),
+                                builder: (context, snapshot) {
+                                  final word = snapshot.data;
+                                  final lastWordName =
+                                      word?.termOf(appLang) ?? '—';
+
+                                  return ListTile(
+                                    leading: Container(
+                                      width: 44,
+                                      height: 44,
+                                      decoration: BoxDecoration(
+                                        color: scheme.surfaceContainerHighest
+                                            .withValues(alpha: 0.35),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Icon(
+                                        Icons.bar_chart_rounded,
+                                        color: scheme.onSurface,
+                                        size: 26,
+                                      ),
+                                    ),
+                                    title: Text(
+                                      l10n.statistictsTitle,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(l10n.dailySolvedCount(dailyCount)),
+                                        Text(l10n.lastSolvedWord(lastWordName)),
+                                        Text(l10n.lastSolvedAt(lastSolvedAt)),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                          );
+                        },
                       ),
                     ),
 

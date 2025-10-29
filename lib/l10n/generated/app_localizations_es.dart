@@ -764,4 +764,31 @@ class AppLocalizationsEs extends AppLocalizations {
   String goldEarnedFromSolvedWords(int solvedWordsGold) {
     return 'Oro ganado por palabras: $solvedWordsGold';
   }
+
+  @override
+  String lastSolvedWord(String lastSolvedWord) {
+    return 'Última palabra resuelta: $lastSolvedWord';
+  }
+
+  @override
+  String lastSolvedAt(String lastSolvedAt) {
+    return 'Última resolución: $lastSolvedAt';
+  }
+
+  @override
+  String dailySolvedCount(int dailySolvedCount) {
+    return 'Palabras diarias resueltas: $dailySolvedCount';
+  }
+
+  @override
+  String get statistictsTitle => 'Estadísticas';
+
+  @override
+  String get loadingStatistics => 'Cargando estadísticas...';
+
+  @override
+  String get noStatsAvailable => 'No hay estadísticas disponibles';
+
+  @override
+  String get errorLoadingStats => 'Error al cargar las estadísticas';
 }

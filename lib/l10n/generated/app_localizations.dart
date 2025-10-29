@@ -1458,6 +1458,48 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kelimelerden Kazanılan Altın: {solvedWordsGold}'**
   String goldEarnedFromSolvedWords(int solvedWordsGold);
+
+  /// Text showing the last solved word
+  ///
+  /// In tr, this message translates to:
+  /// **'Son Çözülmüş Kelime: {lastSolvedWord}'**
+  String lastSolvedWord(String lastSolvedWord);
+
+  /// Text showing the last solved time
+  ///
+  /// In tr, this message translates to:
+  /// **'Son Çözülme Zamanı: {lastSolvedAt}'**
+  String lastSolvedAt(String lastSolvedAt);
+
+  /// Text showing the count of daily words solved
+  ///
+  /// In tr, this message translates to:
+  /// **'Çözülen Günlük Kelime Sayısı: {dailySolvedCount}'**
+  String dailySolvedCount(int dailySolvedCount);
+
+  /// Title for the statistics section
+  ///
+  /// In tr, this message translates to:
+  /// **'İstatistikler'**
+  String get statistictsTitle;
+
+  /// Message shown when statistics are being loaded
+  ///
+  /// In tr, this message translates to:
+  /// **'İstatistikler yükleniyor...'**
+  String get loadingStatistics;
+
+  /// Message shown when there are no statistics available
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut istatistik yok'**
+  String get noStatsAvailable;
+
+  /// Error message shown when there is an error loading statistics
+  ///
+  /// In tr, this message translates to:
+  /// **'İstatistikler yüklenirken hata oluştu'**
+  String get errorLoadingStats;
 }
 
 class _AppLocalizationsDelegate

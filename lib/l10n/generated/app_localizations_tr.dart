@@ -751,4 +751,31 @@ class AppLocalizationsTr extends AppLocalizations {
   String goldEarnedFromSolvedWords(int solvedWordsGold) {
     return 'Kelimelerden Kazanılan Altın: $solvedWordsGold';
   }
+
+  @override
+  String lastSolvedWord(String lastSolvedWord) {
+    return 'Son Çözülmüş Kelime: $lastSolvedWord';
+  }
+
+  @override
+  String lastSolvedAt(String lastSolvedAt) {
+    return 'Son Çözülme Zamanı: $lastSolvedAt';
+  }
+
+  @override
+  String dailySolvedCount(int dailySolvedCount) {
+    return 'Çözülen Günlük Kelime Sayısı: $dailySolvedCount';
+  }
+
+  @override
+  String get statistictsTitle => 'İstatistikler';
+
+  @override
+  String get loadingStatistics => 'İstatistikler yükleniyor...';
+
+  @override
+  String get noStatsAvailable => 'Mevcut istatistik yok';
+
+  @override
+  String get errorLoadingStats => 'İstatistikler yüklenirken hata oluştu';
 }

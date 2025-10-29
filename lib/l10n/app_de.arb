@@ -969,5 +969,51 @@
         "example": "100"
       }
     }
+  },
+  "lastSolvedWord": "Zuletzt gelöstes Wort: {lastSolvedWord}",
+  "@lastSolvedWord": {
+    "description": "Text, der das zuletzt gelöste Wort anzeigt",
+    "placeholders": {
+      "lastSolvedWord": {
+        "type": "String",
+        "example": "Wort"
+      }
+    }
+  },
+  "lastSolvedAt": "Zuletzt gelöst am: {lastSolvedAt}",
+  "@lastSolvedAt": {
+    "description": "Text, der den Zeitpunkt der letzten Lösung anzeigt",
+    "placeholders": {
+      "lastSolvedAt": {
+        "type": "String",
+        "example": "2024-06-15 14:30"
+      }
+    }
+  },
+  "dailySolvedCount": "Täglich gelöste Wörter: {dailySolvedCount}",
+  "@dailySolvedCount": {
+    "description": "Text, der die Anzahl der täglich gelösten Wörter anzeigt",
+    "placeholders": {
+      "dailySolvedCount": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "statistictsTitle": "Statistiken",
+  "@statistictsTitle": {
+    "description": "Titel für den Statistikabschnitt"
+  },
+  "loadingStatistics": "Statistiken werden geladen...",
+  "@loadingStatistics": {
+    "description": "Nachricht, die angezeigt wird, während die Statistiken geladen werden"
+  },
+  "noStatsAvailable": "Keine Statistiken verfügbar",
+  "@noStatsAvailable": {
+    "description": "Nachricht, die angezeigt wird, wenn keine Statistiken verfügbar sind"
+  },
+  "errorLoadingStats": "Fehler beim Laden der Statistiken",
+  "@errorLoadingStats": {
+    "description": "Fehlermeldung, wenn beim Laden der Statistiken ein Fehler auftritt"
   }
 }

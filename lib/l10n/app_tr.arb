@@ -969,5 +969,51 @@
         "example": "100"
       }
     }
+  },
+  "lastSolvedWord": "Son Çözülmüş Kelime: {lastSolvedWord}",
+  "@lastSolvedWord": {
+    "description": "Text showing the last solved word",
+    "placeholders": {
+      "lastSolvedWord": {
+        "type": "String",
+        "example": "kelime"
+      }
+    }
+  },
+  "lastSolvedAt": "Son Çözülme Zamanı: {lastSolvedAt}",
+  "@lastSolvedAt": {
+    "description": "Text showing the last solved time",
+    "placeholders": {
+      "lastSolvedAt": {
+        "type": "String",
+        "example": "2024-06-15 14:30"
+      }
+    }
+  },
+  "dailySolvedCount": "Çözülen Günlük Kelime Sayısı: {dailySolvedCount}",
+  "@dailySolvedCount": {
+    "description": "Text showing the count of daily words solved",
+    "placeholders": {
+      "dailySolvedCount": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "statistictsTitle": "İstatistikler",
+  "@statistictsTitle": {
+    "description": "Title for the statistics section"
+  },
+  "loadingStatistics": "İstatistikler yükleniyor...",
+  "@loadingStatistics": {
+    "description": "Message shown when statistics are being loaded"
+  },
+  "noStatsAvailable": "Mevcut istatistik yok",
+  "@noStatsAvailable": {
+    "description": "Message shown when there are no statistics available"
+  },
+  "errorLoadingStats": "İstatistikler yüklenirken hata oluştu",
+  "@errorLoadingStats": {
+    "description": "Error message shown when there is an error loading statistics"
   }
 }
