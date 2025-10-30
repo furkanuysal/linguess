@@ -1500,6 +1500,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'İstatistikler yüklenirken hata oluştu'**
   String get errorLoadingStats;
+
+  /// Text showing the highest time attack score
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamana Karşı En Yüksek Skor: {timeAttackHighScore}'**
+  String timeAttackHighScore(int timeAttackHighScore);
 }
 
 class _AppLocalizationsDelegate

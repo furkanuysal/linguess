@@ -778,4 +778,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get errorLoadingStats => 'İstatistikler yüklenirken hata oluştu';
+
+  @override
+  String timeAttackHighScore(int timeAttackHighScore) {
+    return 'Zamana Karşı En Yüksek Skor: $timeAttackHighScore';
+  }
 }

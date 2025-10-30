@@ -1015,5 +1015,15 @@
   "errorLoadingStats": "İstatistikler yüklenirken hata oluştu",
   "@errorLoadingStats": {
     "description": "Error message shown when there is an error loading statistics"
+  },
+  "timeAttackHighScore": "Zamana Karşı En Yüksek Skor: {timeAttackHighScore}",
+  "@timeAttackHighScore": {
+    "description": "Text showing the highest time attack score",
+    "placeholders": {
+      "timeAttackHighScore": {
+        "type": "int",
+        "example": "25"
+      }
+    }
   }
 }

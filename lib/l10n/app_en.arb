@@ -1015,5 +1015,15 @@
   "errorLoadingStats": "Error loading statistics",
   "@errorLoadingStats": {
     "description": "Error message shown when there is an error loading statistics"
+  },
+  "timeAttackHighScore": "Time Attack High Score: {timeAttackHighScore}",
+  "@timeAttackHighScore": {
+    "description": "Text showing the highest time attack score",
+    "placeholders": {
+      "timeAttackHighScore": {
+        "type": "int",
+        "example": "25"
+      }
+    }
   }
 }

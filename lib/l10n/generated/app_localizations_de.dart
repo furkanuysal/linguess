@@ -793,4 +793,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorLoadingStats => 'Fehler beim Laden der Statistiken';
+
+  @override
+  String timeAttackHighScore(int timeAttackHighScore) {
+    return 'Zeitduell Höchstpunktzahl: $timeAttackHighScore';
+  }
 }

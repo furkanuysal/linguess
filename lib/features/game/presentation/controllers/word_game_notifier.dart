@@ -1339,6 +1339,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     if (context != null && context.mounted) {
       final totalGold = correctCount * _extraGoldPerCorrect;
+      final statsRepo = ref.read(statsRepositoryProvider);
+      await statsRepo.updateTimeAttackHighScore(correctCount);
 
       // Check sign-in status
       final isSignedIn = ref
@@ -1378,12 +1380,25 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
     final repo = ref.read(wordRepositoryProvider);
     final economy = ref.read(economyServiceProvider);
+    final statsRepo = ref.read(statsRepositoryProvider);
+    final userService = ref.read(userServiceProvider);
+    final targetLang =
+        ref.read(settingsControllerProvider).value?.targetLangCode ?? 'en';
     final ctx = context;
 
     // Increase correct count and add time
     final newCorrectCount = state.timeAttackCorrectCount + 1;
     final newRemaining = state.remainingSeconds + _extraSecondsPerCorrect;
-    await economy.addGold(_extraGoldPerCorrect);
+
+    // Run all async updates in parallel for performance
+    await Future.wait([
+      economy.addGold(_extraGoldPerCorrect),
+      statsRepo.updateLastSolved(state.currentWord!.id),
+      userService.onCorrectAnswer(
+        word: state.currentWord!,
+        targetLang: targetLang,
+      ),
+    ]);
 
     // Move to next word
     final currentIndex = _rawWords.indexWhere(

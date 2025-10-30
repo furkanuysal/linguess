@@ -791,4 +791,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get errorLoadingStats => 'Error al cargar las estadísticas';
+
+  @override
+  String timeAttackHighScore(int timeAttackHighScore) {
+    return 'Mejor puntuación en Contra Reloj: $timeAttackHighScore';
+  }
 }

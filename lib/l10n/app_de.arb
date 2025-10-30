@@ -1015,5 +1015,15 @@
   "errorLoadingStats": "Fehler beim Laden der Statistiken",
   "@errorLoadingStats": {
     "description": "Fehlermeldung, wenn beim Laden der Statistiken ein Fehler auftritt"
+  },
+  "timeAttackHighScore": "Zeitduell Höchstpunktzahl: {timeAttackHighScore}",
+  "@timeAttackHighScore": {
+    "description": "Text showing the highest time attack score",
+    "placeholders": {
+      "timeAttackHighScore": {
+        "type": "int",
+        "example": "25"
+      }
+    }
   }
 }

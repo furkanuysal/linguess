@@ -230,23 +230,31 @@ class _AnimatedResultContentState extends State<_AnimatedResultContent>
             children: [
               SizedBox(
                 width: double.infinity,
-                child: FilledButton(
+                child: FilledButton.icon(
                   onPressed: () {
                     context.pop();
                     widget.onRestart();
                   },
-                  child: Text(l10n.tryAgainText),
+                  icon: const Icon(Icons.restart_alt_rounded),
+                  label: Text(l10n.tryAgainText),
                 ),
               ),
+
               const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
-                child: OutlinedButton(
+                child: OutlinedButton.icon(
                   onPressed: () {
                     context.pop();
                     context.go('/');
                   },
-                  child: Text(l10n.returnToMainMenu),
+                  icon: const Icon(Icons.home_rounded),
+                  label: Text(l10n.returnToMainMenu),
+                  style: OutlinedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                  ),
                 ),
               ),
             ],

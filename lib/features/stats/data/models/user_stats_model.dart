@@ -8,6 +8,7 @@ class UserStatsModel {
   final int? dailySolvedCounter;
   final String? lastSolvedWordId;
   final DateTime? lastSolvedAt;
+  final int? timeAttackHighScore;
 
   UserStatsModel({
     this.isDailySolved,
@@ -15,6 +16,7 @@ class UserStatsModel {
     this.dailySolvedCounter,
     this.lastSolvedWordId,
     this.lastSolvedAt,
+    this.timeAttackHighScore,
   });
 
   factory UserStatsModel.fromMap(Map<String, dynamic> map) {
@@ -24,6 +26,7 @@ class UserStatsModel {
       dailySolvedCounter: map['dailySolvedCounter'] as int?,
       lastSolvedWordId: map['lastSolvedWordId'] as String?,
       lastSolvedAt: (map['lastSolvedAt'] as Timestamp?)?.toDate(),
+      timeAttackHighScore: map['timeAttackHighScore'] as int?,
     );
   }
 
@@ -35,6 +38,8 @@ class UserStatsModel {
       if (dailySolvedCounter != null) 'dailySolvedCounter': dailySolvedCounter,
       if (lastSolvedWordId != null) 'lastSolvedWordId': lastSolvedWordId,
       if (lastSolvedAt != null) 'lastSolvedAt': lastSolvedAt,
+      if (timeAttackHighScore != null)
+        'timeAttackHighScore': timeAttackHighScore,
     };
   }
 }

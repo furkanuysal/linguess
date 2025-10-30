@@ -777,4 +777,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorLoadingStats => 'Error loading statistics';
+
+  @override
+  String timeAttackHighScore(int timeAttackHighScore) {
+    return 'Time Attack High Score: $timeAttackHighScore';
+  }
 }

@@ -1015,5 +1015,15 @@
   "errorLoadingStats": "Error al cargar las estadísticas",
   "@errorLoadingStats": {
     "description": "Mensaje de error que se muestra cuando ocurre un problema al cargar las estadísticas"
+  },
+  "timeAttackHighScore": "Mejor puntuación en Contra Reloj: {timeAttackHighScore}",
+  "@timeAttackHighScore": {
+    "description": "Text showing the highest time attack score",
+    "placeholders": {
+      "timeAttackHighScore": {
+        "type": "int",
+        "example": "25"
+      }
+    }
   }
 }

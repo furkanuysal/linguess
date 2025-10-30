@@ -123,4 +123,20 @@ class GlobalStatsRepository {
       }, SetOptions(merge: true));
     });
   }
+
+  // Update time attack high score if the new score is higher
+  Future<void> updateTimeAttackHighScore(int newScore) async {
+    final ref = _docRef;
+    if (ref == null) return;
+
+    await _ensureDocExistsIfMissing();
+
+    await _firestore.runTransaction((t) async {
+      final snap = await t.get(ref);
+      final current = (snap.data()?['timeAttackHighScore'] ?? 0) as int;
+      if (newScore > current) {
+        t.set(ref, {'timeAttackHighScore': newScore}, SetOptions(merge: true));
+      }
+    });
+  }
 }

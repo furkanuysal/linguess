@@ -72,7 +72,14 @@ class EconomyService {
   }
 
   Future<void> addGold(int amount) async {
-    grantAdRewardGold(amount);
+    final uid = _auth.currentUser?.uid;
+    if (uid == null || amount <= 0) return;
+
+    final userDoc = _firestore.collection('users').doc(uid);
+    await userDoc.update({
+      'gold': FieldValue.increment(amount),
+      'correctCount': FieldValue.increment(1),
+    });
   }
 
   // 0 hint = +5, 1–2 hint = +2, 3+ = +1

@@ -190,6 +190,8 @@ class ProfilePage extends ConsumerWidget {
                               final lastSolvedAt = stats.lastSolvedAt != null
                                   ? formatDateTime(stats.lastSolvedAt!)
                                   : '—';
+                              final timeAttackHighScore =
+                                  stats.timeAttackHighScore ?? 0;
 
                               return FutureBuilder(
                                 future:
@@ -231,6 +233,11 @@ class ProfilePage extends ConsumerWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(l10n.dailySolvedCount(dailyCount)),
+                                        Text(
+                                          l10n.timeAttackHighScore(
+                                            timeAttackHighScore,
+                                          ),
+                                        ),
                                         Text(l10n.lastSolvedWord(lastWordName)),
                                         Text(l10n.lastSolvedAt(lastSolvedAt)),
                                       ],
