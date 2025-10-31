@@ -783,4 +783,19 @@ class AppLocalizationsTr extends AppLocalizations {
   String timeAttackHighScore(int timeAttackHighScore) {
     return 'Zamana Karşı En Yüksek Skor: $timeAttackHighScore';
   }
+
+  @override
+  String get loadingHintStats => 'İpucu istatistikleri yükleniyor...';
+
+  @override
+  String get noHintStatsAvailable => 'Mevcut ipucu istatistiği yok';
+
+  @override
+  String get revealLetterHint => 'Harf Açma';
+
+  @override
+  String get skipWordTitle => 'Kelime Atla';
+
+  @override
+  String get hintUsageTitle => 'İpucu Kullanımları';
 }

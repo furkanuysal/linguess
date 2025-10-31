@@ -19,6 +19,7 @@ import 'package:linguess/features/game/presentation/widgets/time_attack_result_d
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/features/stats/presentation/providers/hint_stats_provider.dart';
 import 'package:linguess/features/stats/presentation/providers/user_stats_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
@@ -663,7 +664,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     state = state.copyWith(isShaking: false);
   }
 
-  Future<void> showHintLetter(BuildContext context, {required int cost}) async {
+  Future<void> showLetterHint(BuildContext context, {required int cost}) async {
     if (state.isDaily && state.dailyAlreadySolved) return;
     if (state.hintIndices.length >= _targetWithoutSpaces.length) return;
 
@@ -716,6 +717,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
         await ach.awardIfNotEarned('used_hint_powerup_first_time');
       }
       _hintsUsedForCurrentWord += 1;
+      final hintStats = ref.read(hintStatsRepositoryProvider);
+      await hintStats.incrementHintUsage('revealLetter');
 
       if (state.controllers.every((c) => c.text.isNotEmpty)) {
         if (context.mounted) {
@@ -944,6 +947,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
         final ach = ref.read(achievementsServiceProvider);
         await ach.awardIfNotEarned('used_skip_powerup_first_time');
       }
+      final hintStats = ref.read(hintStatsRepositoryProvider);
+      await hintStats.incrementHintUsage('skipWord');
 
       _initializeWord(newWord);
       state = state.copyWith(words: AsyncValue.data([newWord]));
@@ -1020,6 +1025,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _isDefinitionUsedForCurrentWord = true;
       state = state.copyWith(isDefinitionUsedForCurrentWord: true);
     }
+
+    final hintStats = ref.read(hintStatsRepositoryProvider);
+    await hintStats.incrementHintUsage('showDefinition');
 
     if (context.mounted) {
       callFloatingHintCard(context, l10n.definitionHintTitle, def);
@@ -1099,6 +1107,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _isExampleSentenceUsedForCurrentWord = true;
       state = state.copyWith(isExampleSentenceUsedForCurrentWord: true);
     }
+    final hintStats = ref.read(hintStatsRepositoryProvider);
+    await hintStats.incrementHintUsage('showExampleSentence');
 
     if (context.mounted) {
       callFloatingHintCard(context, l10n.exampleSentenceText, exSen);
@@ -1183,6 +1193,9 @@ class WordGameNotifier extends Notifier<WordGameState> {
       _isExampleSentenceTargetUsedForCurrentWord = true;
       state = state.copyWith(isExampleSentenceTargetUsedForCurrentWord: true);
     }
+    final hintStats = ref.read(hintStatsRepositoryProvider);
+    await hintStats.incrementHintUsage('showExampleSentenceTarget');
+
     if (context.mounted) {
       callFloatingHintCard(
         context,

@@ -1506,6 +1506,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Zamana Karşı En Yüksek Skor: {timeAttackHighScore}'**
   String timeAttackHighScore(int timeAttackHighScore);
+
+  /// Message shown when hint statistics are being loaded
+  ///
+  /// In tr, this message translates to:
+  /// **'İpucu istatistikleri yükleniyor...'**
+  String get loadingHintStats;
+
+  /// Message shown when there are no hint statistics available
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut ipucu istatistiği yok'**
+  String get noHintStatsAvailable;
+
+  /// Label for the reveal letter hint statistics
+  ///
+  /// In tr, this message translates to:
+  /// **'Harf Açma'**
+  String get revealLetterHint;
+
+  /// Label for the skip word hint statistics
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Atla'**
+  String get skipWordTitle;
+
+  /// Title for the hint usage statistics section
+  ///
+  /// In tr, this message translates to:
+  /// **'İpucu Kullanımları'**
+  String get hintUsageTitle;
 }
 
 class _AppLocalizationsDelegate

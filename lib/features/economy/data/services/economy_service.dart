@@ -52,14 +52,26 @@ class EconomyService {
     if (uid == null) return;
 
     final int goldToAdd = computeSolveReward(hintCountUsed);
+    if (goldToAdd <= 0) return;
 
     final userDoc = _firestore.collection('users').doc(uid);
-    final updates = <String, dynamic>{'correctCount': FieldValue.increment(1)};
-    if (goldToAdd > 0) {
-      updates['gold'] = FieldValue.increment(goldToAdd);
-    }
+    final globalStatsDoc = _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('stats')
+        .doc('global');
 
-    await userDoc.update(updates);
+    final updates = <String, dynamic>{
+      'correctCount': FieldValue.increment(1),
+      'gold': FieldValue.increment(goldToAdd),
+    };
+
+    await Future.wait([
+      userDoc.update(updates),
+      globalStatsDoc.set({
+        'totalGoldEarned': FieldValue.increment(goldToAdd),
+      }, SetOptions(merge: true)),
+    ]);
   }
 
   // Ad reward: atomically adds the specified amount of gold.
@@ -71,15 +83,27 @@ class EconomyService {
     await userDoc.update({'gold': FieldValue.increment(amount)});
   }
 
+  // Adds gold (e.g., for Time Attack or other gameplay rewards) and updates totalGoldEarned.
   Future<void> addGold(int amount) async {
     final uid = _auth.currentUser?.uid;
     if (uid == null || amount <= 0) return;
 
     final userDoc = _firestore.collection('users').doc(uid);
-    await userDoc.update({
-      'gold': FieldValue.increment(amount),
-      'correctCount': FieldValue.increment(1),
-    });
+    final globalStatsDoc = _firestore
+        .collection('users')
+        .doc(uid)
+        .collection('stats')
+        .doc('global');
+
+    await Future.wait([
+      userDoc.update({
+        'gold': FieldValue.increment(amount),
+        'correctCount': FieldValue.increment(1),
+      }),
+      globalStatsDoc.set({
+        'totalGoldEarned': FieldValue.increment(amount),
+      }, SetOptions(merge: true)),
+    ]);
   }
 
   // 0 hint = +5, 1–2 hint = +2, 3+ = +1

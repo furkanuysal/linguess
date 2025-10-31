@@ -402,9 +402,8 @@ class _LevelListTile extends ConsumerWidget {
                               Container(
                                 height: 6,
                                 decoration: BoxDecoration(
-                                  color: scheme.outlineVariant.withValues(
-                                    alpha: 0.3,
-                                  ),
+                                  color: scheme.surfaceContainerHighest
+                                      .withValues(alpha: 0.8),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),

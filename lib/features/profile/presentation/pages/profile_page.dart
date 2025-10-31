@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/profile/presentation/widgets/hint_usage_card.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
@@ -52,35 +53,68 @@ class ProfilePage extends ConsumerWidget {
                   children: [
                     // User Info Card
                     _GradientCard(
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
-                        leading: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: scheme.surfaceContainerHighest.withValues(
-                              alpha: 0.35,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: scheme.surfaceContainerHighest
+                                        .withValues(alpha: 0.35),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.person_outline,
+                                    color: scheme.onSurface,
+                                    size: 26,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        email,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.monetization_on_rounded,
+                                            color: scheme.primary,
+                                            size: 20,
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            gold,
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: scheme.primary,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.person_outline,
-                            color: scheme.onSurface,
-                            size: 26,
-                          ),
+                          ],
                         ),
-                        title: Text(
-                          email,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        subtitle: Text('${l10n.gold}: $gold'),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -93,22 +127,7 @@ class ProfilePage extends ConsumerWidget {
                           horizontal: 12,
                           vertical: 8,
                         ),
-                        leading: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: scheme.surfaceContainerHighest.withValues(
-                              alpha: 0.35,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.menu_book_outlined,
-                            color: scheme.onSurface,
-                            size: 26,
-                          ),
-                        ),
+                        leading: _iconBox(scheme, Icons.menu_book_outlined),
                         title: Text(
                           l10n.learnedWordsText,
                           style: const TextStyle(fontWeight: FontWeight.w700),
@@ -124,6 +143,7 @@ class ProfilePage extends ConsumerWidget {
                       ),
                     ),
                     const SizedBox(height: 8),
+
                     // Achievements
                     _GradientCard(
                       onTap: () => context.push('/achievements'),
@@ -132,22 +152,7 @@ class ProfilePage extends ConsumerWidget {
                           horizontal: 12,
                           vertical: 8,
                         ),
-                        leading: Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                            color: scheme.surfaceContainerHighest.withValues(
-                              alpha: 0.35,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          alignment: Alignment.center,
-                          child: Icon(
-                            Icons.emoji_events_outlined,
-                            color: scheme.onSurface,
-                            size: 26,
-                          ),
-                        ),
+                        leading: _iconBox(scheme, Icons.emoji_events_outlined),
                         title: Text(
                           l10n.achievements,
                           style: const TextStyle(fontWeight: FontWeight.w700),
@@ -158,7 +163,7 @@ class ProfilePage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 8),
 
-                    // User Stats
+                    // Stats
                     _GradientCard(
                       child: Consumer(
                         builder: (context, ref, _) {
@@ -207,24 +212,13 @@ class ProfilePage extends ConsumerWidget {
                                       word?.termOf(appLang) ?? '—';
 
                                   return ListTile(
-                                    leading: Container(
-                                      width: 44,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                        color: scheme.surfaceContainerHighest
-                                            .withValues(alpha: 0.35),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Icon(
-                                        Icons.bar_chart_rounded,
-                                        color: scheme.onSurface,
-                                        size: 26,
-                                      ),
+                                    leading: _iconBox(
+                                      scheme,
+                                      Icons.bar_chart_rounded,
                                     ),
                                     title: Text(
                                       l10n.statistictsTitle,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -250,7 +244,10 @@ class ProfilePage extends ConsumerWidget {
                         },
                       ),
                     ),
+                    const SizedBox(height: 8),
 
+                    // Hint Usage Stats
+                    const HintUsageCard(),
                     const SizedBox(height: 24),
 
                     // Sign Out
@@ -272,6 +269,19 @@ class ProfilePage extends ConsumerWidget {
           ),
         ],
       ),
+    );
+  }
+
+  static Widget _iconBox(ColorScheme scheme, IconData icon) {
+    return Container(
+      width: 44,
+      height: 44,
+      decoration: BoxDecoration(
+        color: scheme.surfaceContainerHighest.withValues(alpha: 0.35),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      alignment: Alignment.center,
+      child: Icon(icon, color: scheme.onSurface, size: 26),
     );
   }
 }

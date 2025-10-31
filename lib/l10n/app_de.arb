@@ -1025,5 +1025,25 @@
         "example": "25"
       }
     }
+  },
+  "loadingHintStats": "Hinweisstatistiken werden geladen...",
+  "@loadingHintStats": {
+    "description": "Message shown when hint statistics are being loaded"
+  },
+  "noHintStatsAvailable": "Keine Hinweisstatistiken verfügbar",
+  "@noHintStatsAvailable": {
+    "description": "Message shown when there are no hint statistics available"
+  },
+  "revealLetterHint": "Buchstabe Enthüllen",
+  "@revealLetterHint": {
+    "description": "Label for the reveal letter hint statistics"
+  },
+  "skipWordTitle": "Wort Überspringen",
+  "@skipWordTitle": {
+    "description": "Label for the skip word hint statistics"
+  },
+  "hintUsageTitle": "Hinweisverwendungen",
+  "@hintUsageTitle": {
+    "description": "Title for the hint usage statistics section"
   }
 }

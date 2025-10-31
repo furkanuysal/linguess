@@ -796,4 +796,20 @@ class AppLocalizationsEs extends AppLocalizations {
   String timeAttackHighScore(int timeAttackHighScore) {
     return 'Mejor puntuación en Contra Reloj: $timeAttackHighScore';
   }
+
+  @override
+  String get loadingHintStats => 'Cargando estadísticas de pistas...';
+
+  @override
+  String get noHintStatsAvailable =>
+      'No hay estadísticas de pistas disponibles';
+
+  @override
+  String get revealLetterHint => 'Revelar Letra';
+
+  @override
+  String get skipWordTitle => 'Saltar Palabra';
+
+  @override
+  String get hintUsageTitle => 'Uso de Pistas';
 }

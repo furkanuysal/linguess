@@ -798,4 +798,19 @@ class AppLocalizationsDe extends AppLocalizations {
   String timeAttackHighScore(int timeAttackHighScore) {
     return 'Zeitduell Höchstpunktzahl: $timeAttackHighScore';
   }
+
+  @override
+  String get loadingHintStats => 'Hinweisstatistiken werden geladen...';
+
+  @override
+  String get noHintStatsAvailable => 'Keine Hinweisstatistiken verfügbar';
+
+  @override
+  String get revealLetterHint => 'Buchstabe Enthüllen';
+
+  @override
+  String get skipWordTitle => 'Wort Überspringen';
+
+  @override
+  String get hintUsageTitle => 'Hinweisverwendungen';
 }

@@ -1025,5 +1025,25 @@
         "example": "25"
       }
     }
+  },
+  "loadingHintStats": "Cargando estadísticas de pistas...",
+  "@loadingHintStats": {
+    "description": "Message shown when hint statistics are being loaded"
+  },
+  "noHintStatsAvailable": "No hay estadísticas de pistas disponibles",
+  "@noHintStatsAvailable": {
+    "description": "Message shown when there are no hint statistics available"
+  },
+  "revealLetterHint": "Revelar Letra",
+  "@revealLetterHint": {
+    "description": "Label for the reveal letter hint statistics"
+  },
+  "skipWordTitle": "Saltar Palabra",
+  "@skipWordTitle": {
+    "description": "Label for the skip word hint statistics"
+  },
+  "hintUsageTitle": "Uso de Pistas",
+  "@hintUsageTitle": {
+    "description": "Title for the hint usage statistics section"
   }
 }

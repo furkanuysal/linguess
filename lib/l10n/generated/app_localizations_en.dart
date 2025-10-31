@@ -782,4 +782,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String timeAttackHighScore(int timeAttackHighScore) {
     return 'Time Attack High Score: $timeAttackHighScore';
   }
+
+  @override
+  String get loadingHintStats => 'Loading hint statistics...';
+
+  @override
+  String get noHintStatsAvailable => 'No hint statistics available';
+
+  @override
+  String get revealLetterHint => 'Reveal Letter';
+
+  @override
+  String get skipWordTitle => 'Skip Word';
+
+  @override
+  String get hintUsageTitle => 'Hint Usages';
 }

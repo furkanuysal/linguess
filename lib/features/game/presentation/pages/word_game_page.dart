@@ -378,7 +378,7 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
                                       canShowExampleSentenceTarget,
                                   onRevealLetter: () {
                                     _triggerGoldAnimation();
-                                    notifier.showHintLetter(
+                                    notifier.showLetterHint(
                                       context,
                                       cost: EconomyService.revealLetterCost,
                                     );
