@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/leveling/presentation/providers/leveling_provider.dart';
+import 'package:linguess/features/leveling/utils/xp_formula.dart';
 import 'package:linguess/features/profile/presentation/widgets/hint_usage_card.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -51,13 +53,14 @@ class ProfilePage extends ConsumerWidget {
                 return ListView(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                   children: [
-                    // User Info Card
+                    //Profile + Level Card
                     _GradientCard(
                       child: Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(14),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // User Info
                             Row(
                               children: [
                                 Container(
@@ -113,11 +116,140 @@ class ProfilePage extends ConsumerWidget {
                                 ),
                               ],
                             ),
+
+                            const SizedBox(height: 12),
+                            Divider(
+                              color: scheme.outlineVariant.withValues(
+                                alpha: 0.3,
+                              ),
+                              height: 20,
+                            ),
+                            const SizedBox(height: 4),
+
+                            // Level Progression Section
+                            Consumer(
+                              builder: (context, ref, _) {
+                                final levelingAsync = ref.watch(
+                                  levelingProvider,
+                                );
+                                return levelingAsync.when(
+                                  loading: () => const Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: LinearProgressIndicator(),
+                                  ),
+                                  error: (e, _) => Text(
+                                    '${l10n.errorLoadingLevelingData}: $e',
+                                  ),
+                                  data: (leveling) {
+                                    if (leveling == null) {
+                                      return Text(l10n.noProgressInLeveling);
+                                    }
+
+                                    final level = leveling.level;
+                                    final currentXp = leveling.xp;
+                                    final req = requiredXp(level);
+                                    final progress = (currentXp / req).clamp(
+                                      0.0,
+                                      1.0,
+                                    );
+
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.trending_up_rounded,
+                                              color: scheme.primary,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              l10n.levelingProgressTitle,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            const Spacer(),
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 4,
+                                                  ),
+                                              decoration: BoxDecoration(
+                                                color: scheme.primary
+                                                    .withValues(alpha: 0.12),
+                                                borderRadius:
+                                                    BorderRadius.circular(999),
+                                              ),
+                                              child: Text(
+                                                '${l10n.level} $level',
+                                                style: TextStyle(
+                                                  color: scheme.primary,
+                                                  fontWeight: FontWeight.w700,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 8),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                '$currentXp / $req XP',
+                                                style: TextStyle(
+                                                  fontSize: 13,
+                                                  color:
+                                                      scheme.onSurfaceVariant,
+                                                ),
+                                              ),
+                                            ),
+                                            Text(
+                                              l10n.levelPercentageCompleted(
+                                                (progress * 100)
+                                                    .toStringAsFixed(1),
+                                              ),
+                                              style: TextStyle(
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w600,
+                                                color: scheme.primary,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(height: 6),
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: LinearProgressIndicator(
+                                            value: progress,
+                                            minHeight: 10,
+                                            backgroundColor: scheme
+                                                .surfaceContainerHighest
+                                                .withValues(alpha: 0.3),
+                                            color: scheme.primary,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 12),
+
+                    const SizedBox(height: 8),
+
+                    // Hint Usage Stats
+                    const HintUsageCard(),
+                    const SizedBox(height: 8),
 
                     // Learned Words
                     _GradientCard(
@@ -244,10 +376,6 @@ class ProfilePage extends ConsumerWidget {
                         },
                       ),
                     ),
-                    const SizedBox(height: 8),
-
-                    // Hint Usage Stats
-                    const HintUsageCard(),
                     const SizedBox(height: 24),
 
                     // Sign Out
@@ -286,10 +414,9 @@ class ProfilePage extends ConsumerWidget {
   }
 }
 
-// Gradient Card Widget
+// Gradient Card reusable widget
 class _GradientCard extends StatelessWidget {
   const _GradientCard({required this.child, this.onTap});
-
   final Widget child;
   final VoidCallback? onTap;
 

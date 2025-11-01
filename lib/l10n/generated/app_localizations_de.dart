@@ -813,4 +813,18 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get hintUsageTitle => 'Hinweisverwendungen';
+
+  @override
+  String get errorLoadingLevelingData => 'Fehler beim Laden der Leveldaten';
+
+  @override
+  String get noProgressInLeveling => 'Kein Fortschritt beim Leveln';
+
+  @override
+  String get levelingProgressTitle => 'Level-Fortschritt';
+
+  @override
+  String levelPercentageCompleted(String levelPercentage) {
+    return '$levelPercentage % abgeschlossen';
+  }
 }

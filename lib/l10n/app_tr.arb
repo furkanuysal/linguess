@@ -1045,5 +1045,27 @@
   "hintUsageTitle": "İpucu Kullanımları",
   "@hintUsageTitle": {
     "description": "Title for the hint usage statistics section"
+  },
+  "errorLoadingLevelingData": "Seviye atlama verisi yüklenirken hata oluştu",
+  "@errorLoadingLevelingData": {
+    "description": "Error message shown when there is an error loading leveling data"
+  },
+  "noProgressInLeveling": "Seviye atlama için ilerleme yok",
+  "@noProgressInLeveling": {
+    "description": "Message shown when there is no progress in leveling"
+  },
+  "levelingProgressTitle": "Seviye İlerlemesi",
+  "@levelingProgressTitle": {
+    "description": "Title for the leveling progress section"
+  },
+  "levelPercentageCompleted": "%{levelPercentage} tamamlandı",
+  "@levelPercentageCompleted": {
+    "description": "Text showing the percentage of the level completed",
+    "placeholders": {
+      "levelPercentage": {
+        "type": "String",
+        "example": "75"
+      }
+    }
   }
 }

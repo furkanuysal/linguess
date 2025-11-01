@@ -1045,5 +1045,27 @@
   "hintUsageTitle": "Uso de Pistas",
   "@hintUsageTitle": {
     "description": "Title for the hint usage statistics section"
+  },
+  "errorLoadingLevelingData": "Error al cargar los datos de nivelación",
+  "@errorLoadingLevelingData": {
+    "description": "Error message shown when there is an error loading leveling data"
+  },
+  "noProgressInLeveling": "No hay progreso en la nivelación",
+  "@noProgressInLeveling": {
+    "description": "Message shown when there is no progress in leveling"
+  },
+  "levelingProgressTitle": "Progreso de Nivelación",
+  "@levelingProgressTitle": {
+    "description": "Title for the leveling progress section"
+  },
+  "levelPercentageCompleted": "{levelPercentage} % completado",
+  "@levelPercentageCompleted": {
+    "description": "Text showing the percentage of the level completed",
+    "placeholders": {
+      "levelPercentage": {
+        "type": "String",
+        "example": "75"
+      }
+    }
   }
 }

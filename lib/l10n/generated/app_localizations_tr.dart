@@ -798,4 +798,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get hintUsageTitle => 'İpucu Kullanımları';
+
+  @override
+  String get errorLoadingLevelingData =>
+      'Seviye atlama verisi yüklenirken hata oluştu';
+
+  @override
+  String get noProgressInLeveling => 'Seviye atlama için ilerleme yok';
+
+  @override
+  String get levelingProgressTitle => 'Seviye İlerlemesi';
+
+  @override
+  String levelPercentageCompleted(String levelPercentage) {
+    return '%$levelPercentage tamamlandı';
+  }
 }

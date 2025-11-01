@@ -812,4 +812,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get hintUsageTitle => 'Uso de Pistas';
+
+  @override
+  String get errorLoadingLevelingData =>
+      'Error al cargar los datos de nivelación';
+
+  @override
+  String get noProgressInLeveling => 'No hay progreso en la nivelación';
+
+  @override
+  String get levelingProgressTitle => 'Progreso de Nivelación';
+
+  @override
+  String levelPercentageCompleted(String levelPercentage) {
+    return '$levelPercentage % completado';
+  }
 }

@@ -16,6 +16,7 @@ import 'package:linguess/features/game/presentation/providers/daily_puzzle_repos
 import 'package:linguess/features/game/presentation/widgets/floating_hint_card.dart';
 import 'package:linguess/features/game/presentation/widgets/success_dialog.dart';
 import 'package:linguess/features/game/presentation/widgets/time_attack_result_dialog.dart';
+import 'package:linguess/features/leveling/presentation/providers/leveling_provider.dart';
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -640,6 +641,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
       );
       final statsRepo = ref.read(statsRepositoryProvider);
       await statsRepo.updateLastSolved(state.currentWord!.id);
+      ref.read(levelingRepositoryProvider).addXp(5);
       if (!context.mounted) return;
       await _showSuccessDialog(context);
     } else {
@@ -1407,6 +1409,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     await Future.wait([
       economy.addGold(_extraGoldPerCorrect),
       statsRepo.updateLastSolved(state.currentWord!.id),
+      ref.read(levelingRepositoryProvider).addXp(3),
       userService.onCorrectAnswer(
         word: state.currentWord!,
         targetLang: targetLang,

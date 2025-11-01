@@ -797,4 +797,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hintUsageTitle => 'Hint Usages';
+
+  @override
+  String get errorLoadingLevelingData => 'Error loading leveling data';
+
+  @override
+  String get noProgressInLeveling => 'No progress in leveling';
+
+  @override
+  String get levelingProgressTitle => 'Leveling Progress';
+
+  @override
+  String levelPercentageCompleted(String levelPercentage) {
+    return '$levelPercentage% completed';
+  }
 }

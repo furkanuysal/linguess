@@ -1536,6 +1536,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'İpucu Kullanımları'**
   String get hintUsageTitle;
+
+  /// Error message shown when there is an error loading leveling data
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye atlama verisi yüklenirken hata oluştu'**
+  String get errorLoadingLevelingData;
+
+  /// Message shown when there is no progress in leveling
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye atlama için ilerleme yok'**
+  String get noProgressInLeveling;
+
+  /// Title for the leveling progress section
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye İlerlemesi'**
+  String get levelingProgressTitle;
+
+  /// Text showing the percentage of the level completed
+  ///
+  /// In tr, this message translates to:
+  /// **'%{levelPercentage} tamamlandı'**
+  String levelPercentageCompleted(String levelPercentage);
 }
 
 class _AppLocalizationsDelegate
