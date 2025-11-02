@@ -827,4 +827,70 @@ class AppLocalizationsEs extends AppLocalizations {
   String levelPercentageCompleted(String levelPercentage) {
     return '$levelPercentage % completado';
   }
+
+  @override
+  String get levelUpTitle => '¡Has subido de nivel!';
+
+  @override
+  String adminXpGivenSnackBar(int amount) {
+    return '+$amount XP añadidos!';
+  }
+
+  @override
+  String get adminLevelResetSnackBar => 'Nivel reiniciado!';
+
+  @override
+  String adminGiveXpButtonTitle(int amount) {
+    return 'Dar +$amount XP';
+  }
+
+  @override
+  String adminGiveXpButtonDesc(int amount) {
+    return 'Añade +$amount al XP actual del usuario.';
+  }
+
+  @override
+  String get adminResetLevelToOneButtonTitle => 'Restablecer Nivel a 1';
+
+  @override
+  String get adminResetLevelToOneButtonDesc =>
+      'Establece Nivel=1, XP=95 y totalXp=95.';
+
+  @override
+  String get adminClearLastLevelCacheButtonTitle =>
+      'Borrar last_level Guardado';
+
+  @override
+  String get adminClearLastLevelCacheButtonDesc =>
+      'Elimina el \'last_level\' guardado de SharedPreferences.';
+
+  @override
+  String get adminLastLevelCacheClearedSnackBar =>
+      'last_level guardado borrado!';
+
+  @override
+  String get adminClearAllLocalDataButtonTitle =>
+      'Borrar Todos los Datos Locales';
+
+  @override
+  String get adminClearAllLocalDataButtonDesc =>
+      'Elimina TODOS los datos en SharedPreferences. (Irreversible)';
+
+  @override
+  String get adminClearAllConfirmationTitle => '¿Está seguro?';
+
+  @override
+  String get adminClearAllConfirmationDesc =>
+      'Todos los datos locales (configuración, nivel, caché, etc.) se eliminarán permanentemente. ¡Esta acción es irreversible!';
+
+  @override
+  String get adminClearAllButtonText => 'Borrar Datos';
+
+  @override
+  String get adminAllLocalDataClearedSnackBar =>
+      'Todos los datos locales borrados!';
+
+  @override
+  String get adminClearAllLocalDataErrorSnackBar =>
+      'Ocurrió un error al borrar los datos locales';
 }

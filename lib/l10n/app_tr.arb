@@ -1067,5 +1067,91 @@
         "example": "75"
       }
     }
+  },
+  "levelUpTitle": "Seviye Atladın!",
+  "@levelUpTitle": {
+    "description": "Title shown when the user levels up"
+  },
+  "adminXpGivenSnackBar": "+{amount} XP eklendi!",
+  "@adminXpGivenSnackBar": {
+    "description": "SnackBar shown when admin successfully adds XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminLevelResetSnackBar": "Level sıfırlandı!",
+  "@adminLevelResetSnackBar": {
+    "description": "SnackBar shown when admin successfully resets a user's level."
+  },
+  "adminGiveXpButtonTitle": "+{amount} XP Ver",
+  "@adminGiveXpButtonTitle": {
+    "description": "Title for the button used to give XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminGiveXpButtonDesc": "Kullanıcının mevcut XP’sine +{amount} ekler.",
+  "@adminGiveXpButtonDesc": {
+    "description": "Description for the button that gives XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminResetLevelToOneButtonTitle": "Level 1’e Sıfırla",
+  "@adminResetLevelToOneButtonTitle": {
+    "description": "Title for the button used to reset a user's level to the starting level (Level 1)."
+  },
+  "adminResetLevelToOneButtonDesc": "Level=1, XP=95, totalXp=95 olarak ayarlar.",
+  "@adminResetLevelToOneButtonDesc": {
+    "description": "Description for the button that resets a user's level to 1, specifying the resulting values."
+  },
+  "adminClearLastLevelCacheButtonTitle": "Kayıtlı last_level'ı Temizle",
+  "@adminClearLastLevelCacheButtonTitle": {
+    "description": "Title for the button used to clear the locally cached 'last_level' value."
+  },
+  "adminClearLastLevelCacheButtonDesc": "SharedPreferences içindeki kayıtlı last_level silinir.",
+  "@adminClearLastLevelCacheButtonDesc": {
+    "description": "Description for the button that clears the 'last_level' from local storage (SharedPreferences)."
+  },
+  "adminLastLevelCacheClearedSnackBar": "Kayıtlı last_level temizlendi!",
+  "@adminLastLevelCacheClearedSnackBar": {
+    "description": "SnackBar shown when the local 'last_level' cache is successfully cleared."
+  },
+  "adminClearAllLocalDataButtonTitle": "Tüm Yerel Verileri Temizle",
+  "@adminClearAllLocalDataButtonTitle": {
+    "description": "Title for the button used to clear all local data (SharedPreferences)."
+  },
+  "adminClearAllLocalDataButtonDesc": "SharedPreferences içindeki TÜM veriler silinir. (Geri alınamaz)",
+  "@adminClearAllLocalDataButtonDesc": {
+    "description": "Description for the button that clears ALL local data, highlighting that it is irreversible."
+  },
+  "adminClearAllConfirmationTitle": "Emin misiniz?",
+  "@adminClearAllConfirmationTitle": {
+    "description": "Title for the confirmation dialog shown before clearing all local data."
+  },
+  "adminClearAllConfirmationDesc": "Tüm yerel veriler (ayarlar, seviye, cache vb.) kalıcı olarak silinecek. Bu işlem geri alınamaz!",
+  "@adminClearAllConfirmationDesc": {
+    "description": "Description in the confirmation dialog warning the user that all local data will be permanently lost."
+  },
+  "adminClearAllButtonText": "Verileri Temizle",
+  "@adminClearAllButtonText": {
+    "description": "Text for the button that executes the 'Clear All Local Data' action in the confirmation dialog."
+  },
+  "adminAllLocalDataClearedSnackBar": "Tüm yerel veriler temizlendi!",
+  "@adminAllLocalDataClearedSnackBar": {
+    "description": "SnackBar shown when all local data is successfully cleared."
+  },
+  "adminClearAllLocalDataErrorSnackBar": "Yerel veriler temizlenirken hata oluştu",
+  "@adminClearAllLocalDataErrorSnackBar": {
+    "description": "SnackBar shown when there is an error during the process of clearing all local data."
   }
 }

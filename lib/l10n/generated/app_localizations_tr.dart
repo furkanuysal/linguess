@@ -813,4 +813,69 @@ class AppLocalizationsTr extends AppLocalizations {
   String levelPercentageCompleted(String levelPercentage) {
     return '%$levelPercentage tamamlandı';
   }
+
+  @override
+  String get levelUpTitle => 'Seviye Atladın!';
+
+  @override
+  String adminXpGivenSnackBar(int amount) {
+    return '+$amount XP eklendi!';
+  }
+
+  @override
+  String get adminLevelResetSnackBar => 'Level sıfırlandı!';
+
+  @override
+  String adminGiveXpButtonTitle(int amount) {
+    return '+$amount XP Ver';
+  }
+
+  @override
+  String adminGiveXpButtonDesc(int amount) {
+    return 'Kullanıcının mevcut XP’sine +$amount ekler.';
+  }
+
+  @override
+  String get adminResetLevelToOneButtonTitle => 'Level 1’e Sıfırla';
+
+  @override
+  String get adminResetLevelToOneButtonDesc =>
+      'Level=1, XP=95, totalXp=95 olarak ayarlar.';
+
+  @override
+  String get adminClearLastLevelCacheButtonTitle =>
+      'Kayıtlı last_level\'ı Temizle';
+
+  @override
+  String get adminClearLastLevelCacheButtonDesc =>
+      'SharedPreferences içindeki kayıtlı last_level silinir.';
+
+  @override
+  String get adminLastLevelCacheClearedSnackBar =>
+      'Kayıtlı last_level temizlendi!';
+
+  @override
+  String get adminClearAllLocalDataButtonTitle => 'Tüm Yerel Verileri Temizle';
+
+  @override
+  String get adminClearAllLocalDataButtonDesc =>
+      'SharedPreferences içindeki TÜM veriler silinir. (Geri alınamaz)';
+
+  @override
+  String get adminClearAllConfirmationTitle => 'Emin misiniz?';
+
+  @override
+  String get adminClearAllConfirmationDesc =>
+      'Tüm yerel veriler (ayarlar, seviye, cache vb.) kalıcı olarak silinecek. Bu işlem geri alınamaz!';
+
+  @override
+  String get adminClearAllButtonText => 'Verileri Temizle';
+
+  @override
+  String get adminAllLocalDataClearedSnackBar =>
+      'Tüm yerel veriler temizlendi!';
+
+  @override
+  String get adminClearAllLocalDataErrorSnackBar =>
+      'Yerel veriler temizlenirken hata oluştu';
 }

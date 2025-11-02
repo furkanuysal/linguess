@@ -811,4 +811,66 @@ class AppLocalizationsEn extends AppLocalizations {
   String levelPercentageCompleted(String levelPercentage) {
     return '$levelPercentage% completed';
   }
+
+  @override
+  String get levelUpTitle => 'Level Up!';
+
+  @override
+  String adminXpGivenSnackBar(int amount) {
+    return '+$amount XP added!';
+  }
+
+  @override
+  String get adminLevelResetSnackBar => 'Level reset!';
+
+  @override
+  String adminGiveXpButtonTitle(int amount) {
+    return 'Give +$amount XP';
+  }
+
+  @override
+  String adminGiveXpButtonDesc(int amount) {
+    return 'Adds +$amount to the user\'s current XP.';
+  }
+
+  @override
+  String get adminResetLevelToOneButtonTitle => 'Reset Level to 1';
+
+  @override
+  String get adminResetLevelToOneButtonDesc =>
+      'Sets Level=1, XP=95, and totalXp=95.';
+
+  @override
+  String get adminClearLastLevelCacheButtonTitle => 'Clear Saved last_level';
+
+  @override
+  String get adminClearLastLevelCacheButtonDesc =>
+      'Deletes the saved \'last_level\' from SharedPreferences.';
+
+  @override
+  String get adminLastLevelCacheClearedSnackBar => 'Saved last_level cleared!';
+
+  @override
+  String get adminClearAllLocalDataButtonTitle => 'Clear All Local Data';
+
+  @override
+  String get adminClearAllLocalDataButtonDesc =>
+      'Deletes ALL data in SharedPreferences. (Irreversible)';
+
+  @override
+  String get adminClearAllConfirmationTitle => 'Are You Sure?';
+
+  @override
+  String get adminClearAllConfirmationDesc =>
+      'All local data (settings, level, cache, etc.) will be permanently deleted. This action is irreversible!';
+
+  @override
+  String get adminClearAllButtonText => 'Clear Data';
+
+  @override
+  String get adminAllLocalDataClearedSnackBar => 'All local data cleared!';
+
+  @override
+  String get adminClearAllLocalDataErrorSnackBar =>
+      'An error occurred while clearing local data';
 }

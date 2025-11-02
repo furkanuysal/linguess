@@ -7,6 +7,7 @@ import 'package:linguess/app/router/app_router.dart';
 import 'package:linguess/app/update/android_update_gate.dart';
 import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/features/achievements/presentation/widgets/achievement_toast_widget.dart';
+import 'package:linguess/features/leveling/presentation/widgets/levelup_toast_widget.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/firebase_options.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -56,6 +57,7 @@ class LinguessApp extends ConsumerWidget {
               children: [
                 child ?? const SizedBox(),
                 const AchievementToastWidget(),
+                const LevelUpToastWidget(),
               ],
             ),
           );

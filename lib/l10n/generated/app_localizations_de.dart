@@ -827,4 +827,68 @@ class AppLocalizationsDe extends AppLocalizations {
   String levelPercentageCompleted(String levelPercentage) {
     return '$levelPercentage % abgeschlossen';
   }
+
+  @override
+  String get levelUpTitle => 'Level Aufgestiegen!';
+
+  @override
+  String adminXpGivenSnackBar(int amount) {
+    return '+$amount XP hinzugefügt!';
+  }
+
+  @override
+  String get adminLevelResetSnackBar => 'Level zurückgesetzt!';
+
+  @override
+  String adminGiveXpButtonTitle(int amount) {
+    return '+$amount XP geben';
+  }
+
+  @override
+  String adminGiveXpButtonDesc(int amount) {
+    return 'Fügt den aktuellen XP des Benutzers +$amount hinzu.';
+  }
+
+  @override
+  String get adminResetLevelToOneButtonTitle => 'Level auf 1 zurücksetzen';
+
+  @override
+  String get adminResetLevelToOneButtonDesc =>
+      'Setzt Level=1, XP=95 und totalXp=95.';
+
+  @override
+  String get adminClearLastLevelCacheButtonTitle =>
+      'Gespeichertes last_level löschen';
+
+  @override
+  String get adminClearLastLevelCacheButtonDesc =>
+      'Löscht das gespeicherte \'last_level\' aus SharedPreferences.';
+
+  @override
+  String get adminLastLevelCacheClearedSnackBar =>
+      'Gespeichertes last_level gelöscht!';
+
+  @override
+  String get adminClearAllLocalDataButtonTitle => 'Alle lokalen Daten löschen';
+
+  @override
+  String get adminClearAllLocalDataButtonDesc =>
+      'Löscht ALLE Daten in SharedPreferences. (Nicht rückgängig machbar)';
+
+  @override
+  String get adminClearAllConfirmationTitle => 'Sind Sie sicher?';
+
+  @override
+  String get adminClearAllConfirmationDesc =>
+      'Alle lokalen Daten (Einstellungen, Level, Cache usw.) werden dauerhaft gelöscht. Diese Aktion ist nicht rückgängig machbar!';
+
+  @override
+  String get adminClearAllButtonText => 'Daten löschen';
+
+  @override
+  String get adminAllLocalDataClearedSnackBar => 'Alle lokalen Daten gelöscht!';
+
+  @override
+  String get adminClearAllLocalDataErrorSnackBar =>
+      'Beim Löschen lokaler Daten ist ein Fehler aufgetreten';
 }

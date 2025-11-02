@@ -1067,5 +1067,91 @@
         "example": "75"
       }
     }
+  },
+  "levelUpTitle": "Level Up!",
+  "@levelUpTitle": {
+    "description": "Title shown when the user levels up"
+  },
+  "adminXpGivenSnackBar": "+{amount} XP added!",
+  "@adminXpGivenSnackBar": {
+    "description": "SnackBar shown when admin successfully adds XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminLevelResetSnackBar": "Level reset!",
+  "@adminLevelResetSnackBar": {
+    "description": "SnackBar shown when admin successfully resets a user's level."
+  },
+  "adminGiveXpButtonTitle": "Give +{amount} XP",
+  "@adminGiveXpButtonTitle": {
+    "description": "Title for the button used to give XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminGiveXpButtonDesc": "Adds +{amount} to the user's current XP.",
+  "@adminGiveXpButtonDesc": {
+    "description": "Description for the button that gives XP to a user.",
+    "placeholders": {
+      "amount": {
+        "type": "int",
+        "example": "100"
+      }
+    }
+  },
+  "adminResetLevelToOneButtonTitle": "Reset Level to 1",
+  "@adminResetLevelToOneButtonTitle": {
+    "description": "Title for the button used to reset a user's level to the starting level (Level 1)."
+  },
+  "adminResetLevelToOneButtonDesc": "Sets Level=1, XP=95, and totalXp=95.",
+  "@adminResetLevelToOneButtonDesc": {
+    "description": "Description for the button that resets a user's level to 1, specifying the resulting values."
+  },
+  "adminClearLastLevelCacheButtonTitle": "Clear Saved last_level",
+  "@adminClearLastLevelCacheButtonTitle": {
+    "description": "Title for the button used to clear the locally cached 'last_level' value."
+  },
+  "adminClearLastLevelCacheButtonDesc": "Deletes the saved 'last_level' from SharedPreferences.",
+  "@adminClearLastLevelCacheButtonDesc": {
+    "description": "Description for the button that clears the 'last_level' from local storage (SharedPreferences)."
+  },
+  "adminLastLevelCacheClearedSnackBar": "Saved last_level cleared!",
+  "@adminLastLevelCacheClearedSnackBar": {
+    "description": "SnackBar shown when the local 'last_level' cache is successfully cleared."
+  },
+  "adminClearAllLocalDataButtonTitle": "Clear All Local Data",
+  "@adminClearAllLocalDataButtonTitle": {
+    "description": "Title for the button used to clear all local data (SharedPreferences)."
+  },
+  "adminClearAllLocalDataButtonDesc": "Deletes ALL data in SharedPreferences. (Irreversible)",
+  "@adminClearAllLocalDataButtonDesc": {
+    "description": "Description for the button that clears ALL local data, highlighting that it is irreversible."
+  },
+  "adminClearAllConfirmationTitle": "Are You Sure?",
+  "@adminClearAllConfirmationTitle": {
+    "description": "Title for the confirmation dialog shown before clearing all local data."
+  },
+  "adminClearAllConfirmationDesc": "All local data (settings, level, cache, etc.) will be permanently deleted. This action is irreversible!",
+  "@adminClearAllConfirmationDesc": {
+    "description": "Description in the confirmation dialog warning the user that all local data will be permanently lost."
+  },
+  "adminClearAllButtonText": "Clear Data",
+  "@adminClearAllButtonText": {
+    "description": "Text for the button that executes the 'Clear All Local Data' action in the confirmation dialog."
+  },
+  "adminAllLocalDataClearedSnackBar": "All local data cleared!",
+  "@adminAllLocalDataClearedSnackBar": {
+    "description": "SnackBar shown when all local data is successfully cleared."
+  },
+  "adminClearAllLocalDataErrorSnackBar": "An error occurred while clearing local data",
+  "@adminClearAllLocalDataErrorSnackBar": {
+    "description": "SnackBar shown when there is an error during the process of clearing all local data."
   }
 }

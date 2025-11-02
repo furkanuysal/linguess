@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog.dart';
 import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
@@ -184,6 +185,26 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
             },
           ),
         ],
+      ),
+      floatingActionButton: Consumer(
+        builder: (context, ref, _) {
+          final isAdminAsync = ref.watch(isAdminProvider);
+          return isAdminAsync.when(
+            data: (isAdmin) {
+              if (!isAdmin) return const SizedBox.shrink();
+              return FloatingActionButton.extended(
+                heroTag: 'admin_debug_btn',
+                backgroundColor: scheme.primary,
+                foregroundColor: scheme.onPrimary,
+                icon: const Icon(Icons.bug_report_rounded),
+                label: const Text('Debug'),
+                onPressed: () => context.push('/admin/debug'),
+              );
+            },
+            loading: () => const SizedBox.shrink(),
+            error: (_, _) => const SizedBox.shrink(),
+          );
+        },
       ),
       body: Stack(
         fit: StackFit.expand,

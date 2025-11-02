@@ -1560,6 +1560,108 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'%{levelPercentage} tamamlandı'**
   String levelPercentageCompleted(String levelPercentage);
+
+  /// Title shown when the user levels up
+  ///
+  /// In tr, this message translates to:
+  /// **'Seviye Atladın!'**
+  String get levelUpTitle;
+
+  /// SnackBar shown when admin successfully adds XP to a user.
+  ///
+  /// In tr, this message translates to:
+  /// **'+{amount} XP eklendi!'**
+  String adminXpGivenSnackBar(int amount);
+
+  /// SnackBar shown when admin successfully resets a user's level.
+  ///
+  /// In tr, this message translates to:
+  /// **'Level sıfırlandı!'**
+  String get adminLevelResetSnackBar;
+
+  /// Title for the button used to give XP to a user.
+  ///
+  /// In tr, this message translates to:
+  /// **'+{amount} XP Ver'**
+  String adminGiveXpButtonTitle(int amount);
+
+  /// Description for the button that gives XP to a user.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcının mevcut XP’sine +{amount} ekler.'**
+  String adminGiveXpButtonDesc(int amount);
+
+  /// Title for the button used to reset a user's level to the starting level (Level 1).
+  ///
+  /// In tr, this message translates to:
+  /// **'Level 1’e Sıfırla'**
+  String get adminResetLevelToOneButtonTitle;
+
+  /// Description for the button that resets a user's level to 1, specifying the resulting values.
+  ///
+  /// In tr, this message translates to:
+  /// **'Level=1, XP=95, totalXp=95 olarak ayarlar.'**
+  String get adminResetLevelToOneButtonDesc;
+
+  /// Title for the button used to clear the locally cached 'last_level' value.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıtlı last_level\'ı Temizle'**
+  String get adminClearLastLevelCacheButtonTitle;
+
+  /// Description for the button that clears the 'last_level' from local storage (SharedPreferences).
+  ///
+  /// In tr, this message translates to:
+  /// **'SharedPreferences içindeki kayıtlı last_level silinir.'**
+  String get adminClearLastLevelCacheButtonDesc;
+
+  /// SnackBar shown when the local 'last_level' cache is successfully cleared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Kayıtlı last_level temizlendi!'**
+  String get adminLastLevelCacheClearedSnackBar;
+
+  /// Title for the button used to clear all local data (SharedPreferences).
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm Yerel Verileri Temizle'**
+  String get adminClearAllLocalDataButtonTitle;
+
+  /// Description for the button that clears ALL local data, highlighting that it is irreversible.
+  ///
+  /// In tr, this message translates to:
+  /// **'SharedPreferences içindeki TÜM veriler silinir. (Geri alınamaz)'**
+  String get adminClearAllLocalDataButtonDesc;
+
+  /// Title for the confirmation dialog shown before clearing all local data.
+  ///
+  /// In tr, this message translates to:
+  /// **'Emin misiniz?'**
+  String get adminClearAllConfirmationTitle;
+
+  /// Description in the confirmation dialog warning the user that all local data will be permanently lost.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm yerel veriler (ayarlar, seviye, cache vb.) kalıcı olarak silinecek. Bu işlem geri alınamaz!'**
+  String get adminClearAllConfirmationDesc;
+
+  /// Text for the button that executes the 'Clear All Local Data' action in the confirmation dialog.
+  ///
+  /// In tr, this message translates to:
+  /// **'Verileri Temizle'**
+  String get adminClearAllButtonText;
+
+  /// SnackBar shown when all local data is successfully cleared.
+  ///
+  /// In tr, this message translates to:
+  /// **'Tüm yerel veriler temizlendi!'**
+  String get adminAllLocalDataClearedSnackBar;
+
+  /// SnackBar shown when there is an error during the process of clearing all local data.
+  ///
+  /// In tr, this message translates to:
+  /// **'Yerel veriler temizlenirken hata oluştu'**
+  String get adminClearAllLocalDataErrorSnackBar;
 }
 
 class _AppLocalizationsDelegate

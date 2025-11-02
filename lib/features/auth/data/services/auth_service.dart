@@ -81,6 +81,8 @@ class AuthService {
     }
   }
 
+  User? get currentUser => _auth.currentUser;
+
   // Google Sign-In v7: initialize
   static bool _gInited = false;
   Future<void> _ensureGoogleInit() async {
