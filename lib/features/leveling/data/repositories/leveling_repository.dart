@@ -31,16 +31,28 @@ class LevelingRepository {
     return LevelingModel.fromMap(snap.data() ?? {});
   }
 
-  Stream<LevelingModel?> watchLeveling() {
-    final ref = _docRef;
-    if (ref == null) return const Stream.empty();
-
-    return ref.snapshots().map((snap) {
-      if (!snap.exists) {
-        return const LevelingModel(level: 1, xp: 0, totalXp: 0);
+  Stream<LevelingModel?> watchLeveling() async* {
+    // Wait for auth state changes
+    await for (final user in _auth.authStateChanges()) {
+      if (user == null) {
+        yield const LevelingModel(level: 1, xp: 0, totalXp: 0);
+        continue;
       }
-      return LevelingModel.fromMap(snap.data() ?? {});
-    });
+
+      final ref = _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('stats')
+          .doc('leveling');
+
+      // Connect Firestore stream (will emit even if doc is created later)
+      yield* ref.snapshots().map((snap) {
+        if (!snap.exists || snap.data() == null) {
+          return const LevelingModel(level: 1, xp: 0, totalXp: 0);
+        }
+        return LevelingModel.fromMap(snap.data()!);
+      });
+    }
   }
 
   // Add XP and handle level-up automatically.

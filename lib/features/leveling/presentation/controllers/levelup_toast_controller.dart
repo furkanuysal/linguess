@@ -27,8 +27,11 @@ class LevelUpToastController extends Notifier<LevelUpEvent?> {
 
     // Always listen for leveling changes
     ref.listen<AsyncValue<LevelingModel?>>(levelingProvider, (prev, next) {
-      final previous = _lastLevel ?? prev?.value?.level ?? 1;
-      final current = next.value?.level ?? previous;
+      if (next.isLoading || next.hasError) return;
+      final current = next.value?.level;
+      if (current == null) return;
+
+      final previous = _lastLevel ?? prev?.value?.level ?? current;
 
       if (current > previous) {
         _lastLevel = current;
