@@ -1662,6 +1662,126 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Yerel veriler temizlenirken hata oluştu'**
   String get adminClearAllLocalDataErrorSnackBar;
+
+  /// Error message shown when a permission request is denied
+  ///
+  /// In tr, this message translates to:
+  /// **'İzin reddedildi'**
+  String get errorPermissionDenied;
+
+  /// Error message shown when the user's session has expired
+  ///
+  /// In tr, this message translates to:
+  /// **'Oturum süresi doldu, lütfen tekrar giriş yapın'**
+  String get errorSessionExpired;
+
+  /// Error message shown when the user's session is invalid
+  ///
+  /// In tr, this message translates to:
+  /// **'Geçersiz oturum, lütfen tekrar giriş yapın'**
+  String get errorInvalidSession;
+
+  /// Error message shown when the profile update process fails
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil güncellemesi başarısız'**
+  String get errorProfileUpdateFailed;
+
+  /// Error message shown when a sensitive operation requires recent login
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu işlem için yakın zamanda giriş yapmanız gerekiyor'**
+  String get errorRequiresRecentLogin;
+
+  /// Error message shown when the password change process fails
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre değiştirme başarısız'**
+  String get errorChangePasswordFailed;
+
+  /// Error message shown when the new password and confirm password do not match
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreler eşleşmiyor!'**
+  String get errorPasswordsDoNotMatch;
+
+  /// Message shown when the password is changed successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre başarıyla değiştirildi!'**
+  String get passwordChangeSuccessful;
+
+  /// Message shown when the profile is updated successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Profil başarıyla güncellendi!'**
+  String get profileUpdateSuccessful;
+
+  /// Title for the account settings page
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap Ayarları'**
+  String get accountSettingsTitle;
+
+  /// Title for the personal information section
+  ///
+  /// In tr, this message translates to:
+  /// **'Kişisel Bilgiler'**
+  String get personalInfoTitle;
+
+  /// Label for the display name input field
+  ///
+  /// In tr, this message translates to:
+  /// **'Görünen Ad'**
+  String get displayNameLabel;
+
+  /// Label for the account creation date
+  ///
+  /// In tr, this message translates to:
+  /// **'Katılma Tarihi'**
+  String get createdAtLabel;
+
+  /// Title for the password update section
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifre Güncelleme'**
+  String get passwordUpdateTitle;
+
+  /// Label for the current password input field
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut Şifre'**
+  String get currentPasswordLabel;
+
+  /// Label for the new password input field
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Şifre'**
+  String get newPasswordLabel;
+
+  /// Label for the confirm new password input field
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Şifre (Tekrar)'**
+  String get confirmNewPasswordLabel;
+
+  /// Label for the button to update the password
+  ///
+  /// In tr, this message translates to:
+  /// **'Şifreyi Güncelle'**
+  String get updatePasswordLabel;
+
+  /// Error message shown when trying to change the password of an account created with an external provider
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu hesap bir dış sağlayıcı (ör. Google, GitHub) ile oluşturulduğu için şifre değiştirilemez.'**
+  String get externalProviderPasswordChangeDisabled;
+
+  /// Subtitle for the account settings page
+  ///
+  /// In tr, this message translates to:
+  /// **'Hesap bilgilerinizi ve şifrenizi yönetin.'**
+  String get accountSettingsSubtitle;
 }
 
 class _AppLocalizationsDelegate

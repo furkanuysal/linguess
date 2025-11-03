@@ -893,4 +893,69 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get adminClearAllLocalDataErrorSnackBar =>
       'Ocurrió un error al borrar los datos locales';
+
+  @override
+  String get errorPermissionDenied => 'Permiso denegado';
+
+  @override
+  String get errorSessionExpired =>
+      'La sesión ha expirado, por favor inicie sesión nuevamente';
+
+  @override
+  String get errorInvalidSession =>
+      'Sesión inválida, por favor inicie sesión nuevamente';
+
+  @override
+  String get errorProfileUpdateFailed => 'Error al actualizar el perfil';
+
+  @override
+  String get errorRequiresRecentLogin =>
+      'Operación sensible, se requiere un inicio de sesión reciente';
+
+  @override
+  String get errorChangePasswordFailed => 'Error al cambiar la contraseña';
+
+  @override
+  String get errorPasswordsDoNotMatch => 'Las contraseñas no coinciden!';
+
+  @override
+  String get passwordChangeSuccessful => '¡Contraseña cambiada con éxito!';
+
+  @override
+  String get profileUpdateSuccessful => '¡Perfil actualizado con éxito!';
+
+  @override
+  String get accountSettingsTitle => 'Configuración de la cuenta';
+
+  @override
+  String get personalInfoTitle => 'Información personal';
+
+  @override
+  String get displayNameLabel => 'Nombre para mostrar';
+
+  @override
+  String get createdAtLabel => 'Creado en';
+
+  @override
+  String get passwordUpdateTitle => 'Actualización de contraseña';
+
+  @override
+  String get currentPasswordLabel => 'Contraseña actual';
+
+  @override
+  String get newPasswordLabel => 'Nueva contraseña';
+
+  @override
+  String get confirmNewPasswordLabel => 'Confirmar nueva contraseña';
+
+  @override
+  String get updatePasswordLabel => 'Actualizar contraseña';
+
+  @override
+  String get externalProviderPasswordChangeDisabled =>
+      'Esta cuenta fue creada utilizando un proveedor externo (por ejemplo, Google, GitHub), por lo que no se puede cambiar la contraseña.';
+
+  @override
+  String get accountSettingsSubtitle =>
+      'Gestiona la información de tu cuenta y actualiza tu contraseña.';
 }

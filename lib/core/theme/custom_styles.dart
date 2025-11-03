@@ -35,6 +35,47 @@ InputDecoration authInputDecoration(BuildContext context) {
   );
 }
 
+InputDecoration accountSettingsInputDecoration(BuildContext context) {
+  final scheme = Theme.of(context).colorScheme;
+
+  return InputDecoration(
+    filled: true,
+    fillColor: scheme.surfaceContainerHighest.withValues(alpha: 0.25),
+    labelStyle: TextStyle(
+      color: scheme.onSurfaceVariant,
+      fontWeight: FontWeight.w500,
+    ),
+    hintStyle: TextStyle(color: scheme.onSurfaceVariant.withValues(alpha: 0.6)),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: scheme.outlineVariant.withValues(alpha: 0.3),
+        width: 1.3,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: scheme.primary, width: 2.2),
+    ),
+    disabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: scheme.outlineVariant.withValues(alpha: 0.1),
+        width: 1,
+      ),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: scheme.error, width: 2),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: scheme.error, width: 2),
+    ),
+  );
+}
+
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,

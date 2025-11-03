@@ -891,4 +891,67 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get adminClearAllLocalDataErrorSnackBar =>
       'Beim Löschen lokaler Daten ist ein Fehler aufgetreten';
+
+  @override
+  String get errorPermissionDenied => 'Berechtigung verweigert';
+
+  @override
+  String get errorSessionExpired => 'Sitzung abgelaufen, bitte erneut anmelden';
+
+  @override
+  String get errorInvalidSession => 'Ungültige Sitzung, bitte erneut anmelden';
+
+  @override
+  String get errorProfileUpdateFailed => 'Profilaktualisierung fehlgeschlagen';
+
+  @override
+  String get errorRequiresRecentLogin =>
+      'Sensibler Vorgang erfordert kürzliche Anmeldung';
+
+  @override
+  String get errorChangePasswordFailed => 'Ändern des Passworts fehlgeschlagen';
+
+  @override
+  String get errorPasswordsDoNotMatch => 'Passwörter stimmen nicht überein!';
+
+  @override
+  String get passwordChangeSuccessful => 'Passwort erfolgreich geändert!';
+
+  @override
+  String get profileUpdateSuccessful => 'Profil erfolgreich aktualisiert!';
+
+  @override
+  String get accountSettingsTitle => 'Kontoeinstellungen';
+
+  @override
+  String get personalInfoTitle => 'Persönliche Informationen';
+
+  @override
+  String get displayNameLabel => 'Anzeigename';
+
+  @override
+  String get createdAtLabel => 'Erstellt am';
+
+  @override
+  String get passwordUpdateTitle => 'Passwortaktualisierung';
+
+  @override
+  String get currentPasswordLabel => 'Aktuelles Passwort';
+
+  @override
+  String get newPasswordLabel => 'Neues Passwort';
+
+  @override
+  String get confirmNewPasswordLabel => 'Neues Passwort bestätigen';
+
+  @override
+  String get updatePasswordLabel => 'Passwort aktualisieren';
+
+  @override
+  String get externalProviderPasswordChangeDisabled =>
+      'Dieses Konto wurde mit einem externen Anbieter (z. B. Google, GitHub) erstellt, sodass das Passwort nicht geändert werden kann.';
+
+  @override
+  String get accountSettingsSubtitle =>
+      'Verwalte deine Kontoinformationen und Sicherheitseinstellungen';
 }

@@ -18,6 +18,7 @@ import 'package:linguess/features/game/presentation/pages/combined_mode_setup_pa
 import 'package:linguess/features/game/presentation/pages/level_page.dart';
 import 'package:linguess/features/game/presentation/pages/word_game_page.dart';
 import 'package:linguess/features/home/presentation/widgets/home_selector.dart';
+import 'package:linguess/features/profile/presentation/pages/account_settings_page.dart';
 import 'package:linguess/features/profile/presentation/pages/learned_words_page.dart';
 import 'package:linguess/features/profile/presentation/pages/profile_page.dart';
 
@@ -122,6 +123,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),
+      ),
+      GoRoute(
+        path: '/account-settings',
+        builder: (context, state) => const AccountSettingsPage(),
       ),
       GoRoute(
         path: '/achievements',

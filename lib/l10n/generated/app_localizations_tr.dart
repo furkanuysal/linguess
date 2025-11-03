@@ -878,4 +878,69 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get adminClearAllLocalDataErrorSnackBar =>
       'Yerel veriler temizlenirken hata oluştu';
+
+  @override
+  String get errorPermissionDenied => 'İzin reddedildi';
+
+  @override
+  String get errorSessionExpired =>
+      'Oturum süresi doldu, lütfen tekrar giriş yapın';
+
+  @override
+  String get errorInvalidSession =>
+      'Geçersiz oturum, lütfen tekrar giriş yapın';
+
+  @override
+  String get errorProfileUpdateFailed => 'Profil güncellemesi başarısız';
+
+  @override
+  String get errorRequiresRecentLogin =>
+      'Bu işlem için yakın zamanda giriş yapmanız gerekiyor';
+
+  @override
+  String get errorChangePasswordFailed => 'Şifre değiştirme başarısız';
+
+  @override
+  String get errorPasswordsDoNotMatch => 'Şifreler eşleşmiyor!';
+
+  @override
+  String get passwordChangeSuccessful => 'Şifre başarıyla değiştirildi!';
+
+  @override
+  String get profileUpdateSuccessful => 'Profil başarıyla güncellendi!';
+
+  @override
+  String get accountSettingsTitle => 'Hesap Ayarları';
+
+  @override
+  String get personalInfoTitle => 'Kişisel Bilgiler';
+
+  @override
+  String get displayNameLabel => 'Görünen Ad';
+
+  @override
+  String get createdAtLabel => 'Katılma Tarihi';
+
+  @override
+  String get passwordUpdateTitle => 'Şifre Güncelleme';
+
+  @override
+  String get currentPasswordLabel => 'Mevcut Şifre';
+
+  @override
+  String get newPasswordLabel => 'Yeni Şifre';
+
+  @override
+  String get confirmNewPasswordLabel => 'Yeni Şifre (Tekrar)';
+
+  @override
+  String get updatePasswordLabel => 'Şifreyi Güncelle';
+
+  @override
+  String get externalProviderPasswordChangeDisabled =>
+      'Bu hesap bir dış sağlayıcı (ör. Google, GitHub) ile oluşturulduğu için şifre değiştirilemez.';
+
+  @override
+  String get accountSettingsSubtitle =>
+      'Hesap bilgilerinizi ve şifrenizi yönetin.';
 }

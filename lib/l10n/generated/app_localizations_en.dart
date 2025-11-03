@@ -873,4 +873,67 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get adminClearAllLocalDataErrorSnackBar =>
       'An error occurred while clearing local data';
+
+  @override
+  String get errorPermissionDenied => 'Permission denied';
+
+  @override
+  String get errorSessionExpired => 'Session expired, please log in again';
+
+  @override
+  String get errorInvalidSession => 'Invalid session, please log in again';
+
+  @override
+  String get errorProfileUpdateFailed => 'Profile update failed!';
+
+  @override
+  String get errorRequiresRecentLogin =>
+      'This operation requires recent login. Please log in again and try again.';
+
+  @override
+  String get errorChangePasswordFailed => 'Password change failed';
+
+  @override
+  String get errorPasswordsDoNotMatch => 'Passwords do not match!';
+
+  @override
+  String get passwordChangeSuccessful => 'Password changed successfully!';
+
+  @override
+  String get profileUpdateSuccessful => 'Profile updated successfully!';
+
+  @override
+  String get accountSettingsTitle => 'Account Settings';
+
+  @override
+  String get personalInfoTitle => 'Personal Information';
+
+  @override
+  String get displayNameLabel => 'Display Name';
+
+  @override
+  String get createdAtLabel => 'Created At';
+
+  @override
+  String get passwordUpdateTitle => 'Password Update';
+
+  @override
+  String get currentPasswordLabel => 'Current Password';
+
+  @override
+  String get newPasswordLabel => 'New Password';
+
+  @override
+  String get confirmNewPasswordLabel => 'Confirm New Password';
+
+  @override
+  String get updatePasswordLabel => 'Update Password';
+
+  @override
+  String get externalProviderPasswordChangeDisabled =>
+      'This account was created using an external provider (e.g., Google, GitHub), so the password cannot be changed.';
+
+  @override
+  String get accountSettingsSubtitle =>
+      'Manage your account information and update your password.';
 }

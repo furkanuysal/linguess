@@ -1153,5 +1153,85 @@
   "adminClearAllLocalDataErrorSnackBar": "Beim Löschen lokaler Daten ist ein Fehler aufgetreten",
   "@adminClearAllLocalDataErrorSnackBar": {
     "description": "SnackBar shown when there is an error during the process of clearing all local data."
+  },
+  "errorPermissionDenied": "Berechtigung verweigert",
+  "@errorPermissionDenied": {
+    "description": "Error message shown when a permission request is denied"
+  },
+  "errorSessionExpired": "Sitzung abgelaufen, bitte erneut anmelden",
+  "@errorSessionExpired": {
+    "description": "Error message shown when the user's session has expired"
+  },
+  "errorInvalidSession": "Ungültige Sitzung, bitte erneut anmelden",
+  "@errorInvalidSession": {
+    "description": "Error message shown when the user's session is invalid"
+  },
+  "errorProfileUpdateFailed": "Profilaktualisierung fehlgeschlagen",
+  "@errorProfileUpdateFailed": {
+    "description": "Error message shown when the profile update process fails"
+  },
+  "errorRequiresRecentLogin": "Sensibler Vorgang erfordert kürzliche Anmeldung",
+  "@errorRequiresRecentLogin": {
+    "description": "Error message shown when a sensitive operation requires recent login"
+  },
+  "errorChangePasswordFailed": "Ändern des Passworts fehlgeschlagen",
+  "@errorChangePasswordFailed": {
+    "description": "Error message shown when the password change process fails"
+  },
+  "errorPasswordsDoNotMatch": "Passwörter stimmen nicht überein!",
+  "@errorPasswordsDoNotMatch": {
+    "description": "Error message shown when the new password and confirm password do not match"
+  },
+  "passwordChangeSuccessful": "Passwort erfolgreich geändert!",
+  "@passwordChangeSuccessful": {
+    "description": "Message shown when the password is changed successfully"
+  },
+  "profileUpdateSuccessful": "Profil erfolgreich aktualisiert!",
+  "@profileUpdateSuccessful": {
+    "description": "Message shown when the profile is updated successfully"
+  },
+  "accountSettingsTitle": "Kontoeinstellungen",
+  "@accountSettingsTitle": {
+    "description": "Title for the account settings page"
+  },
+  "personalInfoTitle": "Persönliche Informationen",
+  "@personalInfoTitle": {
+    "description": "Title for the personal information section"
+  },
+  "displayNameLabel": "Anzeigename",
+  "@displayNameLabel": {
+    "description": "Label for the display name input field"
+  },
+  "createdAtLabel": "Erstellt am",
+  "@createdAtLabel": {
+    "description": "Label for the account creation date"
+  },
+  "passwordUpdateTitle": "Passwortaktualisierung",
+  "@passwordUpdateTitle": {
+    "description": "Title for the password update section"
+  },
+  "currentPasswordLabel": "Aktuelles Passwort",
+  "@currentPasswordLabel": {
+    "description": "Label for the current password input field"
+  },
+  "newPasswordLabel": "Neues Passwort",
+  "@newPasswordLabel": {
+    "description": "Label for the new password input field"
+  },
+  "confirmNewPasswordLabel": "Neues Passwort bestätigen",
+  "@confirmNewPasswordLabel": {
+    "description": "Label for the confirm new password input field"
+  },
+  "updatePasswordLabel": "Passwort aktualisieren",
+  "@updatePasswordLabel": {
+    "description": "Label for the button to update the password"
+  },
+  "externalProviderPasswordChangeDisabled": "Dieses Konto wurde mit einem externen Anbieter (z. B. Google, GitHub) erstellt, sodass das Passwort nicht geändert werden kann.",
+  "@externalProviderPasswordChangeDisabled": {
+    "description": "Error message shown when trying to change the password of an account created with an external provider"
+  },
+   "accountSettingsSubtitle": "Verwalte deine Kontoinformationen und Sicherheitseinstellungen",
+  "@accountSettingsSubtitle": {
+    "description": "Subtitle for the account settings page"
   }
 }

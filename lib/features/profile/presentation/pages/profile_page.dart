@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
+import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/leveling/presentation/providers/leveling_provider.dart';
 import 'package:linguess/features/leveling/utils/xp_formula.dart';
 import 'package:linguess/features/profile/presentation/widgets/hint_usage_card.dart';
@@ -47,6 +48,7 @@ class ProfilePage extends ConsumerWidget {
                   return Center(child: Text(l10n.noDataToShow));
                 }
                 final data = snap.data() as Map<String, dynamic>;
+                final displayName = (data['displayName'] ?? '') as String;
                 final email = (data['email'] ?? '—') as String;
                 final gold = (data['gold'] ?? 0).toString();
 
@@ -54,7 +56,7 @@ class ProfilePage extends ConsumerWidget {
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
                   children: [
                     //Profile + Level Card
-                    _GradientCard(
+                    GradientCard(
                       child: Padding(
                         padding: const EdgeInsets.all(14),
                         child: Column(
@@ -85,7 +87,9 @@ class ProfilePage extends ConsumerWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        email,
+                                        displayName.isNotEmpty
+                                            ? displayName
+                                            : email,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
@@ -252,7 +256,7 @@ class ProfilePage extends ConsumerWidget {
                     const SizedBox(height: 8),
 
                     // Learned Words
-                    _GradientCard(
+                    GradientCard(
                       onTap: () => context.push('/learned-words'),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
@@ -277,7 +281,7 @@ class ProfilePage extends ConsumerWidget {
                     const SizedBox(height: 8),
 
                     // Achievements
-                    _GradientCard(
+                    GradientCard(
                       onTap: () => context.push('/achievements'),
                       child: ListTile(
                         contentPadding: const EdgeInsets.symmetric(
@@ -296,7 +300,7 @@ class ProfilePage extends ConsumerWidget {
                     const SizedBox(height: 8),
 
                     // Stats
-                    _GradientCard(
+                    GradientCard(
                       child: Consumer(
                         builder: (context, ref, _) {
                           final statsAsync = ref.watch(userStatsProvider);
@@ -376,6 +380,17 @@ class ProfilePage extends ConsumerWidget {
                         },
                       ),
                     ),
+                    const SizedBox(height: 8),
+                    GradientCard(
+                      onTap: () => context.push('/account-settings'),
+                      child: ListTile(
+                        leading: _iconBox(scheme, Icons.settings_outlined),
+                        title: Text(l10n.accountSettingsTitle),
+                        subtitle: Text(l10n.accountSettingsSubtitle),
+                        trailing: const Icon(Icons.chevron_right),
+                      ),
+                    ),
+
                     const SizedBox(height: 24),
 
                     // Sign Out
@@ -410,43 +425,6 @@ class ProfilePage extends ConsumerWidget {
       ),
       alignment: Alignment.center,
       child: Icon(icon, color: scheme.onSurface, size: 26),
-    );
-  }
-}
-
-// Gradient Card reusable widget
-class _GradientCard extends StatelessWidget {
-  const _GradientCard({required this.child, this.onTap});
-  final Widget child;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-
-    return Material(
-      elevation: 2,
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(16),
-      clipBehavior: Clip.antiAlias,
-      child: Ink(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [scheme.surface, scheme.surfaceContainerHigh],
-          ),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: InkWell(onTap: onTap, child: child),
-      ),
     );
   }
 }

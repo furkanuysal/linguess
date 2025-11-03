@@ -52,4 +52,38 @@ class AuthErrorMapper {
         return l10n.errorResetPasswordFailed;
     }
   }
+
+  static String updateProfile(FirebaseAuthException e, AppLocalizations l10n) {
+    switch (e.code) {
+      case 'permission-denied':
+        return l10n.errorPermissionDenied;
+      case 'network-request-failed':
+        return l10n.errorNetwork;
+      case 'unauthenticated':
+        return l10n.errorSessionExpired;
+      case 'invalid-user-token':
+        return l10n.errorInvalidSession;
+      default:
+        return l10n.errorProfileUpdateFailed;
+    }
+  }
+
+  static String changePassword(FirebaseAuthException e, AppLocalizations l10n) {
+    switch (e.code) {
+      case 'wrong-password':
+        return l10n.errorWrongPassword;
+      case 'weak-password':
+        return l10n.errorWeakPassword;
+      case 'requires-recent-login':
+        return l10n.errorRequiresRecentLogin;
+      case 'network-request-failed':
+        return l10n.errorNetwork;
+      case 'too-many-requests':
+        return l10n.errorTooManyRequests;
+      case 'user-not-found':
+        return l10n.errorUserNotFound;
+      default:
+        return l10n.errorChangePasswordFailed;
+    }
+  }
 }
