@@ -21,6 +21,7 @@ import 'package:linguess/features/home/presentation/widgets/home_selector.dart';
 import 'package:linguess/features/profile/presentation/pages/account_settings_page.dart';
 import 'package:linguess/features/profile/presentation/pages/learned_words_page.dart';
 import 'package:linguess/features/profile/presentation/pages/profile_page.dart';
+import 'package:linguess/features/shop/presentation/pages/shop_page.dart';
 
 // GoRouter için refresh helper
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -119,7 +120,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           return WordGamePage(modes: modes, filters: filters);
         },
       ),
-
+      GoRoute(path: '/shop', builder: (context, state) => const ShopPage()),
       GoRoute(
         path: '/profile',
         builder: (context, state) => const ProfilePage(),
