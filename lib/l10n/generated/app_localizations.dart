@@ -1782,6 +1782,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Hesap bilgilerinizi ve şifrenizi yönetin.'**
   String get accountSettingsSubtitle;
+
+  /// Title for the in-app shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza'**
+  String get shopTitle;
+
+  /// Label for the buy button in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın Al'**
+  String get buyLabel;
+
+  /// Label for the equip button in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuşan'**
+  String get equipLabel;
+
+  /// Label indicating that an item is currently equipped
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuşanıldı'**
+  String get equippedLabel;
 }
 
 class _AppLocalizationsDelegate

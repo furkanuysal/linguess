@@ -1233,5 +1233,21 @@
   "accountSettingsSubtitle": "Manage your account information and update your password.",
   "@accountSettingsSubtitle": {
     "description": "Subtitle for the account settings page"
+  },
+  "shopTitle": "Shop",
+  "@shopTitle": {
+    "description": "Title for the in-app shop page"
+  },
+  "buyLabel": "Buy",
+  "@buyLabel": {
+    "description": "Label for the buy button in the shop"
+  },
+  "equipLabel": "Equip",
+  "@equipLabel": {
+    "description": "Label for the equip button in the shop"
+  },
+  "equippedLabel": "Equipped",
+  "@equippedLabel": {
+    "description": "Label indicating that an item is currently equipped"
   }
 }

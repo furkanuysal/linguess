@@ -1233,5 +1233,21 @@
   "accountSettingsSubtitle": "Hesap bilgilerinizi ve şifrenizi yönetin.",
   "@accountSettingsSubtitle": {
     "description": "Subtitle for the account settings page"
+  },
+  "shopTitle": "Mağaza",
+  "@shopTitle": {
+    "description": "Title for the in-app shop"
+  },
+  "buyLabel": "Satın Al",
+  "@buyLabel": {
+    "description": "Label for the buy button in the shop"
+  },
+  "equipLabel": "Kuşan",
+  "@equipLabel": {
+    "description": "Label for the equip button in the shop"
+  },
+  "equippedLabel": "Kuşanıldı",
+  "@equippedLabel": {
+    "description": "Label indicating that an item is currently equipped"
   }
 }

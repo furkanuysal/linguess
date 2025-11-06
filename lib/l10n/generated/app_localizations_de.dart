@@ -954,4 +954,16 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get accountSettingsSubtitle =>
       'Verwalte deine Kontoinformationen und Sicherheitseinstellungen';
+
+  @override
+  String get shopTitle => 'Shop';
+
+  @override
+  String get buyLabel => 'Kaufen';
+
+  @override
+  String get equipLabel => 'Anlegen';
+
+  @override
+  String get equippedLabel => 'Angelegt';
 }

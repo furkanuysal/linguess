@@ -1230,8 +1230,24 @@
   "@externalProviderPasswordChangeDisabled": {
     "description": "Error message shown when trying to change the password of an account created with an external provider"
   },
-   "accountSettingsSubtitle": "Verwalte deine Kontoinformationen und Sicherheitseinstellungen",
+  "accountSettingsSubtitle": "Verwalte deine Kontoinformationen und Sicherheitseinstellungen",
   "@accountSettingsSubtitle": {
     "description": "Subtitle for the account settings page"
+  },
+  "shopTitle": "Shop",
+  "@shopTitle": {
+    "description": "Title for the in-app shop page"
+  },
+  "buyLabel": "Kaufen",
+  "@buyLabel": {
+    "description": "Label for the buy button in the shop"
+  },
+  "equipLabel": "Anlegen",
+  "@equipLabel": {
+    "description": "Label for the equip button in the shop"
+  },
+  "equippedLabel": "Angelegt",
+  "@equippedLabel": {
+    "description": "Label indicating that an item is currently equipped"
   }
 }

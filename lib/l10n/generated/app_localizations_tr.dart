@@ -943,4 +943,16 @@ class AppLocalizationsTr extends AppLocalizations {
   @override
   String get accountSettingsSubtitle =>
       'Hesap bilgilerinizi ve şifrenizi yönetin.';
+
+  @override
+  String get shopTitle => 'Mağaza';
+
+  @override
+  String get buyLabel => 'Satın Al';
+
+  @override
+  String get equipLabel => 'Kuşan';
+
+  @override
+  String get equippedLabel => 'Kuşanıldı';
 }

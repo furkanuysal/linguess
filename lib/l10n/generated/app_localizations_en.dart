@@ -936,4 +936,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get accountSettingsSubtitle =>
       'Manage your account information and update your password.';
+
+  @override
+  String get shopTitle => 'Shop';
+
+  @override
+  String get buyLabel => 'Buy';
+
+  @override
+  String get equipLabel => 'Equip';
+
+  @override
+  String get equippedLabel => 'Equipped';
 }
