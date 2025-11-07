@@ -966,4 +966,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get equippedLabel => 'Angelegt';
+
+  @override
+  String get purchaseSuccessful => 'Kauf erfolgreich!';
 }

@@ -955,4 +955,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get equippedLabel => 'Kuşanıldı';
+
+  @override
+  String get purchaseSuccessful => 'Satın alma işlemi başarılı!';
 }

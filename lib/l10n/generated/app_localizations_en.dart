@@ -948,4 +948,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get equippedLabel => 'Equipped';
+
+  @override
+  String get purchaseSuccessful => 'Purchase successful!';
 }

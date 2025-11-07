@@ -1806,6 +1806,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Kuşanıldı'**
   String get equippedLabel;
+
+  /// Message shown when a purchase is successful
+  ///
+  /// In tr, this message translates to:
+  /// **'Satın alma işlemi başarılı!'**
+  String get purchaseSuccessful;
 }
 
 class _AppLocalizationsDelegate

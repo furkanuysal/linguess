@@ -970,4 +970,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get equippedLabel => 'Equipado';
+
+  @override
+  String get purchaseSuccessful => '¡Compra exitosa!';
 }

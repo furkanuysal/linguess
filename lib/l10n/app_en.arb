@@ -1249,5 +1249,9 @@
   "equippedLabel": "Equipped",
   "@equippedLabel": {
     "description": "Label indicating that an item is currently equipped"
+  },
+  "purchaseSuccessful": "Purchase successful!",
+  "@purchaseSuccessful": {
+    "description": "Message shown when a purchase is successful"
   }
 }
