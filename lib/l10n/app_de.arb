@@ -156,6 +156,10 @@
   "@settingsDarkMode": {
     "description": "Label for the setting to enable or disable dark mode"
   },
+  "settingsUseGameAvatar": "Spiel-Avatar verwenden",
+  "@settingsUseGameAvatar": {
+    "description": "Label for the setting to enable or disable the use of the game avatar"
+  },
   "mainMenuPlayModeSelection": "Wählen Sie einen Spielmodus",
   "@mainMenuPlayModeSelection": {
     "description": "Label for the main menu where the user selects a game mode"
@@ -1253,5 +1257,13 @@
   "purchaseSuccessful": "Kauf erfolgreich!",
   "@purchaseSuccessful": {
     "description": "Message shown when a purchase is successful"
+  },
+  "signInToBuyItems": "Melde dich an, um Artikel zu kaufen.",
+  "@signInToBuyItems": {
+    "description": "Message prompting the user to sign in to buy items"
+  },
+  "signInToEquipItems": "Melde dich an, um Artikel auszurüsten.",
+  "@signInToEquipItems": {
+    "description": "Message prompting the user to sign in to equip items"
   }
 }

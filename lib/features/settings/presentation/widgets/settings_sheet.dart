@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/core/utils/platform_utils.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -30,6 +32,8 @@ class SettingsSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncState = ref.watch(settingsControllerProvider);
+    final user = FirebaseAuth.instance.currentUser;
+    final isPwordUser = isPasswordUser(user);
     final l10n = AppLocalizations.of(context)!;
 
     const appLangs = [
@@ -184,6 +188,16 @@ class SettingsSheet extends ConsumerWidget {
                 ref.read(settingsControllerProvider.notifier).setDarkMode(val);
               },
             ),
+            if (!isPwordUser)
+              SwitchListTile(
+                title: Text(l10n.settingsUseGameAvatar),
+                value: settings.useGameAvatar,
+                onChanged: (val) {
+                  ref
+                      .read(settingsControllerProvider.notifier)
+                      .setUseGameAvatar(val);
+                },
+              ),
           ],
         ),
       ),

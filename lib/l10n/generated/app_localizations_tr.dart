@@ -123,7 +123,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get learnedCountText => 'Kelime Öğrenildi';
 
   @override
-  String get settingsDarkMode => 'Karanlık Mod';
+  String get settingsDarkMode => 'Karanlık mod';
+
+  @override
+  String get settingsUseGameAvatar => 'Oyundaki avatarı kullan';
 
   @override
   String get mainMenuPlayModeSelection => 'Bir oyun türü seçin';
@@ -958,4 +961,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get purchaseSuccessful => 'Satın alma işlemi başarılı!';
+
+  @override
+  String get signInToBuyItems => 'Öğeleri satın almak için giriş yapın.';
+
+  @override
+  String get signInToEquipItems => 'Öğeleri kuşanmak için giriş yapın.';
 }

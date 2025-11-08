@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/core/utils/auth_utils.dart';
+import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_header.dart';
@@ -16,6 +18,17 @@ class ShopPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
+
+    final user = currentUser();
+
+    // If user is null, invalidate inventory and avatar providers to reset state
+    if (user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(inventoryProvider);
+        ref.invalidate(avatarImageProvider);
+        ref.invalidate(avatarFrameProvider);
+      });
+    }
 
     final itemsAsync = ref.watch(shopItemsProvider);
     final invAsync = ref.watch(inventoryProvider);
@@ -37,7 +50,7 @@ class ShopPage extends ConsumerWidget {
           SafeArea(
             child: Column(
               children: [
-                // User Info Header
+                // Header
                 statsAsync.when(
                   data: (stats) => ShopHeader(
                     gold: stats['gold'] ?? 0,
@@ -47,13 +60,10 @@ class ShopPage extends ConsumerWidget {
                     padding: EdgeInsets.symmetric(vertical: 12),
                     child: CircularProgressIndicator(),
                   ),
-                  error: (e, _) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: Text('Error: $e'),
-                  ),
+                  error: (_, _) => const SizedBox.shrink(),
                 ),
 
-                // Shop Items Grid
+                // Shop Grid
                 Expanded(
                   child: itemsAsync.when(
                     data: (items) => invAsync.when(
@@ -74,13 +84,17 @@ class ShopPage extends ConsumerWidget {
                             itemBuilder: (_, i) {
                               final item = items[i];
 
-                              final isOwned = inv.any(
-                                (e) => e['id'] == item.id,
-                              );
-                              final isEquipped = inv.any(
-                                (e) =>
-                                    e['id'] == item.id && e['equipped'] == true,
-                              );
+                              // If user is null, no item is considered owned/equipped
+                              final isOwned =
+                                  user != null &&
+                                  inv.any((e) => e['id'] == item.id);
+                              final isEquipped =
+                                  user != null &&
+                                  inv.any(
+                                    (e) =>
+                                        e['id'] == item.id &&
+                                        e['equipped'] == true,
+                                  );
 
                               return ShopItemCard(
                                 item: item,
@@ -88,6 +102,16 @@ class ShopPage extends ConsumerWidget {
                                 isOwned: isOwned,
                                 isEquipped: isEquipped,
                                 onBuy: () async {
+                                  if (user == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(l10n.signInToBuyItems),
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                    );
+                                    return;
+                                  }
+
                                   final repo = ref.read(
                                     inventoryRepositoryProvider,
                                   );
@@ -119,11 +143,23 @@ class ShopPage extends ConsumerWidget {
                                   }
                                 },
                                 onEquip: () async {
+                                  if (user == null) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(l10n.signInToEquipItems),
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                    );
+                                    return;
+                                  }
+
                                   final repo = ref.read(
                                     inventoryRepositoryProvider,
                                   );
                                   await repo.equipItem(item.id, item.type);
                                   ref.invalidate(inventoryProvider);
+                                  ref.invalidate(avatarImageProvider);
+                                  ref.invalidate(avatarFrameProvider);
                                 },
                               );
                             },

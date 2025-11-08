@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog.dart';
+import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
+import 'package:linguess/features/auth/presentation/widgets/equipped_avatar.dart';
 import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/core/sfx/sfx_button.dart';
@@ -25,6 +27,19 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    final user = currentUser();
+
+    if (user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ref.invalidate(avatarImageProvider);
+        ref.invalidate(avatarFrameProvider);
+      });
+    }
+
+    final statusDot = user == null ? scheme.outline : Colors.greenAccent;
+    final statusLabel = user == null ? l10n.signIn : l10n.profile;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -44,7 +59,6 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                     Icons.ondemand_video,
                     color: scheme.primary.withValues(alpha: 0.80),
                   ),
-                  // Small "Ad" badge
                   Positioned(
                     right: -2,
                     top: -2,
@@ -83,7 +97,6 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                 await ads.showRewardedInterstitialAd(
                   context,
                   onReward: (amount, type) async {
-                    // amount => AdsService.rewardAmount (50), type => 'gold'
                     await ref
                         .read(economyServiceProvider)
                         .grantAdRewardGold(amount);
@@ -99,93 +112,54 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
               },
             ),
           ),
+
           // Profile / Sign-in AppBar action
-          StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snap) {
-              final user = snap.data;
-              final scheme = Theme.of(context).colorScheme;
-              final isDark = Theme.of(context).brightness == Brightness.dark;
-
-              final hasPhoto =
-                  (user?.photoURL != null && user!.photoURL!.isNotEmpty);
-
-              // Avatar ring color
-              final ringColor = user == null
-                  ? scheme.surfaceContainerHighest
-                  : scheme.primary;
-
-              // Bottom right status dot
-              Color statusDot = user == null
-                  ? scheme.outline
-                  : Colors.greenAccent;
-              String statusLabel = user == null ? l10n.signIn : l10n.profile;
-
-              return Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: SfxIconButton(
-                  tooltip: statusLabel,
-                  icon: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      // Outer ring + avatar
-                      Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(color: ringColor, width: 2),
-                        ),
-                        child: CircleAvatar(
-                          radius: 14,
-                          backgroundColor: scheme.surfaceContainerHigh,
-                          // If no photo, show icon
-                          foregroundImage: hasPhoto
-                              ? NetworkImage(user.photoURL!)
-                              : null,
-                          child: hasPhoto
-                              ? null
-                              : Icon(
-                                  user == null
-                                      ? Icons.person_add_alt
-                                      : Icons.person,
-                                  size: 18,
-                                  color: scheme.primary,
-                                ),
-                        ),
-                      ),
-
-                      // Bottom right status dot
-                      Positioned(
-                        right: -2,
-                        bottom: -2,
-                        child: Container(
-                          width: 10,
-                          height: 10,
-                          decoration: BoxDecoration(
-                            color: statusDot,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: isDark ? scheme.surface : scheme.primary,
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: SfxIconButton(
+              tooltip: statusLabel,
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const EquippedAvatar(
+                    size: 40,
+                    iconSize: 24,
+                    innerPaddingWhenFramed: 8,
+                    showRingFallback: true,
+                    borderWidth: 2,
                   ),
-                  onPressed: () {
-                    if (user == null) {
-                      context.push('/signIn');
-                    } else {
-                      context.push('/profile');
-                    }
-                  },
-                ),
-              );
-            },
+                  // Status dot
+                  Positioned(
+                    right: -2,
+                    bottom: -2,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        color: statusDot,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isDark ? scheme.surface : scheme.primary,
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              onPressed: () {
+                if (user == null) {
+                  context.push('/signIn');
+                } else {
+                  context.push('/profile');
+                }
+              },
+            ),
           ),
         ],
       ),
+
+      // Floating Admin Debug Button
       floatingActionButton: Consumer(
         builder: (context, ref, _) {
           final isAdminAsync = ref.watch(isAdminProvider);
@@ -206,6 +180,8 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
           );
         },
       ),
+
+      // Body
       body: Stack(
         fit: StackFit.expand,
         children: [

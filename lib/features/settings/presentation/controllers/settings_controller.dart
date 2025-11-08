@@ -7,6 +7,7 @@ const _kSoundKey = 'soundEffects';
 const _kDarkModeKey = 'darkMode';
 const _kAppLangKey = 'appLangCode';
 const _kTargetLangKey = 'targetLangCode';
+const _kUseGameAvatarKey = 'useGameAvatar';
 
 final settingsControllerProvider =
     AsyncNotifierProvider<SettingsController, SettingsState>(
@@ -25,6 +26,7 @@ class SettingsController extends AsyncNotifier<SettingsState> {
     final darkMode = _prefs.getBool(_kDarkModeKey) ?? false;
     final appLangCode = _prefs.getString(_kAppLangKey) ?? 'tr';
     final targetLangCode = _prefs.getString(_kTargetLangKey) ?? 'en';
+    final useGameAvatar = _prefs.getBool(_kUseGameAvatarKey) ?? false;
 
     return SettingsState(
       repeatLearnedWords: repeat,
@@ -32,6 +34,7 @@ class SettingsController extends AsyncNotifier<SettingsState> {
       darkMode: darkMode,
       appLangCode: appLangCode,
       targetLangCode: targetLangCode,
+      useGameAvatar: useGameAvatar,
     );
   }
 
@@ -68,5 +71,12 @@ class SettingsController extends AsyncNotifier<SettingsState> {
     if (current == null) return;
     state = AsyncData(current.copyWith(targetLangCode: value));
     await _prefs.setString(_kTargetLangKey, value);
+  }
+
+  Future<void> setUseGameAvatar(bool value) async {
+    final current = state.value;
+    if (current == null) return;
+    state = AsyncData(current.copyWith(useGameAvatar: value));
+    await _prefs.setBool(_kUseGameAvatarKey, value);
   }
 }

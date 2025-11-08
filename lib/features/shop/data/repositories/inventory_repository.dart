@@ -120,4 +120,29 @@ class InventoryRepository {
 
     await ref.update({'equipped': false});
   }
+
+  // Fetch equipped item URL
+  Future<String?> fetchEquippedItemUrl(String type) async {
+    final userInv = _firestore
+        .collection('users')
+        .doc(_uid)
+        .collection('inventory');
+
+    // Find equipped item by type (e.g. avatar, frame, badge, etc.)
+    final invSnap = await userInv
+        .where('type', isEqualTo: type)
+        .where('equipped', isEqualTo: true)
+        .limit(1)
+        .get();
+
+    if (invSnap.docs.isEmpty) return null;
+
+    final equippedId = invSnap.docs.first.id;
+    final shopSnap = await _firestore.collection('shop').doc(equippedId).get();
+
+    if (!shopSnap.exists) return null;
+
+    final data = shopSnap.data()!;
+    return data['iconUrl'] ?? data['url'] ?? data['asset'];
+  }
 }

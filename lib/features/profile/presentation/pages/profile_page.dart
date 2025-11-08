@@ -5,6 +5,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/features/auth/presentation/widgets/equipped_avatar.dart';
 import 'package:linguess/features/leveling/presentation/providers/leveling_provider.dart';
 import 'package:linguess/features/leveling/utils/xp_formula.dart';
 import 'package:linguess/features/profile/presentation/widgets/hint_usage_card.dart';
@@ -65,20 +66,12 @@ class ProfilePage extends ConsumerWidget {
                             // User Info
                             Row(
                               children: [
-                                Container(
-                                  width: 44,
-                                  height: 44,
-                                  decoration: BoxDecoration(
-                                    color: scheme.surfaceContainerHighest
-                                        .withValues(alpha: 0.35),
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    Icons.person_outline,
-                                    color: scheme.onSurface,
-                                    size: 26,
-                                  ),
+                                // Equipped Avatar
+                                const EquippedAvatar(
+                                  size: 64,
+                                  iconSize: 30,
+                                  innerPaddingWhenFramed: 12,
+                                  showRingFallback: false,
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(

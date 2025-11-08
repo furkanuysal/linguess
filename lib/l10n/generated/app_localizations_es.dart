@@ -129,6 +129,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsDarkMode => 'Modo oscuro';
 
   @override
+  String get settingsUseGameAvatar => 'Usar avatar del juego';
+
+  @override
   String get mainMenuPlayModeSelection => 'Selecciona un modo de juego';
 
   @override
@@ -973,4 +976,10 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get purchaseSuccessful => '¡Compra exitosa!';
+
+  @override
+  String get signInToBuyItems => 'Inicia sesión para comprar artículos.';
+
+  @override
+  String get signInToEquipItems => 'Inicia sesión para equipar artículos.';
 }

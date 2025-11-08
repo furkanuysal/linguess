@@ -333,8 +333,14 @@ abstract class AppLocalizations {
   /// Label for the setting to enable or disable dark mode
   ///
   /// In tr, this message translates to:
-  /// **'Karanlık Mod'**
+  /// **'Karanlık mod'**
   String get settingsDarkMode;
+
+  /// Label for the setting to use in-game avatar
+  ///
+  /// In tr, this message translates to:
+  /// **'Oyundaki avatarı kullan'**
+  String get settingsUseGameAvatar;
 
   /// Label for the main menu where the user selects a game mode
   ///
@@ -1812,6 +1818,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Satın alma işlemi başarılı!'**
   String get purchaseSuccessful;
+
+  /// Message prompting the user to sign in to buy items
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğeleri satın almak için giriş yapın.'**
+  String get signInToBuyItems;
+
+  /// Message prompting the user to sign in to equip items
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğeleri kuşanmak için giriş yapın.'**
+  String get signInToEquipItems;
 }
 
 class _AppLocalizationsDelegate

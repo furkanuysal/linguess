@@ -4,6 +4,7 @@ class SettingsState {
   final bool darkMode;
   final String appLangCode;
   final String targetLangCode;
+  final bool useGameAvatar;
 
   const SettingsState({
     required this.repeatLearnedWords,
@@ -11,6 +12,7 @@ class SettingsState {
     required this.darkMode,
     required this.appLangCode,
     required this.targetLangCode,
+    required this.useGameAvatar,
   });
 
   SettingsState copyWith({
@@ -19,6 +21,7 @@ class SettingsState {
     bool? darkMode,
     String? appLangCode,
     String? targetLangCode,
+    bool? useGameAvatar,
   }) {
     return SettingsState(
       repeatLearnedWords: repeatLearnedWords ?? this.repeatLearnedWords,
@@ -26,6 +29,7 @@ class SettingsState {
       darkMode: darkMode ?? this.darkMode,
       appLangCode: appLangCode ?? this.appLangCode,
       targetLangCode: targetLangCode ?? this.targetLangCode,
+      useGameAvatar: useGameAvatar ?? this.useGameAvatar,
     );
   }
 }

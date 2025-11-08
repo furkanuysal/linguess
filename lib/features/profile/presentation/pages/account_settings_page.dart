@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/core/utils/date_utils.dart';
 import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
@@ -117,9 +118,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
     final scheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
-    final isPasswordUser =
-        user?.providerData.any((info) => info.providerId == 'password') ??
-        false;
+    final isPwordUser = isPasswordUser(user);
 
     final userDataAsync = ref.watch(userDataProvider);
 
@@ -245,7 +244,7 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
                     const SizedBox(height: 20),
                     _sectionTitle(l10n.passwordUpdateTitle),
                     const SizedBox(height: 6),
-                    if (isPasswordUser) ...[
+                    if (isPwordUser) ...[
                       GradientCard(
                         child: Padding(
                           padding: const EdgeInsets.all(14),
