@@ -25,17 +25,33 @@ class LevelUpToastController extends Notifier<LevelUpEvent?> {
     _userUid = ref.read(authServiceProvider).currentUser?.uid;
     _initLastLevel();
 
-    // Always listen for leveling changes
-    ref.listen<AsyncValue<LevelingModel?>>(levelingProvider, (prev, next) {
+    // Listen to levelingProvider changes
+    ref.listen<AsyncValue<LevelingModel?>>(levelingProvider, (
+      prev,
+      next,
+    ) async {
       if (next.isLoading || next.hasError) return;
+
       final current = next.value?.level;
       if (current == null) return;
 
-      final previous = _lastLevel ?? prev?.value?.level ?? current;
+      // Read last saved level from SharedPreferences based on UID
+      final prefs = await SharedPreferences.getInstance();
+      final uid = ref.read(authServiceProvider).currentUser?.uid;
+      final prefsKey = uid != null
+          ? 'user_${uid}_last_level'
+          : 'last_known_level';
+      final savedLevel = prefs.getInt(prefsKey);
 
+      // Calculate the actual previous level
+      final previous =
+          savedLevel ?? _lastLevel ?? prev?.value?.level ?? current;
+
+      // Detect level-up
       if (current > previous) {
         _lastLevel = current;
-        _saveLastLevel(current);
+        await prefs.setInt(prefsKey, current);
+
         final ev = LevelUpEvent(
           id: DateTime.now().microsecondsSinceEpoch.toString(),
           from: previous,
@@ -44,6 +60,7 @@ class LevelUpToastController extends Notifier<LevelUpEvent?> {
         _show(ev);
       } else {
         _lastLevel = current;
+        await prefs.setInt(prefsKey, current);
       }
     });
 
@@ -57,17 +74,11 @@ class LevelUpToastController extends Notifier<LevelUpEvent?> {
   // Initialize last known level from SharedPreferences
   Future<void> _initLastLevel() async {
     final prefs = await SharedPreferences.getInstance();
-    _lastLevel =
-        prefs.getInt(_prefsKey) ?? ref.read(levelingProvider).value?.level ?? 1;
+    final fromPrefs = prefs.getInt(_prefsKey);
+    final fromProvider = ref.read(levelingProvider).value?.level;
+    _lastLevel = fromPrefs ?? fromProvider ?? 1;
   }
 
-  // Save last known level to SharedPreferences
-  Future<void> _saveLastLevel(int level) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt(_prefsKey, level);
-  }
-
-  // Show toast for a defined duration
   void _show(LevelUpEvent ev) {
     state = ev;
     Future.delayed(const Duration(seconds: 4), () {
