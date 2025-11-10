@@ -1830,6 +1830,36 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Öğeleri kuşanmak için giriş yapın.'**
   String get signInToEquipItems;
+
+  /// Message shown when there are no items available in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Mevcut öğe yok'**
+  String get noItemsAvailable;
+
+  /// Label for the avatars section in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Avatarlar'**
+  String get avatarsLabel;
+
+  /// Label for the frames section in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Çerçeveler'**
+  String get framesLabel;
+
+  /// Label for the backgrounds section in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Arka Planlar'**
+  String get backgroundsLabel;
+
+  /// Label for the other items section in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Diğer Öğeler'**
+  String get otherItemsLabel;
 }
 
 class _AppLocalizationsDelegate

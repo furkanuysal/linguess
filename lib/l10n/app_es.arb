@@ -1265,5 +1265,25 @@
   "signInToEquipItems": "Inicia sesión para equipar artículos.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "noItemsAvailable": "No hay artículos disponibles",
+  "@noItemsAvailable": {
+    "description": "Message shown when there are no items available in the shop"
+  },
+  "avatarsLabel": "Avatares",
+  "@avatarsLabel": {
+    "description": "Label for the avatars section in the shop"
+  },
+  "framesLabel": "Marcos",
+  "@framesLabel": {
+    "description": "Label for the frames section in the shop"
+  },
+  "backgroundsLabel": "Fondos",
+  "@backgroundsLabel": {
+    "description": "Label for the backgrounds section in the shop"
+  },
+  "otherItemsLabel": "Otros artículos",
+  "@otherItemsLabel": {
+    "description": "Label for the other items section in the shop"
   }
 }

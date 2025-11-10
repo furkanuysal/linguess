@@ -1265,5 +1265,25 @@
   "signInToEquipItems": "Melde dich an, um Artikel auszurüsten.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "noItemsAvailable": "Keine Artikel verfügbar",
+  "@noItemsAvailable": {
+    "description": "Message shown when there are no items available in the shop"
+  },
+  "avatarsLabel": "Avatare",
+  "@avatarsLabel": {
+    "description": "Label for the avatars section in the shop"
+  },
+  "framesLabel": "Rahmen",
+  "@framesLabel": {
+    "description": "Label for the frames section in the shop"
+  },
+  "backgroundsLabel": "Hintergründe",
+  "@backgroundsLabel": {
+    "description": "Label for the backgrounds section in the shop"
+  },
+  "otherItemsLabel": "Andere Artikel",
+  "@otherItemsLabel": {
+    "description": "Label for the other items section in the shop"
   }
 }

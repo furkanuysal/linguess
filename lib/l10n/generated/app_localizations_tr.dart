@@ -967,4 +967,19 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Öğeleri kuşanmak için giriş yapın.';
+
+  @override
+  String get noItemsAvailable => 'Mevcut öğe yok';
+
+  @override
+  String get avatarsLabel => 'Avatarlar';
+
+  @override
+  String get framesLabel => 'Çerçeveler';
+
+  @override
+  String get backgroundsLabel => 'Arka Planlar';
+
+  @override
+  String get otherItemsLabel => 'Diğer Öğeler';
 }

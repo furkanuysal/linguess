@@ -84,6 +84,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.centerTitle = true,
     this.leading,
     this.actions,
+    this.bottom,
+    this.titleSpacing,
+    this.leadingWidth,
   });
 
   final String title;
@@ -91,6 +94,9 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool centerTitle;
   final Widget? leading;
   final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
+  final double? titleSpacing;
+  final double? leadingWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +105,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.transparent,
+      titleSpacing: titleSpacing,
       centerTitle: centerTitle,
       leading: leading,
+      leadingWidth: leadingWidth,
+      actions: actions,
+      bottom: bottom,
       title: Column(
         children: [
           Text(
@@ -143,12 +153,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      actions: actions,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize {
+    final bottomHeight = bottom?.preferredSize.height ?? 0;
+    return Size.fromHeight(kToolbarHeight + bottomHeight);
+  }
 }
 
 class WebAppBar extends StatelessWidget implements PreferredSizeWidget {

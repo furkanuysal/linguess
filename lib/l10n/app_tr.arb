@@ -1265,5 +1265,25 @@
   "signInToEquipItems": "Öğeleri kuşanmak için giriş yapın.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "noItemsAvailable": "Mevcut öğe yok",
+  "@noItemsAvailable": {
+    "description": "Message shown when there are no items available in the shop"
+  },
+  "avatarsLabel": "Avatarlar",
+  "@avatarsLabel": {
+    "description": "Label for the avatars section in the shop"
+  },
+  "framesLabel": "Çerçeveler",
+  "@framesLabel": {
+    "description": "Label for the frames section in the shop"
+  },
+  "backgroundsLabel": "Arka Planlar",
+  "@backgroundsLabel": {
+    "description": "Label for the backgrounds section in the shop"
+  },
+  "otherItemsLabel": "Diğer Öğeler",
+  "@otherItemsLabel": {
+    "description": "Label for the other items section in the shop"
   }
 }

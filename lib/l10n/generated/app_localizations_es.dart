@@ -982,4 +982,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Inicia sesión para equipar artículos.';
+
+  @override
+  String get noItemsAvailable => 'No hay artículos disponibles';
+
+  @override
+  String get avatarsLabel => 'Avatares';
+
+  @override
+  String get framesLabel => 'Marcos';
+
+  @override
+  String get backgroundsLabel => 'Fondos';
+
+  @override
+  String get otherItemsLabel => 'Otros artículos';
 }

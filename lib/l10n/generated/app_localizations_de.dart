@@ -978,4 +978,19 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Melde dich an, um Artikel auszurüsten.';
+
+  @override
+  String get noItemsAvailable => 'Keine Artikel verfügbar';
+
+  @override
+  String get avatarsLabel => 'Avatare';
+
+  @override
+  String get framesLabel => 'Rahmen';
+
+  @override
+  String get backgroundsLabel => 'Hintergründe';
+
+  @override
+  String get otherItemsLabel => 'Andere Artikel';
 }

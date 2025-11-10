@@ -960,4 +960,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Sign in to equip items.';
+
+  @override
+  String get noItemsAvailable => 'No items available';
+
+  @override
+  String get avatarsLabel => 'Avatars';
+
+  @override
+  String get framesLabel => 'Frames';
+
+  @override
+  String get backgroundsLabel => 'Backgrounds';
+
+  @override
+  String get otherItemsLabel => 'Other Items';
 }
