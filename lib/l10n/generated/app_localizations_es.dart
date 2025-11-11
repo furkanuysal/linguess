@@ -997,4 +997,12 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get otherItemsLabel => 'Otros artículos';
+
+  @override
+  String levelTooLow(int level) {
+    return 'Necesitas alcanzar el nivel $level para comprar este artículo.';
+  }
+
+  @override
+  String get itemAlreadyOwned => '¡Ya posees este artículo!';
 }

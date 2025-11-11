@@ -993,4 +993,12 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get otherItemsLabel => 'Andere Artikel';
+
+  @override
+  String levelTooLow(int level) {
+    return 'Dein Level ist zu niedrig, um diesen Artikel zu kaufen. Erreiche Level $level, um ihn freizuschalten.';
+  }
+
+  @override
+  String get itemAlreadyOwned => 'Du besitzt diesen Artikel bereits.';
 }

@@ -1285,5 +1285,19 @@
   "otherItemsLabel": "Other Items",
   "@otherItemsLabel": {
     "description": "Label for the other items section in the shop"
+  },
+  "levelTooLow": "You need to reach level {level} to buy this item.",
+  "@levelTooLow": {
+    "description": "Message shown when the user's level is too low to buy something.",
+    "placeholders": {
+      "level": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "itemAlreadyOwned": "You already own this item.",
+  "@itemAlreadyOwned": {
+    "description": "Message shown when the user tries to buy an item they already own"
   }
 }

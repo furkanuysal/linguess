@@ -975,4 +975,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get otherItemsLabel => 'Other Items';
+
+  @override
+  String levelTooLow(int level) {
+    return 'You need to reach level $level to buy this item.';
+  }
+
+  @override
+  String get itemAlreadyOwned => 'You already own this item.';
 }

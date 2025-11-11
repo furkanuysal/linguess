@@ -8,9 +8,12 @@ import 'package:linguess/features/game/data/providers/availability_provider.dart
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/sufficiency_provider.dart';
+import 'package:linguess/features/game/presentation/controllers/category_controller.dart';
 import 'package:linguess/features/game/presentation/widgets/category_card.dart';
 import 'package:linguess/features/game/presentation/widgets/category_list_tile.dart';
 import 'package:linguess/features/game/presentation/widgets/gradient_choice_chip.dart';
+import 'package:linguess/features/game/presentation/widgets/locked_category_widgets/locked_category_card.dart';
+import 'package:linguess/features/game/presentation/widgets/locked_category_widgets/locked_category_tile.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -558,7 +561,8 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
   }
 
   Widget _buildGrid(List categories, String appLang) {
-    final refLocal = ref;
+    final controller = ref.watch(categoryControllerProvider);
+
     return GridView.builder(
       key: const ValueKey('gridView'),
       physics: const AlwaysScrollableScrollPhysics(),
@@ -574,34 +578,56 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
         final isSelected = category.id == selectedCategoryId;
 
         final enabled = isCombinationEnabled(
-          ref: refLocal,
+          ref: ref,
           categoryId: category.id,
           levelId: selectedLevelId,
           selectedMode: selectedMode,
         );
 
-        return Opacity(
-          opacity: enabled ? 1 : 0.45,
-          child: IgnorePointer(
-            ignoring: !enabled,
-            child: CategoryCard(
-              id: category.id,
-              title: category.titleFor(appLang),
-              iconCodePoint: category.icon,
-              isSelected: isSelected,
-              onTap: () => setState(() {
-                selectedCategoryId = category.id;
-              }),
-              showProgress: true,
+        final isBuyable = controller.isBuyable(category.id);
+        final isOwned = controller.isOwned(category.id);
+        final price = controller.getPrice(category.id);
+
+        if (isBuyable && !isOwned) {
+          return Opacity(
+            opacity: enabled ? 1 : 0.45,
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: LockedCategoryCard(
+                title: category.titleFor(appLang),
+                price: price,
+                iconCodePoint: category.icon,
+                onBuy: () async {
+                  await controller.buyCategory(context, category.id);
+                },
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return Opacity(
+            opacity: enabled ? 1 : 0.45,
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: CategoryCard(
+                id: category.id,
+                title: category.titleFor(appLang),
+                iconCodePoint: category.icon,
+                isSelected: isSelected,
+                onTap: () => setState(() {
+                  selectedCategoryId = category.id;
+                }),
+                showProgress: true,
+              ),
+            ),
+          );
+        }
       },
     );
   }
 
   Widget _buildList(List categories, String appLang) {
-    final refLocal = ref;
+    final controller = ref.watch(categoryControllerProvider);
+
     return ListView.builder(
       key: const ValueKey('listView'),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -611,27 +637,48 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
         final isSelected = category.id == selectedCategoryId;
 
         final enabled = isCombinationEnabled(
-          ref: refLocal,
+          ref: ref,
           categoryId: category.id,
           levelId: selectedLevelId,
           selectedMode: selectedMode,
         );
 
-        return Opacity(
-          opacity: enabled ? 1 : 0.45,
-          child: IgnorePointer(
-            ignoring: !enabled,
-            child: CategoryListTile(
-              id: category.id,
-              title: category.titleFor(appLang),
-              iconCodePoint: category.icon,
-              isSelected: isSelected,
-              onTap: () => setState(() {
-                selectedCategoryId = category.id;
-              }),
+        final isBuyable = controller.isBuyable(category.id);
+        final isOwned = controller.isOwned(category.id);
+        final price = controller.getPrice(category.id);
+
+        if (isBuyable && !isOwned) {
+          return Opacity(
+            opacity: enabled ? 1 : 0.45,
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: LockedCategoryTile(
+                title: category.titleFor(appLang),
+                price: price,
+                iconCodePoint: category.icon,
+                onBuy: () async {
+                  await controller.buyCategory(context, category.id);
+                },
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return Opacity(
+            opacity: enabled ? 1 : 0.45,
+            child: IgnorePointer(
+              ignoring: !enabled,
+              child: CategoryListTile(
+                id: category.id,
+                title: category.titleFor(appLang),
+                iconCodePoint: category.icon,
+                isSelected: isSelected,
+                onTap: () => setState(() {
+                  selectedCategoryId = category.id;
+                }),
+              ),
+            ),
+          );
+        }
       },
     );
   }

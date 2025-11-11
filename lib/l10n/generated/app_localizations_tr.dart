@@ -982,4 +982,12 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get otherItemsLabel => 'Diğer Öğeler';
+
+  @override
+  String levelTooLow(int level) {
+    return 'Bu öğeyi satın almak için seviye $level olmalısınız.';
+  }
+
+  @override
+  String get itemAlreadyOwned => 'Bu öğeye zaten sahipsiniz.';
 }

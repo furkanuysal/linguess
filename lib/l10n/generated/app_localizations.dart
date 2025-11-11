@@ -1860,6 +1860,18 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Diğer Öğeler'**
   String get otherItemsLabel;
+
+  /// Message shown when the user's level is too low to buy something.
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu öğeyi satın almak için seviye {level} olmalısınız.'**
+  String levelTooLow(int level);
+
+  /// Message shown when the user tries to buy an item they already own
+  ///
+  /// In tr, this message translates to:
+  /// **'Bu öğeye zaten sahipsiniz.'**
+  String get itemAlreadyOwned;
 }
 
 class _AppLocalizationsDelegate

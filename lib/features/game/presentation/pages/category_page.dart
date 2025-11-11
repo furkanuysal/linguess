@@ -3,12 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/features/game/presentation/controllers/category_controller.dart';
 import 'package:linguess/features/game/presentation/controllers/word_game_state.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/presentation/providers/learned_count_provider.dart';
 import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
 import 'package:linguess/features/game/presentation/widgets/category_card.dart';
 import 'package:linguess/features/game/presentation/widgets/category_list_tile.dart';
+import 'package:linguess/features/game/presentation/widgets/locked_category_widgets/locked_category_card.dart';
+import 'package:linguess/features/game/presentation/widgets/locked_category_widgets/locked_category_tile.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,12 +48,26 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     await prefs.setBool(_prefKey, value);
   }
 
+  Future<void> _openCategory(String id) async {
+    await context.push('/game/category/$id');
+    ref.invalidate(progressProvider(ProgressParams(mode: 'category', id: id)));
+    ref.invalidate(
+      wordGameProvider(
+        WordGameParams(
+          modes: {GameModeType.category},
+          filters: {'category': id},
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
     final categoriesAsync = ref.watch(categoriesProvider);
     final appLang = ref.watch(settingsControllerProvider).value!.appLangCode;
+    final controller = ref.watch(categoryControllerProvider);
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -138,8 +155,8 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
                                 ),
                               ),
                           child: isGridView
-                              ? _buildGrid(categories, appLang)
-                              : _buildList(categories, appLang),
+                              ? _buildGrid(categories, appLang, controller)
+                              : _buildList(categories, appLang, controller),
                         ),
                       );
                     },
@@ -150,7 +167,11 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
     );
   }
 
-  Widget _buildGrid(List categories, String appLang) {
+  Widget _buildGrid(
+    List categories,
+    String appLang,
+    CategoryController controller,
+  ) {
     return GridView.builder(
       key: const ValueKey('gridView'),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -165,32 +186,34 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
       itemBuilder: (context, index) {
         final category = categories[index];
         final title = category.titleFor(appLang);
-        return CategoryCard(
-          id: category.id,
-          title: title,
-          iconCodePoint: category.icon,
-          onTap: () async {
-            await context.push('/game/category/${category.id}');
-            ref.invalidate(
-              progressProvider(
-                ProgressParams(mode: 'category', id: category.id),
-              ),
-            );
-            ref.invalidate(
-              wordGameProvider(
-                WordGameParams(
-                  modes: {GameModeType.category},
-                  filters: {'category': category.id},
-                ),
-              ),
-            );
-          },
-        );
+        final isBuyable = controller.isBuyable(category.id);
+        final isOwned = controller.isOwned(category.id);
+        final price = controller.getPrice(category.id);
+
+        if (isBuyable && !isOwned) {
+          return LockedCategoryCard(
+            title: title,
+            price: price,
+            iconCodePoint: category.icon,
+            onBuy: () async => controller.buyCategory(context, category.id),
+          );
+        } else {
+          return CategoryCard(
+            id: category.id,
+            title: title,
+            iconCodePoint: category.icon,
+            onTap: () => _openCategory(category.id),
+          );
+        }
       },
     );
   }
 
-  Widget _buildList(List categories, String appLang) {
+  Widget _buildList(
+    List categories,
+    String appLang,
+    CategoryController controller,
+  ) {
     return ListView.builder(
       key: const ValueKey('listView'),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -199,31 +222,32 @@ class _CategoryPageState extends ConsumerState<CategoryPage> {
       itemBuilder: (context, index) {
         final category = categories[index];
         final title = category.titleFor(appLang);
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 2),
-          child: CategoryListTile(
-            id: category.id,
-            title: title,
-            iconCodePoint: category.icon,
-            isSelected: false,
-            onTap: () async {
-              await context.push('/game/category/${category.id}');
-              ref.invalidate(
-                progressProvider(
-                  ProgressParams(mode: 'category', id: category.id),
-                ),
-              );
-              ref.invalidate(
-                wordGameProvider(
-                  WordGameParams(
-                    modes: {GameModeType.category},
-                    filters: {'category': category.id},
-                  ),
-                ),
-              );
-            },
-          ),
-        );
+        final isBuyable = controller.isBuyable(category.id);
+        final isOwned = controller.isOwned(category.id);
+        final price = controller.getPrice(category.id);
+
+        if (isBuyable && !isOwned) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: LockedCategoryTile(
+              title: title,
+              price: price,
+              iconCodePoint: category.icon,
+              onBuy: () async => controller.buyCategory(context, category.id),
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: CategoryListTile(
+              id: category.id,
+              title: title,
+              iconCodePoint: category.icon,
+              isSelected: false,
+              onTap: () => _openCategory(category.id),
+            ),
+          );
+        }
       },
     );
   }
