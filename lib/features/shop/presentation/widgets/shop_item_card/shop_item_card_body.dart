@@ -4,6 +4,7 @@ import 'package:linguess/core/theme/rarity_colors.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/features/shop/data/models/shop_item_model.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_item_card/shop_item_buttons.dart';
+import 'package:linguess/features/shop/presentation/widgets/shop_item_card/shop_item_icon.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class ShopItemCardBody extends ConsumerWidget {
@@ -74,10 +75,12 @@ class ShopItemCardBody extends ConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(color: rarityColor, width: 1.5),
-                      image: DecorationImage(
-                        image: NetworkImage(item.iconUrl),
-                        fit: BoxFit.contain,
-                      ),
+                    ),
+                    child: ShopItemIcon(
+                      item: item,
+                      scheme: scheme,
+                      size: 54,
+                      borderRadius: 12,
                     ),
                   ),
                 ),
@@ -106,6 +109,7 @@ class ShopItemCardBody extends ConsumerWidget {
               price: item.price,
               onBuy: onBuy,
               onEquip: onEquip,
+              itemType: item.type,
             ),
         ],
       ),

@@ -1001,4 +1001,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get itemAlreadyOwned => 'Du besitzt diesen Artikel bereits.';
+
+  @override
+  String get ownedLabel => 'Besitzt';
 }

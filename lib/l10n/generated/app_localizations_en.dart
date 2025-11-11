@@ -983,4 +983,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemAlreadyOwned => 'You already own this item.';
+
+  @override
+  String get ownedLabel => 'Owned';
 }

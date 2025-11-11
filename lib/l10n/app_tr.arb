@@ -1299,5 +1299,9 @@
   "itemAlreadyOwned": "Bu öğeye zaten sahipsiniz.",
   "@itemAlreadyOwned": {
     "description": "Message shown when the user tries to buy an item they already own"
+  },
+  "ownedLabel": "Sahip Olunan",
+  "@ownedLabel": {
+    "description": "Label indicating that an item is already owned"
   }
 }

@@ -990,4 +990,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get itemAlreadyOwned => 'Bu öğeye zaten sahipsiniz.';
+
+  @override
+  String get ownedLabel => 'Sahip Olunan';
 }

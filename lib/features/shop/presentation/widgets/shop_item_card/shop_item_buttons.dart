@@ -13,16 +13,41 @@ class ShopItemButtons {
     VoidCallback? onEquip,
     bool isHighRarity = false,
     VoidCallback? localSetState,
+    String? itemType,
   }) {
+    final isCategory = itemType == 'category';
+
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
       transitionBuilder: (child, anim) =>
           ScaleTransition(scale: anim, child: child),
       child: isOwned
-          ? (isEquipped
-                ? _equippedButton(scheme, l10n)
-                : _equipButton(scheme, l10n, onEquip, localSetState))
+          ? (isCategory
+                ? _ownedButton(scheme, l10n) // Owned for category items
+                : (isEquipped
+                      ? _equippedButton(scheme, l10n)
+                      : _equipButton(scheme, l10n, onEquip, localSetState)))
           : _buyButton(scheme, isHighRarity, onBuy, price),
+    );
+  }
+
+  // "Owned" button (for items like categories that are not equipped)
+  static Widget _ownedButton(ColorScheme scheme, AppLocalizations l10n) {
+    return ElevatedButton.icon(
+      key: const ValueKey('owned'),
+      onPressed: null,
+      icon: const Icon(Icons.check_rounded, size: 18),
+      label: Text(
+        l10n.ownedLabel,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: scheme.primary.withValues(alpha: 0.3),
+        foregroundColor: scheme.onPrimary,
+        elevation: 0,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 

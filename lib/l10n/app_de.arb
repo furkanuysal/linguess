@@ -1299,5 +1299,9 @@
   "itemAlreadyOwned": "Du besitzt diesen Artikel bereits.",
   "@itemAlreadyOwned": {
     "description": "Message shown when the user tries to buy an item they already own"
+  },
+  "ownedLabel": "Besitzt",
+  "@ownedLabel": {
+    "description": "Label indicating that an item is already owned"
   }
 }

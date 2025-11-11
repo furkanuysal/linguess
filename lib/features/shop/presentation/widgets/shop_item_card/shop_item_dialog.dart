@@ -5,6 +5,7 @@ import 'package:linguess/core/theme/rarity_colors.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
 import 'package:linguess/features/shop/data/models/shop_item_model.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_item_card/shop_item_buttons.dart';
+import 'package:linguess/features/shop/presentation/widgets/shop_item_card/shop_item_icon.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 void showItemDetailsDialog(
@@ -82,10 +83,17 @@ void showItemDetailsDialog(
                               height: 120,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
-                                image: DecorationImage(
-                                  image: NetworkImage(item.iconUrl),
-                                  fit: BoxFit.contain,
+                                border: Border.all(
+                                  color: scheme.outlineVariant.withValues(
+                                    alpha: 0.5,
+                                  ),
                                 ),
+                              ),
+                              child: ShopItemIcon(
+                                item: item,
+                                scheme: scheme,
+                                size: 64,
+                                borderRadius: 16,
                               ),
                             ),
                             const SizedBox(height: 14),

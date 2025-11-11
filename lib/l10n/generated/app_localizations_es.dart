@@ -1005,4 +1005,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get itemAlreadyOwned => '¡Ya posees este artículo!';
+
+  @override
+  String get ownedLabel => 'Poseído';
 }

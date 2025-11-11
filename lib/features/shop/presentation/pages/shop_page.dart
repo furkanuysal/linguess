@@ -34,6 +34,7 @@ class ShopPage extends ConsumerWidget {
     final statsAsync = ref.watch(userStatsShopProvider);
 
     final tabs = [
+      (icon: Icons.category, label: l10n.category, type: 'category'),
       (icon: Icons.person, label: l10n.avatarsLabel, type: 'avatar'),
       (icon: Icons.filter_frames, label: l10n.framesLabel, type: 'frame'),
       (icon: Icons.landscape, label: l10n.backgroundsLabel, type: 'background'),

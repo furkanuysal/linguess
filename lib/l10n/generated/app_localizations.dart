@@ -1872,6 +1872,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Bu öğeye zaten sahipsiniz.'**
   String get itemAlreadyOwned;
+
+  /// Label indicating that an item is already owned
+  ///
+  /// In tr, this message translates to:
+  /// **'Sahip Olunan'**
+  String get ownedLabel;
 }
 
 class _AppLocalizationsDelegate
