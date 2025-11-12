@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 
 class InventoryRepository {
   final _firestore = FirebaseFirestore.instance;
@@ -83,20 +84,24 @@ class InventoryRepository {
       tx.set(invRef, {
         'ownedAt': FieldValue.serverTimestamp(),
         'equipped': false,
-        'type': itemData['type'] ?? 'unknown', // Store item type
+        'type': itemData['type'] is ShopItemType
+            ? (itemData['type'] as ShopItemType).nameString
+            : (itemData['type'] ?? 'unknown'),
       });
     });
   }
 
   // Equip item (Unequip others of same type)
-  Future<void> equipItem(String itemId, String type) async {
+  Future<void> equipItem(String itemId, ShopItemType type) async {
     final userInv = _firestore
         .collection('users')
         .doc(_uid)
         .collection('inventory');
 
     // Get all items of the same type
-    final sameTypeSnap = await userInv.where('type', isEqualTo: type).get();
+    final sameTypeSnap = await userInv
+        .where('type', isEqualTo: type.nameString)
+        .get();
 
     await _firestore.runTransaction((tx) async {
       // Unequip all items of the same type
@@ -122,7 +127,7 @@ class InventoryRepository {
   }
 
   // Fetch equipped item URL
-  Future<String?> fetchEquippedItemUrl(String type) async {
+  Future<String?> fetchEquippedItemUrl(ShopItemType type) async {
     final userInv = _firestore
         .collection('users')
         .doc(_uid)
@@ -130,7 +135,7 @@ class InventoryRepository {
 
     // Find equipped item by type (e.g. avatar, frame, badge, etc.)
     final invSnap = await userInv
-        .where('type', isEqualTo: type)
+        .where('type', isEqualTo: type.nameString)
         .where('equipped', isEqualTo: true)
         .limit(1)
         .get();

@@ -1,6 +1,8 @@
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
+
 class ShopItem {
   final String id;
-  final String type;
+  final ShopItemType type;
   final int price;
   final int requiredLevel;
   final String rarity;
@@ -29,13 +31,25 @@ class ShopItem {
 
     return ShopItem(
       id: id,
-      type: data['type'] ?? 'avatar',
+      type: ShopItemType.fromString(data['type'] ?? 'avatar'),
       price: data['price'] ?? 0,
       requiredLevel: data['requiredLevel'] ?? 0,
       rarity: data['rarity'] ?? 'common',
       iconUrl: data['iconUrl'] ?? '',
       translations: trans,
     );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'type': type.nameString,
+      'price': price,
+      'requiredLevel': requiredLevel,
+      'rarity': rarity,
+      'iconUrl': iconUrl,
+      'translations': translations,
+    };
   }
 
   String nameFor(String locale, {String fallback = 'en'}) {

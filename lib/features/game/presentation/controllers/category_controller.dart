@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/features/shop/data/models/shop_item_model.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 final categoryControllerProvider = Provider<CategoryController>((ref) {
   final shopItems = ref.watch(shopItemsProvider).value ?? [];
-  final shopCategories = shopItems.where((e) => e.type == 'category').toList();
+  final shopCategories = shopItems
+      .where((e) => e.type == ShopItemType.category)
+      .toList();
   final inventory = ref.watch(inventoryProvider).value ?? [];
 
   return CategoryController(ref, shopCategories, inventory);
@@ -34,7 +37,7 @@ class CategoryController {
       (s) => s.id == '${categoryId}_category',
       orElse: () => ShopItem(
         id: '',
-        type: '',
+        type: ShopItemType.other,
         price: 0,
         requiredLevel: 1,
         rarity: '',
@@ -50,7 +53,7 @@ class CategoryController {
       (s) => s.id == '${categoryId}_category',
       orElse: () => ShopItem(
         id: '',
-        type: '',
+        type: ShopItemType.other,
         price: 0,
         requiredLevel: 1,
         rarity: '',

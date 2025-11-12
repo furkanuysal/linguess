@@ -5,6 +5,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_header.dart';
@@ -34,11 +35,19 @@ class ShopPage extends ConsumerWidget {
     final statsAsync = ref.watch(userStatsShopProvider);
 
     final tabs = [
-      (icon: Icons.category, label: l10n.category, type: 'category'),
-      (icon: Icons.person, label: l10n.avatarsLabel, type: 'avatar'),
-      (icon: Icons.filter_frames, label: l10n.framesLabel, type: 'frame'),
-      (icon: Icons.landscape, label: l10n.backgroundsLabel, type: 'background'),
-      (icon: Icons.star, label: l10n.otherItemsLabel, type: 'other'),
+      (icon: Icons.category, label: l10n.category, type: ShopItemType.category),
+      (icon: Icons.person, label: l10n.avatarsLabel, type: ShopItemType.avatar),
+      (
+        icon: Icons.filter_frames,
+        label: l10n.framesLabel,
+        type: ShopItemType.frame,
+      ),
+      (
+        icon: Icons.landscape,
+        label: l10n.backgroundsLabel,
+        type: ShopItemType.background,
+      ),
+      (icon: Icons.star, label: l10n.otherItemsLabel, type: ShopItemType.other),
     ];
 
     return DefaultTabController(
@@ -112,7 +121,7 @@ class ShopPage extends ConsumerWidget {
   Widget _buildShopGrid(
     BuildContext context,
     WidgetRef ref, {
-    required String type,
+    required ShopItemType type,
     required AsyncValue<List<dynamic>> itemsAsync,
     required AsyncValue<List<dynamic>> invAsync,
     required AsyncValue<Map<String, dynamic>> statsAsync,

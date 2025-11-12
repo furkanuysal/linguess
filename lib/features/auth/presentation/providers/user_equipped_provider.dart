@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 
 // Returns the best avatar image URL or asset path to display for the user.
@@ -22,7 +23,7 @@ final avatarImageProvider = FutureProvider<String?>((ref) async {
 
   if (shouldUseGameAvatar) {
     final repo = ref.read(inventoryRepositoryProvider);
-    final avatarUrl = await repo.fetchEquippedItemUrl('avatar');
+    final avatarUrl = await repo.fetchEquippedItemUrl(ShopItemType.avatar);
     if (avatarUrl != null && avatarUrl.isNotEmpty) {
       return avatarUrl;
     }
@@ -39,5 +40,5 @@ final avatarImageProvider = FutureProvider<String?>((ref) async {
 
 final avatarFrameProvider = FutureProvider<String?>((ref) async {
   final repo = ref.read(inventoryRepositoryProvider);
-  return await repo.fetchEquippedItemUrl('frame');
+  return await repo.fetchEquippedItemUrl(ShopItemType.frame);
 });

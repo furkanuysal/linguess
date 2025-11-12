@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class ShopItemButtons {
@@ -13,9 +14,9 @@ class ShopItemButtons {
     VoidCallback? onEquip,
     bool isHighRarity = false,
     VoidCallback? localSetState,
-    String? itemType,
+    ShopItemType? itemType,
   }) {
-    final isCategory = itemType == 'category';
+    final isCategory = itemType == ShopItemType.category;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 250),
