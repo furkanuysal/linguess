@@ -126,6 +126,12 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
           ),
           const SizedBox(width: 8),
           IconButton(
+            tooltip: l10n.shopTitle,
+            icon: Icon(Icons.store, color: scheme.primary),
+            onPressed: () => context.push('/shop'),
+          ),
+          const SizedBox(width: 8),
+          IconButton(
             tooltip: l10n.settings,
             icon: Icon(Icons.settings, color: scheme.primary),
             onPressed: () => showSettingsSheet(context),
