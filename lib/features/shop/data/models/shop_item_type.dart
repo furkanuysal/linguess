@@ -7,6 +7,7 @@ enum ShopItemType {
   font,
   xpBoost,
   goldBoost,
+  booster, // For grouping different types of boosts
   other;
 
   // Converts a string from Firestore to the corresponding enum value.
@@ -48,6 +49,8 @@ enum ShopItemType {
         return 'xp_boost';
       case ShopItemType.goldBoost:
         return 'gold_boost';
+      case ShopItemType.booster:
+        return 'booster';
       case ShopItemType.other:
         return 'other';
     }

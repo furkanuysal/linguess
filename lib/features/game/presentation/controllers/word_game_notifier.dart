@@ -20,6 +20,7 @@ import 'package:linguess/features/leveling/presentation/providers/leveling_provi
 import 'package:linguess/features/resume/data/models/resume_state.dart';
 import 'package:linguess/features/resume/data/providers/resume_category_repository.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/features/shop/data/providers/active_boosters_provider.dart';
 import 'package:linguess/features/stats/presentation/providers/hint_stats_provider.dart';
 import 'package:linguess/features/stats/presentation/providers/user_stats_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
@@ -48,6 +49,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
   bool _isExampleSentenceUsedForCurrentWord = false;
   bool _isExampleSentenceTargetUsedForCurrentWord = false;
   bool _fallbackNotified = false;
+
+  static const int _baseXPPerCorrect = 5;
 
   Timer? _timer;
   static const int _extraSecondsPerCorrect = 2;
@@ -527,6 +530,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
 
   Future<void> _showSuccessDialog(BuildContext context) async {
     final economyService = ref.read(economyServiceProvider);
+    final applyGoldBoost = ref.read(applyGoldBoosterProvider);
 
     final appLang =
         ref.read(settingsControllerProvider).value?.appLangCode ??
@@ -548,7 +552,12 @@ class WordGameNotifier extends Notifier<WordGameState> {
       )).future,
     );
 
-    await economyService.rewardGold(_hintsUsedForCurrentWord);
+    final baseGold = economyService.computeSolveRewardRaw(
+      _hintsUsedForCurrentWord,
+    );
+
+    final goldToGive = await applyGoldBoost(baseGold);
+    await economyService.addGold(goldToGive);
 
     if (state.isDaily &&
         !state.dailyAlreadySolved &&
@@ -570,7 +579,7 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (!context.mounted) return;
     await SuccessDialog.show(
       context,
-      goldEarned: economyService.computeSolveReward(_hintsUsedForCurrentWord),
+      goldEarned: goldToGive,
       askedWordInAppLang: wordToSolve,
       correctAnswer: correctAnswerFormatted,
       correctTimes: correctTimes,
@@ -640,8 +649,10 @@ class WordGameNotifier extends Notifier<WordGameState> {
         targetLang: targetLang,
       );
       final statsRepo = ref.read(statsRepositoryProvider);
+      final applyXpBoost = ref.read(applyXpBoosterProvider);
+      final xpToGive = await applyXpBoost(_baseXPPerCorrect);
       await statsRepo.updateLastSolved(state.currentWord!.id);
-      ref.read(levelingRepositoryProvider).addXp(5);
+      ref.read(levelingRepositoryProvider).addXp(xpToGive);
       if (!context.mounted) return;
       await _showSuccessDialog(context);
     } else {

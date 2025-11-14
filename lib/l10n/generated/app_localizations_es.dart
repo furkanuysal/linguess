@@ -1008,4 +1008,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get ownedLabel => 'Poseído';
+
+  @override
+  String get boostersLabel => 'Suplementos';
 }

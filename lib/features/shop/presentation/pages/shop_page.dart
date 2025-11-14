@@ -47,6 +47,8 @@ class ShopPage extends ConsumerWidget {
         label: l10n.backgroundsLabel,
         type: ShopItemType.background,
       ),
+      (icon: Icons.bolt, label: l10n.boostersLabel, type: ShopItemType.booster),
+
       (icon: Icons.star, label: l10n.otherItemsLabel, type: ShopItemType.other),
     ];
 
@@ -132,7 +134,15 @@ class ShopPage extends ConsumerWidget {
 
     return itemsAsync.when(
       data: (items) {
-        final filtered = items.where((e) => e.type == type).toList();
+        final filtered = type == ShopItemType.booster
+            ? items
+                  .where(
+                    (e) =>
+                        e.type == ShopItemType.xpBoost ||
+                        e.type == ShopItemType.goldBoost,
+                  )
+                  .toList()
+            : items.where((e) => e.type == type).toList();
 
         return invAsync.when(
           data: (inv) => statsAsync.maybeWhen(

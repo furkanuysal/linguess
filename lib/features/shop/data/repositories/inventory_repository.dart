@@ -22,6 +22,13 @@ class InventoryRepository {
         'id': doc.id,
         'type': data['type'] ?? '',
         'equipped': data['equipped'] ?? false,
+
+        // Booster specific fields
+        if (data['type'] == ShopItemType.xpBoost.nameString ||
+            data['type'] == ShopItemType.goldBoost.nameString) ...{
+          'remainingUses': data['remainingUses'] ?? 0,
+          'multiplier': data['multiplier'] ?? 1.0,
+        },
       };
     }).toList();
   }
@@ -80,14 +87,37 @@ class InventoryRepository {
       // Buy item: deduct gold
       tx.update(userRef, {'gold': userGold - price});
 
-      // Add item to inventory
-      tx.set(invRef, {
+      // Booster item type handling
+
+      final String typeString = itemData['type'] is ShopItemType
+          ? (itemData['type'] as ShopItemType).nameString
+          : (itemData['type']?.toString() ?? 'unknown');
+
+      final bool isBooster =
+          typeString == ShopItemType.xpBoost.nameString ||
+          typeString == ShopItemType.goldBoost.nameString;
+
+      // Fetch booster specific fields
+      final int baseUses = itemData['baseUses'] ?? 0;
+      // Fetch booster multiplier
+      final double baseMultiplier = (itemData['baseMultiplier'] ?? 1.0)
+          .toDouble();
+
+      // Inventory payload
+      final Map<String, dynamic> invPayload = {
         'ownedAt': FieldValue.serverTimestamp(),
         'equipped': false,
-        'type': itemData['type'] is ShopItemType
-            ? (itemData['type'] as ShopItemType).nameString
-            : (itemData['type'] ?? 'unknown'),
-      });
+        'type': typeString,
+      };
+
+      // Add booster specific fields
+      if (isBooster) {
+        invPayload['remainingUses'] = baseUses;
+        invPayload['multiplier'] = baseMultiplier;
+      }
+
+      // Save inventory item
+      tx.set(invRef, invPayload);
     });
   }
 
@@ -149,5 +179,41 @@ class InventoryRepository {
 
     final data = shopSnap.data()!;
     return data['iconUrl'] ?? data['url'] ?? data['asset'];
+  }
+
+  // Consume 1 use of a booster. If it reaches 0 → delete the booster.
+  Future<void> consumeBoosterUse(String boosterId) async {
+    final boosterRef = _firestore
+        .collection('users')
+        .doc(_uid)
+        .collection('inventory')
+        .doc(boosterId);
+
+    await _firestore.runTransaction((tx) async {
+      final snap = await tx.get(boosterRef);
+
+      if (!snap.exists) {
+        throw Exception('Booster not found');
+      }
+
+      final data = snap.data()!;
+      final int remaining = (data['remainingUses'] ?? 0).toInt();
+
+      if (remaining <= 0) {
+        // Already empty or invalid — ensure deletion
+        tx.delete(boosterRef);
+        return;
+      }
+
+      final int next = remaining - 1;
+
+      if (next <= 0) {
+        // No uses left → delete booster
+        tx.delete(boosterRef);
+      } else {
+        // Update remaining uses
+        tx.update(boosterRef, {'remainingUses': next});
+      }
+    });
   }
 }

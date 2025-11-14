@@ -986,4 +986,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ownedLabel => 'Owned';
+
+  @override
+  String get boostersLabel => 'Boosters';
 }

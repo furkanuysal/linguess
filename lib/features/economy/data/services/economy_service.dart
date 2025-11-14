@@ -45,35 +45,6 @@ class EconomyService {
     }
   }
 
-  // Solve reward: adds gold based on hint count used, increments correctCount by 1.
-  // Atomic: uses increment in a single update.
-  Future<void> rewardGold(int hintCountUsed) async {
-    final uid = _auth.currentUser?.uid;
-    if (uid == null) return;
-
-    final int goldToAdd = computeSolveReward(hintCountUsed);
-    if (goldToAdd <= 0) return;
-
-    final userDoc = _firestore.collection('users').doc(uid);
-    final globalStatsDoc = _firestore
-        .collection('users')
-        .doc(uid)
-        .collection('stats')
-        .doc('global');
-
-    final updates = <String, dynamic>{
-      'correctCount': FieldValue.increment(1),
-      'gold': FieldValue.increment(goldToAdd),
-    };
-
-    await Future.wait([
-      userDoc.update(updates),
-      globalStatsDoc.set({
-        'totalGoldEarned': FieldValue.increment(goldToAdd),
-      }, SetOptions(merge: true)),
-    ]);
-  }
-
   // Ad reward: atomically adds the specified amount of gold.
   Future<void> grantAdRewardGold(int amount) async {
     final uid = _auth.currentUser?.uid;
@@ -107,7 +78,7 @@ class EconomyService {
   }
 
   // 0 hint = +5, 1–2 hint = +2, 3+ = +1
-  int computeSolveReward(int hintsUsed) {
+  int computeSolveRewardRaw(int hintsUsed) {
     if (hintsUsed <= 0) return 5;
     if (hintsUsed <= 2) return 2;
     return 1;

@@ -1878,6 +1878,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Sahip Olunan'**
   String get ownedLabel;
+
+  /// Label for the boosters section in the shop
+  ///
+  /// In tr, this message translates to:
+  /// **'Takviyeler'**
+  String get boostersLabel;
 }
 
 class _AppLocalizationsDelegate

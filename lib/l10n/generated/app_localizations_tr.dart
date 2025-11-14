@@ -993,4 +993,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get ownedLabel => 'Sahip Olunan';
+
+  @override
+  String get boostersLabel => 'Takviyeler';
 }

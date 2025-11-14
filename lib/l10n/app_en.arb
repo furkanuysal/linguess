@@ -1303,5 +1303,9 @@
   "ownedLabel": "Owned",
   "@ownedLabel": {
     "description": "Label indicating that an item is already owned"
+  },
+  "boostersLabel": "Boosters",
+  "@boostersLabel": {
+    "description": "Label for the boosters section in the shop"
   }
 }
