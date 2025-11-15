@@ -158,15 +158,33 @@ class ShopPage extends ConsumerWidget {
                 );
               }
 
+              final width = MediaQuery.sizeOf(context).width;
+
+              late final SliverGridDelegate gridDelegate;
+
+              // Mobile → 2 fixed columns
+              if (width < 600) {
+                gridDelegate = const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.78,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                );
+              }
+              // Tablet & Web → responsive columns
+              else {
+                gridDelegate = const SliverGridDelegateWithMaxCrossAxisExtent(
+                  maxCrossAxisExtent: 260, // 260px width per card
+                  childAspectRatio: 0.78,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                );
+              }
+
               return GridView.builder(
                 padding: const EdgeInsets.all(12),
                 itemCount: filtered.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.8,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                ),
+                gridDelegate: gridDelegate,
                 itemBuilder: (_, i) {
                   final item = filtered[i];
                   final isOwned =

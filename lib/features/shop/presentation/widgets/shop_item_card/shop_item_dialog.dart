@@ -26,6 +26,11 @@ void showItemDetailsDialog(
 
   bool localEquipped = isEquipped;
 
+  final screenWidth = MediaQuery.of(context).size.width;
+
+  // Mobile: %85 - Tablet/Web: max 460 px
+  final double dialogWidth = screenWidth < 600 ? screenWidth * 0.85 : 460;
+
   showGeneralDialog(
     context: context,
     barrierDismissible: true,
@@ -48,7 +53,7 @@ void showItemDetailsDialog(
                   ),
                   AnimatedContainer(
                     duration: const Duration(seconds: 2),
-                    width: MediaQuery.of(context).size.width * 0.85,
+                    width: dialogWidth,
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: scheme.surface,
