@@ -4,12 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
-import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
 import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_header.dart';
 import 'package:linguess/features/shop/presentation/widgets/shop_item_card/shop_item_card.dart';
+import 'package:linguess/features/shop/utils/shop_refresh.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class ShopPage extends ConsumerWidget {
@@ -24,9 +24,7 @@ class ShopPage extends ConsumerWidget {
 
     if (user == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref.invalidate(inventoryProvider);
-        ref.invalidate(avatarImageProvider);
-        ref.invalidate(avatarFrameProvider);
+        invalidateShopProviders(ref);
       });
     }
 
@@ -213,8 +211,7 @@ class ShopPage extends ConsumerWidget {
                       final repo = ref.read(inventoryRepositoryProvider);
                       try {
                         await repo.buyItem(item.id);
-                        ref.invalidate(inventoryProvider);
-                        ref.invalidate(userStatsShopProvider);
+                        invalidateShopProviders(ref);
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -245,9 +242,21 @@ class ShopPage extends ConsumerWidget {
                       }
                       final repo = ref.read(inventoryRepositoryProvider);
                       await repo.equipItem(item.id, item.type);
-                      ref.invalidate(inventoryProvider);
-                      ref.invalidate(avatarImageProvider);
-                      ref.invalidate(avatarFrameProvider);
+                      invalidateShopProviders(ref);
+                    },
+                    onUnequip: () async {
+                      if (user == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.signInToUnequipItems),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
+                        return;
+                      }
+                      final repo = ref.read(inventoryRepositoryProvider);
+                      await repo.unequipItem(item.id);
+                      invalidateShopProviders(ref);
                     },
                   );
                 },

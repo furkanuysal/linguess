@@ -15,6 +15,7 @@ import 'package:linguess/core/sfx/sfx_service.dart';
 import 'package:linguess/features/game/presentation/widgets/powerups_bar.dart';
 import 'package:linguess/features/game/presentation/widgets/word_answer_board.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
+import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/features/game/presentation/providers/word_game_provider.dart';
@@ -230,6 +231,31 @@ class _WordGamePageState extends ConsumerState<WordGamePage>
         fit: StackFit.expand,
         children: [
           const GradientBackground(),
+          // Equipped background image
+          Consumer(
+            builder: (context, ref, _) {
+              final bgAsync = ref.watch(backgroundImageProvider);
+
+              return bgAsync.when(
+                loading: () => const SizedBox.shrink(),
+                error: (_, _) => const SizedBox.shrink(),
+                data: (url) {
+                  if (url == null || url.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+
+                  return Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(url),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
           SafeArea(
             child: state.words.when(
               data: (words) {

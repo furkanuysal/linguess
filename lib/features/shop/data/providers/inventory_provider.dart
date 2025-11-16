@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/repositories/inventory_repository.dart';
 
 final inventoryRepositoryProvider = Provider((ref) => InventoryRepository());
@@ -39,4 +40,10 @@ final userStatsShopProvider = StreamProvider<Map<String, dynamic>>((ref) {
   } catch (e) {
     return Stream.value({'gold': 0, 'level': 0});
   }
+});
+
+// Returns the URL of the currently equipped background item.
+final backgroundImageProvider = FutureProvider<String?>((ref) async {
+  final repo = ref.read(inventoryRepositoryProvider);
+  return await repo.fetchEquippedItemUrl(ShopItemType.background);
 });

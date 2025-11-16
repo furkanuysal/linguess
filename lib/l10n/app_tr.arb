@@ -1250,6 +1250,10 @@
   "@equipLabel": {
     "description": "Label for the equip button in the shop"
   },
+  "unequipLabel": "Kuşanmayı Kaldır",
+  "@unequipLabel": {
+    "description": "Label for the button to unequip an item"
+  },
   "equippedLabel": "Kuşanıldı",
   "@equippedLabel": {
     "description": "Label indicating that an item is currently equipped"
@@ -1265,6 +1269,10 @@
   "signInToEquipItems": "Öğeleri kuşanmak için giriş yapın.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "signInToUnequipItems": "Öğeleri kuşanmayı kaldırmak için giriş yapın.",
+  "@signInToUnequipItems": {
+    "description": "Message prompting the user to sign in to unequip items"
   },
   "noItemsAvailable": "Mevcut öğe yok",
   "@noItemsAvailable": {

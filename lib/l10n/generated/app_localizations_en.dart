@@ -950,6 +950,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get equipLabel => 'Equip';
 
   @override
+  String get unequipLabel => 'Unequip';
+
+  @override
   String get equippedLabel => 'Equipped';
 
   @override
@@ -960,6 +963,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Sign in to equip items.';
+
+  @override
+  String get signInToUnequipItems => 'Sign in to unequip items.';
 
   @override
   String get noItemsAvailable => 'No items available';

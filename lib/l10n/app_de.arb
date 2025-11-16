@@ -1250,6 +1250,10 @@
   "@equipLabel": {
     "description": "Label for the equip button in the shop"
   },
+  "unequipLabel": "Ablegen",
+  "@unequipLabel": {
+    "description": "Label for the unequip button in the shop"
+  },
   "equippedLabel": "Angelegt",
   "@equippedLabel": {
     "description": "Label indicating that an item is currently equipped"
@@ -1265,6 +1269,10 @@
   "signInToEquipItems": "Melde dich an, um Artikel auszurüsten.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "signInToUnequipItems": "Melde dich an, um Artikel abzulegen.",
+  "@signInToUnequipItems": {
+    "description": "Message prompting the user to sign in to unequip items"
   },
   "noItemsAvailable": "Keine Artikel verfügbar",
   "@noItemsAvailable": {

@@ -968,6 +968,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get equipLabel => 'Anlegen';
 
   @override
+  String get unequipLabel => 'Ablegen';
+
+  @override
   String get equippedLabel => 'Angelegt';
 
   @override
@@ -978,6 +981,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Melde dich an, um Artikel auszurüsten.';
+
+  @override
+  String get signInToUnequipItems => 'Melde dich an, um Artikel abzulegen.';
 
   @override
   String get noItemsAvailable => 'Keine Artikel verfügbar';

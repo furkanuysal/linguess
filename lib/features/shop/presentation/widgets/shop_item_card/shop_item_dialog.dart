@@ -17,6 +17,7 @@ void showItemDetailsDialog(
   required bool isLocked,
   VoidCallback? onBuy,
   VoidCallback? onEquip,
+  VoidCallback? onUnequip,
 }) {
   final scheme = Theme.of(context).colorScheme;
   final l10n = AppLocalizations.of(context)!;
@@ -135,6 +136,7 @@ void showItemDetailsDialog(
                                 price: item.price,
                                 onBuy: onBuy,
                                 onEquip: onEquip,
+                                onUnequip: onUnequip,
                                 localSetState: () =>
                                     setState(() => localEquipped = true),
                               ),

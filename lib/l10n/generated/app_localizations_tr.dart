@@ -957,6 +957,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get equipLabel => 'Kuşan';
 
   @override
+  String get unequipLabel => 'Kuşanmayı Kaldır';
+
+  @override
   String get equippedLabel => 'Kuşanıldı';
 
   @override
@@ -967,6 +970,10 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Öğeleri kuşanmak için giriş yapın.';
+
+  @override
+  String get signInToUnequipItems =>
+      'Öğeleri kuşanmayı kaldırmak için giriş yapın.';
 
   @override
   String get noItemsAvailable => 'Mevcut öğe yok';

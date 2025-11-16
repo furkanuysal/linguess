@@ -1807,6 +1807,12 @@ abstract class AppLocalizations {
   /// **'Kuşan'**
   String get equipLabel;
 
+  /// Label for the button to unequip an item
+  ///
+  /// In tr, this message translates to:
+  /// **'Kuşanmayı Kaldır'**
+  String get unequipLabel;
+
   /// Label indicating that an item is currently equipped
   ///
   /// In tr, this message translates to:
@@ -1830,6 +1836,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Öğeleri kuşanmak için giriş yapın.'**
   String get signInToEquipItems;
+
+  /// Message prompting the user to sign in to unequip items
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğeleri kuşanmayı kaldırmak için giriş yapın.'**
+  String get signInToUnequipItems;
 
   /// Message shown when there are no items available in the shop
   ///

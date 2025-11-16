@@ -12,6 +12,7 @@ class ShopItemButtons {
     required int price,
     VoidCallback? onBuy,
     VoidCallback? onEquip,
+    VoidCallback? onUnequip,
     bool isHighRarity = false,
     VoidCallback? localSetState,
     ShopItemType? itemType,
@@ -26,7 +27,7 @@ class ShopItemButtons {
           ? (isCategory
                 ? _ownedButton(scheme, l10n) // Owned for category items
                 : (isEquipped
-                      ? _equippedButton(scheme, l10n)
+                      ? _unequipButton(scheme, l10n, onUnequip, localSetState)
                       : _equipButton(scheme, l10n, onEquip, localSetState)))
           : _buyButton(scheme, isHighRarity, onBuy, price),
     );
@@ -52,13 +53,21 @@ class ShopItemButtons {
     );
   }
 
-  static Widget _equippedButton(ColorScheme scheme, AppLocalizations l10n) {
+  static Widget _unequipButton(
+    ColorScheme scheme,
+    AppLocalizations l10n,
+    VoidCallback? onUnequip,
+    VoidCallback? localSetState,
+  ) {
     return ElevatedButton.icon(
-      key: const ValueKey('equipped'),
-      onPressed: null,
-      icon: const Icon(Icons.check_circle, size: 18),
+      key: const ValueKey('unequip'),
+      onPressed: () {
+        onUnequip?.call();
+        localSetState?.call();
+      },
+      icon: const Icon(Icons.close_rounded, size: 18),
       label: Text(
-        l10n.equippedLabel,
+        l10n.unequipLabel,
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       style: ElevatedButton.styleFrom(

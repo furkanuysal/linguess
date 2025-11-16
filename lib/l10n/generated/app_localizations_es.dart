@@ -972,6 +972,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get equipLabel => 'Equipar';
 
   @override
+  String get unequipLabel => 'Desequipar';
+
+  @override
   String get equippedLabel => 'Equipado';
 
   @override
@@ -982,6 +985,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get signInToEquipItems => 'Inicia sesión para equipar artículos.';
+
+  @override
+  String get signInToUnequipItems => 'Inicia sesión para desequipar artículos.';
 
   @override
   String get noItemsAvailable => 'No hay artículos disponibles';

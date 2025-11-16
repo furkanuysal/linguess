@@ -1250,6 +1250,10 @@
   "@equipLabel": {
     "description": "Label for the equip button in the shop"
   },
+  "unequipLabel": "Desequipar",
+  "@unequipLabel": {
+    "description": "Label for the button to unequip an item"
+  },
   "equippedLabel": "Equipado",
   "@equippedLabel": {
     "description": "Label indicating that an item is currently equipped"
@@ -1265,6 +1269,10 @@
   "signInToEquipItems": "Inicia sesión para equipar artículos.",
   "@signInToEquipItems": {
     "description": "Message prompting the user to sign in to equip items"
+  },
+  "signInToUnequipItems": "Inicia sesión para desequipar artículos.",
+  "@signInToUnequipItems": {
+    "description": "Message prompting the user to sign in to unequip items"
   },
   "noItemsAvailable": "No hay artículos disponibles",
   "@noItemsAvailable": {

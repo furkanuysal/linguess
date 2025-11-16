@@ -16,6 +16,7 @@ class ShopItemCardBody extends ConsumerWidget {
     required this.isLocked,
     this.onBuy,
     this.onEquip,
+    this.onUnequip,
   });
 
   final ShopItem item;
@@ -24,6 +25,7 @@ class ShopItemCardBody extends ConsumerWidget {
   final bool isLocked;
   final VoidCallback? onBuy;
   final VoidCallback? onEquip;
+  final VoidCallback? onUnequip;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -109,6 +111,7 @@ class ShopItemCardBody extends ConsumerWidget {
               price: item.price,
               onBuy: onBuy,
               onEquip: onEquip,
+              onUnequip: onUnequip,
               itemType: item.type,
             ),
         ],
