@@ -192,12 +192,22 @@ class ShopPage extends ConsumerWidget {
                       inv.any(
                         (e) => e['id'] == item.id && e['equipped'] == true,
                       );
+                  int? remainingUses;
+                  if (item.type == ShopItemType.xpBoost ||
+                      item.type == ShopItemType.goldBoost) {
+                    final boosterInvData = inv.firstWhere(
+                      (e) => e['id'] == item.id,
+                      orElse: () => <String, dynamic>{},
+                    );
 
+                    remainingUses = boosterInvData['remainingUses'] as int?;
+                  }
                   return ShopItemCard(
                     item: item,
                     isLocked: userLevel < item.requiredLevel,
                     isOwned: isOwned,
                     isEquipped: isEquipped,
+                    remainingUses: remainingUses,
                     onBuy: () async {
                       if (user == null) {
                         ScaffoldMessenger.of(context).showSnackBar(

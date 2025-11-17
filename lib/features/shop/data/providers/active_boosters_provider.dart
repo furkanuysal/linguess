@@ -73,6 +73,9 @@ final applyBoosterProvider =
             .read(inventoryRepositoryProvider)
             .consumeBoosterUse(booster.id);
 
+        ref.invalidate(inventoryProvider);
+        ref.invalidate(activeBoostersProvider);
+
         return boosted;
       };
     });

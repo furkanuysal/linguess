@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:linguess/features/shop/data/providers/active_boosters_provider.dart';
 import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
 
@@ -8,4 +9,5 @@ void invalidateShopProviders(WidgetRef ref) {
   ref.invalidate(avatarImageProvider); // Avatar may change
   ref.invalidate(avatarFrameProvider); // Frame may change
   ref.invalidate(backgroundImageProvider); // Background may change
+  ref.invalidate(activeBoostersProvider); // Active boosters may change
 }
