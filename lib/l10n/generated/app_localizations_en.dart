@@ -995,4 +995,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get boostersLabel => 'Boosters';
+
+  @override
+  String get addShopItemLabel => 'Add Shop Item';
+
+  @override
+  String get updateShopItemLabel => 'Update Shop Item';
+
+  @override
+  String get searchShopItemHint => 'Search shop item (ID or name)';
+
+  @override
+  String get typeLabel => 'Type';
+
+  @override
+  String get priceLabel => 'Price';
+
+  @override
+  String get requiredLevelLabel => 'Required Level';
+
+  @override
+  String get rarityLabel => 'Rarity';
+
+  @override
+  String get iconSourceLabel => 'Icon Source';
+
+  @override
+  String get deleteShopItemLabel => 'Delete Shop Item';
+
+  @override
+  String deleteShopItemConfirmMessage(String itemName) {
+    return 'Delete shop item \'$itemName\'?';
+  }
+
+  @override
+  String shopItemDeletedMessage(String itemName) {
+    return 'Shop item \'$itemName\' deleted successfully.';
+  }
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get descriptionLabel => 'Description';
+
+  @override
+  String get shopManagementTitle => 'Shop Management';
+
+  @override
+  String get shopManagementDesc => 'Add, update, or delete shop items.';
 }

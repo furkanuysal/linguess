@@ -1315,5 +1315,77 @@
   "boostersLabel": "Booster",
   "@boostersLabel": {
     "description": "Label for the boosters section in the shop"
+  },
+  "addShopItemLabel": "Neues Shop-Element hinzufügen",
+  "@addShopItemLabel": {
+    "description": "Label for the button to add a new shop item"
+  },
+  "updateShopItemLabel": "Shop-Element aktualisieren",
+  "@updateShopItemLabel": {
+    "description": "Label for the button to update an existing shop item"
+  },
+  "searchShopItemHint": "Shop-Element suchen (ID oder Name)",
+  "@searchShopItemHint": {
+    "description": "Placeholder text for the search input to find shop items by ID or name"
+  },
+  "typeLabel": "Art",
+  "@typeLabel": {
+    "description": "Label for the type of the shop item"
+  },
+  "priceLabel": "Preis",
+  "@priceLabel": {
+    "description": "Label for the price of the shop item"
+  },
+  "requiredLevelLabel": "Erforderliches Level",
+  "@requiredLevelLabel": {
+    "description": "Label for the required level to purchase the shop item"
+  },
+  "rarityLabel": "Seltenheit",
+  "@rarityLabel": {
+    "description": "Label for the rarity of the shop item"
+  },
+  "iconSourceLabel": "Ikonquelle",
+  "@iconSourceLabel": {
+    "description": "Label for the icon source of the shop item"
+  },
+  "deleteShopItemLabel": "Shop-Element löschen",
+  "@deleteShopItemLabel": {
+    "description": "Label for the button to delete a shop item"
+  },
+  "deleteShopItemConfirmMessage": "Soll das Shop-Element '{itemName}' gelöscht werden?",
+  "@deleteShopItemConfirmMessage": {
+    "description": "Confirmation message shown when deleting a shop item",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Goldrahmen"
+      }
+    }
+  },
+  "shopItemDeletedMessage": "Shop-Element '{itemName}' wurde erfolgreich gelöscht.",
+  "@shopItemDeletedMessage": {
+    "description": "Message shown when a shop item is deleted successfully",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Goldrahmen"
+      }
+    }
+  },
+  "nameLabel": "Name",
+  "@nameLabel": {
+    "description": "Label for the name of the shop item"
+  },
+  "descriptionLabel": "Beschreibung",
+  "@descriptionLabel": {
+    "description": "Label for the description of the shop item"
+  },
+  "shopManagementTitle": "Shop-Verwaltung",
+  "@shopManagementTitle": {
+    "description": "Title for the shop management page"
+  },
+  "shopManagementDesc": "Fügen Sie Shop-Artikel hinzu, aktualisieren Sie sie oder löschen Sie sie.",
+  "@shopManagementDesc": {
+    "description": "Description for the shop management page"
   }
 }

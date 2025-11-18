@@ -1896,6 +1896,96 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Takviyeler'**
   String get boostersLabel;
+
+  /// Label for the button to add a new shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza Öğesi Ekle'**
+  String get addShopItemLabel;
+
+  /// Label for the button to update an existing shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza Öğesini Güncelle'**
+  String get updateShopItemLabel;
+
+  /// Placeholder text for the search input to find shop items by ID or name
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza öğesini ara (ID veya ad)'**
+  String get searchShopItemHint;
+
+  /// Label for the type of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Tür'**
+  String get typeLabel;
+
+  /// Label for the price of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Fiyat'**
+  String get priceLabel;
+
+  /// Label for the required level to purchase the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Gerekli Seviye'**
+  String get requiredLevelLabel;
+
+  /// Label for the rarity of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Nadirlik'**
+  String get rarityLabel;
+
+  /// Label for the icon source of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'İkon Kaynağı'**
+  String get iconSourceLabel;
+
+  /// Label for the button to delete a shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza Öğesini Sil'**
+  String get deleteShopItemLabel;
+
+  /// Confirmation message shown when deleting a shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza öğesi \'{itemName}\' silinsin mi?'**
+  String deleteShopItemConfirmMessage(String itemName);
+
+  /// Message shown when a shop item is deleted successfully
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza öğesi \'{itemName}\' başarıyla silindi.'**
+  String shopItemDeletedMessage(String itemName);
+
+  /// Label for the name of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'İsim'**
+  String get nameLabel;
+
+  /// Label for the description of the shop item
+  ///
+  /// In tr, this message translates to:
+  /// **'Açıklama'**
+  String get descriptionLabel;
+
+  /// Title for the shop management page
+  ///
+  /// In tr, this message translates to:
+  /// **'Market Yönetimi'**
+  String get shopManagementTitle;
+
+  /// Description for the shop management page
+  ///
+  /// In tr, this message translates to:
+  /// **'Mağaza öğelerini ekle, güncelle veya sil.'**
+  String get shopManagementDesc;
 }
 
 class _AppLocalizationsDelegate

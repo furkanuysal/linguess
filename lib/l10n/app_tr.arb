@@ -1315,5 +1315,77 @@
   "boostersLabel": "Takviyeler",
   "@boostersLabel": {
     "description": "Label for the boosters section in the shop"
+  },
+  "addShopItemLabel": "Mağaza Öğesi Ekle",
+  "@addShopItemLabel": {
+    "description": "Label for the button to add a new shop item"
+  },
+  "updateShopItemLabel": "Mağaza Öğesini Güncelle",
+  "@updateShopItemLabel": {
+    "description": "Label for the button to update an existing shop item"
+  },
+  "searchShopItemHint": "Mağaza öğesini ara (ID veya ad)",
+  "@searchShopItemHint": {
+    "description": "Placeholder text for the search input to find shop items by ID or name"
+  },
+  "typeLabel": "Tür",
+  "@typeLabel": {
+    "description": "Label for the type of the shop item"
+  },
+  "priceLabel": "Fiyat",
+  "@priceLabel": {
+    "description": "Label for the price of the shop item"
+  },
+  "requiredLevelLabel": "Gerekli Seviye",
+  "@requiredLevelLabel": {
+    "description": "Label for the required level to purchase the shop item"
+  },
+  "rarityLabel": "Nadirlik",
+  "@rarityLabel": {
+    "description": "Label for the rarity of the shop item"
+  },
+  "iconSourceLabel": "İkon Kaynağı",
+  "@iconSourceLabel": {
+    "description": "Label for the icon source of the shop item"
+  },
+  "deleteShopItemLabel": "Mağaza Öğesini Sil",
+  "@deleteShopItemLabel": {
+    "description": "Label for the button to delete a shop item"
+  },
+  "deleteShopItemConfirmMessage": "Mağaza öğesi '{itemName}' silinsin mi?",
+  "@deleteShopItemConfirmMessage": {
+    "description": "Confirmation message shown when deleting a shop item",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Altın Çerçeve"
+      }
+    }
+  },
+  "shopItemDeletedMessage": "Mağaza öğesi '{itemName}' başarıyla silindi.",
+  "@shopItemDeletedMessage": {
+    "description": "Message shown when a shop item is deleted successfully",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Altın Çerçeve"
+      }
+    }
+  },
+  "nameLabel": "İsim",
+  "@nameLabel": {
+    "description": "Label for the name of the shop item"
+  },
+  "descriptionLabel": "Açıklama",
+  "@descriptionLabel": {
+    "description": "Label for the description of the shop item"
+  },
+  "shopManagementTitle": "Market Yönetimi",
+  "@shopManagementTitle": {
+    "description": "Title for the shop management page"
+  },
+  "shopManagementDesc": "Mağaza öğelerini ekle, güncelle veya sil.",
+  "@shopManagementDesc": {
+    "description": "Description for the shop management page"
   }
 }

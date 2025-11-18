@@ -1017,4 +1017,54 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get boostersLabel => 'Suplementos';
+
+  @override
+  String get addShopItemLabel => 'Agregar artículo de tienda';
+
+  @override
+  String get updateShopItemLabel => 'Actualizar artículo de tienda';
+
+  @override
+  String get searchShopItemHint => 'Buscar artículo de tienda (ID o nombre)';
+
+  @override
+  String get typeLabel => 'Tipo';
+
+  @override
+  String get priceLabel => 'Fiyat';
+
+  @override
+  String get requiredLevelLabel => 'Nivel requerido';
+
+  @override
+  String get rarityLabel => 'Rareza';
+
+  @override
+  String get iconSourceLabel => 'Fuente del ícono';
+
+  @override
+  String get deleteShopItemLabel => 'Eliminar artículo de tienda';
+
+  @override
+  String deleteShopItemConfirmMessage(String itemName) {
+    return '¿Eliminar el artículo de tienda \'$itemName\'?';
+  }
+
+  @override
+  String shopItemDeletedMessage(String itemName) {
+    return 'El artículo de tienda \'$itemName\' se eliminó con éxito.';
+  }
+
+  @override
+  String get nameLabel => 'Nombre';
+
+  @override
+  String get descriptionLabel => 'Descripción';
+
+  @override
+  String get shopManagementTitle => 'Gestión de la Tienda';
+
+  @override
+  String get shopManagementDesc =>
+      'Agrega, actualiza o elimina artículos de la tienda.';
 }

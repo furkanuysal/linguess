@@ -1315,5 +1315,77 @@
   "boostersLabel": "Boosters",
   "@boostersLabel": {
     "description": "Label for the boosters section in the shop"
+  },
+  "addShopItemLabel": "Add Shop Item",
+  "@addShopItemLabel": {
+    "description": "Label for the button to add a new shop item"
+  },
+  "updateShopItemLabel": "Update Shop Item",
+  "@updateShopItemLabel": {
+    "description": "Label for the button to update an existing shop item"
+  },
+  "searchShopItemHint": "Search shop item (ID or name)",
+  "@searchShopItemHint": {
+    "description": "Placeholder text for the search input to find shop items by ID or name"
+  },
+  "typeLabel": "Type",
+  "@typeLabel": {
+    "description": "Label for the type of the shop item"
+  },
+  "priceLabel": "Price",
+  "@priceLabel": {
+    "description": "Label for the price of the shop item"
+  },
+  "requiredLevelLabel": "Required Level",
+  "@requiredLevelLabel": {
+    "description": "Label for the required level to purchase the shop item"
+  },
+  "rarityLabel": "Rarity",
+  "@rarityLabel": {
+    "description": "Label for the rarity of the shop item"
+  },
+  "iconSourceLabel": "Icon Source",
+  "@iconSourceLabel": {
+    "description": "Label for the icon source of the shop item"
+  },
+  "deleteShopItemLabel": "Delete Shop Item",
+  "@deleteShopItemLabel": {
+    "description": "Label for the button to delete a shop item"
+  },
+  "deleteShopItemConfirmMessage": "Delete shop item '{itemName}'?",
+  "@deleteShopItemConfirmMessage": {
+    "description": "Confirmation message shown when deleting a shop item",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Gold Frame"
+      }
+    }
+  },
+  "shopItemDeletedMessage": "Shop item '{itemName}' deleted successfully.",
+  "@shopItemDeletedMessage": {
+    "description": "Message shown when a shop item is deleted successfully",
+    "placeholders": {
+      "itemName": {
+        "type": "String",
+        "example": "Gold Frame"
+      }
+    }
+  },
+  "nameLabel": "Name",
+  "@nameLabel": {
+    "description": "Label for the name of the shop item"
+  },
+  "descriptionLabel": "Description",
+  "@descriptionLabel": {
+    "description": "Label for the description of the shop item"
+  },
+  "shopManagementTitle": "Shop Management",
+  "@shopManagementTitle": {
+    "description": "Title for the shop management page"
+  },
+  "shopManagementDesc": "Add, update, or delete shop items.",
+  "@shopManagementDesc": {
+    "description": "Description for the shop management page"
   }
 }

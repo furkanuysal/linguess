@@ -1013,4 +1013,54 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get boostersLabel => 'Booster';
+
+  @override
+  String get addShopItemLabel => 'Neues Shop-Element hinzufügen';
+
+  @override
+  String get updateShopItemLabel => 'Shop-Element aktualisieren';
+
+  @override
+  String get searchShopItemHint => 'Shop-Element suchen (ID oder Name)';
+
+  @override
+  String get typeLabel => 'Art';
+
+  @override
+  String get priceLabel => 'Preis';
+
+  @override
+  String get requiredLevelLabel => 'Erforderliches Level';
+
+  @override
+  String get rarityLabel => 'Seltenheit';
+
+  @override
+  String get iconSourceLabel => 'Ikonquelle';
+
+  @override
+  String get deleteShopItemLabel => 'Shop-Element löschen';
+
+  @override
+  String deleteShopItemConfirmMessage(String itemName) {
+    return 'Soll das Shop-Element \'$itemName\' gelöscht werden?';
+  }
+
+  @override
+  String shopItemDeletedMessage(String itemName) {
+    return 'Shop-Element \'$itemName\' wurde erfolgreich gelöscht.';
+  }
+
+  @override
+  String get nameLabel => 'Name';
+
+  @override
+  String get descriptionLabel => 'Beschreibung';
+
+  @override
+  String get shopManagementTitle => 'Shop-Verwaltung';
+
+  @override
+  String get shopManagementDesc =>
+      'Fügen Sie Shop-Artikel hinzu, aktualisieren Sie sie oder löschen Sie sie.';
 }

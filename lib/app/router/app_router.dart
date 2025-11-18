@@ -8,6 +8,7 @@ import 'package:linguess/features/admin/presentation/pages/admin_categories_page
 import 'package:linguess/features/admin/presentation/pages/admin_daily_list_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_debug_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_panel_page.dart';
+import 'package:linguess/features/admin/presentation/pages/admin_shop_page.dart';
 import 'package:linguess/features/admin/presentation/pages/admin_word_list_page.dart';
 import 'package:linguess/features/admin/presentation/widgets/admin_guard.dart';
 import 'package:linguess/features/auth/presentation/pages/sign_in_page.dart';
@@ -162,6 +163,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         path: '/admin/categories',
         builder: (context, state) =>
             const AdminGuard(child: AdminCategoriesPage()),
+      ),
+      GoRoute(
+        path: '/admin/shop',
+        builder: (context, state) => const AdminGuard(child: AdminShopPage()),
       ),
       GoRoute(
         path: '/admin/debug',

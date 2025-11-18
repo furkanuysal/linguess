@@ -1003,4 +1003,53 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get boostersLabel => 'Takviyeler';
+
+  @override
+  String get addShopItemLabel => 'Mağaza Öğesi Ekle';
+
+  @override
+  String get updateShopItemLabel => 'Mağaza Öğesini Güncelle';
+
+  @override
+  String get searchShopItemHint => 'Mağaza öğesini ara (ID veya ad)';
+
+  @override
+  String get typeLabel => 'Tür';
+
+  @override
+  String get priceLabel => 'Fiyat';
+
+  @override
+  String get requiredLevelLabel => 'Gerekli Seviye';
+
+  @override
+  String get rarityLabel => 'Nadirlik';
+
+  @override
+  String get iconSourceLabel => 'İkon Kaynağı';
+
+  @override
+  String get deleteShopItemLabel => 'Mağaza Öğesini Sil';
+
+  @override
+  String deleteShopItemConfirmMessage(String itemName) {
+    return 'Mağaza öğesi \'$itemName\' silinsin mi?';
+  }
+
+  @override
+  String shopItemDeletedMessage(String itemName) {
+    return 'Mağaza öğesi \'$itemName\' başarıyla silindi.';
+  }
+
+  @override
+  String get nameLabel => 'İsim';
+
+  @override
+  String get descriptionLabel => 'Açıklama';
+
+  @override
+  String get shopManagementTitle => 'Market Yönetimi';
+
+  @override
+  String get shopManagementDesc => 'Mağaza öğelerini ekle, güncelle veya sil.';
 }
