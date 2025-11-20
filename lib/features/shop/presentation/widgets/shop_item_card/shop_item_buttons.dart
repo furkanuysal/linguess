@@ -14,7 +14,6 @@ class ShopItemButtons {
     VoidCallback? onEquip,
     VoidCallback? onUnequip,
     bool isHighRarity = false,
-    VoidCallback? localSetState,
     ShopItemType? itemType,
   }) {
     final isCategory = itemType == ShopItemType.category;
@@ -25,15 +24,14 @@ class ShopItemButtons {
           ScaleTransition(scale: anim, child: child),
       child: isOwned
           ? (isCategory
-                ? _ownedButton(scheme, l10n) // Owned for category items
+                ? _ownedButton(scheme, l10n)
                 : (isEquipped
-                      ? _unequipButton(scheme, l10n, onUnequip, localSetState)
-                      : _equipButton(scheme, l10n, onEquip, localSetState)))
+                      ? _unequipButton(scheme, l10n, onUnequip)
+                      : _equipButton(scheme, l10n, onEquip)))
           : _buyButton(scheme, isHighRarity, onBuy, price),
     );
   }
 
-  // "Owned" button (for items like categories that are not equipped)
   static Widget _ownedButton(ColorScheme scheme, AppLocalizations l10n) {
     return ElevatedButton.icon(
       key: const ValueKey('owned'),
@@ -57,14 +55,10 @@ class ShopItemButtons {
     ColorScheme scheme,
     AppLocalizations l10n,
     VoidCallback? onUnequip,
-    VoidCallback? localSetState,
   ) {
     return ElevatedButton.icon(
       key: const ValueKey('unequip'),
-      onPressed: () {
-        onUnequip?.call();
-        localSetState?.call();
-      },
+      onPressed: onUnequip,
       icon: const Icon(Icons.close_rounded, size: 18),
       label: Text(
         l10n.unequipLabel,
@@ -84,14 +78,10 @@ class ShopItemButtons {
     ColorScheme scheme,
     AppLocalizations l10n,
     VoidCallback? onEquip,
-    VoidCallback? localSetState,
   ) {
     return ElevatedButton.icon(
       key: const ValueKey('equip'),
-      onPressed: () {
-        onEquip?.call();
-        localSetState?.call();
-      },
+      onPressed: onEquip,
       icon: const Icon(Icons.play_circle_fill, size: 18),
       label: Text(
         l10n.equipLabel,

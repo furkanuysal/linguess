@@ -135,10 +135,15 @@ void showItemDetailsDialog(
                                 isEquipped: localEquipped,
                                 price: item.price,
                                 onBuy: onBuy,
-                                onEquip: onEquip,
-                                onUnequip: onUnequip,
-                                localSetState: () =>
-                                    setState(() => localEquipped = true),
+                                onEquip: () {
+                                  onEquip?.call();
+                                  setState(() => localEquipped = true);
+                                },
+                                onUnequip: () {
+                                  onUnequip?.call();
+                                  setState(() => localEquipped = false);
+                                },
+                                itemType: item.type,
                               ),
                           ],
                         ),

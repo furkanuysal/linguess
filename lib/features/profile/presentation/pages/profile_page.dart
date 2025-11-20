@@ -67,11 +67,14 @@ class ProfilePage extends ConsumerWidget {
                             Row(
                               children: [
                                 // Equipped Avatar
-                                const EquippedAvatar(
-                                  size: 64,
-                                  iconSize: 30,
-                                  innerPaddingWhenFramed: 12,
-                                  showRingFallback: false,
+                                GestureDetector(
+                                  onTap: () => _openAvatarDialog(context),
+                                  child: const EquippedAvatar(
+                                    heroTag: 'equippedAvatar',
+                                    size: 64,
+                                    iconSize: 30,
+                                    showRingFallback: false,
+                                  ),
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(
@@ -418,6 +421,50 @@ class ProfilePage extends ConsumerWidget {
       ),
       alignment: Alignment.center,
       child: Icon(icon, color: scheme.onSurface, size: 26),
+    );
+  }
+
+  void _openAvatarDialog(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    double avatarSize = screenWidth * 0.80;
+    const double maxWidth = 340;
+
+    if (avatarSize > maxWidth) {
+      avatarSize = maxWidth;
+    }
+    showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '',
+      barrierColor: Colors.black54,
+      transitionDuration: const Duration(milliseconds: 250),
+      pageBuilder: (_, _, _) => const SizedBox.shrink(),
+      transitionBuilder: (context, anim1, anim2, child) {
+        return Transform.scale(
+          scale: Curves.easeOut.transform(anim1.value),
+          child: Opacity(
+            opacity: anim1.value,
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: EquippedAvatar(
+                    heroTag: 'equippedAvatar',
+                    size: avatarSize,
+                    iconSize: avatarSize * 0.35,
+                    showRingFallback: false,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

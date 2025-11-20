@@ -8,9 +8,9 @@ class EquippedAvatar extends ConsumerWidget {
     super.key,
     this.size = 64,
     this.iconSize = 30,
-    this.innerPaddingWhenFramed = 12,
     this.showRingFallback = false,
     this.borderWidth = 2,
+    this.heroTag,
   });
 
   // Overall avatar container size (width=height)
@@ -19,14 +19,14 @@ class EquippedAvatar extends ConsumerWidget {
   // Size of the fallback person icon
   final double iconSize;
 
-  // Inner padding applied when a frame image exists
-  final double innerPaddingWhenFramed;
-
   // If true → draw colored ring when frame is missing (Home)
   final bool showRingFallback;
 
   // Border thickness for fallback ring
   final double borderWidth;
+
+  // Hero tag for avatar transitions
+  final String? heroTag;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -90,11 +90,12 @@ class EquippedAvatar extends ConsumerWidget {
             fit: BoxFit.cover,
           );
         }
+        final double dynamicPadding = hasFrame ? size * 0.18 : 0;
 
-        return Container(
+        final avatarWidget = Container(
           width: size,
           height: size,
-          padding: EdgeInsets.all(hasFrame ? innerPaddingWhenFramed : 0),
+          padding: EdgeInsets.all(dynamicPadding),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: frameImage,
@@ -135,6 +136,9 @@ class EquippedAvatar extends ConsumerWidget {
             },
           ),
         );
+        return heroTag != null
+            ? Hero(tag: heroTag!, child: avatarWidget)
+            : avatarWidget;
       },
     );
   }

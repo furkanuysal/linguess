@@ -124,7 +124,6 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                   const EquippedAvatar(
                     size: 40,
                     iconSize: 24,
-                    innerPaddingWhenFramed: 8,
                     showRingFallback: true,
                     borderWidth: 2,
                   ),
