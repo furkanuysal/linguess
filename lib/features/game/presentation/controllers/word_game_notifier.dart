@@ -559,6 +559,13 @@ class WordGameNotifier extends Notifier<WordGameState> {
     final goldToGive = await applyGoldBoost(baseGold);
     await economyService.addGold(goldToGive);
 
+    // XP Reward Logic
+    final statsRepo = ref.read(statsRepositoryProvider);
+    final applyXpBoost = ref.read(applyXpBoosterProvider);
+    final xpToGive = await applyXpBoost(_baseXPPerCorrect);
+    await statsRepo.updateLastSolved(state.currentWord!.id);
+    ref.read(levelingRepositoryProvider).addXp(xpToGive);
+
     if (state.isDaily &&
         !state.dailyAlreadySolved &&
         state.currentWord != null) {
@@ -579,7 +586,8 @@ class WordGameNotifier extends Notifier<WordGameState> {
     if (!context.mounted) return;
     await SuccessDialog.show(
       context,
-      goldEarned: goldToGive,
+      earnedGold: goldToGive,
+      earnedXp: xpToGive,
       askedWordInAppLang: wordToSolve,
       correctAnswer: correctAnswerFormatted,
       correctTimes: correctTimes,
@@ -648,11 +656,6 @@ class WordGameNotifier extends Notifier<WordGameState> {
         word: state.currentWord!,
         targetLang: targetLang,
       );
-      final statsRepo = ref.read(statsRepositoryProvider);
-      final applyXpBoost = ref.read(applyXpBoosterProvider);
-      final xpToGive = await applyXpBoost(_baseXPPerCorrect);
-      await statsRepo.updateLastSolved(state.currentWord!.id);
-      ref.read(levelingRepositoryProvider).addXp(xpToGive);
       if (!context.mounted) return;
       await _showSuccessDialog(context);
     } else {

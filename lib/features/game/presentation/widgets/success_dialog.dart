@@ -7,7 +7,8 @@ import 'package:linguess/l10n/generated/app_localizations.dart';
 class SuccessDialog extends StatefulWidget {
   const SuccessDialog({
     super.key,
-    required this.goldEarned, // Gold earned in this round (can be 0 if too many hints used)
+    required this.earnedGold, // Gold earned in this round (can be 0 if too many hints used)
+    required this.earnedXp, // XP earned in this round
     required this.askedWordInAppLang, // The word solved by the player (in user language)
     required this.correctAnswer, // The correct English answer
     required this.correctTimes, // How many times this word was answered correctly (0..requiredTimes)
@@ -19,7 +20,8 @@ class SuccessDialog extends StatefulWidget {
     this.onSignInPressed, // Callback to run when sign in button is pressed
   });
 
-  final int goldEarned;
+  final int earnedGold;
+  final int earnedXp;
   final String askedWordInAppLang;
   final String correctAnswer;
   final int correctTimes;
@@ -31,7 +33,8 @@ class SuccessDialog extends StatefulWidget {
 
   static Future<void> show(
     BuildContext context, {
-    required int goldEarned,
+    required int earnedGold,
+    required int earnedXp,
     required String askedWordInAppLang,
     required String correctAnswer,
     required int correctTimes,
@@ -62,7 +65,8 @@ class SuccessDialog extends StatefulWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             child: SuccessDialog(
-              goldEarned: goldEarned,
+              earnedGold: earnedGold,
+              earnedXp: earnedXp,
               askedWordInAppLang: askedWordInAppLang,
               correctAnswer: correctAnswer,
               correctTimes: correctTimes,
@@ -147,20 +151,29 @@ class _SuccessDialogState extends State<SuccessDialog>
               ),
               const SizedBox(height: 12),
 
-              // Gold Earned + Coin Burst
+              // Gold Earned + XP Earned
               if (widget.isSignedIn)
-                Stack(
-                  alignment: Alignment.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (widget.goldEarned > 0)
-                      CoinBurst(
-                        key: ValueKey('coin-burst-${widget.goldEarned}'),
-                        coinCount: (8 + (widget.goldEarned / 10).clamp(0, 10))
-                            .toInt(),
-                        duration: const Duration(milliseconds: 1500),
-                      ),
-                    // Gold Earned
-                    GoldEarned(amount: widget.goldEarned),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        if (widget.earnedGold > 0)
+                          CoinBurst(
+                            key: ValueKey('coin-burst-${widget.earnedGold}'),
+                            coinCount:
+                                (8 + (widget.earnedGold / 10).clamp(0, 10))
+                                    .toInt(),
+                            duration: const Duration(milliseconds: 1500),
+                          ),
+                        // Gold Earned
+                        GoldEarned(amount: widget.earnedGold),
+                      ],
+                    ),
+                    if (widget.earnedXp > 0) ...[
+                      XpEarned(amount: widget.earnedXp),
+                    ],
                   ],
                 ),
 

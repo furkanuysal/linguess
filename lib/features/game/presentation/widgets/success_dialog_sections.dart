@@ -281,8 +281,98 @@ class _GoldEarnedState extends State<GoldEarned>
             curve: Curves.easeOutCubic,
             builder: (_, value, _) => Text(
               '$value',
-              style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                fontWeight: FontWeight.w500,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Displays the amount of XP earned with an animation.
+class XpEarned extends StatefulWidget {
+  const XpEarned({super.key, required this.amount});
+  final int amount;
+
+  @override
+  State<XpEarned> createState() => _XpEarnedState();
+}
+
+class _XpEarnedState extends State<XpEarned>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _blink;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _blink = CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut);
+    if (widget.amount == 0) {
+      _ctrl.repeat(reverse: true);
+    } else {
+      _ctrl.value = 1.0;
+    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final mq = MediaQuery.maybeOf(context);
+    final reduceMotion =
+        mq?.accessibleNavigation == true || mq?.disableAnimations == true;
+    final tickerOn = TickerMode.of(context);
+    if (reduceMotion || !tickerOn) {
+      if (_ctrl.isAnimating) _ctrl.stop();
+    } else {
+      if (widget.amount == 0 && !_ctrl.isAnimating) _ctrl.repeat(reverse: true);
+    }
+  }
+
+  @override
+  void didUpdateWidget(covariant XpEarned oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.amount == 0 && !_ctrl.isAnimating) {
+      _ctrl.repeat(reverse: true);
+    }
+    if (widget.amount > 0 && _ctrl.isAnimating) {
+      _ctrl.stop();
+      _ctrl.value = 1.0;
+    }
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.primary;
+
+    return FadeTransition(
+      opacity: Tween<double>(begin: .5, end: 1.0).animate(_blink),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.bolt_rounded, size: 28, color: color),
+          const SizedBox(width: 6),
+          TweenAnimationBuilder<int>(
+            tween: IntTween(begin: 0, end: widget.amount),
+            duration: const Duration(milliseconds: 700),
+            curve: Curves.easeOutCubic,
+            builder: (_, value, _) => Text(
+              '$value XP',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
                 color: color,
               ),
             ),
