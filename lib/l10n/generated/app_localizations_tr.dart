@@ -1052,4 +1052,7 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get shopManagementDesc => 'Mağaza öğelerini ekle, güncelle veya sil.';
+
+  @override
+  String get leaderboardTitle => 'Liderlik Tablosu';
 }

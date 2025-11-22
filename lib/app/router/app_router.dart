@@ -23,6 +23,7 @@ import 'package:linguess/features/profile/presentation/pages/account_settings_pa
 import 'package:linguess/features/profile/presentation/pages/learned_words_page.dart';
 import 'package:linguess/features/profile/presentation/pages/profile_page.dart';
 import 'package:linguess/features/shop/presentation/pages/shop_page.dart';
+import 'package:linguess/features/leaderboard/presentation/pages/leaderboard_page.dart';
 
 // GoRouter için refresh helper
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -137,6 +138,10 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/learned-words',
         builder: (context, state) => const LearnedWordsPage(),
+      ),
+      GoRoute(
+        path: '/leaderboard',
+        builder: (context, state) => const LeaderboardPage(),
       ),
       GoRoute(
         path: '/admin',

@@ -1044,4 +1044,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopManagementDesc => 'Add, update, or delete shop items.';
+
+  @override
+  String get leaderboardTitle => 'Leaderboard';
 }

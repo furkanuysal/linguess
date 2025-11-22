@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class GradientCard extends StatelessWidget {
-  const GradientCard({super.key, required this.child, this.onTap});
+  const GradientCard({super.key, required this.child, this.onTap, this.border});
   final Widget child;
   final VoidCallback? onTap;
+  final Border? border;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-
     return Material(
       elevation: 2,
       color: Colors.transparent,
@@ -22,6 +22,7 @@ class GradientCard extends StatelessWidget {
             colors: [scheme.surface, scheme.surfaceContainerHigh],
           ),
           borderRadius: BorderRadius.circular(16),
+          border: border,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),

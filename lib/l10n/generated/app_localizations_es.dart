@@ -1067,4 +1067,7 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get shopManagementDesc =>
       'Agrega, actualiza o elimina artículos de la tienda.';
+
+  @override
+  String get leaderboardTitle => 'Clasificación';
 }

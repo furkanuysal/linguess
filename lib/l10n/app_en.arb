@@ -1387,5 +1387,9 @@
   "shopManagementDesc": "Add, update, or delete shop items.",
   "@shopManagementDesc": {
     "description": "Description for the shop management page"
+  },
+  "leaderboardTitle": "Leaderboard",
+  "@leaderboardTitle": {
+    "description": "Title for the leaderboard page"
   }
 }

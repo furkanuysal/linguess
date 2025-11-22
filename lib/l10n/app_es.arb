@@ -1387,5 +1387,9 @@
   "shopManagementDesc": "Agrega, actualiza o elimina artículos de la tienda.",
   "@shopManagementDesc": {
     "description": "Description for the shop management page"
+  },
+  "leaderboardTitle": "Clasificación",
+  "@leaderboardTitle": {
+    "description": "Title for the leaderboard page"
   }
 }

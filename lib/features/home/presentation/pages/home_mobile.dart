@@ -246,6 +246,12 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                           ),
                           MenuCardButton(
                             width: itemWidth,
+                            icon: Icons.leaderboard,
+                            label: l10n.leaderboardTitle,
+                            onTap: () => context.push('/leaderboard'),
+                          ),
+                          MenuCardButton(
+                            width: itemWidth,
                             icon: Icons.settings,
                             label: l10n.settings,
                             onTap: () => showSettingsSheet(context),

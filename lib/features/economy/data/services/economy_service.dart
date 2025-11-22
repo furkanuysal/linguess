@@ -67,10 +67,7 @@ class EconomyService {
         .doc('global');
 
     await Future.wait([
-      userDoc.update({
-        'gold': FieldValue.increment(amount),
-        'correctCount': FieldValue.increment(1),
-      }),
+      userDoc.update({'gold': FieldValue.increment(amount)}),
       globalStatsDoc.set({
         'totalGoldEarned': FieldValue.increment(amount),
       }, SetOptions(merge: true)),

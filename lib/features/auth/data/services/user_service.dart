@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/game/data/models/word_model.dart';
 import 'package:linguess/features/achievements/presentation/providers/achievements_provider.dart';
+import 'package:linguess/features/leaderboard/data/models/leaderboard_entry.dart';
 
 class UserService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -14,6 +15,7 @@ class UserService {
   Future<void> createUserDocument(User user) async {
     final userDoc = _firestore.collection('users').doc(user.uid);
     final docSnapshot = await userDoc.get();
+    final displayName = docSnapshot.data()?['displayName'] as String?;
 
     if (!docSnapshot.exists) {
       await userDoc.set({
@@ -23,6 +25,14 @@ class UserService {
         'gold': 0,
         'correctCount': 0,
         'role': 'user',
+      });
+
+      // Create public leaderboard entry
+      await _firestore.collection('leaderboard').doc(user.uid).set({
+        'uid': user.uid,
+        if (displayName != null) 'displayName': displayName,
+        'maskedEmail': LeaderboardEntry.maskEmail(user.email),
+        'correctCount': 0,
       });
     }
   }
@@ -55,6 +65,7 @@ class UserService {
     if (uid == null) return;
 
     final userRef = _firestore.collection('users').doc(uid);
+    final leaderboardRef = _firestore.collection('leaderboard').doc(uid);
     final targetDocRef = userRef.collection('targets').doc(targetLang);
     final progressRef = targetDocRef.collection('wordProgress').doc(word.id);
     final learnedRef = targetDocRef.collection('learnedWords').doc(word.id);
@@ -63,13 +74,29 @@ class UserService {
 
     await _firestore.runTransaction((tx) async {
       // Read first
+      final userSnap = await tx.get(userRef);
       final targetSnap = await tx.get(targetDocRef);
       final progressSnap = await tx.get(progressRef);
 
       final prevCount = (progressSnap.data()?['count'] as int?) ?? 0;
       final newCount = prevCount + 1;
 
+      final currentGlobalCount =
+          (userSnap.data()?['correctCount'] as int?) ?? 0;
+      final newGlobalCount = currentGlobalCount + 1;
+      final displayName = userSnap.data()?['displayName'] as String?;
+      final currentUser = FirebaseAuth.instance.currentUser;
+
       // Then write
+      tx.update(userRef, {'correctCount': newGlobalCount});
+
+      tx.set(leaderboardRef, {
+        'correctCount': newGlobalCount,
+        'maskedEmail': LeaderboardEntry.maskEmail(currentUser?.email),
+        if (displayName != null) 'displayName': displayName,
+        'uid': uid,
+      }, SetOptions(merge: true));
+
       if (!targetSnap.exists) {
         tx.set(targetDocRef, {
           'createdAt': FieldValue.serverTimestamp(),
@@ -123,5 +150,22 @@ class UserService {
         .doc(wordId)
         .get();
     return doc.exists;
+  }
+
+  Future<List<LeaderboardEntry>> getLeaderboard({int limit = 50}) async {
+    try {
+      final querySnapshot = await _firestore
+          .collection('leaderboard')
+          .orderBy('correctCount', descending: true)
+          .limit(limit)
+          .get();
+
+      return querySnapshot.docs.map((doc) {
+        return LeaderboardEntry.fromMap(doc.data(), doc.id);
+      }).toList();
+    } catch (e) {
+      log("Error fetching leaderboard: $e");
+      return [];
+    }
   }
 }

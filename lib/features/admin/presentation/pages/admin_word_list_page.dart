@@ -6,7 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/locale_utils.dart';
 import 'package:linguess/features/admin/presentation/providers/word_list_provider.dart';
-import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/core/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/providers/level_repository_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';

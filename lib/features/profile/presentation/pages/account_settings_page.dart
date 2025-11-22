@@ -6,7 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/utils/auth_utils.dart';
 import 'package:linguess/core/utils/date_utils.dart';
-import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/core/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';

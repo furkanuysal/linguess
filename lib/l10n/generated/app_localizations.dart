@@ -1986,6 +1986,12 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Mağaza öğelerini ekle, güncelle veya sil.'**
   String get shopManagementDesc;
+
+  /// Title for the leaderboard page
+  ///
+  /// In tr, this message translates to:
+  /// **'Liderlik Tablosu'**
+  String get leaderboardTitle;
 }
 
 class _AppLocalizationsDelegate

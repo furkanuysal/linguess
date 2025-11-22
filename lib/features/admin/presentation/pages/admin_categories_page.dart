@@ -5,7 +5,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/admin/presentation/providers/admin_categories_provider.dart';
 import 'package:linguess/features/admin/presentation/providers/supported_langs_provider.dart';
-import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/core/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/game/data/models/category_model.dart';
 import 'package:linguess/features/game/data/providers/category_repository_provider.dart';
 import 'package:linguess/features/game/data/repositories/category_repository.dart';

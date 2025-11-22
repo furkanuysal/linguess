@@ -6,7 +6,7 @@ import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/core/theme/rarity_colors.dart';
 import 'package:linguess/features/admin/presentation/providers/supported_langs_provider.dart';
-import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/core/presentation/widgets/gradient_card.dart';
 import 'package:linguess/features/shop/data/models/shop_item_model.dart';
 import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';

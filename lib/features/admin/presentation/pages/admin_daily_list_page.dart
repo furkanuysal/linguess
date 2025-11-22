@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
 import 'package:linguess/features/admin/presentation/providers/daily_provider.dart';
-import 'package:linguess/features/admin/presentation/widgets/gradient_card.dart';
+import 'package:linguess/core/presentation/widgets/gradient_card.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AdminDailyListPage extends ConsumerWidget {

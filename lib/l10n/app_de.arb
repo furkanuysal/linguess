@@ -1387,5 +1387,9 @@
   "shopManagementDesc": "Fügen Sie Shop-Artikel hinzu, aktualisieren Sie sie oder löschen Sie sie.",
   "@shopManagementDesc": {
     "description": "Description for the shop management page"
+  },
+  "leaderboardTitle": "Bestenliste",
+  "@leaderboardTitle": {
+    "description": "Title for the leaderboard page"
   }
 }

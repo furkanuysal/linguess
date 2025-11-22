@@ -1063,4 +1063,7 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get shopManagementDesc =>
       'Fügen Sie Shop-Artikel hinzu, aktualisieren Sie sie oder löschen Sie sie.';
+
+  @override
+  String get leaderboardTitle => 'Bestenliste';
 }

@@ -1387,5 +1387,9 @@
   "shopManagementDesc": "Mağaza öğelerini ekle, güncelle veya sil.",
   "@shopManagementDesc": {
     "description": "Description for the shop management page"
+  },
+  "leaderboardTitle": "Liderlik Tablosu",
+  "@leaderboardTitle": {
+    "description": "Title for the leaderboard page"
   }
 }
