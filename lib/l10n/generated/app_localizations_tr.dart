@@ -1055,4 +1055,13 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get leaderboardTitle => 'Liderlik Tablosu';
+
+  @override
+  String get leaderboardRankLabel => 'Sıra';
+
+  @override
+  String get leaderboardUserLabel => 'Kullanıcı';
+
+  @override
+  String get leaderboardCorrectCountLabel => 'Doğru Cevap Sayısı';
 }

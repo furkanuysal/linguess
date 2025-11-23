@@ -1391,5 +1391,17 @@
   "leaderboardTitle": "Clasificación",
   "@leaderboardTitle": {
     "description": "Title for the leaderboard page"
+  },
+  "leaderboardRankLabel": "Posición",
+  "@leaderboardRankLabel": {
+    "description": "Header for the rank column in the leaderboard"
+  },
+  "leaderboardUserLabel": "Usuario",
+  "@leaderboardUserLabel": {
+    "description": "Header for the user column in the leaderboard"
+  },
+  "leaderboardCorrectCountLabel": "Respuestas Correctas",
+  "@leaderboardCorrectCountLabel": {
+    "description": "Header for the correct count column in the leaderboard"
   }
 }

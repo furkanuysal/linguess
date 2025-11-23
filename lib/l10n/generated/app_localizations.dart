@@ -1992,6 +1992,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Liderlik Tablosu'**
   String get leaderboardTitle;
+
+  /// Header for the rank column in the leaderboard
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıra'**
+  String get leaderboardRankLabel;
+
+  /// Header for the user column in the leaderboard
+  ///
+  /// In tr, this message translates to:
+  /// **'Kullanıcı'**
+  String get leaderboardUserLabel;
+
+  /// Header for the correct count column in the leaderboard
+  ///
+  /// In tr, this message translates to:
+  /// **'Doğru Cevap Sayısı'**
+  String get leaderboardCorrectCountLabel;
 }
 
 class _AppLocalizationsDelegate

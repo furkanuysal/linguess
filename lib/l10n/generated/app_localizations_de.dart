@@ -1066,4 +1066,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get leaderboardTitle => 'Bestenliste';
+
+  @override
+  String get leaderboardRankLabel => 'Rang';
+
+  @override
+  String get leaderboardUserLabel => 'Benutzer';
+
+  @override
+  String get leaderboardCorrectCountLabel => 'Richtig geantwortet';
 }

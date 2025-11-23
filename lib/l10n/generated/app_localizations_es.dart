@@ -1070,4 +1070,13 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get leaderboardTitle => 'Clasificación';
+
+  @override
+  String get leaderboardRankLabel => 'Posición';
+
+  @override
+  String get leaderboardUserLabel => 'Usuario';
+
+  @override
+  String get leaderboardCorrectCountLabel => 'Respuestas Correctas';
 }

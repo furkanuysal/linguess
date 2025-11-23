@@ -1047,4 +1047,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get leaderboardTitle => 'Leaderboard';
+
+  @override
+  String get leaderboardRankLabel => 'Rank';
+
+  @override
+  String get leaderboardUserLabel => 'User';
+
+  @override
+  String get leaderboardCorrectCountLabel => 'Correct Answers';
 }
