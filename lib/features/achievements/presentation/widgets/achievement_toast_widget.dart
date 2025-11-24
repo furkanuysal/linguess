@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/achievements/presentation/controllers/achievement_toast_controller.dart';
+import 'package:linguess/features/achievements/data/models/achievement_model.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 
 class AchievementToastWidget extends ConsumerWidget {
@@ -69,6 +70,31 @@ class AchievementToastWidget extends ConsumerWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      if (achievement.reward != null) ...[
+                        const SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(
+                              achievement.reward is GoldReward
+                                  ? Icons.monetization_on
+                                  : Icons.inventory_2,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              achievement.reward is GoldReward
+                                  ? '+${(achievement.reward as GoldReward).amount} ${l10n.gold}'
+                                  : 'New Item!', // TODO: Add item name
+                              style: Theme.of(context).textTheme.labelSmall
+                                  ?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ],
                   ),
                 ),

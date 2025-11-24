@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/achievements/data/achievement_defs.dart';
 import 'package:linguess/features/achievements/data/models/achievement_model.dart';
 import 'package:linguess/features/achievements/data/services/achievement_service.dart';
+import 'package:linguess/features/shop/data/providers/inventory_provider.dart';
 
 final achievementsServiceProvider = Provider<AchievementsService>((ref) {
-  return AchievementsService();
+  final inventoryRepo = ref.read(inventoryRepositoryProvider);
+  return AchievementsService(inventoryRepo: inventoryRepo);
 });
 
 // Watches the set of achievement IDs earned by the user as a stream

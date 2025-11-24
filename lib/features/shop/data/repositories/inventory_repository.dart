@@ -87,37 +87,8 @@ class InventoryRepository {
       // Buy item: deduct gold
       tx.update(userRef, {'gold': userGold - price});
 
-      // Booster item type handling
-
-      final String typeString = itemData['type'] is ShopItemType
-          ? (itemData['type'] as ShopItemType).nameString
-          : (itemData['type']?.toString() ?? 'unknown');
-
-      final bool isBooster =
-          typeString == ShopItemType.xpBoost.nameString ||
-          typeString == ShopItemType.goldBoost.nameString;
-
-      // Fetch booster specific fields
-      final int baseUses = itemData['baseUses'] ?? 0;
-      // Fetch booster multiplier
-      final double baseMultiplier = (itemData['baseMultiplier'] ?? 1.0)
-          .toDouble();
-
-      // Inventory payload
-      final Map<String, dynamic> invPayload = {
-        'ownedAt': FieldValue.serverTimestamp(),
-        'equipped': false,
-        'type': typeString,
-      };
-
-      // Add booster specific fields
-      if (isBooster) {
-        invPayload['remainingUses'] = baseUses;
-        invPayload['multiplier'] = baseMultiplier;
-      }
-
-      // Save inventory item
-      tx.set(invRef, invPayload);
+      // Add to inventory
+      _addItemToInventory(tx, invRef, itemData);
     });
   }
 
@@ -215,5 +186,63 @@ class InventoryRepository {
         tx.update(boosterRef, {'remainingUses': next});
       }
     });
+  }
+
+  // Grant item (Reward) — Transaction: add to inventory without gold deduction
+  Future<void> grantItem(String itemId) async {
+    final itemRef = _firestore.collection('shop').doc(itemId);
+    final invRef = _firestore
+        .collection('users')
+        .doc(_uid)
+        .collection('inventory')
+        .doc(itemId);
+
+    await _firestore.runTransaction((tx) async {
+      final itemSnap = await tx.get(itemRef);
+      final invSnap = await tx.get(invRef);
+
+      if (!itemSnap.exists) throw Exception('Item not found');
+      if (invSnap.exists) return; // Already owned, do nothing
+
+      final itemData = itemSnap.data()!;
+      _addItemToInventory(tx, invRef, itemData);
+    });
+  }
+
+  // Helper to add item to inventory
+  void _addItemToInventory(
+    Transaction tx,
+    DocumentReference invRef,
+    Map<String, dynamic> itemData,
+  ) {
+    final String typeString = itemData['type'] is ShopItemType
+        ? (itemData['type'] as ShopItemType).nameString
+        : (itemData['type']?.toString() ?? 'unknown');
+
+    final bool isBooster =
+        typeString == ShopItemType.xpBoost.nameString ||
+        typeString == ShopItemType.goldBoost.nameString;
+
+    // Fetch booster specific fields
+    final int baseUses = itemData['baseUses'] ?? 0;
+    // Fetch booster multiplier
+    final double baseMultiplier = (itemData['baseMultiplier'] ?? 1.0)
+        .toDouble();
+
+    // Inventory payload
+    final Map<String, dynamic> invPayload = {
+      'ownedAt': FieldValue.serverTimestamp(),
+      'equipped': false,
+      'type': typeString,
+    };
+
+    // Add booster specific fields
+    if (isBooster) {
+      invPayload['remainingUses'] = baseUses;
+      invPayload['multiplier'] = baseMultiplier;
+    }
+
+    // Save inventory item
+    tx.set(invRef, invPayload);
   }
 }

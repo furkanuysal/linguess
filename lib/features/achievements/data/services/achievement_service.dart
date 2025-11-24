@@ -1,13 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:linguess/features/achievements/data/achievement_defs.dart';
+import 'package:linguess/features/achievements/data/models/achievement_model.dart';
+import 'package:linguess/features/shop/data/repositories/inventory_repository.dart';
 
 class AchievementsService {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
+  final InventoryRepository _inventoryRepo;
 
-  AchievementsService({FirebaseFirestore? firestore, FirebaseAuth? auth})
-    : _firestore = firestore ?? FirebaseFirestore.instance,
-      _auth = auth ?? FirebaseAuth.instance;
+  AchievementsService({
+    FirebaseFirestore? firestore,
+    FirebaseAuth? auth,
+    InventoryRepository? inventoryRepo,
+  }) : _firestore = firestore ?? FirebaseFirestore.instance,
+       _auth = auth ?? FirebaseAuth.instance,
+       _inventoryRepo = inventoryRepo ?? InventoryRepository();
 
   String? get _uid => _auth.currentUser?.uid;
 
@@ -62,7 +70,27 @@ class AchievementsService {
       }
     });
 
+    if (created) {
+      await _claimReward(id);
+    }
+
     return created;
+  }
+
+  Future<void> _claimReward(String achievementId) async {
+    final def = achievementDefinitions[achievementId];
+    final reward = def?.reward;
+    if (reward == null) return;
+
+    final uid = _uid;
+    if (uid == null) return;
+
+    if (reward is GoldReward) {
+      final userRef = _firestore.collection('users').doc(uid);
+      await userRef.update({'gold': FieldValue.increment(reward.amount)});
+    } else if (reward is ItemReward) {
+      await _inventoryRepo.grantItem(reward.itemId);
+    }
   }
 
   Future<void> markNotified(String id) async {
