@@ -30,43 +30,43 @@ final achievementDefinitions = <String, AchievementModel>{
   'used_definition_powerup_first_time': const AchievementModel.withEmptyValues(
     id: 'used_definition_powerup_first_time',
     hasProgress: false,
-    reward: GoldReward(5),
+    reward: GoldReward(10),
   ),
   'used_hint_powerup_first_time': const AchievementModel.withEmptyValues(
     id: 'used_hint_powerup_first_time',
     hasProgress: false,
-    reward: GoldReward(5),
+    reward: GoldReward(10),
   ),
   'used_skip_powerup_first_time': const AchievementModel.withEmptyValues(
     id: 'used_skip_powerup_first_time',
     hasProgress: false,
-    reward: GoldReward(5),
+    reward: GoldReward(10),
   ),
   'used_example_sentence_powerup_first_time':
       const AchievementModel.withEmptyValues(
         id: 'used_example_sentence_powerup_first_time',
         hasProgress: false,
-        reward: GoldReward(5),
+        reward: GoldReward(10),
       ),
   'used_example_sentence_target_powerup_first_time':
       const AchievementModel.withEmptyValues(
         id: 'used_example_sentence_target_powerup_first_time',
         hasProgress: false,
-        reward: GoldReward(5),
+        reward: GoldReward(10),
       ),
-  'solve_dailyword_ten_times': const AchievementModel.withEmptyValues(
-    id: 'solve_dailyword_ten_times',
+  'solve_dailyword_seven_times': const AchievementModel.withEmptyValues(
+    id: 'solve_dailyword_seven_times',
     hasProgress: true,
     progressType: AchievementProgressType.dailySolvedTotal,
-    progressTarget: 10,
-    reward: GoldReward(50),
+    progressTarget: 7,
+    reward: ItemReward('xp_boost_small'),
   ),
   'solve_dailyword_thirty_times': const AchievementModel.withEmptyValues(
     id: 'solve_dailyword_thirty_times',
     hasProgress: true,
     progressType: AchievementProgressType.dailySolvedTotal,
     progressTarget: 30,
-    reward: GoldReward(100),
+    reward: ItemReward('xp_boost_medium'),
   ),
   'solve_ten_words': const AchievementModel.withEmptyValues(
     id: 'solve_ten_words',
@@ -80,42 +80,42 @@ final achievementDefinitions = <String, AchievementModel>{
     hasProgress: true,
     progressType: AchievementProgressType.solvedWordsTotal,
     progressTarget: 50,
-    reward: GoldReward(30),
+    reward: GoldReward(50),
   ),
   'solve_hundred_words': const AchievementModel.withEmptyValues(
     id: 'solve_hundred_words',
     hasProgress: true,
     progressType: AchievementProgressType.solvedWordsTotal,
     progressTarget: 100,
-    reward: GoldReward(50),
+    reward: GoldReward(100),
   ),
   'solve_fivehundred_words': const AchievementModel.withEmptyValues(
     id: 'solve_fivehundred_words',
     hasProgress: true,
     progressType: AchievementProgressType.solvedWordsTotal,
     progressTarget: 500,
-    reward: GoldReward(100),
+    reward: GoldReward(200),
   ),
   'solve_thousand_words': const AchievementModel.withEmptyValues(
     id: 'solve_thousand_words',
     hasProgress: true,
     progressType: AchievementProgressType.solvedWordsTotal,
     progressTarget: 1000,
-    reward: GoldReward(200),
+    reward: GoldReward(300),
   ),
   'learn_ten_words': const AchievementModel.withEmptyValues(
     id: 'learn_ten_words',
     hasProgress: true,
     progressType: AchievementProgressType.learnedWordsTotal,
     progressTarget: 10,
-    reward: GoldReward(50),
+    reward: GoldReward(100),
   ),
   'learn_twenty_words': const AchievementModel.withEmptyValues(
     id: 'learn_twenty_words',
     hasProgress: true,
     progressType: AchievementProgressType.learnedWordsTotal,
     progressTarget: 20,
-    reward: GoldReward(100),
+    reward: GoldReward(200),
   ),
   // TODO: Add more achievements with rewards
 };
@@ -185,9 +185,9 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       l10n.achievement_used_example_sentence_target_powerup_first_time_description,
     ),
     build(
-      'solve_dailyword_ten_times',
-      l10n.achievement_solve_dailyword_ten_times_title,
-      l10n.achievement_solve_dailyword_ten_times_description,
+      'solve_dailyword_seven_times',
+      l10n.achievement_solve_dailyword_seven_times_title,
+      l10n.achievement_solve_dailyword_seven_times_description,
     ),
     build(
       'solve_dailyword_thirty_times',

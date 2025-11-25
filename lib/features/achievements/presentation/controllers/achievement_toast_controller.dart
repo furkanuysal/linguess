@@ -7,6 +7,7 @@ import 'package:linguess/features/achievements/presentation/providers/achievemen
 import 'package:linguess/features/achievements/data/achievement_defs.dart';
 import 'package:linguess/features/auth/presentation/providers/user_data_provider.dart';
 import 'package:linguess/app/router/app_router.dart';
+import 'package:linguess/features/shop/utils/shop_refresh.dart';
 
 final achievementToastProvider =
     NotifierProvider<AchievementToastController, AchievementModel?>(
@@ -134,6 +135,9 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     );
 
     state = achievement;
+
+    // Invalidate providers to refresh UI (gold, inventory)
+    invalidateShopProviders(ref);
 
     Future.delayed(const Duration(seconds: 3), () async {
       if (!ref.mounted) return;

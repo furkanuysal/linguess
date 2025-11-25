@@ -255,11 +255,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'You solved the daily word for the first time.';
 
   @override
-  String get achievement_solve_dailyword_ten_times_title => 'Ten days!';
+  String get achievement_solve_dailyword_seven_times_title => 'Weekly Warrior';
 
   @override
-  String get achievement_solve_dailyword_ten_times_description =>
-      'You solved the daily word 10 times.';
+  String get achievement_solve_dailyword_seven_times_description =>
+      'You solved the daily word 7 times.';
 
   @override
   String get achievement_solve_dailyword_thirty_times_title => 'A month!';

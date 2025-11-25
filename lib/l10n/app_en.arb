@@ -316,13 +316,13 @@
   "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_ten_times_title": "Ten days!",
-  "@achievement_solve_dailyword_ten_times_title": {
-    "description": "Title for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_title": "Weekly Warrior",
+  "@achievement_solve_dailyword_seven_times_title": {
+    "description": "Title for the 'solve daily word seven times' achievement"
   },
-  "achievement_solve_dailyword_ten_times_description": "You solved the daily word 10 times.",
-  "@achievement_solve_dailyword_ten_times_description": {
-    "description": "Description for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_description": "You solved the daily word 7 times.",
+  "@achievement_solve_dailyword_seven_times_description": {
+    "description": "Description for the 'solve daily word seven times' achievement"
   },
   "achievement_solve_dailyword_thirty_times_title": "A month!",
   "@achievement_solve_dailyword_thirty_times_title": {

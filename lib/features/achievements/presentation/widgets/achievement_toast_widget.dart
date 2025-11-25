@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:linguess/features/shop/data/models/shop_item_model.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
+import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/achievements/presentation/controllers/achievement_toast_controller.dart';
 import 'package:linguess/features/achievements/data/models/achievement_model.dart';
@@ -11,6 +14,7 @@ class AchievementToastWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final achievement = ref.watch(achievementToastProvider);
     final l10n = AppLocalizations.of(context);
+    final shopItemsAsync = ref.watch(shopItemsProvider);
 
     if (achievement == null) {
       return const SizedBox.shrink();
@@ -82,15 +86,54 @@ class AchievementToastWidget extends ConsumerWidget {
                               size: 14,
                             ),
                             const SizedBox(width: 4),
-                            Text(
-                              achievement.reward is GoldReward
-                                  ? '+${(achievement.reward as GoldReward).amount} ${l10n.gold}'
-                                  : 'New Item!', // TODO: Add item name
-                              style: Theme.of(context).textTheme.labelSmall
-                                  ?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                            Builder(
+                              builder: (context) {
+                                if (achievement.reward is GoldReward) {
+                                  return Text(
+                                    '+${(achievement.reward as GoldReward).amount} ${l10n.gold}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  );
+                                } else if (achievement.reward is ItemReward) {
+                                  final itemId =
+                                      (achievement.reward as ItemReward).itemId;
+                                  final itemName = shopItemsAsync.maybeWhen(
+                                    data: (items) {
+                                      final item = items.firstWhere(
+                                        (i) => i.id == itemId,
+                                        orElse: () => ShopItem(
+                                          id: itemId,
+                                          type: ShopItemType.other,
+                                          price: 0,
+                                          requiredLevel: 0,
+                                          rarity: 'common',
+                                          iconUrl: '',
+                                          translations: {},
+                                        ),
+                                      );
+                                      return item.nameFor(l10n.localeName);
+                                    },
+                                    orElse: () => 'New Item!',
+                                  );
+
+                                  return Text(
+                                    itemName,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
                             ),
                           ],
                         ),

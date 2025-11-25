@@ -576,17 +576,17 @@ abstract class AppLocalizations {
   /// **'İlk kez günlük kelimeyi çözdün.'**
   String get achievement_solve_dailyword_first_time_description;
 
-  /// Title for the 'solve daily word ten times' achievement
+  /// Title for the 'solve daily word seven times' achievement
   ///
   /// In tr, this message translates to:
-  /// **'On Günlük'**
-  String get achievement_solve_dailyword_ten_times_title;
+  /// **'Haftalık Savaşçı'**
+  String get achievement_solve_dailyword_seven_times_title;
 
-  /// Description for the 'solve daily word ten times' achievement
+  /// Description for the 'solve daily word seven times' achievement
   ///
   /// In tr, this message translates to:
-  /// **'10 kez günlük kelimeyi çözdün.'**
-  String get achievement_solve_dailyword_ten_times_description;
+  /// **'7 kez günlük kelimeyi çözdün.'**
+  String get achievement_solve_dailyword_seven_times_description;
 
   /// Title for the 'solve daily word thirty times' achievement
   ///

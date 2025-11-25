@@ -263,11 +263,12 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has resuelto la palabra diaria por primera vez.';
 
   @override
-  String get achievement_solve_dailyword_ten_times_title => '¡Diez resueltas!';
+  String get achievement_solve_dailyword_seven_times_title =>
+      '¡Siete resueltas!';
 
   @override
-  String get achievement_solve_dailyword_ten_times_description =>
-      'Has resuelto la palabra diaria diez veces.';
+  String get achievement_solve_dailyword_seven_times_description =>
+      'Has resuelto la palabra diaria siete veces.';
 
   @override
   String get achievement_solve_dailyword_thirty_times_title =>

@@ -256,11 +256,12 @@ class AppLocalizationsTr extends AppLocalizations {
       'İlk kez günlük kelimeyi çözdün.';
 
   @override
-  String get achievement_solve_dailyword_ten_times_title => 'On Günlük';
+  String get achievement_solve_dailyword_seven_times_title =>
+      'Haftalık Savaşçı';
 
   @override
-  String get achievement_solve_dailyword_ten_times_description =>
-      '10 kez günlük kelimeyi çözdün.';
+  String get achievement_solve_dailyword_seven_times_description =>
+      '7 kez günlük kelimeyi çözdün.';
 
   @override
   String get achievement_solve_dailyword_thirty_times_title => 'Bir ay!';

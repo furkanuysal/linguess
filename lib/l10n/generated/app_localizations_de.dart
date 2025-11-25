@@ -263,18 +263,19 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast das tägliche Wort zum ersten Mal gelöst.';
 
   @override
-  String get achievement_solve_dailyword_ten_times_title => 'Zehn Tage!';
+  String get achievement_solve_dailyword_seven_times_title =>
+      'Wöchentliche Wiederholung';
 
   @override
-  String get achievement_solve_dailyword_ten_times_description =>
-      'Du hast 10 Mal das tägliche Wort gelöst.';
+  String get achievement_solve_dailyword_seven_times_description =>
+      'Du hast das tägliche Wort 7 Mal gelöst.';
 
   @override
   String get achievement_solve_dailyword_thirty_times_title => 'Ein Monat!';
 
   @override
   String get achievement_solve_dailyword_thirty_times_description =>
-      'Du hast 30 Mal das tägliche Wort gelöst.';
+      'Du hast das tägliche Wort 30 Mal gelöst.';
 
   @override
   String get achievement_solve_firstword_nohint_title => 'Ohne Hilfe gelöst!';

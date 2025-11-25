@@ -316,19 +316,19 @@
   "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_ten_times_title": "Zehn Tage!",
-  "@achievement_solve_dailyword_ten_times_title": {
-    "description": "Title for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_title": "Wöchentliche Wiederholung",
+  "@achievement_solve_dailyword_seven_times_title": {
+    "description": "Title for the 'solve daily word seven times' achievement"
   },
-  "achievement_solve_dailyword_ten_times_description": "Du hast 10 Mal das tägliche Wort gelöst.",
-  "@achievement_solve_dailyword_ten_times_description": {
-    "description": "Description for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_description": "Du hast das tägliche Wort 7 Mal gelöst.",
+  "@achievement_solve_dailyword_seven_times_description": {
+    "description": "Description for the 'solve daily word seven times' achievement"
   },
   "achievement_solve_dailyword_thirty_times_title": "Ein Monat!",
   "@achievement_solve_dailyword_thirty_times_title": {
     "description": "Title for the 'solve daily word thirty times' achievement"
   },
-  "achievement_solve_dailyword_thirty_times_description": "Du hast 30 Mal das tägliche Wort gelöst.",
+  "achievement_solve_dailyword_thirty_times_description": "Du hast das tägliche Wort 30 Mal gelöst.",
   "@achievement_solve_dailyword_thirty_times_description": {
     "description": "Description for the 'solve daily word thirty times' achievement"
   },

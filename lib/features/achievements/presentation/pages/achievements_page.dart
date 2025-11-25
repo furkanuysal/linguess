@@ -7,6 +7,9 @@ import 'package:linguess/features/achievements/data/models/achievement_model.dar
 import 'package:linguess/features/achievements/presentation/providers/achievement_progress_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/achievements/presentation/providers/achievements_provider.dart';
+import 'package:linguess/features/shop/data/models/shop_item_model.dart';
+import 'package:linguess/features/shop/data/models/shop_item_type.dart';
+import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 
 class AchievementsPage extends ConsumerWidget {
   const AchievementsPage({super.key});
@@ -15,6 +18,7 @@ class AchievementsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(achievementsViewProvider(context));
     final l10n = AppLocalizations.of(context)!;
+    final shopItemsAsync = ref.watch(shopItemsProvider);
 
     final earnedItems = items.where((e) => e.earned).toList();
     final notEarnedItems = items.where((e) => !e.earned).toList();
@@ -53,6 +57,7 @@ class AchievementsPage extends ConsumerWidget {
                   def: def,
                   earned: item.earned,
                   progressAsync: progressAsync,
+                  shopItemsAsync: shopItemsAsync,
                 );
               },
             ),
@@ -68,11 +73,13 @@ class _AchievementTile extends StatelessWidget {
     required this.def,
     required this.earned,
     required this.progressAsync,
+    required this.shopItemsAsync,
   });
 
   final AchievementModel def;
   final bool earned;
   final AsyncValue<dynamic> progressAsync; // null or AchievementProgress
+  final AsyncValue<List<dynamic>> shopItemsAsync;
 
   @override
   Widget build(BuildContext context) {
@@ -119,13 +126,94 @@ class _AchievementTile extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        subtitle: _buildSubtitle(theme, l10n),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSubtitle(theme, l10n),
+            if (def.reward != null) ...[
+              const SizedBox(height: 8),
+              _buildReward(context, theme, l10n),
+            ],
+          ],
+        ),
         trailing: earned
             ? const Icon(Icons.check_circle, color: Colors.green)
             : Icon(
                 Icons.check_circle_outline,
                 color: scheme.onSurface.withValues(alpha: 0.6),
               ),
+      ),
+    );
+  }
+
+  Widget _buildReward(
+    BuildContext context,
+    ThemeData theme,
+    AppLocalizations l10n,
+  ) {
+    final reward = def.reward!;
+    final scheme = theme.colorScheme;
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: scheme.primaryContainer.withValues(alpha: 0.3),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: scheme.primary.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            reward is GoldReward ? Icons.monetization_on : Icons.inventory_2,
+            size: 16,
+            color: scheme.primary,
+          ),
+          const SizedBox(width: 6),
+          if (reward is GoldReward)
+            Text(
+              '+${reward.amount} ${l10n.gold}',
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: scheme.primary,
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          else if (reward is ItemReward)
+            Builder(
+              builder: (context) {
+                final itemId = reward.itemId;
+                final itemName = shopItemsAsync.maybeWhen(
+                  data: (items) {
+                    final item = items.firstWhere(
+                      (i) => i.id == itemId,
+                      orElse: () => ShopItem(
+                        id: itemId,
+                        type: ShopItemType.other,
+                        price: 0,
+                        requiredLevel: 0,
+                        rarity: 'common',
+                        iconUrl: '',
+                        translations: {},
+                      ),
+                    );
+                    return item.nameFor(l10n.localeName);
+                  },
+                  orElse: () => l10n.loadingText,
+                );
+
+                return Text(
+                  itemName,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: scheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                );
+              },
+            ),
+        ],
       ),
     );
   }

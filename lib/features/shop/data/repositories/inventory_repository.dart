@@ -202,9 +202,29 @@ class InventoryRepository {
       final invSnap = await tx.get(invRef);
 
       if (!itemSnap.exists) throw Exception('Item not found');
-      if (invSnap.exists) return; // Already owned, do nothing
 
       final itemData = itemSnap.data()!;
+      final String typeString = itemData['type'] is ShopItemType
+          ? (itemData['type'] as ShopItemType).nameString
+          : (itemData['type']?.toString() ?? 'unknown');
+
+      final bool isBooster =
+          typeString == ShopItemType.xpBoost.nameString ||
+          typeString == ShopItemType.goldBoost.nameString;
+
+      if (invSnap.exists) {
+        if (isBooster) {
+          // Stack uses
+          final invData = invSnap.data()!;
+          final int currentRemaining = invData['remainingUses'] ?? 0;
+          final int baseUses = itemData['baseUses'] ?? 0;
+          final int newRemaining = currentRemaining + baseUses;
+
+          tx.update(invRef, {'remainingUses': newRemaining});
+        }
+        return; // Already owned (and updated if booster), do nothing else
+      }
+
       _addItemToInventory(tx, invRef, itemData);
     });
   }

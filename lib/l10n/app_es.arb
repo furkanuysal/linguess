@@ -316,13 +316,13 @@
   "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_ten_times_title": "¡Diez resueltas!",
-  "@achievement_solve_dailyword_ten_times_title": {
-    "description": "Title for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_title": "¡Siete resueltas!",
+  "@achievement_solve_dailyword_seven_times_title": {
+    "description": "Title for the 'solve daily word seven times' achievement"
   },
-  "achievement_solve_dailyword_ten_times_description": "Has resuelto la palabra diaria diez veces.",
-  "@achievement_solve_dailyword_ten_times_description": {
-    "description": "Description for the 'solve daily word ten times' achievement"
+  "achievement_solve_dailyword_seven_times_description": "Has resuelto la palabra diaria siete veces.",
+  "@achievement_solve_dailyword_seven_times_description": {
+    "description": "Description for the 'solve daily word seven times' achievement"
   },
   "achievement_solve_dailyword_thirty_times_title": "¡Treinta resueltas!",
   "@achievement_solve_dailyword_thirty_times_title": {
