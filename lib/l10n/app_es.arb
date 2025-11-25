@@ -432,6 +432,38 @@
   "@achievement_used_example_sentence_target_powerup_first_time_description": {
     "description": "Description for the 'used example sentence target powerup first time' achievement"
   },
+  "achievement_learn_category_food_10_title": "Sabores Locales",
+  "@achievement_learn_category_food_10_title": {
+    "description": "Title for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_food_10_description": "¡Has aprendido 10 palabras de la categoría 'Comida'!",
+  "@achievement_learn_category_food_10_description": {
+    "description": "Description for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_animal_10_title": "Amigo de los Animales",
+  "@achievement_learn_category_animal_10_title": {
+    "description": "Title for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_category_animal_10_description": "¡Has aprendido 10 palabras de la categoría 'Animales'!",
+  "@achievement_learn_category_animal_10_description": {
+    "description": "Description for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_50_words_title": "50 Palabras",
+  "@achievement_learn_50_words_title": {
+    "description": "Title for the 'learn 50 words' achievement"
+  },
+  "achievement_learn_50_words_description": "¡Has aprendido 50 palabras!",
+  "@achievement_learn_50_words_description": {
+    "description": "Description for the 'learn 50 words' achievement"
+  },
+  "achievement_time_attack_score_20_title": "Pensador Rápido",
+  "@achievement_time_attack_score_20_title": {
+    "description": "Title for the 'reaching 20 score in time attack' achievement"
+  },
+  "achievement_time_attack_score_20_description": "¡Has alcanzado 20 puntos en el modo contrarreloj!",
+  "@achievement_time_attack_score_20_description": {
+    "description": "Description for the 'reaching 20 score in time attack' achievement"
+  },
   "adNotReady": "Anuncio no disponible. Inténtalo de nuevo más tarde.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

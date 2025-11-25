@@ -555,7 +555,7 @@ abstract class AppLocalizations {
   /// Title for the 'learn twenty words' achievement
   ///
   /// In tr, this message translates to:
-  /// **'Yirmi Kelime!'**
+  /// **'Kelime Yolcusu'**
   String get achievement_learn_twenty_words_title;
 
   /// Description for the 'learn twenty words' achievement
@@ -579,7 +579,7 @@ abstract class AppLocalizations {
   /// Title for the 'solve daily word seven times' achievement
   ///
   /// In tr, this message translates to:
-  /// **'Haftalık Savaşçı'**
+  /// **'Azimli'**
   String get achievement_solve_dailyword_seven_times_title;
 
   /// Description for the 'solve daily word seven times' achievement
@@ -591,7 +591,7 @@ abstract class AppLocalizations {
   /// Title for the 'solve daily word thirty times' achievement
   ///
   /// In tr, this message translates to:
-  /// **'Bir ay!'**
+  /// **'Aylık Usta!'**
   String get achievement_solve_dailyword_thirty_times_title;
 
   /// Description for the 'solve daily word thirty times' achievement
@@ -633,7 +633,7 @@ abstract class AppLocalizations {
   /// Title for the 'solve ten words' achievement
   ///
   /// In tr, this message translates to:
-  /// **'Onun gücü!'**
+  /// **'Onun gücü, senin gücün!'**
   String get achievement_solve_ten_words_title;
 
   /// Description for the 'solve ten words' achievement
@@ -750,6 +750,54 @@ abstract class AppLocalizations {
   /// **'İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.'**
   String
   get achievement_used_example_sentence_target_powerup_first_time_description;
+
+  /// Title for the 'learn 10 words from food category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Lokal Lezzetler'**
+  String get achievement_learn_category_food_10_title;
+
+  /// Description for the 'learn 10 words from food category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yiyecekler kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_food_10_description;
+
+  /// Title for the 'learn 10 words from animal category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayvan Dostu'**
+  String get achievement_learn_category_animal_10_title;
+
+  /// Description for the 'learn 10 words from animal category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayvanlar kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_animal_10_description;
+
+  /// Title for the 'learn 50 words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'50 Kelimelik Yol'**
+  String get achievement_learn_50_words_title;
+
+  /// Description for the 'learn 50 words' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'50 kelimeyi öğrendin!'**
+  String get achievement_learn_50_words_description;
+
+  /// Title for the 'reaching 20 score in time attack' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hızlı Düşünen'**
+  String get achievement_time_attack_score_20_title;
+
+  /// Description for the 'reaching 20 score in time attack' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamana karşı modunda 20 puana ulaştın!'**
+  String get achievement_time_attack_score_20_description;
 
   /// Error message shown when the ad is not ready
   ///

@@ -362,6 +362,33 @@ class AppLocalizationsEn extends AppLocalizations {
       'You used the target language example sentence power-up for the first time.';
 
   @override
+  String get achievement_learn_category_food_10_title => 'Local Flavors';
+
+  @override
+  String get achievement_learn_category_food_10_description =>
+      'You learned 10 words from the food category!';
+
+  @override
+  String get achievement_learn_category_animal_10_title => 'Animal Friend';
+
+  @override
+  String get achievement_learn_category_animal_10_description =>
+      'You learned 10 words from the animal category!';
+
+  @override
+  String get achievement_learn_50_words_title => '50 Words';
+
+  @override
+  String get achievement_learn_50_words_description => 'You learned 50 words!';
+
+  @override
+  String get achievement_time_attack_score_20_title => 'Quick Thinker';
+
+  @override
+  String get achievement_time_attack_score_20_description =>
+      'You reached 20 points in time attack!';
+
+  @override
   String get adNotReady => 'Ad not ready. Please try again later.';
 
   @override

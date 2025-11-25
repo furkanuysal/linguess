@@ -242,7 +242,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get achievement_learn_ten_words_description => '10 kelimeyi öğrendin.';
 
   @override
-  String get achievement_learn_twenty_words_title => 'Yirmi Kelime!';
+  String get achievement_learn_twenty_words_title => 'Kelime Yolcusu';
 
   @override
   String get achievement_learn_twenty_words_description =>
@@ -256,15 +256,14 @@ class AppLocalizationsTr extends AppLocalizations {
       'İlk kez günlük kelimeyi çözdün.';
 
   @override
-  String get achievement_solve_dailyword_seven_times_title =>
-      'Haftalık Savaşçı';
+  String get achievement_solve_dailyword_seven_times_title => 'Azimli';
 
   @override
   String get achievement_solve_dailyword_seven_times_description =>
       '7 kez günlük kelimeyi çözdün.';
 
   @override
-  String get achievement_solve_dailyword_thirty_times_title => 'Bir ay!';
+  String get achievement_solve_dailyword_thirty_times_title => 'Aylık Usta!';
 
   @override
   String get achievement_solve_dailyword_thirty_times_description =>
@@ -288,7 +287,7 @@ class AppLocalizationsTr extends AppLocalizations {
       'Bu başarı hakkında bilgi yok.';
 
   @override
-  String get achievement_solve_ten_words_title => 'Onun gücü!';
+  String get achievement_solve_ten_words_title => 'Onun gücü, senin gücün!';
 
   @override
   String get achievement_solve_ten_words_description =>
@@ -361,6 +360,33 @@ class AppLocalizationsTr extends AppLocalizations {
   String
   get achievement_used_example_sentence_target_powerup_first_time_description =>
       'İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.';
+
+  @override
+  String get achievement_learn_category_food_10_title => 'Lokal Lezzetler';
+
+  @override
+  String get achievement_learn_category_food_10_description =>
+      'Yiyecekler kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_animal_10_title => 'Hayvan Dostu';
+
+  @override
+  String get achievement_learn_category_animal_10_description =>
+      'Hayvanlar kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_50_words_title => '50 Kelimelik Yol';
+
+  @override
+  String get achievement_learn_50_words_description => '50 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_time_attack_score_20_title => 'Hızlı Düşünen';
+
+  @override
+  String get achievement_time_attack_score_20_description =>
+      'Zamana karşı modunda 20 puana ulaştın!';
 
   @override
   String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';

@@ -1,6 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:linguess/features/achievements/presentation/providers/ach_user_daily_solved_count_provider.dart';
 import 'package:linguess/features/achievements/presentation/providers/ach_user_learned_count_provider.dart';
+import 'package:linguess/features/game/presentation/providers/learned_count_provider.dart';
+import 'package:linguess/features/stats/data/models/user_stats_model.dart';
+import 'package:linguess/features/stats/presentation/providers/user_stats_provider.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
 import 'package:linguess/features/achievements/data/models/achievement_model.dart';
 import 'package:linguess/features/achievements/presentation/providers/achievements_provider.dart';
@@ -55,6 +58,17 @@ class AchievementToastController extends Notifier<AchievementModel?> {
       });
     });
 
+    // time attack achievements
+    ref.listen<AsyncValue<UserStatsModel?>>(userStatsProvider, (_, next) {
+      next.whenData((stats) async {
+        if (stats != null && stats.timeAttackHighScore != null) {
+          await _checkProgressAchievements(
+            timeAttackHighScore: stats.timeAttackHighScore,
+          );
+        }
+      });
+    });
+
     return null;
   }
 
@@ -63,6 +77,7 @@ class AchievementToastController extends Notifier<AchievementModel?> {
     int? solvedCount,
     int? learnedCount,
     int? dailySolvedCount,
+    int? timeAttackHighScore,
   }) async {
     final context = ref.read(navigatorKeyProvider).currentContext;
     if (context == null) return;
@@ -78,6 +93,10 @@ class AchievementToastController extends Notifier<AchievementModel?> {
         dailySolvedCount ??
         ref.read(achUserDailySolvedCountProvider).value ??
         0;
+    final timeAttack =
+        timeAttackHighScore ??
+        ref.read(userStatsProvider).value?.timeAttackHighScore ??
+        0;
 
     for (final def in defs) {
       if (!(def.hasProgress) ||
@@ -87,11 +106,33 @@ class AchievementToastController extends Notifier<AchievementModel?> {
       }
 
       final target = def.progressTarget!;
-      final current = switch (def.progressType!) {
-        AchievementProgressType.solvedWordsTotal => solved,
-        AchievementProgressType.learnedWordsTotal => learned,
-        AchievementProgressType.dailySolvedTotal => daily,
-      };
+      int current = 0;
+
+      switch (def.progressType!) {
+        case AchievementProgressType.solvedWordsTotal:
+          current = solved;
+          break;
+        case AchievementProgressType.learnedWordsTotal:
+          current = learned;
+          break;
+        case AchievementProgressType.dailySolvedTotal:
+          current = daily;
+          break;
+        case AchievementProgressType.timeAttackHighscore:
+          current = timeAttack;
+          break;
+        case AchievementProgressType.categoryLearned:
+          if (def.progressParam != null) {
+            // Fetch specific category progress
+            final progressAsync = await ref.read(
+              progressProvider(
+                ProgressParams(mode: 'category', id: def.progressParam!),
+              ).future,
+            );
+            current = progressAsync.learnedCount;
+          }
+          break;
+      }
 
       if (current >= target) {
         await service.awardIfNotEarned(def.id);

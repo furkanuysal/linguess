@@ -432,6 +432,38 @@
   "@achievement_used_example_sentence_target_powerup_first_time_description": {
     "description": "Description for the 'used example sentence target powerup first time' achievement"
   },
+  "achievement_learn_category_food_10_title": "Local Flavors",
+  "@achievement_learn_category_food_10_title": {
+    "description": "Title for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_food_10_description": "You learned 10 words from the food category!",
+  "@achievement_learn_category_food_10_description": {
+    "description": "Description for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_animal_10_title": "Animal Friend",
+  "@achievement_learn_category_animal_10_title": {
+    "description": "Title for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_category_animal_10_description": "You learned 10 words from the animal category!",
+  "@achievement_learn_category_animal_10_description": {
+    "description": "Description for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_50_words_title": "50 Words",
+  "@achievement_learn_50_words_title": {
+    "description": "Title for the 'learn 50 words' achievement"
+  },
+  "achievement_learn_50_words_description": "You learned 50 words!",
+  "@achievement_learn_50_words_description": {
+    "description": "Description for the 'learn 50 words' achievement"
+  },
+  "achievement_time_attack_score_20_title": "Quick Thinker",
+  "@achievement_time_attack_score_20_title": {
+    "description": "Title for the 'reaching 20 score in time attack' achievement"
+  },
+  "achievement_time_attack_score_20_description": "You reached 20 points in time attack!",
+  "@achievement_time_attack_score_20_description": {
+    "description": "Description for the 'reaching 20 score in time attack' achievement"
+  },
   "adNotReady": "Ad not ready. Please try again later.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

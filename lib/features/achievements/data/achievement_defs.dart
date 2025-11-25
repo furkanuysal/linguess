@@ -117,7 +117,36 @@ final achievementDefinitions = <String, AchievementModel>{
     progressTarget: 20,
     reward: GoldReward(200),
   ),
-  // TODO: Add more achievements with rewards
+  'learn_category_food_10': const AchievementModel.withEmptyValues(
+    id: 'learn_category_food_10',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearned,
+    progressTarget: 10,
+    progressParam: 'food',
+    reward: GoldReward(150),
+  ),
+  'learn_category_animal_10': const AchievementModel.withEmptyValues(
+    id: 'learn_category_animal_10',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearned,
+    progressTarget: 10,
+    progressParam: 'animal',
+    reward: GoldReward(150),
+  ),
+  'learn_50_words': const AchievementModel.withEmptyValues(
+    id: 'learn_50_words',
+    hasProgress: true,
+    progressType: AchievementProgressType.learnedWordsTotal,
+    progressTarget: 50,
+    reward: GoldReward(500),
+  ),
+  'time_attack_score_20': const AchievementModel.withEmptyValues(
+    id: 'time_attack_score_20',
+    hasProgress: true,
+    progressType: AchievementProgressType.timeAttackHighscore,
+    progressTarget: 20,
+    reward: ItemReward('gold_boost_small'),
+  ),
 };
 
 List<AchievementModel> buildAchievements(BuildContext context) {
@@ -228,6 +257,26 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       'learn_twenty_words',
       l10n.achievement_learn_twenty_words_title,
       l10n.achievement_learn_twenty_words_description,
+    ),
+    build(
+      'learn_category_food_10',
+      l10n.achievement_learn_category_food_10_title,
+      l10n.achievement_learn_category_food_10_description,
+    ),
+    build(
+      'learn_category_animal_10',
+      l10n.achievement_learn_category_animal_10_title,
+      l10n.achievement_learn_category_animal_10_description,
+    ),
+    build(
+      'learn_50_words',
+      l10n.achievement_learn_50_words_title,
+      l10n.achievement_learn_50_words_description,
+    ),
+    build(
+      'time_attack_score_20',
+      l10n.achievement_time_attack_score_20_title,
+      l10n.achievement_time_attack_score_20_description,
     ),
   ];
 }

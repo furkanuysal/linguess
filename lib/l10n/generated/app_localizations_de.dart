@@ -372,6 +372,34 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast zum ersten Mal den Zielsprachen-Beispielsatz-Power-Up benutzt.';
 
   @override
+  String get achievement_learn_category_food_10_title => 'Lokale Aromen';
+
+  @override
+  String get achievement_learn_category_food_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Lebensmittel\' gelernt!';
+
+  @override
+  String get achievement_learn_category_animal_10_title => 'Tierfreund';
+
+  @override
+  String get achievement_learn_category_animal_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Tiere\' gelernt!';
+
+  @override
+  String get achievement_learn_50_words_title => '50 Wörter';
+
+  @override
+  String get achievement_learn_50_words_description =>
+      'Du hast 50 Wörter gelernt!';
+
+  @override
+  String get achievement_time_attack_score_20_title => 'Schneller Denker';
+
+  @override
+  String get achievement_time_attack_score_20_description =>
+      'Du hast 20 Punkte im Zeitduell erreicht!';
+
+  @override
   String get adNotReady =>
       'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
 

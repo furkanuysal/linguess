@@ -300,7 +300,7 @@
   "@achievement_learn_ten_words_description": {
     "description": "Description for the 'learn ten words' achievement"
   },
-  "achievement_learn_twenty_words_title": "Yirmi Kelime!",
+  "achievement_learn_twenty_words_title": "Kelime Yolcusu",
   "@achievement_learn_twenty_words_title": {
     "description": "Title for the 'learn twenty words' achievement"
   },
@@ -316,7 +316,7 @@
   "@achievement_solve_dailyword_first_time_description": {
     "description": "Description for the 'solve daily word' achievement"
   },
-  "achievement_solve_dailyword_seven_times_title": "Haftalık Savaşçı",
+  "achievement_solve_dailyword_seven_times_title": "Azimli",
   "@achievement_solve_dailyword_seven_times_title": {
     "description": "Title for the 'solve daily word seven times' achievement"
   },
@@ -324,7 +324,7 @@
   "@achievement_solve_dailyword_seven_times_description": {
     "description": "Description for the 'solve daily word seven times' achievement"
   },
-  "achievement_solve_dailyword_thirty_times_title": "Bir ay!",
+  "achievement_solve_dailyword_thirty_times_title": "Aylık Usta!",
   "@achievement_solve_dailyword_thirty_times_title": {
     "description": "Title for the 'solve daily word thirty times' achievement"
   },
@@ -352,7 +352,7 @@
   "@unknownAchievementDescriptionText": {
     "description": "Description for an unknown achievement"
   },
-  "achievement_solve_ten_words_title": "Onun gücü!",
+  "achievement_solve_ten_words_title": "Onun gücü, senin gücün!",
   "@achievement_solve_ten_words_title": {
     "description": "Title for the 'solve ten words' achievement"
   },
@@ -431,6 +431,38 @@
   "achievement_used_example_sentence_target_powerup_first_time_description": "İlk kez hedef dilde örnek cümle güçlendiricisini kullandın.",
   "@achievement_used_example_sentence_target_powerup_first_time_description": {
     "description": "Description for the 'used example sentence target powerup first time' achievement"
+  },
+  "achievement_learn_category_food_10_title": "Lokal Lezzetler",
+  "@achievement_learn_category_food_10_title": {
+    "description": "Title for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_food_10_description": "Yiyecekler kategorisinden 10 kelimeyi öğrendin!",
+  "@achievement_learn_category_food_10_description": {
+    "description": "Description for the 'learn 10 words from food category' achievement"
+  },
+  "achievement_learn_category_animal_10_title": "Hayvan Dostu",
+  "@achievement_learn_category_animal_10_title": {
+    "description": "Title for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_category_animal_10_description": "Hayvanlar kategorisinden 10 kelimeyi öğrendin!",
+  "@achievement_learn_category_animal_10_description": {
+    "description": "Description for the 'learn 10 words from animal category' achievement"
+  },
+  "achievement_learn_50_words_title": "50 Kelimelik Yol",
+  "@achievement_learn_50_words_title": {
+    "description": "Title for the 'learn 50 words' achievement"
+  },
+  "achievement_learn_50_words_description": "50 kelimeyi öğrendin!",
+  "@achievement_learn_50_words_description": {
+    "description": "Description for the 'learn 50 words' achievement"
+  },
+  "achievement_time_attack_score_20_title": "Hızlı Düşünen",
+  "@achievement_time_attack_score_20_title": {
+    "description": "Title for the 'reaching 20 score in time attack' achievement"
+  },
+  "achievement_time_attack_score_20_description": "Zamana karşı modunda 20 puana ulaştın!",
+  "@achievement_time_attack_score_20_description": {
+    "description": "Description for the 'reaching 20 score in time attack' achievement"
   },
   "adNotReady": "Reklam hazır değil. Biraz sonra tekrar deneyin.",
   "@adNotReady": {

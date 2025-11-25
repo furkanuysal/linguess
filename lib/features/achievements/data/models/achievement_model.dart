@@ -2,6 +2,8 @@ enum AchievementProgressType {
   solvedWordsTotal, // userCorrectCountProvider
   learnedWordsTotal, // userLearnedCountProvider
   dailySolvedTotal, // userDailySolvedCountProvider
+  categoryLearned, // userLearnedCountProvider (filtered by category)
+  timeAttackHighscore, // userTimeAttackHighscoreProvider
 }
 
 sealed class AchievementReward {
@@ -27,6 +29,7 @@ class AchievementModel {
 
   final AchievementProgressType? progressType; // null if hasProgress is false
   final int? progressTarget; // null if hasProgress is false
+  final String? progressParam; // Optional param (e.g. categoryId)
 
   final AchievementReward? reward;
 
@@ -38,6 +41,7 @@ class AchievementModel {
     required this.hasProgress,
     this.progressType,
     this.progressTarget,
+    this.progressParam,
     this.reward,
   });
 
@@ -46,6 +50,7 @@ class AchievementModel {
     required this.hasProgress,
     this.progressType,
     this.progressTarget,
+    this.progressParam,
     this.reward,
     // Empty icon, title ve description
   }) : title = '',
@@ -60,6 +65,7 @@ class AchievementModel {
     bool? hasProgress,
     AchievementProgressType? progressType,
     int? progressTarget,
+    String? progressParam,
     AchievementReward? reward,
   }) {
     return AchievementModel(
@@ -70,6 +76,7 @@ class AchievementModel {
       hasProgress: hasProgress ?? this.hasProgress,
       progressType: progressType ?? this.progressType,
       progressTarget: progressTarget ?? this.progressTarget,
+      progressParam: progressParam ?? this.progressParam,
       reward: reward ?? this.reward,
     );
   }

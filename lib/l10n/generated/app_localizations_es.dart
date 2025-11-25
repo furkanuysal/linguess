@@ -370,6 +370,35 @@ class AppLocalizationsEs extends AppLocalizations {
       'Has usado por primera vez el potenciador de frases de ejemplo en el idioma objetivo.';
 
   @override
+  String get achievement_learn_category_food_10_title => 'Sabores Locales';
+
+  @override
+  String get achievement_learn_category_food_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Comida\'!';
+
+  @override
+  String get achievement_learn_category_animal_10_title =>
+      'Amigo de los Animales';
+
+  @override
+  String get achievement_learn_category_animal_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Animales\'!';
+
+  @override
+  String get achievement_learn_50_words_title => '50 Palabras';
+
+  @override
+  String get achievement_learn_50_words_description =>
+      '¡Has aprendido 50 palabras!';
+
+  @override
+  String get achievement_time_attack_score_20_title => 'Pensador Rápido';
+
+  @override
+  String get achievement_time_attack_score_20_description =>
+      '¡Has alcanzado 20 puntos en el modo contrarreloj!';
+
+  @override
   String get adNotReady =>
       'Anuncio no disponible. Inténtalo de nuevo más tarde.';
 
