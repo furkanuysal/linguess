@@ -130,6 +130,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsUseGameAvatar => 'Use Game Avatar';
 
   @override
+  String get settingsShowInLeaderboard => 'Show in Leaderboard';
+
+  @override
+  String get settingsShowInLeaderboardDesc =>
+      'Turn this off to hide yourself from the leaderboard.';
+
+  @override
   String get mainMenuPlayModeSelection => 'Select a game mode';
 
   @override

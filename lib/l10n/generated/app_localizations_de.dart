@@ -133,6 +133,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get settingsUseGameAvatar => 'Spiel-Avatar verwenden';
 
   @override
+  String get settingsShowInLeaderboard => 'Im Bestenliste anzeigen';
+
+  @override
+  String get settingsShowInLeaderboardDesc =>
+      'Deaktivieren Sie dies, um sich im Bestenliste nicht zu zeigen.';
+
+  @override
   String get mainMenuPlayModeSelection => 'Wählen Sie einen Spielmodus';
 
   @override

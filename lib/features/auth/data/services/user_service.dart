@@ -25,6 +25,7 @@ class UserService {
         'gold': 0,
         'correctCount': 0,
         'role': 'user',
+        'showInLeaderboard': true,
       });
 
       // Create public leaderboard entry
@@ -87,15 +88,20 @@ class UserService {
       final displayName = userSnap.data()?['displayName'] as String?;
       final currentUser = FirebaseAuth.instance.currentUser;
 
+      final showInLeaderboard =
+          (userSnap.data()?['showInLeaderboard'] as bool?) ?? true;
+
       // Then write
       tx.update(userRef, {'correctCount': newGlobalCount});
 
-      tx.set(leaderboardRef, {
-        'correctCount': newGlobalCount,
-        'maskedEmail': LeaderboardEntry.maskEmail(currentUser?.email),
-        if (displayName != null) 'displayName': displayName,
-        'uid': uid,
-      }, SetOptions(merge: true));
+      if (showInLeaderboard) {
+        tx.set(leaderboardRef, {
+          'correctCount': newGlobalCount,
+          'maskedEmail': LeaderboardEntry.maskEmail(currentUser?.email),
+          if (displayName != null) 'displayName': displayName,
+          'uid': uid,
+        }, SetOptions(merge: true));
+      }
 
       if (!targetSnap.exists) {
         tx.set(targetDocRef, {
@@ -167,5 +173,35 @@ class UserService {
       log("Error fetching leaderboard: $e");
       return [];
     }
+  }
+
+  Future<void> updateShowInLeaderboard(String uid, bool value) async {
+    final userRef = _firestore.collection('users').doc(uid);
+    final leaderboardRef = _firestore.collection('leaderboard').doc(uid);
+
+    await _firestore.runTransaction((tx) async {
+      final userSnap = await tx.get(userRef);
+      if (!userSnap.exists) return;
+
+      tx.update(userRef, {'showInLeaderboard': value});
+
+      if (value) {
+        // Add to leaderboard
+        final data = userSnap.data()!;
+        final correctCount = (data['correctCount'] as int?) ?? 0;
+        final displayName = data['displayName'] as String?;
+        final email = data['email'] as String?;
+
+        tx.set(leaderboardRef, {
+          'uid': uid,
+          'correctCount': correctCount,
+          'maskedEmail': LeaderboardEntry.maskEmail(email),
+          if (displayName != null) 'displayName': displayName,
+        });
+      } else {
+        // Remove from leaderboard
+        tx.delete(leaderboardRef);
+      }
+    });
   }
 }

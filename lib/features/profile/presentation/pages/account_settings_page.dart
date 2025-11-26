@@ -47,6 +47,20 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
     ).showSnackBar(SnackBar(content: Text(msg), backgroundColor: color));
   }
 
+  Future<void> _updateShowInLeaderboard(String uid, bool value) async {
+    if (_isSaving) return;
+    setState(() => _isSaving = true);
+    final l10n = AppLocalizations.of(context)!;
+    try {
+      await ref.read(userServiceProvider).updateShowInLeaderboard(uid, value);
+    } catch (e) {
+      if (!mounted) return;
+      _showSnack(context, l10n.errorOccurred, color: Colors.red);
+    } finally {
+      if (mounted) setState(() => _isSaving = false);
+    }
+  }
+
   Future<void> _saveProfile(String uid) async {
     final l10n = AppLocalizations.of(context)!;
     final name = _displayNameCtrl.text.trim();
@@ -152,6 +166,8 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
                 final createdAt = createdAtValue != null
                     ? formatDateTime(createdAtValue)
                     : '—';
+                final showInLeaderboard =
+                    (data['showInLeaderboard'] as bool?) ?? true;
 
                 _displayNameCtrl.text = displayName;
                 final emailCtrl = TextEditingController(text: email);
@@ -238,6 +254,31 @@ class _AccountSettingsPageState extends ConsumerState<AccountSettingsPage> {
                             ),
                           ],
                         ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+                    GradientCard(
+                      child: SwitchListTile(
+                        title: Text(
+                          l10n.settingsShowInLeaderboard,
+                          style: TextStyle(
+                            color: scheme.onSurface,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        subtitle: Text(
+                          l10n.settingsShowInLeaderboardDesc,
+                          style: TextStyle(
+                            color: scheme.onSurfaceVariant,
+                            fontSize: 12,
+                          ),
+                        ),
+                        value: showInLeaderboard,
+                        onChanged: _isSaving
+                            ? null
+                            : (val) => _updateShowInLeaderboard(uid, val),
+                        activeThumbColor: scheme.primary,
                       ),
                     ),
 

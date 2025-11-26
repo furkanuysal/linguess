@@ -32,8 +32,8 @@ class LeaderboardEntry {
     final parts = email.split('@');
     if (parts.isEmpty) return 'Anonymous';
     final namePart = parts[0];
-    if (namePart.length > 5) {
-      return '${namePart.substring(0, 5)}*****';
+    if (namePart.length > 3) {
+      return '${namePart.substring(0, 3)}*****';
     } else {
       return '$namePart*****';
     }

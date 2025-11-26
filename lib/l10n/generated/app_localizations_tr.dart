@@ -129,6 +129,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get settingsUseGameAvatar => 'Oyundaki avatarı kullan';
 
   @override
+  String get settingsShowInLeaderboard => 'Sıralamada Görün';
+
+  @override
+  String get settingsShowInLeaderboardDesc =>
+      'Sıralamada görünmek istemiyorsanız bu ayarı kapatın.';
+
+  @override
   String get mainMenuPlayModeSelection => 'Bir oyun türü seçin';
 
   @override

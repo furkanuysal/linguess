@@ -342,6 +342,18 @@ abstract class AppLocalizations {
   /// **'Oyundaki avatarı kullan'**
   String get settingsUseGameAvatar;
 
+  /// Label for the setting to show or hide the user in the leaderboard
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıralamada Görün'**
+  String get settingsShowInLeaderboard;
+
+  /// Description for the setting to show or hide the user in the leaderboard
+  ///
+  /// In tr, this message translates to:
+  /// **'Sıralamada görünmek istemiyorsanız bu ayarı kapatın.'**
+  String get settingsShowInLeaderboardDesc;
+
   /// Label for the main menu where the user selects a game mode
   ///
   /// In tr, this message translates to:

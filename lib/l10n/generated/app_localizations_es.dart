@@ -132,6 +132,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get settingsUseGameAvatar => 'Usar avatar del juego';
 
   @override
+  String get settingsShowInLeaderboard => 'Mostrar en el Clasificación';
+
+  @override
+  String get settingsShowInLeaderboardDesc =>
+      'Desactiva esto para ocultarte de la clasificación.';
+
+  @override
   String get mainMenuPlayModeSelection => 'Selecciona un modo de juego';
 
   @override
