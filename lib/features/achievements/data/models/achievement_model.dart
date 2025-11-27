@@ -3,6 +3,7 @@ enum AchievementProgressType {
   learnedWordsTotal, // userLearnedCountProvider
   dailySolvedTotal, // userDailySolvedCountProvider
   categoryLearned, // userLearnedCountProvider (filtered by category)
+  categoryLearnedComplete, // Dynamic target (total words in category)
   timeAttackHighscore, // userTimeAttackHighscoreProvider
 }
 

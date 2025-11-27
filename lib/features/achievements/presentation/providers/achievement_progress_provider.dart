@@ -12,16 +12,22 @@ final achievementProgressProvider =
       ref,
       def,
     ) {
-      if (!(def.hasProgress) ||
-          def.progressType == null ||
+      if (!(def.hasProgress) || def.progressType == null) {
+        return const AsyncData<AchievementProgress?>(null);
+      }
+
+      // For static types, we need a target.
+      if (def.progressType != AchievementProgressType.categoryLearnedComplete &&
           def.progressTarget == null) {
         return const AsyncData<AchievementProgress?>(null);
       }
 
       final type = def.progressType!;
-      final target = def.progressTarget!;
+      final staticTarget = def.progressTarget ?? 0;
 
       AsyncValue<int> countAsync;
+      AsyncValue<int> targetAsync = AsyncData(staticTarget);
+
       switch (type) {
         case AchievementProgressType.solvedWordsTotal:
           countAsync = ref.watch(userCorrectCountProvider);
@@ -44,14 +50,33 @@ final achievementProgressProvider =
             countAsync = progress.whenData((p) => p.learnedCount);
           }
           break;
+        case AchievementProgressType.categoryLearnedComplete:
+          if (def.progressParam == null) {
+            countAsync = const AsyncData(0);
+          } else {
+            final progress = ref.watch(
+              progressProvider(
+                ProgressParams(mode: 'category', id: def.progressParam!),
+              ),
+            );
+            countAsync = progress.whenData((p) => p.learnedCount);
+            targetAsync = progress.whenData((p) => p.totalCount);
+          }
+          break;
         case AchievementProgressType.timeAttackHighscore:
           final stats = ref.watch(userStatsProvider);
           countAsync = stats.whenData((s) => s?.timeAttackHighScore ?? 0);
           break;
       }
 
-      return countAsync.whenData((count) {
-        final current = count.clamp(0, target);
-        return AchievementProgress(current: current, target: target);
-      });
+      return countAsync
+              .whenData((count) {
+                return targetAsync.whenData((target) {
+                  final current = count.clamp(0, target > 0 ? target : 1);
+                  return AchievementProgress(current: current, target: target);
+                });
+              })
+              .asData
+              ?.value ??
+          const AsyncLoading();
     });

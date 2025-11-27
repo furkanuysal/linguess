@@ -481,6 +481,97 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast 10 Wörter aus der Kategorie \'Körper\' gelernt!';
 
   @override
+  String get achievement_learn_category_food_complete_title => 'Feinschmecker';
+
+  @override
+  String get achievement_learn_category_food_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Lebensmittel\' gelernt!';
+
+  @override
+  String get achievement_learn_category_animal_complete_title =>
+      'König des Dschungels';
+
+  @override
+  String get achievement_learn_category_animal_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Tiere\' gelernt!';
+
+  @override
+  String get achievement_learn_category_job_complete_title => 'Der CEO';
+
+  @override
+  String get achievement_learn_category_job_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Berufe\' gelernt!';
+
+  @override
+  String get achievement_learn_category_electronic_complete_title =>
+      'Teslas Erbe';
+
+  @override
+  String get achievement_learn_category_electronic_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Elektronik\' gelernt!';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_title =>
+      'König der Straße';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Fahrzeuge\' gelernt!';
+
+  @override
+  String get achievement_learn_category_building_complete_title =>
+      'Architektur-Genie';
+
+  @override
+  String get achievement_learn_category_building_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Bauwerke\' gelernt!';
+
+  @override
+  String get achievement_learn_category_hobby_complete_title => 'Tausendsass';
+
+  @override
+  String get achievement_learn_category_hobby_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Hobbys\' gelernt!';
+
+  @override
+  String get achievement_learn_category_space_complete_title =>
+      'Galaktischer Herrscher';
+
+  @override
+  String get achievement_learn_category_space_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Weltraum\' gelernt!';
+
+  @override
+  String get achievement_learn_category_time_complete_title => 'Herr der Zeit';
+
+  @override
+  String get achievement_learn_category_time_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Zeit\' gelernt!';
+
+  @override
+  String get achievement_learn_category_math_complete_title => 'Mathe-Genie';
+
+  @override
+  String get achievement_learn_category_math_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Mathematik\' gelernt!';
+
+  @override
+  String get achievement_learn_category_geography_complete_title =>
+      'Marco Polo';
+
+  @override
+  String get achievement_learn_category_geography_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Geografie\' gelernt!';
+
+  @override
+  String get achievement_learn_category_body_complete_title =>
+      'Der vitruvianische Mensch';
+
+  @override
+  String get achievement_learn_category_body_complete_description =>
+      'Du hast alle Wörter aus der Kategorie \'Körper\' gelernt!';
+
+  @override
   String get adNotReady =>
       'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
 

@@ -99,13 +99,17 @@ class AchievementToastController extends Notifier<AchievementModel?> {
         0;
 
     for (final def in defs) {
-      if (!(def.hasProgress) ||
-          def.progressType == null ||
+      if (!(def.hasProgress) || def.progressType == null) {
+        continue;
+      }
+
+      // Skip if target is null and NOT a dynamic type
+      if (def.progressType != AchievementProgressType.categoryLearnedComplete &&
           def.progressTarget == null) {
         continue;
       }
 
-      final target = def.progressTarget!;
+      int target = def.progressTarget ?? 0;
       int current = 0;
 
       switch (def.progressType!) {
@@ -130,6 +134,17 @@ class AchievementToastController extends Notifier<AchievementModel?> {
               ).future,
             );
             current = progressAsync.learnedCount;
+          }
+          break;
+        case AchievementProgressType.categoryLearnedComplete:
+          if (def.progressParam != null) {
+            final progressAsync = await ref.read(
+              progressProvider(
+                ProgressParams(mode: 'category', id: def.progressParam!),
+              ).future,
+            );
+            current = progressAsync.learnedCount;
+            target = progressAsync.totalCount;
           }
           break;
       }

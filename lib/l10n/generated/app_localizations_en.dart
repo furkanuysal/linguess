@@ -470,6 +470,97 @@ class AppLocalizationsEn extends AppLocalizations {
       'You learned 10 words from the body category!';
 
   @override
+  String get achievement_learn_category_food_complete_title => 'Gourmet';
+
+  @override
+  String get achievement_learn_category_food_complete_description =>
+      'You learned all words from the food category!';
+
+  @override
+  String get achievement_learn_category_animal_complete_title =>
+      'King of the Jungle';
+
+  @override
+  String get achievement_learn_category_animal_complete_description =>
+      'You learned all words from the animal category!';
+
+  @override
+  String get achievement_learn_category_job_complete_title => 'The CEO';
+
+  @override
+  String get achievement_learn_category_job_complete_description =>
+      'You learned all words from the job category!';
+
+  @override
+  String get achievement_learn_category_electronic_complete_title =>
+      'Tesla\'s Heir';
+
+  @override
+  String get achievement_learn_category_electronic_complete_description =>
+      'You learned all words from the electronics category!';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_title =>
+      'King of the Road';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_description =>
+      'You learned all words from the vehicles category!';
+
+  @override
+  String get achievement_learn_category_building_complete_title =>
+      'Architectural Genius';
+
+  @override
+  String get achievement_learn_category_building_complete_description =>
+      'You learned all words from the building category!';
+
+  @override
+  String get achievement_learn_category_hobby_complete_title =>
+      'Jack of All Trades';
+
+  @override
+  String get achievement_learn_category_hobby_complete_description =>
+      'You learned all words from the hobby category!';
+
+  @override
+  String get achievement_learn_category_space_complete_title =>
+      'Galactic Overlord';
+
+  @override
+  String get achievement_learn_category_space_complete_description =>
+      'You learned all words from the space category!';
+
+  @override
+  String get achievement_learn_category_time_complete_title => 'Time Lord';
+
+  @override
+  String get achievement_learn_category_time_complete_description =>
+      'You learned all words from the time category!';
+
+  @override
+  String get achievement_learn_category_math_complete_title => 'Math Prodigy';
+
+  @override
+  String get achievement_learn_category_math_complete_description =>
+      'You learned all words from the math category!';
+
+  @override
+  String get achievement_learn_category_geography_complete_title =>
+      'Marco Polo';
+
+  @override
+  String get achievement_learn_category_geography_complete_description =>
+      'You learned all words from the geography category!';
+
+  @override
+  String get achievement_learn_category_body_complete_title => 'Vitruvian Man';
+
+  @override
+  String get achievement_learn_category_body_complete_description =>
+      'You learned all words from the body category!';
+
+  @override
   String get adNotReady => 'Ad not ready. Please try again later.';
 
   @override

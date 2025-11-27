@@ -227,6 +227,90 @@ final achievementDefinitions = <String, AchievementModel>{
     progressTarget: 20,
     reward: ItemReward('gold_boost_small'),
   ),
+  'learn_category_food_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_food_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'food',
+    reward: GoldReward(500),
+  ),
+  'learn_category_animal_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_animal_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'animal',
+    reward: GoldReward(500),
+  ),
+  'learn_category_job_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_job_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'job',
+    reward: GoldReward(500),
+  ),
+  'learn_category_electronic_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_electronic_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'electronic',
+    reward: GoldReward(500),
+  ),
+  'learn_category_vehicle_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_vehicle_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'vehicle',
+    reward: GoldReward(500),
+  ),
+  'learn_category_building_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_building_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'building',
+    reward: GoldReward(500),
+  ),
+  'learn_category_hobby_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_hobby_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'hobby',
+    reward: GoldReward(500),
+  ),
+  'learn_category_space_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_space_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'space',
+    reward: GoldReward(500),
+  ),
+  'learn_category_time_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_time_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'time',
+    reward: GoldReward(500),
+  ),
+  'learn_category_math_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_math_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'math',
+    reward: GoldReward(500),
+  ),
+  'learn_category_geography_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_geography_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'geography',
+    reward: GoldReward(500),
+  ),
+  'learn_category_body_complete': const AchievementModel.withEmptyValues(
+    id: 'learn_category_body_complete',
+    hasProgress: true,
+    progressType: AchievementProgressType.categoryLearnedComplete,
+    progressParam: 'body',
+    reward: GoldReward(500),
+  ),
 };
 
 List<AchievementModel> buildAchievements(BuildContext context) {
@@ -402,6 +486,66 @@ List<AchievementModel> buildAchievements(BuildContext context) {
       'time_attack_score_20',
       l10n.achievement_time_attack_score_20_title,
       l10n.achievement_time_attack_score_20_description,
+    ),
+    build(
+      'learn_category_food_complete',
+      l10n.achievement_learn_category_food_complete_title,
+      l10n.achievement_learn_category_food_complete_description,
+    ),
+    build(
+      'learn_category_animal_complete',
+      l10n.achievement_learn_category_animal_complete_title,
+      l10n.achievement_learn_category_animal_complete_description,
+    ),
+    build(
+      'learn_category_job_complete',
+      l10n.achievement_learn_category_job_complete_title,
+      l10n.achievement_learn_category_job_complete_description,
+    ),
+    build(
+      'learn_category_electronic_complete',
+      l10n.achievement_learn_category_electronic_complete_title,
+      l10n.achievement_learn_category_electronic_complete_description,
+    ),
+    build(
+      'learn_category_vehicle_complete',
+      l10n.achievement_learn_category_vehicle_complete_title,
+      l10n.achievement_learn_category_vehicle_complete_description,
+    ),
+    build(
+      'learn_category_building_complete',
+      l10n.achievement_learn_category_building_complete_title,
+      l10n.achievement_learn_category_building_complete_description,
+    ),
+    build(
+      'learn_category_hobby_complete',
+      l10n.achievement_learn_category_hobby_complete_title,
+      l10n.achievement_learn_category_hobby_complete_description,
+    ),
+    build(
+      'learn_category_space_complete',
+      l10n.achievement_learn_category_space_complete_title,
+      l10n.achievement_learn_category_space_complete_description,
+    ),
+    build(
+      'learn_category_time_complete',
+      l10n.achievement_learn_category_time_complete_title,
+      l10n.achievement_learn_category_time_complete_description,
+    ),
+    build(
+      'learn_category_math_complete',
+      l10n.achievement_learn_category_math_complete_title,
+      l10n.achievement_learn_category_math_complete_description,
+    ),
+    build(
+      'learn_category_geography_complete',
+      l10n.achievement_learn_category_geography_complete_title,
+      l10n.achievement_learn_category_geography_complete_description,
+    ),
+    build(
+      'learn_category_body_complete',
+      l10n.achievement_learn_category_body_complete_title,
+      l10n.achievement_learn_category_body_complete_description,
     ),
   ];
 }

@@ -552,6 +552,102 @@
   "@achievement_learn_category_body_10_description": {
     "description": "Description for the 'learn 10 words from body category' achievement"
   },
+  "achievement_learn_category_food_complete_title": "Feinschmecker",
+  "@achievement_learn_category_food_complete_title": {
+    "description": "Title for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_food_complete_description": "Du hast alle Wörter aus der Kategorie 'Lebensmittel' gelernt!",
+  "@achievement_learn_category_food_complete_description": {
+    "description": "Description for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_animal_complete_title": "König des Dschungels",
+  "@achievement_learn_category_animal_complete_title": {
+    "description": "Title for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_animal_complete_description": "Du hast alle Wörter aus der Kategorie 'Tiere' gelernt!",
+  "@achievement_learn_category_animal_complete_description": {
+    "description": "Description for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_job_complete_title": "Der CEO",
+  "@achievement_learn_category_job_complete_title": {
+    "description": "Title for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_job_complete_description": "Du hast alle Wörter aus der Kategorie 'Berufe' gelernt!",
+  "@achievement_learn_category_job_complete_description": {
+    "description": "Description for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_title": "Teslas Erbe",
+  "@achievement_learn_category_electronic_complete_title": {
+    "description": "Title for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_description": "Du hast alle Wörter aus der Kategorie 'Elektronik' gelernt!",
+  "@achievement_learn_category_electronic_complete_description": {
+    "description": "Description for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_title": "König der Straße",
+  "@achievement_learn_category_vehicle_complete_title": {
+    "description": "Title for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_description": "Du hast alle Wörter aus der Kategorie 'Fahrzeuge' gelernt!",
+  "@achievement_learn_category_vehicle_complete_description": {
+    "description": "Description for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_building_complete_title": "Architektur-Genie",
+  "@achievement_learn_category_building_complete_title": {
+    "description": "Title for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_building_complete_description": "Du hast alle Wörter aus der Kategorie 'Bauwerke' gelernt!",
+  "@achievement_learn_category_building_complete_description": {
+    "description": "Description for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_title": "Tausendsass",
+  "@achievement_learn_category_hobby_complete_title": {
+    "description": "Title for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_description": "Du hast alle Wörter aus der Kategorie 'Hobbys' gelernt!",
+  "@achievement_learn_category_hobby_complete_description": {
+    "description": "Description for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_space_complete_title": "Galaktischer Herrscher",
+  "@achievement_learn_category_space_complete_title": {
+    "description": "Title for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_space_complete_description": "Du hast alle Wörter aus der Kategorie 'Weltraum' gelernt!",
+  "@achievement_learn_category_space_complete_description": {
+    "description": "Description for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_time_complete_title": "Herr der Zeit",
+  "@achievement_learn_category_time_complete_title": {
+    "description": "Title for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_time_complete_description": "Du hast alle Wörter aus der Kategorie 'Zeit' gelernt!",
+  "@achievement_learn_category_time_complete_description": {
+    "description": "Description for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_math_complete_title": "Mathe-Genie",
+  "@achievement_learn_category_math_complete_title": {
+    "description": "Title for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_math_complete_description": "Du hast alle Wörter aus der Kategorie 'Mathematik' gelernt!",
+  "@achievement_learn_category_math_complete_description": {
+    "description": "Description for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_geography_complete_title": "Marco Polo",
+  "@achievement_learn_category_geography_complete_title": {
+    "description": "Title for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_geography_complete_description": "Du hast alle Wörter aus der Kategorie 'Geografie' gelernt!",
+  "@achievement_learn_category_geography_complete_description": {
+    "description": "Description for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_body_complete_title": "Der vitruvianische Mensch",
+  "@achievement_learn_category_body_complete_title": {
+    "description": "Title for the 'complete body category' achievement"
+  },
+  "achievement_learn_category_body_complete_description": "Du hast alle Wörter aus der Kategorie 'Körper' gelernt!",
+  "@achievement_learn_category_body_complete_description": {
+    "description": "Description for the 'complete body category' achievement"
+  },
   "adNotReady": "Anzeige nicht verfügbar. Bitte später erneut versuchen.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

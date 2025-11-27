@@ -470,6 +470,99 @@ class AppLocalizationsTr extends AppLocalizations {
       'Vücut kategorisinden 10 kelimeyi öğrendin!';
 
   @override
+  String get achievement_learn_category_food_complete_title => 'Gurme';
+
+  @override
+  String get achievement_learn_category_food_complete_description =>
+      'Yiyecekler kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_animal_complete_title =>
+      'Ormanın Gerçek Kralı';
+
+  @override
+  String get achievement_learn_category_animal_complete_description =>
+      'Hayvanlar kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_job_complete_title => 'CEO';
+
+  @override
+  String get achievement_learn_category_job_complete_description =>
+      'Meslekler kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_electronic_complete_title =>
+      'Tesla\'nın Varisi';
+
+  @override
+  String get achievement_learn_category_electronic_complete_description =>
+      'Elektronik kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_title =>
+      'Yolun Sahibi';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_description =>
+      'Araçlar kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_building_complete_title =>
+      'Mimari Deha';
+
+  @override
+  String get achievement_learn_category_building_complete_description =>
+      'Yapılar kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_hobby_complete_title =>
+      'On Parmağında On Marifet';
+
+  @override
+  String get achievement_learn_category_hobby_complete_description =>
+      'Hobiler kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_space_complete_title =>
+      'Galaksinin Tek Hakimi';
+
+  @override
+  String get achievement_learn_category_space_complete_description =>
+      'Uzay kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_time_complete_title =>
+      'Zamanın Efendisi';
+
+  @override
+  String get achievement_learn_category_time_complete_description =>
+      'Zaman kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_math_complete_title => 'Ordinaryüs';
+
+  @override
+  String get achievement_learn_category_math_complete_description =>
+      'Matematik kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_geography_complete_title =>
+      'Evliya Çelebi';
+
+  @override
+  String get achievement_learn_category_geography_complete_description =>
+      'Coğrafya kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
+  String get achievement_learn_category_body_complete_title =>
+      'Vitruvius Adamı';
+
+  @override
+  String get achievement_learn_category_body_complete_description =>
+      'Vücut kategorisindeki tüm kelimeleri öğrendin!';
+
+  @override
   String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';
 
   @override

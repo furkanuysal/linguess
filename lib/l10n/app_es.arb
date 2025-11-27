@@ -552,6 +552,102 @@
   "@achievement_learn_category_body_10_description": {
     "description": "Description for the 'learn 10 words from body category' achievement"
   },
+  "achievement_learn_category_food_complete_title": "Gourmet",
+  "@achievement_learn_category_food_complete_title": {
+    "description": "Title for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_food_complete_description": "¡Has aprendido todas las palabras de la categoría 'Comida'!",
+  "@achievement_learn_category_food_complete_description": {
+    "description": "Description for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_animal_complete_title": "Rey de la Selva",
+  "@achievement_learn_category_animal_complete_title": {
+    "description": "Title for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_animal_complete_description": "¡Has aprendido todas las palabras de la categoría 'Animales'!",
+  "@achievement_learn_category_animal_complete_description": {
+    "description": "Description for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_job_complete_title": "El CEO",
+  "@achievement_learn_category_job_complete_title": {
+    "description": "Title for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_job_complete_description": "¡Has aprendido todas las palabras de la categoría 'Trabajo'!",
+  "@achievement_learn_category_job_complete_description": {
+    "description": "Description for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_title": "Heredero de Tesla",
+  "@achievement_learn_category_electronic_complete_title": {
+    "description": "Title for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_description": "¡Has aprendido todas las palabras de la categoría 'Electrónica'!",
+  "@achievement_learn_category_electronic_complete_description": {
+    "description": "Description for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_title": "Rey de la Carretera",
+  "@achievement_learn_category_vehicle_complete_title": {
+    "description": "Title for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_description": "¡Has aprendido todas las palabras de la categoría 'Vehículos'!",
+  "@achievement_learn_category_vehicle_complete_description": {
+    "description": "Description for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_building_complete_title": "Genio de la Arquitectura",
+  "@achievement_learn_category_building_complete_title": {
+    "description": "Title for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_building_complete_description": "¡Has aprendido todas las palabras de la categoría 'Construcciones'!",
+  "@achievement_learn_category_building_complete_description": {
+    "description": "Description for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_title": "Maestro de Todo",
+  "@achievement_learn_category_hobby_complete_title": {
+    "description": "Title for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_description": "¡Has aprendido todas las palabras de la categoría 'Pasatiempos'!",
+  "@achievement_learn_category_hobby_complete_description": {
+    "description": "Description for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_space_complete_title": "Señor Supremo Galáctico",
+  "@achievement_learn_category_space_complete_title": {
+    "description": "Title for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_space_complete_description": "¡Has aprendido todas las palabras de la categoría 'Espacio'!",
+  "@achievement_learn_category_space_complete_description": {
+    "description": "Description for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_time_complete_title": "Señor del Tiempo",
+  "@achievement_learn_category_time_complete_title": {
+    "description": "Title for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_time_complete_description": "¡Has aprendido todas las palabras de la categoría 'Tiempo'!",
+  "@achievement_learn_category_time_complete_description": {
+    "description": "Description for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_math_complete_title": "Prodigio de las Matemáticas",
+  "@achievement_learn_category_math_complete_title": {
+    "description": "Title for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_math_complete_description": "¡Has aprendido todas las palabras de la categoría 'Matemáticas'!",
+  "@achievement_learn_category_math_complete_description": {
+    "description": "Description for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_geography_complete_title": "Marco Polo",
+  "@achievement_learn_category_geography_complete_title": {
+    "description": "Title for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_geography_complete_description": "¡Has aprendido todas las palabras de la categoría 'Geografía'!",
+  "@achievement_learn_category_geography_complete_description": {
+    "description": "Description for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_body_complete_title": "El Hombre de Vitruvio",
+  "@achievement_learn_category_body_complete_title": {
+    "description": "Title for the 'complete body category' achievement"
+  },
+  "achievement_learn_category_body_complete_description": "¡Has aprendido todas las palabras de la categoría 'Cuerpo'!",
+  "@achievement_learn_category_body_complete_description": {
+    "description": "Description for the 'complete body category' achievement"
+  },
   "adNotReady": "Anuncio no disponible. Inténtalo de nuevo más tarde.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

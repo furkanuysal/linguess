@@ -30,45 +30,47 @@ class ProgressResult {
   });
 }
 
-final progressProvider = FutureProvider.autoDispose
-    .family<ProgressResult, ProgressParams>((ref, params) async {
-      // Auth state
-      final userAsync = ref.watch(firebaseUserProvider);
-      final user = userAsync.value;
-      final targetLang =
-          ref.watch(settingsControllerProvider).value?.targetLangCode ?? 'en';
+final progressProvider = FutureProvider.family<ProgressResult, ProgressParams>((
+  ref,
+  params,
+) async {
+  // Auth state
+  final userAsync = ref.watch(firebaseUserProvider);
+  final user = userAsync.value;
+  final targetLang =
+      ref.watch(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
-      // Words (category/level)
-      final repo = ref.read(wordRepositoryProvider);
-      final List<WordModel> words = params.mode == 'category'
-          ? await repo.fetchWordsByCategory(params.id)
-          : await repo.fetchWordsByLevel(params.id);
+  // Words (category/level)
+  final repo = ref.read(wordRepositoryProvider);
+  final List<WordModel> words = params.mode == 'category'
+      ? await repo.fetchWordsByCategory(params.id)
+      : await repo.fetchWordsByLevel(params.id);
 
-      if (user == null) {
-        // Not logged in → only total
-        return ProgressResult(
-          learnedCount: 0,
-          totalCount: words.length,
-          hasUser: false,
-        );
-      }
+  if (user == null) {
+    // Not logged in → only total
+    return ProgressResult(
+      learnedCount: 0,
+      totalCount: words.length,
+      hasUser: false,
+    );
+  }
 
-      // Logged in → read learned word IDs from subcollection
-      final learnedSnap = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('targets')
-          .doc(targetLang)
-          .collection('learnedWords')
-          .get();
+  // Logged in → read learned word IDs from subcollection
+  final learnedSnap = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user.uid)
+      .collection('targets')
+      .doc(targetLang)
+      .collection('learnedWords')
+      .get();
 
-      final learnedIds = learnedSnap.docs.map((d) => d.id).toSet();
+  final learnedIds = learnedSnap.docs.map((d) => d.id).toSet();
 
-      final learnedCount = words.where((w) => learnedIds.contains(w.id)).length;
+  final learnedCount = words.where((w) => learnedIds.contains(w.id)).length;
 
-      return ProgressResult(
-        learnedCount: learnedCount,
-        totalCount: words.length,
-        hasUser: true,
-      );
-    });
+  return ProgressResult(
+    learnedCount: learnedCount,
+    totalCount: words.length,
+    hasUser: true,
+  );
+});

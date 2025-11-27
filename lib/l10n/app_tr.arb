@@ -552,6 +552,102 @@
   "@achievement_learn_category_body_10_description": {
     "description": "Description for the 'learn 10 words from body category' achievement"
   },
+  "achievement_learn_category_food_complete_title": "Gurme",
+  "@achievement_learn_category_food_complete_title": {
+    "description": "Title for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_food_complete_description": "Yiyecekler kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_food_complete_description": {
+    "description": "Description for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_animal_complete_title": "Ormanın Gerçek Kralı",
+  "@achievement_learn_category_animal_complete_title": {
+    "description": "Title for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_animal_complete_description": "Hayvanlar kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_animal_complete_description": {
+    "description": "Description for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_job_complete_title": "CEO",
+  "@achievement_learn_category_job_complete_title": {
+    "description": "Title for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_job_complete_description": "Meslekler kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_job_complete_description": {
+    "description": "Description for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_title": "Tesla'nın Varisi",
+  "@achievement_learn_category_electronic_complete_title": {
+    "description": "Title for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_description": "Elektronik kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_electronic_complete_description": {
+    "description": "Description for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_title": "Yolun Sahibi",
+  "@achievement_learn_category_vehicle_complete_title": {
+    "description": "Title for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_description": "Araçlar kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_vehicle_complete_description": {
+    "description": "Description for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_building_complete_title": "Mimari Deha",
+  "@achievement_learn_category_building_complete_title": {
+    "description": "Title for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_building_complete_description": "Yapılar kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_building_complete_description": {
+    "description": "Description for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_title": "On Parmağında On Marifet",
+  "@achievement_learn_category_hobby_complete_title": {
+    "description": "Title for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_description": "Hobiler kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_hobby_complete_description": {
+    "description": "Description for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_space_complete_title": "Galaksinin Tek Hakimi",
+  "@achievement_learn_category_space_complete_title": {
+    "description": "Title for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_space_complete_description": "Uzay kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_space_complete_description": {
+    "description": "Description for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_time_complete_title": "Zamanın Efendisi",
+  "@achievement_learn_category_time_complete_title": {
+    "description": "Title for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_time_complete_description": "Zaman kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_time_complete_description": {
+    "description": "Description for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_math_complete_title": "Ordinaryüs",
+  "@achievement_learn_category_math_complete_title": {
+    "description": "Title for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_math_complete_description": "Matematik kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_math_complete_description": {
+    "description": "Description for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_geography_complete_title": "Evliya Çelebi",
+  "@achievement_learn_category_geography_complete_title": {
+    "description": "Title for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_geography_complete_description": "Coğrafya kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_geography_complete_description": {
+    "description": "Description for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_body_complete_title": "Vitruvius Adamı",
+  "@achievement_learn_category_body_complete_title": {
+    "description": "Title for the 'complete body category' achievement"
+  },
+  "achievement_learn_category_body_complete_description": "Vücut kategorisindeki tüm kelimeleri öğrendin!",
+  "@achievement_learn_category_body_complete_description": {
+    "description": "Description for the 'complete body category' achievement"
+  },
   "adNotReady": "Reklam hazır değil. Biraz sonra tekrar deneyin.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

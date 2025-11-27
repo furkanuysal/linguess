@@ -931,6 +931,150 @@ abstract class AppLocalizations {
   /// **'Vücut kategorisinden 10 kelimeyi öğrendin!'**
   String get achievement_learn_category_body_10_description;
 
+  /// Title for the 'complete food category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Gurme'**
+  String get achievement_learn_category_food_complete_title;
+
+  /// Description for the 'complete food category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yiyecekler kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_food_complete_description;
+
+  /// Title for the 'complete animal category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Ormanın Gerçek Kralı'**
+  String get achievement_learn_category_animal_complete_title;
+
+  /// Description for the 'complete animal category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hayvanlar kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_animal_complete_description;
+
+  /// Title for the 'complete job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'CEO'**
+  String get achievement_learn_category_job_complete_title;
+
+  /// Description for the 'complete job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Meslekler kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_job_complete_description;
+
+  /// Title for the 'complete electronics category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Tesla\'nın Varisi'**
+  String get achievement_learn_category_electronic_complete_title;
+
+  /// Description for the 'complete electronics category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Elektronik kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_electronic_complete_description;
+
+  /// Title for the 'complete vehicles category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yolun Sahibi'**
+  String get achievement_learn_category_vehicle_complete_title;
+
+  /// Description for the 'complete vehicles category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Araçlar kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_vehicle_complete_description;
+
+  /// Title for the 'complete building category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Mimari Deha'**
+  String get achievement_learn_category_building_complete_title;
+
+  /// Description for the 'complete building category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapılar kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_building_complete_description;
+
+  /// Title for the 'complete hobby category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'On Parmağında On Marifet'**
+  String get achievement_learn_category_hobby_complete_title;
+
+  /// Description for the 'complete hobby category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hobiler kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_hobby_complete_description;
+
+  /// Title for the 'complete space category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Galaksinin Tek Hakimi'**
+  String get achievement_learn_category_space_complete_title;
+
+  /// Description for the 'complete space category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzay kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_space_complete_description;
+
+  /// Title for the 'complete time category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Zamanın Efendisi'**
+  String get achievement_learn_category_time_complete_title;
+
+  /// Description for the 'complete time category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_time_complete_description;
+
+  /// Title for the 'complete math category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Ordinaryüs'**
+  String get achievement_learn_category_math_complete_title;
+
+  /// Description for the 'complete math category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Matematik kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_math_complete_description;
+
+  /// Title for the 'complete geography category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Evliya Çelebi'**
+  String get achievement_learn_category_geography_complete_title;
+
+  /// Description for the 'complete geography category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Coğrafya kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_geography_complete_description;
+
+  /// Title for the 'complete body category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Vitruvius Adamı'**
+  String get achievement_learn_category_body_complete_title;
+
+  /// Description for the 'complete body category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut kategorisindeki tüm kelimeleri öğrendin!'**
+  String get achievement_learn_category_body_complete_description;
+
   /// Error message shown when the ad is not ready
   ///
   /// In tr, this message translates to:

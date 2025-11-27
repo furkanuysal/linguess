@@ -552,6 +552,102 @@
   "@achievement_learn_category_body_10_description": {
     "description": "Description for the 'learn 10 words from body category' achievement"
   },
+  "achievement_learn_category_food_complete_title": "Gourmet",
+  "@achievement_learn_category_food_complete_title": {
+    "description": "Title for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_food_complete_description": "You learned all words from the food category!",
+  "@achievement_learn_category_food_complete_description": {
+    "description": "Description for the 'complete food category' achievement"
+  },
+  "achievement_learn_category_animal_complete_title": "King of the Jungle",
+  "@achievement_learn_category_animal_complete_title": {
+    "description": "Title for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_animal_complete_description": "You learned all words from the animal category!",
+  "@achievement_learn_category_animal_complete_description": {
+    "description": "Description for the 'complete animal category' achievement"
+  },
+  "achievement_learn_category_job_complete_title": "The CEO",
+  "@achievement_learn_category_job_complete_title": {
+    "description": "Title for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_job_complete_description": "You learned all words from the job category!",
+  "@achievement_learn_category_job_complete_description": {
+    "description": "Description for the 'complete job category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_title": "Tesla's Heir",
+  "@achievement_learn_category_electronic_complete_title": {
+    "description": "Title for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_electronic_complete_description": "You learned all words from the electronics category!",
+  "@achievement_learn_category_electronic_complete_description": {
+    "description": "Description for the 'complete electronics category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_title": "King of the Road",
+  "@achievement_learn_category_vehicle_complete_title": {
+    "description": "Title for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_vehicle_complete_description": "You learned all words from the vehicles category!",
+  "@achievement_learn_category_vehicle_complete_description": {
+    "description": "Description for the 'complete vehicles category' achievement"
+  },
+  "achievement_learn_category_building_complete_title": "Architectural Genius",
+  "@achievement_learn_category_building_complete_title": {
+    "description": "Title for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_building_complete_description": "You learned all words from the building category!",
+  "@achievement_learn_category_building_complete_description": {
+    "description": "Description for the 'complete building category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_title": "Jack of All Trades",
+  "@achievement_learn_category_hobby_complete_title": {
+    "description": "Title for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_hobby_complete_description": "You learned all words from the hobby category!",
+  "@achievement_learn_category_hobby_complete_description": {
+    "description": "Description for the 'complete hobby category' achievement"
+  },
+  "achievement_learn_category_space_complete_title": "Galactic Overlord",
+  "@achievement_learn_category_space_complete_title": {
+    "description": "Title for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_space_complete_description": "You learned all words from the space category!",
+  "@achievement_learn_category_space_complete_description": {
+    "description": "Description for the 'complete space category' achievement"
+  },
+  "achievement_learn_category_time_complete_title": "Time Lord",
+  "@achievement_learn_category_time_complete_title": {
+    "description": "Title for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_time_complete_description": "You learned all words from the time category!",
+  "@achievement_learn_category_time_complete_description": {
+    "description": "Description for the 'complete time category' achievement"
+  },
+  "achievement_learn_category_math_complete_title": "Math Prodigy",
+  "@achievement_learn_category_math_complete_title": {
+    "description": "Title for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_math_complete_description": "You learned all words from the math category!",
+  "@achievement_learn_category_math_complete_description": {
+    "description": "Description for the 'complete math category' achievement"
+  },
+  "achievement_learn_category_geography_complete_title": "Marco Polo",
+  "@achievement_learn_category_geography_complete_title": {
+    "description": "Title for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_geography_complete_description": "You learned all words from the geography category!",
+  "@achievement_learn_category_geography_complete_description": {
+    "description": "Description for the 'complete geography category' achievement"
+  },
+  "achievement_learn_category_body_complete_title": "Vitruvian Man",
+  "@achievement_learn_category_body_complete_title": {
+    "description": "Title for the 'complete body category' achievement"
+  },
+  "achievement_learn_category_body_complete_description": "You learned all words from the body category!",
+  "@achievement_learn_category_body_complete_description": {
+    "description": "Description for the 'complete body category' achievement"
+  },
   "adNotReady": "Ad not ready. Please try again later.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"

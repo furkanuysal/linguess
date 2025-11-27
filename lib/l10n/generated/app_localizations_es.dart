@@ -482,6 +482,100 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡Has aprendido 10 palabras de la categoría \'Cuerpo\'!';
 
   @override
+  String get achievement_learn_category_food_complete_title => 'Gourmet';
+
+  @override
+  String get achievement_learn_category_food_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Comida\'!';
+
+  @override
+  String get achievement_learn_category_animal_complete_title =>
+      'Rey de la Selva';
+
+  @override
+  String get achievement_learn_category_animal_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Animales\'!';
+
+  @override
+  String get achievement_learn_category_job_complete_title => 'El CEO';
+
+  @override
+  String get achievement_learn_category_job_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Trabajo\'!';
+
+  @override
+  String get achievement_learn_category_electronic_complete_title =>
+      'Heredero de Tesla';
+
+  @override
+  String get achievement_learn_category_electronic_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Electrónica\'!';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_title =>
+      'Rey de la Carretera';
+
+  @override
+  String get achievement_learn_category_vehicle_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Vehículos\'!';
+
+  @override
+  String get achievement_learn_category_building_complete_title =>
+      'Genio de la Arquitectura';
+
+  @override
+  String get achievement_learn_category_building_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Construcciones\'!';
+
+  @override
+  String get achievement_learn_category_hobby_complete_title =>
+      'Maestro de Todo';
+
+  @override
+  String get achievement_learn_category_hobby_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Pasatiempos\'!';
+
+  @override
+  String get achievement_learn_category_space_complete_title =>
+      'Señor Supremo Galáctico';
+
+  @override
+  String get achievement_learn_category_space_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Espacio\'!';
+
+  @override
+  String get achievement_learn_category_time_complete_title =>
+      'Señor del Tiempo';
+
+  @override
+  String get achievement_learn_category_time_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Tiempo\'!';
+
+  @override
+  String get achievement_learn_category_math_complete_title =>
+      'Prodigio de las Matemáticas';
+
+  @override
+  String get achievement_learn_category_math_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Matemáticas\'!';
+
+  @override
+  String get achievement_learn_category_geography_complete_title =>
+      'Marco Polo';
+
+  @override
+  String get achievement_learn_category_geography_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Geografía\'!';
+
+  @override
+  String get achievement_learn_category_body_complete_title =>
+      'El Hombre de Vitruvio';
+
+  @override
+  String get achievement_learn_category_body_complete_description =>
+      '¡Has aprendido todas las palabras de la categoría \'Cuerpo\'!';
+
+  @override
   String get adNotReady =>
       'Anuncio no disponible. Inténtalo de nuevo más tarde.';
 
