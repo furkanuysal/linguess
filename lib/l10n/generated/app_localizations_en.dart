@@ -396,6 +396,80 @@ class AppLocalizationsEn extends AppLocalizations {
       'You reached 20 points in time attack!';
 
   @override
+  String get achievement_learn_category_job_10_title => 'Career Kickoff';
+
+  @override
+  String get achievement_learn_category_job_10_description =>
+      'You learned 10 words from the jobs category!';
+
+  @override
+  String get achievement_learn_category_electronic_10_title => 'First Sparks';
+
+  @override
+  String get achievement_learn_category_electronic_10_description =>
+      'You learned 10 words from the electronics category!';
+
+  @override
+  String get achievement_learn_category_vehicle_10_title => 'Rookie Driver';
+
+  @override
+  String get achievement_learn_category_vehicle_10_description =>
+      'You learned 10 words from the vehicles category!';
+
+  @override
+  String get achievement_learn_category_building_10_title =>
+      'First Foundations';
+
+  @override
+  String get achievement_learn_category_building_10_description =>
+      'You learned 10 words from the buildings category!';
+
+  @override
+  String get achievement_learn_category_hobby_10_title =>
+      'In Pursuit of New Passions';
+
+  @override
+  String get achievement_learn_category_hobby_10_description =>
+      'You learned 10 words from the hobbies category!';
+
+  @override
+  String get achievement_learn_category_space_10_title =>
+      'Orbit Entry Successful';
+
+  @override
+  String get achievement_learn_category_space_10_description =>
+      'You learned 10 words from the space category!';
+
+  @override
+  String get achievement_learn_category_time_10_title => 'Time Flow Started';
+
+  @override
+  String get achievement_learn_category_time_10_description =>
+      'You learned 10 words from the time category!';
+
+  @override
+  String get achievement_learn_category_math_10_title => 'You Learned to Count';
+
+  @override
+  String get achievement_learn_category_math_10_description =>
+      'You learned 10 words from the mathematics category!';
+
+  @override
+  String get achievement_learn_category_geography_10_title =>
+      'Toward New Horizons';
+
+  @override
+  String get achievement_learn_category_geography_10_description =>
+      'You learned 10 words from the geography category!';
+
+  @override
+  String get achievement_learn_category_body_10_title => 'Knowing the Body';
+
+  @override
+  String get achievement_learn_category_body_10_description =>
+      'You learned 10 words from the body category!';
+
+  @override
   String get adNotReady => 'Ad not ready. Please try again later.';
 
   @override
@@ -1090,4 +1164,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get leaderboardCorrectCountLabel => 'Correct Answers';
+
+  @override
+  String get filterEarned => 'Earned';
+
+  @override
+  String get filterUnearned => 'Unearned';
+
+  @override
+  String get searchWordLabel => 'Search a word';
+
+  @override
+  String get learnedDate => 'Learned Date';
 }

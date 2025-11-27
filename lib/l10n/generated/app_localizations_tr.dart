@@ -396,6 +396,80 @@ class AppLocalizationsTr extends AppLocalizations {
       'Zamana karşı modunda 20 puana ulaştın!';
 
   @override
+  String get achievement_learn_category_job_10_title => 'Kariyer Başlangıcı';
+
+  @override
+  String get achievement_learn_category_job_10_description =>
+      'Meslekler kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_electronic_10_title =>
+      'İlk Kıvılcımlar';
+
+  @override
+  String get achievement_learn_category_electronic_10_description =>
+      'Elektronik kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_vehicle_10_title => 'Acemi Sürücü';
+
+  @override
+  String get achievement_learn_category_vehicle_10_description =>
+      'Araçlar kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_building_10_title => 'İlk Temeller';
+
+  @override
+  String get achievement_learn_category_building_10_description =>
+      'Yapılar kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_hobby_10_title =>
+      'Yeni Tutkuların Peşinde';
+
+  @override
+  String get achievement_learn_category_hobby_10_description =>
+      'Hobiler kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_space_10_title =>
+      'Yörüngeye Giriş Yapıldı';
+
+  @override
+  String get achievement_learn_category_space_10_description =>
+      'Uzay kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_time_10_title => 'Zaman Akışı Başladı';
+
+  @override
+  String get achievement_learn_category_time_10_description =>
+      'Zaman kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_math_10_title => 'Saymayı Öğrendin';
+
+  @override
+  String get achievement_learn_category_math_10_description =>
+      'Matematik kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_geography_10_title =>
+      'Yeni Ufuklara Doğru';
+
+  @override
+  String get achievement_learn_category_geography_10_description =>
+      'Coğrafya kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
+  String get achievement_learn_category_body_10_title => 'Vücudu Tanı';
+
+  @override
+  String get achievement_learn_category_body_10_description =>
+      'Vücut kategorisinden 10 kelimeyi öğrendin!';
+
+  @override
   String get adNotReady => 'Reklam hazır değil. Biraz sonra tekrar deneyin.';
 
   @override
@@ -1098,4 +1172,16 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get leaderboardCorrectCountLabel => 'Doğru Cevap Sayısı';
+
+  @override
+  String get filterEarned => 'Kazanılanlar';
+
+  @override
+  String get filterUnearned => 'Kazanılmayan';
+
+  @override
+  String get searchWordLabel => 'Kelime Ara';
+
+  @override
+  String get learnedDate => 'Öğrenilme Tarihi';
 }

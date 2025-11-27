@@ -472,6 +472,86 @@
   "@achievement_time_attack_score_20_description": {
     "description": "Description for the 'reaching 20 score in time attack' achievement"
   },
+  "achievement_learn_category_job_10_title": "Start der Karriere",
+  "@achievement_learn_category_job_10_title": {
+    "description": "Title for the 'learn 10 words from job category' achievement"
+  },
+  "achievement_learn_category_job_10_description": "Du hast 10 Wörter aus der Kategorie 'Berufe' gelernt!",
+  "@achievement_learn_category_job_10_description": {
+    "description": "Description for the 'learn 10 words from job category' achievement"
+  },
+  "achievement_learn_category_electronic_10_title": "Erste Funken",
+  "@achievement_learn_category_electronic_10_title": {
+    "description": "Title for the 'learn 10 words from job category' achievement"
+  },
+  "achievement_learn_category_electronic_10_description": "Du hast 10 Wörter aus der Kategorie 'Elektronik' gelernt!",
+  "@achievement_learn_category_electronic_10_description": {
+    "description": "Description for the 'learn 10 words from job category' achievement"
+  },
+  "achievement_learn_category_vehicle_10_title": "Fahr-Neuling",
+  "@achievement_learn_category_vehicle_10_title": {
+    "description": "Title for the 'learn 10 words from vehicles category' achievement"
+  },
+  "achievement_learn_category_vehicle_10_description": "Du hast 10 Wörter aus der Kategorie 'Fahrzeuge' gelernt!",
+  "@achievement_learn_category_vehicle_10_description": {
+    "description": "Description for the 'learn 10 words from vehicles category' achievement"
+  },
+  "achievement_learn_category_building_10_title": "Erste Fundamente",
+  "@achievement_learn_category_building_10_title": {
+    "description": "Title for the 'learn 10 words from building category' achievement"
+  },
+  "achievement_learn_category_building_10_description": "Du hast 10 Wörter aus der Kategorie 'Bauwerke' gelernt!",
+  "@achievement_learn_category_building_10_description": {
+    "description": "Description for the 'learn 10 words from building category' achievement"
+  },
+  "achievement_learn_category_hobby_10_title": "Auf der Suche nach neuen Leidenschaften",
+  "@achievement_learn_category_hobby_10_title": {
+    "description": "Title for the 'learn 10 words from hobby category' achievement"
+  },
+  "achievement_learn_category_hobby_10_description": "Du hast 10 Wörter aus der Kategorie 'Hobbys' gelernt!",
+  "@achievement_learn_category_hobby_10_description": {
+    "description": "Description for the 'learn 10 words from hobby category' achievement"
+  },
+  "achievement_learn_category_space_10_title": "Orbit erfolgreich betreten",
+  "@achievement_learn_category_space_10_title": {
+    "description": "Title for the 'learn 10 words from space category' achievement"
+  },
+  "achievement_learn_category_space_10_description": "Du hast 10 Wörter aus der Kategorie 'Weltraum' gelernt!",
+  "@achievement_learn_category_space_10_description": {
+    "description": "Description for the 'learn 10 words from space category' achievement"
+  },
+  "achievement_learn_category_time_10_title": "Zeitfluss Gestartet",
+  "@achievement_learn_category_time_10_title": {
+    "description": "Title for the 'learn 10 words from time category' achievement"
+  },
+  "achievement_learn_category_time_10_description": "Du hast 10 Wörter aus der Kategorie 'Zeit' gelernt!",
+  "@achievement_learn_category_time_10_description": {
+    "description": "Description for the 'learn 10 words from time category' achievement"
+  },
+  "achievement_learn_category_math_10_title": "Du hast zählen gelernt",
+  "@achievement_learn_category_math_10_title": {
+    "description": "Title for the 'learn 10 words from math category' achievement"
+  },
+  "achievement_learn_category_math_10_description": "Du hast 10 Wörter aus der Kategorie 'Mathematik' gelernt!",
+  "@achievement_learn_category_math_10_description": {
+    "description": "Description for the 'learn 10 words from math category' achievement"
+  },
+  "achievement_learn_category_geography_10_title": "Neue Horizonte",
+  "@achievement_learn_category_geography_10_title": {
+    "description": "Title for the 'learn 10 words from geography category' achievement"
+  },
+  "achievement_learn_category_geography_10_description": "Du hast 10 Wörter aus der Kategorie 'Geografie' gelernt!",
+  "@achievement_learn_category_geography_10_description": {
+    "description": "Description for the 'learn 10 words from geography category' achievement"
+  },
+  "achievement_learn_category_body_10_title": "Den Körper Kennenlernen",
+  "@achievement_learn_category_body_10_title": {
+    "description": "Title for the 'learn 10 words from body category' achievement"
+  },
+  "achievement_learn_category_body_10_description": "Du hast 10 Wörter aus der Kategorie 'Körper' gelernt!",
+  "@achievement_learn_category_body_10_description": {
+    "description": "Description for the 'learn 10 words from body category' achievement"
+  },
   "adNotReady": "Anzeige nicht verfügbar. Bitte später erneut versuchen.",
   "@adNotReady": {
     "description": "Error message shown when the ad is not ready"
@@ -1443,5 +1523,21 @@
   "leaderboardCorrectCountLabel": "Richtig geantwortet",
   "@leaderboardCorrectCountLabel": {
     "description": "Header for the correct count column in the leaderboard"
+  },
+  "filterEarned": "Erworben",
+  "@filterEarned": {
+    "description": "Label for the earned achievements filter"
+  },
+  "filterUnearned": "Nicht erworben",
+  "@filterUnearned": {
+    "description": "Label for the unearned achievements filter"
+  },
+  "searchWordLabel": "Wort suchen",
+  "@searchWordLabel": {
+    "description": "Label for the search word field"
+  },
+  "learnedDate": "Lerndatum",
+  "@learnedDate": {
+    "description": "Label for the date when a word was learned"
   }
 }

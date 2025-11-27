@@ -407,6 +407,80 @@ class AppLocalizationsDe extends AppLocalizations {
       'Du hast 20 Punkte im Zeitduell erreicht!';
 
   @override
+  String get achievement_learn_category_job_10_title => 'Start der Karriere';
+
+  @override
+  String get achievement_learn_category_job_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Berufe\' gelernt!';
+
+  @override
+  String get achievement_learn_category_electronic_10_title => 'Erste Funken';
+
+  @override
+  String get achievement_learn_category_electronic_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Elektronik\' gelernt!';
+
+  @override
+  String get achievement_learn_category_vehicle_10_title => 'Fahr-Neuling';
+
+  @override
+  String get achievement_learn_category_vehicle_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Fahrzeuge\' gelernt!';
+
+  @override
+  String get achievement_learn_category_building_10_title => 'Erste Fundamente';
+
+  @override
+  String get achievement_learn_category_building_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Bauwerke\' gelernt!';
+
+  @override
+  String get achievement_learn_category_hobby_10_title =>
+      'Auf der Suche nach neuen Leidenschaften';
+
+  @override
+  String get achievement_learn_category_hobby_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Hobbys\' gelernt!';
+
+  @override
+  String get achievement_learn_category_space_10_title =>
+      'Orbit erfolgreich betreten';
+
+  @override
+  String get achievement_learn_category_space_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Weltraum\' gelernt!';
+
+  @override
+  String get achievement_learn_category_time_10_title => 'Zeitfluss Gestartet';
+
+  @override
+  String get achievement_learn_category_time_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Zeit\' gelernt!';
+
+  @override
+  String get achievement_learn_category_math_10_title =>
+      'Du hast zählen gelernt';
+
+  @override
+  String get achievement_learn_category_math_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Mathematik\' gelernt!';
+
+  @override
+  String get achievement_learn_category_geography_10_title => 'Neue Horizonte';
+
+  @override
+  String get achievement_learn_category_geography_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Geografie\' gelernt!';
+
+  @override
+  String get achievement_learn_category_body_10_title =>
+      'Den Körper Kennenlernen';
+
+  @override
+  String get achievement_learn_category_body_10_description =>
+      'Du hast 10 Wörter aus der Kategorie \'Körper\' gelernt!';
+
+  @override
   String get adNotReady =>
       'Anzeige nicht verfügbar. Bitte später erneut versuchen.';
 
@@ -1111,4 +1185,16 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get leaderboardCorrectCountLabel => 'Richtig geantwortet';
+
+  @override
+  String get filterEarned => 'Erworben';
+
+  @override
+  String get filterUnearned => 'Nicht erworben';
+
+  @override
+  String get searchWordLabel => 'Wort suchen';
+
+  @override
+  String get learnedDate => 'Lerndatum';
 }

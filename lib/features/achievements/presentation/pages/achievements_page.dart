@@ -11,18 +11,62 @@ import 'package:linguess/features/shop/data/models/shop_item_model.dart';
 import 'package:linguess/features/shop/data/models/shop_item_type.dart';
 import 'package:linguess/features/shop/data/providers/shop_provider.dart';
 
-class AchievementsPage extends ConsumerWidget {
+enum AchievementFilter { all, earned, unearned }
+
+class AchievementsPage extends ConsumerStatefulWidget {
   const AchievementsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AchievementsPage> createState() => _AchievementsPageState();
+}
+
+class _AchievementsPageState extends ConsumerState<AchievementsPage> {
+  AchievementFilter _filter = AchievementFilter.all;
+
+  @override
+  Widget build(BuildContext context) {
     final items = ref.watch(achievementsViewProvider(context));
     final l10n = AppLocalizations.of(context)!;
     final shopItemsAsync = ref.watch(shopItemsProvider);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
-    final earnedItems = items.where((e) => e.earned).toList();
-    final notEarnedItems = items.where((e) => !e.earned).toList();
-    final sortedItems = [...earnedItems, ...notEarnedItems];
+    // Filtering
+    final filteredItems = items.where((e) {
+      switch (_filter) {
+        case AchievementFilter.all:
+          return true;
+        case AchievementFilter.earned:
+          return e.earned;
+        case AchievementFilter.unearned:
+          return !e.earned;
+      }
+    }).toList();
+
+    // Sorting
+    final earnedItems = filteredItems.where((e) => e.earned).toList();
+    final notEarnedItems = filteredItems.where((e) => !e.earned).toList();
+
+    // Sort unearned items by progress (descending)
+    final unearnedWithProgress = notEarnedItems.map((item) {
+      final progressAsync = item.def.hasProgress
+          ? ref.watch(achievementProgressProvider(item.def))
+          : const AsyncData(null);
+
+      double ratio = 0.0;
+      if (progressAsync.hasValue && progressAsync.value != null) {
+        final val = progressAsync.value;
+        if (val != null) {
+          ratio = val.ratio.clamp(0.0, 1.0);
+        }
+      }
+      return (item: item, ratio: ratio);
+    }).toList();
+
+    unearnedWithProgress.sort((a, b) => b.ratio.compareTo(a.ratio));
+    final sortedUnearned = unearnedWithProgress.map((e) => e.item).toList();
+
+    final sortedItems = [...sortedUnearned, ...earnedItems];
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -41,25 +85,80 @@ class AchievementsPage extends ConsumerWidget {
         children: [
           const GradientBackground(),
           SafeArea(
-            child: ListView.separated(
-              padding: const EdgeInsets.all(12),
-              itemCount: sortedItems.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 5),
-              itemBuilder: (context, i) {
-                final item = sortedItems[i];
-                final def = item.def;
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  child: SegmentedButton<AchievementFilter>(
+                    segments: [
+                      ButtonSegment(
+                        value: AchievementFilter.all,
+                        label: Text(l10n.allText),
+                      ),
+                      ButtonSegment(
+                        value: AchievementFilter.earned,
+                        label: Text(l10n.filterEarned),
+                      ),
+                      ButtonSegment(
+                        value: AchievementFilter.unearned,
+                        label: Text(l10n.filterUnearned),
+                      ),
+                    ],
+                    selected: {_filter},
+                    onSelectionChanged: (Set<AchievementFilter> newSelection) {
+                      setState(() {
+                        _filter = newSelection.first;
+                      });
+                    },
+                    showSelectedIcon: false,
+                    style: ButtonStyle(
+                      visualDensity: VisualDensity.compact,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      backgroundColor: WidgetStateProperty.resolveWith<Color?>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return scheme.primary;
+                        }
+                        return null;
+                      }),
+                      foregroundColor: WidgetStateProperty.resolveWith<Color?>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return scheme.onPrimary;
+                        }
+                        return scheme.onSurface;
+                      }),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.separated(
+                    padding: const EdgeInsets.all(12),
+                    itemCount: sortedItems.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 5),
+                    itemBuilder: (context, i) {
+                      final item = sortedItems[i];
+                      final def = item.def;
 
-                final progressAsync = (def.hasProgress && !item.earned)
-                    ? ref.watch(achievementProgressProvider(def))
-                    : const AsyncData<Null>(null);
+                      final progressAsync = (def.hasProgress && !item.earned)
+                          ? ref.watch(achievementProgressProvider(def))
+                          : const AsyncData<Null>(null);
 
-                return _AchievementTile(
-                  def: def,
-                  earned: item.earned,
-                  progressAsync: progressAsync,
-                  shopItemsAsync: shopItemsAsync,
-                );
-              },
+                      return _AchievementTile(
+                        def: def,
+                        earned: item.earned,
+                        progressAsync: progressAsync,
+                        shopItemsAsync: shopItemsAsync,
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -112,6 +211,12 @@ class _AchievementTile extends StatelessWidget {
           decoration: BoxDecoration(
             color: scheme.surfaceContainerHighest.withValues(alpha: 0.35),
             borderRadius: BorderRadius.circular(12),
+            border: earned
+                ? Border.all(
+                    color: scheme.primary.withValues(alpha: 0.5),
+                    width: 2,
+                  )
+                : null,
           ),
           alignment: Alignment.center,
           child: Icon(
@@ -164,54 +269,70 @@ class _AchievementTile extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          Icon(
-            reward is GoldReward ? Icons.monetization_on : Icons.inventory_2,
-            size: 16,
-            color: scheme.primary,
-          ),
-          const SizedBox(width: 6),
-          if (reward is GoldReward)
-            Text(
-              '+${reward.amount} ${l10n.gold}',
-              style: theme.textTheme.labelMedium?.copyWith(
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                reward is GoldReward
+                    ? Icons.monetization_on
+                    : Icons.inventory_2,
+                size: 16,
                 color: scheme.primary,
-                fontWeight: FontWeight.w600,
               ),
-            )
-          else if (reward is ItemReward)
-            Builder(
-              builder: (context) {
-                final itemId = reward.itemId;
-                final itemName = shopItemsAsync.maybeWhen(
-                  data: (items) {
-                    final item = items.firstWhere(
-                      (i) => i.id == itemId,
-                      orElse: () => ShopItem(
-                        id: itemId,
-                        type: ShopItemType.other,
-                        price: 0,
-                        requiredLevel: 0,
-                        rarity: 'common',
-                        iconUrl: '',
-                        translations: {},
-                      ),
-                    );
-                    return item.nameFor(l10n.localeName);
-                  },
-                  orElse: () => l10n.loadingText,
-                );
-
-                return Text(
-                  itemName,
+              const SizedBox(width: 6),
+              if (reward is GoldReward)
+                Text(
+                  '${reward.amount} ${l10n.gold}',
                   style: theme.textTheme.labelMedium?.copyWith(
                     color: scheme.primary,
                     fontWeight: FontWeight.w600,
                   ),
-                );
-              },
+                )
+              else if (reward is ItemReward)
+                Builder(
+                  builder: (context) {
+                    final itemId = reward.itemId;
+                    final itemName = shopItemsAsync.maybeWhen(
+                      data: (items) {
+                        final item = items.firstWhere(
+                          (i) => i.id == itemId,
+                          orElse: () => ShopItem(
+                            id: itemId,
+                            type: ShopItemType.other,
+                            price: 0,
+                            requiredLevel: 0,
+                            rarity: 'common',
+                            iconUrl: '',
+                            translations: {},
+                          ),
+                        );
+                        return item.nameFor(l10n.localeName);
+                      },
+                      orElse: () => l10n.loadingText,
+                    );
+
+                    return Text(
+                      itemName,
+                      style: theme.textTheme.labelMedium?.copyWith(
+                        color: scheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  },
+                ),
+            ],
+          ),
+          if (earned)
+            Positioned(
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 2,
+                color: scheme.primary.withValues(alpha: 0.8),
+              ),
             ),
         ],
       ),

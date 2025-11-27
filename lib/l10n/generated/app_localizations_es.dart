@@ -406,6 +406,82 @@ class AppLocalizationsEs extends AppLocalizations {
       '¡Has alcanzado 20 puntos en el modo contrarreloj!';
 
   @override
+  String get achievement_learn_category_job_10_title => 'Comienzo Profesional';
+
+  @override
+  String get achievement_learn_category_job_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Trabajo\'!';
+
+  @override
+  String get achievement_learn_category_electronic_10_title =>
+      'Primeros Chispazos';
+
+  @override
+  String get achievement_learn_category_electronic_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Electrónica\'!';
+
+  @override
+  String get achievement_learn_category_vehicle_10_title => 'Conductor Novato';
+
+  @override
+  String get achievement_learn_category_vehicle_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Vehículos\'!';
+
+  @override
+  String get achievement_learn_category_building_10_title =>
+      'Primeros Cimientos';
+
+  @override
+  String get achievement_learn_category_building_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Construcciones\'!';
+
+  @override
+  String get achievement_learn_category_hobby_10_title =>
+      'En busca de nuevas pasiones';
+
+  @override
+  String get achievement_learn_category_hobby_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Pasatiempos\'!';
+
+  @override
+  String get achievement_learn_category_space_10_title =>
+      'Entrada en orbita completada';
+
+  @override
+  String get achievement_learn_category_space_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Espacio\'!';
+
+  @override
+  String get achievement_learn_category_time_10_title =>
+      'Flujo del Tiempo Iniciado';
+
+  @override
+  String get achievement_learn_category_time_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Tiempo\'!';
+
+  @override
+  String get achievement_learn_category_math_10_title => 'Aprendiste a Contar';
+
+  @override
+  String get achievement_learn_category_math_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Matemáticas\'!';
+
+  @override
+  String get achievement_learn_category_geography_10_title =>
+      'Hacia Nuevos Horizontes';
+
+  @override
+  String get achievement_learn_category_geography_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Geografía\'!';
+
+  @override
+  String get achievement_learn_category_body_10_title => 'Conociendo el Cuerpo';
+
+  @override
+  String get achievement_learn_category_body_10_description =>
+      '¡Has aprendido 10 palabras de la categoría \'Cuerpo\'!';
+
+  @override
   String get adNotReady =>
       'Anuncio no disponible. Inténtalo de nuevo más tarde.';
 
@@ -1116,4 +1192,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get leaderboardCorrectCountLabel => 'Respuestas Correctas';
+
+  @override
+  String get filterEarned => 'Ganados';
+
+  @override
+  String get filterUnearned => 'No ganados';
+
+  @override
+  String get searchWordLabel => 'Buscar Palabra';
+
+  @override
+  String get learnedDate => 'Fecha de aprendizaje';
 }

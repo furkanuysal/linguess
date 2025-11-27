@@ -811,6 +811,126 @@ abstract class AppLocalizations {
   /// **'Zamana karşı modunda 20 puana ulaştın!'**
   String get achievement_time_attack_score_20_description;
 
+  /// Title for the 'learn 10 words from job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Kariyer Başlangıcı'**
+  String get achievement_learn_category_job_10_title;
+
+  /// Description for the 'learn 10 words from job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Meslekler kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_job_10_description;
+
+  /// Title for the 'learn 10 words from job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Kıvılcımlar'**
+  String get achievement_learn_category_electronic_10_title;
+
+  /// Description for the 'learn 10 words from job category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Elektronik kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_electronic_10_description;
+
+  /// Title for the 'learn 10 words from vehicles category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Acemi Sürücü'**
+  String get achievement_learn_category_vehicle_10_title;
+
+  /// Description for the 'learn 10 words from vehicles category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Araçlar kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_vehicle_10_description;
+
+  /// Title for the 'learn 10 words from building category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'İlk Temeller'**
+  String get achievement_learn_category_building_10_title;
+
+  /// Description for the 'learn 10 words from building category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yapılar kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_building_10_description;
+
+  /// Title for the 'learn 10 words from hobby category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Tutkuların Peşinde'**
+  String get achievement_learn_category_hobby_10_title;
+
+  /// Description for the 'learn 10 words from hobby category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Hobiler kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_hobby_10_description;
+
+  /// Title for the 'learn 10 words from space category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yörüngeye Giriş Yapıldı'**
+  String get achievement_learn_category_space_10_title;
+
+  /// Description for the 'learn 10 words from space category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Uzay kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_space_10_description;
+
+  /// Title for the 'learn 10 words from time category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman Akışı Başladı'**
+  String get achievement_learn_category_time_10_title;
+
+  /// Description for the 'learn 10 words from time category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaman kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_time_10_description;
+
+  /// Title for the 'learn 10 words from math category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Saymayı Öğrendin'**
+  String get achievement_learn_category_math_10_title;
+
+  /// Description for the 'learn 10 words from math category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Matematik kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_math_10_description;
+
+  /// Title for the 'learn 10 words from geography category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Yeni Ufuklara Doğru'**
+  String get achievement_learn_category_geography_10_title;
+
+  /// Description for the 'learn 10 words from geography category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Coğrafya kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_geography_10_description;
+
+  /// Title for the 'learn 10 words from body category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücudu Tanı'**
+  String get achievement_learn_category_body_10_title;
+
+  /// Description for the 'learn 10 words from body category' achievement
+  ///
+  /// In tr, this message translates to:
+  /// **'Vücut kategorisinden 10 kelimeyi öğrendin!'**
+  String get achievement_learn_category_body_10_description;
+
   /// Error message shown when the ad is not ready
   ///
   /// In tr, this message translates to:
@@ -2070,6 +2190,30 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Doğru Cevap Sayısı'**
   String get leaderboardCorrectCountLabel;
+
+  /// Label for the earned achievements filter
+  ///
+  /// In tr, this message translates to:
+  /// **'Kazanılanlar'**
+  String get filterEarned;
+
+  /// Label for the unearned achievements filter
+  ///
+  /// In tr, this message translates to:
+  /// **'Kazanılmayan'**
+  String get filterUnearned;
+
+  /// Label for the search word field
+  ///
+  /// In tr, this message translates to:
+  /// **'Kelime Ara'**
+  String get searchWordLabel;
+
+  /// Label for the date when a word was learned
+  ///
+  /// In tr, this message translates to:
+  /// **'Öğrenilme Tarihi'**
+  String get learnedDate;
 }
 
 class _AppLocalizationsDelegate
