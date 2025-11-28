@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:linguess/features/settings/presentation/controllers/settings_controller.dart';
@@ -19,20 +19,21 @@ class LearnedWordDisplay {
 
 final learnedWordIdsProvider =
     StreamProvider.autoDispose<List<Map<String, dynamic>>>((ref) {
-      final uid = FirebaseAuth.instance.currentUser?.uid;
+      final userAsync = ref.watch(firebaseUserProvider);
+      final user = userAsync.value;
 
       // Target language; fallback to 'en' if settings not loaded yet
       final targetLang =
           ref.watch(settingsControllerProvider).value?.targetLangCode ?? 'en';
 
-      if (uid == null) {
-        return const Stream<List<Map<String, dynamic>>>.empty();
-        // If there is no user, return an empty stream.
+      if (user == null) {
+        return Stream.value([]);
+        // If there is no user, return an empty list stream to stop loading.
       }
 
       final col = FirebaseFirestore.instance
           .collection('users')
-          .doc(uid)
+          .doc(user.uid)
           .collection('targets')
           .doc(targetLang)
           .collection('learnedWords');
