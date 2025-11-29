@@ -8,9 +8,9 @@ import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
 import 'package:linguess/features/auth/presentation/providers/auth_provider.dart';
 import 'package:linguess/features/auth/presentation/widgets/auth_overlay.dart';
 import 'package:linguess/features/home/presentation/widgets/home_web_widgets.dart';
+import 'package:linguess/features/home/presentation/utils/home_menu_items.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/features/game/presentation/utils/daily_button_handler.dart';
 import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 
 class HomeWeb extends ConsumerStatefulWidget {
@@ -163,48 +163,29 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                         final isMobileLayout = screenWidth < 500;
 
                         if (isMobileLayout) {
-                          // Mobile Layout
-                          const spacing = 16.0;
-
                           return SingleChildScrollView(
                             child: Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Column(
-                                children: [
-                                  WebMenuCardButton(
-                                    icon: Icons.category,
-                                    label: l10n.selectCategory,
-                                    onTap: () => context.push('/category'),
-                                  ),
-                                  const SizedBox(height: spacing),
-                                  WebMenuCardButton(
-                                    icon: Icons.flag_rounded,
-                                    label: l10n.selectLevel,
-                                    onTap: () => context.push('/level'),
-                                  ),
-                                  const SizedBox(height: spacing),
-                                  WebMenuCardButton(
-                                    icon: Icons.psychology_alt_rounded,
-                                    label: l10n.meaningMode,
-                                    onTap: () =>
-                                        context.push('/game/meaning/general'),
-                                  ),
-                                  const SizedBox(height: spacing),
-                                  WebMenuCardButton(
-                                    icon: Icons.auto_awesome_mosaic,
-                                    label: l10n.customGame,
-                                    onTap: () =>
-                                        context.push('/combined-mode-setup'),
-                                  ),
-                                  const SizedBox(height: spacing),
-                                  WebMenuCardButton(
-                                    icon: Icons.calendar_today_rounded,
-                                    label: l10n.dailyWord,
-                                    badge: l10n.todayText,
-                                    onTap: () =>
-                                        handleDailyButton(context, ref),
-                                  ),
-                                ],
+                                children: getHomeMenuItems(context, ref, l10n)
+                                    .where(
+                                      (item) =>
+                                          item.id != 'settings' &&
+                                          item.id != 'shop',
+                                    )
+                                    .map((item) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          bottom: 16.0,
+                                        ),
+                                        child: WebMenuCardButton(
+                                          icon: item.icon,
+                                          label: item.label,
+                                          onTap: item.onTap,
+                                        ),
+                                      );
+                                    })
+                                    .toList(),
                               ),
                             ),
                           );
@@ -236,55 +217,24 @@ class _HomeWebState extends ConsumerState<HomeWeb> {
                                     childAspectRatio: aspect,
                                   ),
                               shrinkWrap: true,
-                              children: [
-                                WebGameModeCard(
-                                  title: l10n.selectCategory,
-                                  description: showDescription
-                                      ? l10n.selectCategoryDescription
-                                      : '',
-                                  icon: Icons.category,
-                                  color: Colors.blue,
-                                  onTap: () => context.push('/category'),
-                                ),
-                                WebGameModeCard(
-                                  title: l10n.selectLevel,
-                                  description: showDescription
-                                      ? l10n.selectLevelDescription
-                                      : '',
-                                  icon: Icons.star,
-                                  color: Colors.green,
-                                  onTap: () => context.push('/level'),
-                                ),
-                                WebGameModeCard(
-                                  title: l10n.dailyWord,
-                                  description: showDescription
-                                      ? l10n.dailyWordDescription
-                                      : '',
-                                  icon: Icons.today,
-                                  color: Colors.orange,
-                                  onTap: () => handleDailyButton(context, ref),
-                                ),
-                                WebGameModeCard(
-                                  title: l10n.meaningMode,
-                                  description: showDescription
-                                      ? l10n.meaningModeDescription
-                                      : '',
-                                  icon: Icons.psychology_alt_rounded,
-                                  color: Colors.purple,
-                                  onTap: () =>
-                                      context.push('/game/meaning/general'),
-                                ),
-                                WebGameModeCard(
-                                  title: l10n.customGame,
-                                  description: showDescription
-                                      ? l10n.customGameDescription
-                                      : '',
-                                  icon: Icons.auto_awesome_mosaic,
-                                  color: Colors.red,
-                                  onTap: () =>
-                                      context.push('/combined-mode-setup'),
-                                ),
-                              ],
+                              children: getHomeMenuItems(context, ref, l10n)
+                                  .where(
+                                    (item) =>
+                                        item.id != 'settings' &&
+                                        item.id != 'shop',
+                                  )
+                                  .map((item) {
+                                    return WebGameModeCard(
+                                      title: item.label,
+                                      description: showDescription
+                                          ? item.description ?? ''
+                                          : '',
+                                      icon: item.icon,
+                                      color: item.color ?? Colors.blue,
+                                      onTap: item.onTap,
+                                    );
+                                  })
+                                  .toList(),
                             ),
                           ),
                         );

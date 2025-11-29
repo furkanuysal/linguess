@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
+import 'package:linguess/features/home/presentation/utils/home_menu_items.dart';
 import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/features/game/presentation/utils/daily_button_handler.dart';
 import 'package:linguess/features/admin/presentation/providers/is_admin_provider.dart';
 
 class HomeWindows extends ConsumerStatefulWidget {
@@ -108,32 +108,22 @@ class _HomeWindowsState extends ConsumerState<HomeWindows> {
                           crossAxisSpacing: 24,
                           mainAxisSpacing: 24,
                           shrinkWrap: true,
-                          children: [
-                            _buildGameModeCard(
-                              context,
-                              title: l10n.selectCategory,
-                              description: l10n.selectCategoryDescription,
-                              icon: Icons.category,
-                              color: Colors.blue,
-                              onTap: () => context.push('/category'),
-                            ),
-                            _buildGameModeCard(
-                              context,
-                              title: l10n.selectLevel,
-                              description: l10n.selectLevelDescription,
-                              icon: Icons.star,
-                              color: Colors.green,
-                              onTap: () => context.push('/level'),
-                            ),
-                            _buildGameModeCard(
-                              context,
-                              title: l10n.dailyWord,
-                              description: l10n.dailyWordDescription,
-                              icon: Icons.today,
-                              color: Colors.orange,
-                              onTap: () => handleDailyButton(context, ref),
-                            ),
-                          ],
+                          children: getHomeMenuItems(context, ref, l10n)
+                              .where(
+                                (item) =>
+                                    item.id != 'settings' && item.id != 'shop',
+                              )
+                              .map((item) {
+                                return _buildGameModeCard(
+                                  context,
+                                  title: item.label,
+                                  description: item.description ?? '',
+                                  icon: item.icon,
+                                  color: item.color ?? Colors.blue,
+                                  onTap: item.onTap,
+                                );
+                              })
+                              .toList(),
                         ),
                       ),
                     ),

@@ -9,10 +9,9 @@ import 'package:linguess/features/ads/presentation/widgets/confirm_reward_dialog
 import 'package:linguess/features/auth/presentation/providers/user_equipped_provider.dart';
 import 'package:linguess/features/auth/presentation/widgets/equipped_avatar.dart';
 import 'package:linguess/features/home/presentation/widgets/home_mobile_widgets.dart';
-import 'package:linguess/features/settings/presentation/widgets/settings_sheet.dart';
+import 'package:linguess/features/home/presentation/utils/home_menu_items.dart';
 import 'package:linguess/core/sfx/sfx_button.dart';
 import 'package:linguess/l10n/generated/app_localizations.dart';
-import 'package:linguess/features/game/presentation/utils/daily_button_handler.dart';
 import 'package:linguess/features/economy/presentation/providers/economy_provider.dart';
 import 'package:linguess/features/ads/presentation/providers/ads_provider.dart';
 
@@ -206,57 +205,17 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                       return Wrap(
                         spacing: spacing,
                         runSpacing: spacing,
-                        children: [
-                          MenuCardButton(
+                        children: getHomeMenuItems(context, ref, l10n).map((
+                          item,
+                        ) {
+                          return MenuCardButton(
                             width: itemWidth,
-                            icon: Icons.category,
-                            label: l10n.selectCategory,
-                            onTap: () => context.push('/category'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.flag_rounded,
-                            label: l10n.selectLevel,
-                            onTap: () => context.push('/level'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.psychology_alt_rounded,
-                            label: l10n.meaningMode,
-                            onTap: () => context.push('/game/meaning/general'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.auto_awesome_mosaic,
-                            label: l10n.customGame,
-                            onTap: () => context.push('/combined-mode-setup'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.calendar_today_rounded,
-                            label: l10n.dailyWord,
-                            badge: l10n.todayText,
-                            onTap: () => handleDailyButton(context, ref),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.store_rounded,
-                            label: l10n.shopTitle,
-                            onTap: () => context.push('/shop'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.leaderboard,
-                            label: l10n.leaderboardTitle,
-                            onTap: () => context.push('/leaderboard'),
-                          ),
-                          MenuCardButton(
-                            width: itemWidth,
-                            icon: Icons.settings,
-                            label: l10n.settings,
-                            onTap: () => showSettingsSheet(context),
-                          ),
-                        ],
+                            icon: item.icon,
+                            label: item.label,
+                            badge: item.badge,
+                            onTap: item.onTap,
+                          );
+                        }).toList(),
                       );
                     },
                   ),
