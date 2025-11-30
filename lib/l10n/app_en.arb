@@ -88,6 +88,10 @@
   "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
+  "alreadyHaveAnAccountText": "Already have an account? Sign in",
+  "@alreadyHaveAnAccountText": {
+    "description": "Text for the button to navigate to the sign-in page"
+  },
   "email": "Email",
   "@email": {
     "description": "Label for the email input field"
@@ -1635,5 +1639,17 @@
   "learnedDate": "Learned Date",
   "@learnedDate": {
     "description": "Label for the date when a word was learned"
+  },
+  "shopDescription": "Shop and customize your account",
+  "@shopDescription": {
+    "description": "Description for the shop page"
+  },
+  "leaderboardDescription": "Join the leaderboard and improve your ranking",
+  "@leaderboardDescription": {
+    "description": "Description for the leaderboard page"
+  },
+  "settingsDescription": "Choose your settings",
+  "@settingsDescription": {
+    "description": "Description for the settings page"
   }
 }

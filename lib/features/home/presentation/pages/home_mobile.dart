@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/core/theme/gradient_background.dart';
@@ -26,7 +27,6 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final scheme = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final user = currentUser();
 
@@ -44,6 +44,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
       extendBodyBehindAppBar: true,
       appBar: CustomAppBar(
         title: l10n.appTitle,
+        centerTitle: true,
         actions: [
           // Rewarded Ad button
           Semantics(
@@ -51,37 +52,37 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
             button: true,
             child: SfxIconButton(
               tooltip: '${l10n.adRewardTooltip} • Ad',
-              icon: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Icon(
-                    Icons.ondemand_video,
-                    color: scheme.primary.withValues(alpha: 0.80),
+              icon: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                decoration: BoxDecoration(
+                  color: scheme.primary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: scheme.primary.withValues(alpha: 0.2),
                   ),
-                  Positioned(
-                    right: -2,
-                    top: -2,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 4,
-                        vertical: 2,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.redAccent,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
-                      child: const Text(
-                        'Ad',
-                        style: TextStyle(
-                          fontSize: 8,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w900,
-                          height: 1,
-                        ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(
+                      Icons.ondemand_video_rounded,
+                      color: scheme.primary,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Ad',
+                      style: TextStyle(
+                        color: scheme.primary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 12,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               onPressed: () async {
                 final confirmed = await confirmRewardAd(
@@ -120,26 +121,38 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
               icon: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  const EquippedAvatar(
-                    size: 40,
-                    iconSize: 24,
-                    showRingFallback: true,
-                    borderWidth: 2,
+                  Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: scheme.surfaceContainerHighest,
+                        width: 2,
+                      ),
+                    ),
+                    child: const EquippedAvatar(
+                      size: 38,
+                      iconSize: 22,
+                      showRingFallback: true,
+                      borderWidth: 0,
+                    ),
                   ),
                   // Status dot
                   Positioned(
-                    right: -2,
-                    bottom: -2,
+                    right: 0,
+                    bottom: 0,
                     child: Container(
-                      width: 10,
-                      height: 10,
+                      width: 12,
+                      height: 12,
                       decoration: BoxDecoration(
                         color: statusDot,
                         shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isDark ? scheme.surface : scheme.primary,
-                          width: 1.5,
-                        ),
+                        border: Border.all(color: scheme.surface, width: 2),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 4,
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -205,17 +218,34 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                       return Wrap(
                         spacing: spacing,
                         runSpacing: spacing,
-                        children: getHomeMenuItems(context, ref, l10n).map((
-                          item,
-                        ) {
-                          return MenuCardButton(
-                            width: itemWidth,
-                            icon: item.icon,
-                            label: item.label,
-                            badge: item.badge,
-                            onTap: item.onTap,
-                          );
-                        }).toList(),
+                        children: getHomeMenuItems(context, ref, l10n)
+                            .asMap()
+                            .entries
+                            .map((entry) {
+                              final index = entry.key;
+                              final item = entry.value;
+                              return MenuCardButton(
+                                    width: itemWidth,
+                                    icon: item.icon,
+                                    label: item.label,
+                                    badge: item.badge,
+                                    onTap: item.onTap,
+                                  )
+                                  .animate(
+                                    delay: (100 * index).ms,
+                                  ) // Staggered delay
+                                  .fadeIn(
+                                    duration: 400.ms,
+                                    curve: Curves.easeOut,
+                                  )
+                                  .slideY(
+                                    begin: 0.2,
+                                    end: 0,
+                                    duration: 400.ms,
+                                    curve: Curves.easeOut,
+                                  );
+                            })
+                            .toList(),
                       );
                     },
                   ),

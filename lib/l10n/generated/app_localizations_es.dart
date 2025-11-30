@@ -77,6 +77,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get signUpButtonText => '¿No tienes cuenta? Regístrate';
 
   @override
+  String get alreadyHaveAnAccountText => '¿Ya tienes una cuenta? Inicia sesión';
+
+  @override
   String get email => 'Correo electrónico';
 
   @override
@@ -1298,4 +1301,14 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get learnedDate => 'Fecha de aprendizaje';
+
+  @override
+  String get shopDescription => 'Almacén y personaliza tu cuenta';
+
+  @override
+  String get leaderboardDescription =>
+      'Únete al leaderboard y mejora tu clasificación';
+
+  @override
+  String get settingsDescription => 'Personaliza tus ajustes';
 }

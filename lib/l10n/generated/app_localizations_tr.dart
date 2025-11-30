@@ -75,6 +75,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get signUpButtonText => 'Hesabın yok mu? Kayıt ol';
 
   @override
+  String get alreadyHaveAnAccountText => 'Zaten hesabınız var mı? Giriş yap';
+
+  @override
   String get email => 'E-posta';
 
   @override
@@ -1277,4 +1280,14 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get learnedDate => 'Öğrenilme Tarihi';
+
+  @override
+  String get shopDescription => 'Alışveriş yapın ve hesabınızı özelleştirin';
+
+  @override
+  String get leaderboardDescription =>
+      'Liderlik tablosuna katılın ve sıralamanızı yükseltin';
+
+  @override
+  String get settingsDescription => 'Ayarlarınızı değiştirin';
 }

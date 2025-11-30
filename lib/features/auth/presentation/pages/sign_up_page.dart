@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
@@ -103,192 +104,258 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            const AuthGradient(),
-            SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
+      body: Stack(
+        children: [
+          const AuthGradient(height: 400),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const SizedBox(height: 16),
                   IconButton(
                     onPressed: () => context.canPop() ? context.pop() : null,
                     icon: const Icon(Icons.arrow_back_ios_new),
-                  ),
-                  const SizedBox(height: 8),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      l10n.signUp,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w700,
+                    style: IconButton.styleFrom(
+                      backgroundColor: theme.colorScheme.surface.withValues(
+                        alpha: 0.2,
                       ),
+                      foregroundColor: theme.colorScheme.onSurface,
                     ),
-                  ),
+                  ).animate().fade(duration: 400.ms).slideX(begin: -0.2),
+
+                  SizedBox(height: size.height * 0.05),
+
+                  Text(
+                    l10n.signUp,
+                    style: theme.textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 32,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ).animate().fade(duration: 600.ms).slideY(begin: 0.2, end: 0),
+
                   const SizedBox(height: 8),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Text(
-                      l10n.signUpSubtitle,
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
+                  Text(
+                        l10n.signUpSubtitle,
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          color: theme.colorScheme.onSurface.withValues(
+                            alpha: 0.7,
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fade(duration: 600.ms, delay: 100.ms)
+                      .slideY(begin: 0.2, end: 0),
+
+                  const SizedBox(height: 40),
+
                   Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          // Email
-                          TextFormField(
-                            controller: _emailController,
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
-                            autofillHints: const [AutofillHints.email],
-                            decoration: authInputDecoration(context).copyWith(
-                              labelText: l10n.email,
-                              filled: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 16,
-                              ),
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.surface,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.shadowColor.withValues(alpha: 0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 10),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return l10n.emailRequired;
-                              }
-                              final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                              if (!emailRegex.hasMatch(value)) {
-                                return l10n.invalidEmail;
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 12),
-
-                          // Password
-                          TextFormField(
-                            controller: _passwordController,
-                            textInputAction: TextInputAction.done,
-                            autofillHints: const [AutofillHints.password],
-                            decoration: authInputDecoration(context).copyWith(
-                              labelText: l10n.password,
-                              filled: true,
-                              contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                                vertical: 16,
-                              ),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                                onPressed: () =>
-                                    setState(() => _obscure = !_obscure),
-                                tooltip: _obscure
-                                    ? l10n.showText
-                                    : l10n.hideText,
-                              ),
-                            ),
-                            obscureText: _obscure,
-                            validator: (val) => val != null && val.length >= 6
-                                ? null
-                                : l10n.passwordTooShort,
-                          ),
-
-                          const SizedBox(height: 16),
-
-                          // Primary Sign Up button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 52,
-                            child: ElevatedButton(
-                              onPressed: _isLoading ? null : _signUp,
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(28),
-                                ),
-                                backgroundColor: Colors.black87,
-                                foregroundColor: Colors.white,
-                              ),
-                              child: _isLoading
-                                  ? const SizedBox(
-                                      height: 22,
-                                      width: 22,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                                  : Text(l10n.signUp),
-                            ),
-                          ),
-
-                          const SizedBox(height: 18),
-
-                          // Divider
-                          Row(
+                          ],
+                        ),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
                             children: [
-                              const Expanded(child: Divider()),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                ),
-                                child: Text(
-                                  l10n.orText,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: Colors.black54,
+                              _buildTextField(
+                                controller: _emailController,
+                                label: l10n.email,
+                                icon: Icons.email_outlined,
+                                keyboardType: TextInputType.emailAddress,
+                                autofillHints: [AutofillHints.email],
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return l10n.emailRequired;
+                                  }
+                                  final emailRegex = RegExp(
+                                    r'^[^@]+@[^@]+\.[^@]+',
+                                  );
+                                  if (!emailRegex.hasMatch(value)) {
+                                    return l10n.invalidEmail;
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(height: 20),
+                              _buildTextField(
+                                controller: _passwordController,
+                                label: l10n.password,
+                                icon: Icons.lock_outline,
+                                isPassword: true,
+                                obscureText: _obscure,
+                                onToggleObscure: () =>
+                                    setState(() => _obscure = !_obscure),
+                                autofillHints: [AutofillHints.password],
+                                validator: (val) =>
+                                    val != null && val.length >= 6
+                                    ? null
+                                    : l10n.passwordTooShort,
+                              ),
+                              const SizedBox(height: 24),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 56,
+                                child: ElevatedButton(
+                                  onPressed: _isLoading ? null : _signUp,
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: theme.colorScheme.primary,
+                                    foregroundColor:
+                                        theme.colorScheme.onPrimary,
+                                    elevation: 4,
+                                    shadowColor: theme.colorScheme.primary
+                                        .withValues(alpha: 0.4),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
                                   ),
+                                  child: _isLoading
+                                      ? SizedBox(
+                                          height: 24,
+                                          width: 24,
+                                          child: CircularProgressIndicator(
+                                            strokeWidth: 2.5,
+                                            color: theme.colorScheme.onPrimary,
+                                          ),
+                                        )
+                                      : Text(
+                                          l10n.signUp,
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                 ),
                               ),
-                              const Expanded(child: Divider()),
                             ],
                           ),
+                        ),
+                      )
+                      .animate()
+                      .fade(duration: 600.ms, delay: 200.ms)
+                      .slideY(begin: 0.2, end: 0),
 
-                          const SizedBox(height: 12),
+                  const SizedBox(height: 32),
 
-                          // Social sign up buttons
-                          SizedBox(
-                            height: 48,
-                            width: double.infinity,
+                  Row(
+                    children: [
+                      Expanded(child: Divider(color: theme.dividerColor)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          l10n.orText,
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Divider(color: theme.dividerColor)),
+                    ],
+                  ).animate().fade(duration: 600.ms, delay: 300.ms),
+
+                  const SizedBox(height: 32),
+
+                  Row(
+                        children: [
+                          Expanded(
                             child: GoogleSignInButton(
-                              text: l10n.signInWithGoogle,
+                              text: l10n.signUp,
                               onPressed: _isLoading ? null : _signUpWithGoogle,
                               isLoading: _isLoading,
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          SizedBox(
-                            height: 48,
-                            width: double.infinity,
+                          const SizedBox(width: 16),
+                          Expanded(
                             child: GitHubSignInButton(
-                              text: l10n.signInWithGitHub,
+                              text: l10n.signUp,
                               onPressed: _isLoading ? null : _signUpWithGitHub,
                               isLoading: _isLoading,
                             ),
                           ),
                         ],
+                      )
+                      .animate()
+                      .fade(duration: 600.ms, delay: 400.ms)
+                      .slideY(begin: 0.2, end: 0),
+
+                  const SizedBox(height: 32),
+
+                  Center(
+                    child: TextButton(
+                      onPressed: _isLoading
+                          ? null
+                          : () => context.pushReplacement(
+                              '/signIn',
+                            ), // Go back to sign in
+                      child: Text(
+                        l10n.alreadyHaveAnAccountText,
+                        style: TextStyle(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
+                  ).animate().fade(duration: 600.ms, delay: 500.ms),
+
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    bool isPassword = false,
+    bool obscureText = false,
+    VoidCallback? onToggleObscure,
+    TextInputType? keyboardType,
+    List<String>? autofillHints,
+    String? Function(String?)? validator,
+  }) {
+    final theme = Theme.of(context);
+
+    return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      autofillHints: autofillHints,
+      style: theme.textTheme.bodyLarge,
+      decoration: authInputDecoration(context).copyWith(
+        labelText: label,
+        prefixIcon: Icon(icon, color: theme.colorScheme.primary),
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  obscureText
+                      ? Icons.visibility_outlined
+                      : Icons.visibility_off_outlined,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+                onPressed: onToggleObscure,
+              )
+            : null,
+      ),
+      validator: validator,
     );
   }
 }

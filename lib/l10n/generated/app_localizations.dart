@@ -234,6 +234,12 @@ abstract class AppLocalizations {
   /// **'Hesabın yok mu? Kayıt ol'**
   String get signUpButtonText;
 
+  /// Text for the button to navigate to the sign-in page
+  ///
+  /// In tr, this message translates to:
+  /// **'Zaten hesabınız var mı? Giriş yap'**
+  String get alreadyHaveAnAccountText;
+
   /// Label for the email input field
   ///
   /// In tr, this message translates to:
@@ -2358,6 +2364,24 @@ abstract class AppLocalizations {
   /// In tr, this message translates to:
   /// **'Öğrenilme Tarihi'**
   String get learnedDate;
+
+  /// Description for the shop page
+  ///
+  /// In tr, this message translates to:
+  /// **'Alışveriş yapın ve hesabınızı özelleştirin'**
+  String get shopDescription;
+
+  /// Description for the leaderboard page
+  ///
+  /// In tr, this message translates to:
+  /// **'Liderlik tablosuna katılın ve sıralamanızı yükseltin'**
+  String get leaderboardDescription;
+
+  /// Description for the settings page
+  ///
+  /// In tr, this message translates to:
+  /// **'Ayarlarınızı değiştirin'**
+  String get settingsDescription;
 }
 
 class _AppLocalizationsDelegate

@@ -14,22 +14,27 @@ BorderSide settingsContentBorderSide(BuildContext context) {
 InputDecoration authInputDecoration(BuildContext context) {
   final scheme = Theme.of(context).colorScheme;
   return InputDecoration(
-    fillColor: scheme.surface,
     filled: true,
+    fillColor: scheme.surfaceContainerLowest,
+    contentPadding: const EdgeInsets.all(16),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: scheme.outline),
+    ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide.none,
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: scheme.outline.withValues(alpha: 0.5)),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: scheme.primary, width: 2),
     ),
     errorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: scheme.error, width: 2),
     ),
     focusedErrorBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(color: scheme.error, width: 2),
     ),
   );

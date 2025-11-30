@@ -88,6 +88,10 @@
   "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
+  "alreadyHaveAnAccountText": "Haben Sie bereits ein Konto? Anmelden",
+  "@alreadyHaveAnAccountText": {
+    "description": "Text for the button to navigate to the sign-in page"
+  },
   "email": "E-Mail",
   "@email": {
     "description": "Label for the email input field"
@@ -1635,5 +1639,17 @@
   "learnedDate": "Lerndatum",
   "@learnedDate": {
     "description": "Label for the date when a word was learned"
+  },
+  "shopDescription": "Einkaufen und personalisiere dein Konto",
+  "@shopDescription": {
+    "description": "Description for the shop page"
+  },
+  "leaderboardDescription": "Teile dich mit anderen Spielern und verbessere deine Position",
+  "@leaderboardDescription": {
+    "description": "Description for the leaderboard page"
+  },
+  "settingsDescription": "Personalisiere deine Einstellungen",
+  "@settingsDescription": {
+    "description": "Description for the settings page"
   }
 }

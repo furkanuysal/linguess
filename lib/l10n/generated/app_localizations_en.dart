@@ -76,6 +76,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signUpButtonText => 'Don\'t have an account? Sign up';
 
   @override
+  String get alreadyHaveAnAccountText => 'Already have an account? Sign in';
+
+  @override
   String get email => 'Email';
 
   @override
@@ -1267,4 +1270,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get learnedDate => 'Learned Date';
+
+  @override
+  String get shopDescription => 'Shop and customize your account';
+
+  @override
+  String get leaderboardDescription =>
+      'Join the leaderboard and improve your ranking';
+
+  @override
+  String get settingsDescription => 'Choose your settings';
 }

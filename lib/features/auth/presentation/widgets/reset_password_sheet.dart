@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:linguess/core/theme/custom_styles.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_error_mappers.dart';
 import 'package:linguess/features/auth/presentation/helpers/auth_snack.dart';
@@ -38,9 +39,7 @@ class _ResetPasswordSheetState extends ConsumerState<ResetPasswordSheet> {
 
   @override
   void dispose() {
-    _emailCtrl
-      ..clear()
-      ..dispose();
+    _emailCtrl.dispose();
     super.dispose();
   }
 
@@ -83,51 +82,92 @@ class _ResetPasswordSheetState extends ConsumerState<ResetPasswordSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Padding(
       padding: EdgeInsets.only(
-        left: 16,
-        right: 16,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 16,
+        left: 24,
+        right: 24,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
         top: 8,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             l10n.resetPassword,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _emailCtrl,
-            keyboardType: TextInputType.emailAddress,
-            decoration: authInputDecoration(context).copyWith(
-              errorText: _errorText,
-              labelText: l10n.email,
-              fillColor: Theme.of(context).colorScheme.surfaceContainerHigh,
-              filled: true,
+            style: theme.textTheme.headlineLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: 24,
+              color: theme.colorScheme.onSurface,
             ),
-            onSubmitted: (_) => _sendReset(),
-            onChanged: (_) {
-              if (_errorText != null) setState(() => _errorText = null);
-            },
-          ),
-          const SizedBox(height: 12),
+          ).animate().fade(duration: 400.ms).slideY(begin: 0.2, end: 0),
+
+          const SizedBox(height: 16),
+
+          TextFormField(
+                controller: _emailCtrl,
+                keyboardType: TextInputType.emailAddress,
+                style: theme.textTheme.bodyLarge,
+                decoration: authInputDecoration(context).copyWith(
+                  labelText: l10n.email,
+                  errorText: _errorText,
+                  prefixIcon: Icon(
+                    Icons.email_outlined,
+                    color: theme.colorScheme.primary,
+                  ),
+                ),
+                onFieldSubmitted: (_) => _sendReset(),
+                onChanged: (_) {
+                  if (_errorText != null) setState(() => _errorText = null);
+                },
+              )
+              .animate()
+              .fade(duration: 400.ms, delay: 200.ms)
+              .slideY(begin: 0.2, end: 0),
+
+          const SizedBox(height: 24),
+
           SizedBox(
-            width: double.infinity,
-            child: FilledButton(
-              onPressed: _sending ? null : _sendReset,
-              child: _sending
-                  ? const SizedBox(
-                      height: 18,
-                      width: 18,
-                      child: CircularProgressIndicator(strokeWidth: 2),
-                    )
-                  : Text(l10n.sendResetLink),
-            ),
-          ),
-          const SizedBox(height: 8),
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _sending ? null : _sendReset,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
+                    elevation: 4,
+                    shadowColor: theme.colorScheme.primary.withValues(
+                      alpha: 0.4,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: _sending
+                      ? SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: theme.colorScheme.onPrimary,
+                          ),
+                        )
+                      : Text(
+                          l10n.sendResetLink,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                ),
+              )
+              .animate()
+              .fade(duration: 400.ms, delay: 300.ms)
+              .slideY(begin: 0.2, end: 0),
+
+          const SizedBox(height: 16),
         ],
       ),
     );

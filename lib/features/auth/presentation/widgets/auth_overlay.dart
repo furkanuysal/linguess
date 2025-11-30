@@ -555,7 +555,7 @@ class _SignUpFormState extends ConsumerState<_SignUpForm> {
 
         TextButton(
           onPressed: widget.isLoading ? null : widget.onSwitch,
-          child: Text(l10n.signIn),
+          child: Text(l10n.alreadyHaveAnAccountText),
         ),
       ],
     );

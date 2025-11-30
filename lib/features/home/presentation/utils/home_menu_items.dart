@@ -76,18 +76,21 @@ List<HomeMenuItem> getHomeMenuItems(
       id: 'shop',
       icon: Icons.store_rounded,
       label: l10n.shopTitle,
+      description: l10n.shopDescription,
       onTap: () => context.push('/shop'),
     ),
     HomeMenuItem(
       id: 'leaderboard',
       icon: Icons.leaderboard,
       label: l10n.leaderboardTitle,
+      description: l10n.leaderboardDescription,
       onTap: () => context.push('/leaderboard'),
     ),
     HomeMenuItem(
       id: 'settings',
       icon: Icons.settings,
       label: l10n.settings,
+      description: l10n.settingsDescription,
       onTap: () => showSettingsSheet(context),
     ),
   ];

@@ -566,6 +566,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
     return GridView.builder(
       key: const ValueKey('gridView'),
       physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.all(12),
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
         maxCrossAxisExtent: 220,
         mainAxisSpacing: 16,
@@ -630,7 +631,7 @@ class _CombinedModeSetupPageState extends ConsumerState<CombinedModeSetupPage> {
 
     return ListView.builder(
       key: const ValueKey('listView'),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      padding: const EdgeInsets.all(12),
       itemCount: categories.length,
       itemBuilder: (context, index) {
         final category = categories[index];

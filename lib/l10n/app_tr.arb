@@ -88,6 +88,10 @@
   "@signUpButtonText": {
     "description": "Text for the button to navigate to the registration page"
   },
+  "alreadyHaveAnAccountText": "Zaten hesabınız var mı? Giriş yap",
+  "@alreadyHaveAnAccountText": {
+    "description": "Text for the button to navigate to the sign-in page"
+  },
   "email": "E-posta",
   "@email": {
     "description": "Label for the email input field"
@@ -1635,5 +1639,17 @@
   "learnedDate": "Öğrenilme Tarihi",
   "@learnedDate": {
     "description": "Label for the date when a word was learned"
+  },
+  "shopDescription": "Alışveriş yapın ve hesabınızı özelleştirin",
+  "@shopDescription": {
+    "description": "Description for the shop page"
+  },
+  "leaderboardDescription": "Liderlik tablosuna katılın ve sıralamanızı yükseltin",
+  "@leaderboardDescription": {
+    "description": "Description for the leaderboard page"
+  },
+  "settingsDescription": "Ayarlarınızı değiştirin",
+  "@settingsDescription": {
+    "description": "Description for the settings page"
   }
 }
