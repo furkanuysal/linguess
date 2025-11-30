@@ -160,7 +160,6 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
@@ -169,6 +168,14 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                               offset: const Offset(0, 10),
                             ),
                           ],
+                          gradient: LinearGradient(
+                            colors: [
+                              theme.colorScheme.surface,
+                              theme.colorScheme.surfaceContainerHigh,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
                         child: Form(
                           key: _formKey,
@@ -227,7 +234,7 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                                   child: Text(l10n.forgotPassword),
                                 ),
                               ),
-                              const SizedBox(height: 24),
+                              const SizedBox(height: 12),
                               SizedBox(
                                 width: double.infinity,
                                 height: 56,

@@ -29,6 +29,7 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
     final scheme = Theme.of(context).colorScheme;
 
     final user = currentUser();
+    final isAdminAsync = ref.watch(isAdminProvider);
 
     if (user == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -165,31 +166,15 @@ class _HomeMobileState extends ConsumerState<HomeMobile> {
                   context.push('/profile');
                 }
               },
+              onLongPress: () {
+                final isAdmin = isAdminAsync.asData?.value ?? false;
+                if (isAdmin) {
+                  context.push('/admin/debug');
+                }
+              },
             ),
           ),
         ],
-      ),
-
-      // Floating Admin Debug Button
-      floatingActionButton: Consumer(
-        builder: (context, ref, _) {
-          final isAdminAsync = ref.watch(isAdminProvider);
-          return isAdminAsync.when(
-            data: (isAdmin) {
-              if (!isAdmin) return const SizedBox.shrink();
-              return FloatingActionButton.extended(
-                heroTag: 'admin_debug_btn',
-                backgroundColor: scheme.primary,
-                foregroundColor: scheme.onPrimary,
-                icon: const Icon(Icons.bug_report_rounded),
-                label: const Text('Debug'),
-                onPressed: () => context.push('/admin/debug'),
-              );
-            },
-            loading: () => const SizedBox.shrink(),
-            error: (_, _) => const SizedBox.shrink(),
-          );
-        },
       ),
 
       // Body

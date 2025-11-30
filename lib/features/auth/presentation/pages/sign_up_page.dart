@@ -158,7 +158,6 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                   Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.surface,
                           borderRadius: BorderRadius.circular(24),
                           boxShadow: [
                             BoxShadow(
@@ -167,6 +166,14 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                               offset: const Offset(0, 10),
                             ),
                           ],
+                          gradient: LinearGradient(
+                            colors: [
+                              theme.colorScheme.surface,
+                              theme.colorScheme.surfaceContainerHigh,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
                         child: Form(
                           key: _formKey,
